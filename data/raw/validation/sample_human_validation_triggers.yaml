@@ -1,0 +1,15 @@
+human_validation_triggers:
+  - trigger_id: final_deck_approval
+    applies_when: final 100-card list is being approved
+    reason: Final strategic deck decisions require human approval.
+    required_review:
+      - deck identity
+      - power-level claim
+      - card cuts and additions
+  - trigger_id: source_data_overwrite
+    applies_when: source-of-truth data would be overwritten
+    reason: Local doctrine and source data are high-impact project inputs.
+    required_review:
+      - proposed action
+      - rollback path
+      - alternatives

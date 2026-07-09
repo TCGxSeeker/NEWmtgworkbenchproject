@@ -1,0 +1,11 @@
+packages:
+  - package_id: TODO_package
+    name: TODO Package
+    package_type: TODO
+    purpose: TODO
+    required_materials: []
+    protected_glue: []
+    payoff_types: []
+    warning_signs: []
+    replacement_requirements: []
+    cut_permission: human_review_required

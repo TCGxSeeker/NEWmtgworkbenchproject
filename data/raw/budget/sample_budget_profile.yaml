@@ -1,0 +1,14 @@
+budget_profile:
+  profile_id: TODO_budget_profile
+  mode: tuned
+  card_price_cap: null
+  deck_price_cap: null
+  owned_cards_only: false
+  proxy_policy: TODO
+  expensive_card_exception_process:
+    requires_human_approval: true
+    notes: TODO
+  pricing_source:
+    type: local_snapshot
+    path: TODO
+    freshness_required: false

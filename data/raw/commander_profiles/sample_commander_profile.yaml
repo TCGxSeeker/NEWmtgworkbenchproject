@@ -1,0 +1,22 @@
+commander_profile:
+  commander_name: TODO Commander
+  color_identity: []
+  mana_value: null
+  commander_function_type: TODO
+  primary_conversion: TODO
+  secondary_conversion: TODO
+  main_resource_created: TODO
+  main_resource_consumed: TODO
+  required_materials: []
+  implied_packages: []
+  payoff_types: []
+  protection_needs: []
+  interaction_needs: []
+  deck_speed: medium
+  commander_dependency: medium
+  backup_plan_required: true
+  avoid_patterns: []
+  primary_win_route: TODO
+  backup_win_route: TODO
+  deck_thesis: TODO
+  human_review_required: true

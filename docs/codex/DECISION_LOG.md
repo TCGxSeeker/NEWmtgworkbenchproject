@@ -51,3 +51,21 @@
   - Alternatives considered: preserve earlier generic wording.
   - Risk: Some previous text is superseded.
   - Status: Recorded.
+
+- Decision: Save the MTG project master seed in `docs/sources/MTG_PROJECT_MASTER_SEED.md`.
+  - Reason: The seed file explicitly requests this location and defines doctrine for Phase 1 data contracts.
+  - Alternatives considered: keep the file only outside the repository or split it into companion files immediately.
+  - Risk: The file is doctrine, not card data, and must not be parsed as a decklist or card database.
+  - Status: Accepted.
+
+- Decision: Create Phase 1 data contracts before feature code.
+  - Reason: The project needs offline local formats for cards, decklists, ownership, commander profiles, roles, packages, templates, budget profiles, validation triggers, reports, and generic regression tests.
+  - Alternatives considered: implement parser/analyzer first.
+  - Risk: Contracts may evolve after real curated data is provided.
+  - Status: Accepted.
+
+- Decision: Use YAML for editable rules/profiles, CSV for table inputs, JSON for local card snapshots and machine report outputs, and Markdown for doctrine/source notes.
+  - Reason: These formats are local, diffable, human-editable, and testable without internet.
+  - Alternatives considered: database-first storage or hardcoded Python constants.
+  - Risk: YAML validation will need an approved parser once implementation begins.
+  - Status: Proposed for Phase 1.

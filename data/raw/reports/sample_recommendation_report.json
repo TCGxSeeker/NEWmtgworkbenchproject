@@ -1,0 +1,21 @@
+{
+  "report_type": "recommendation",
+  "status": "placeholder",
+  "recommendations": [
+    {
+      "intent": "no_swap",
+      "source_card": null,
+      "candidate_card": null,
+      "reason": "Placeholder only. Real recommendations require local card data, rules, and analysis.",
+      "role_impact": null,
+      "package_impact": null,
+      "commander_plan_impact": null,
+      "budget_impact": null,
+      "ownership_impact": null,
+      "confidence": null,
+      "risks": [],
+      "verification_notes": [],
+      "human_approval_required": true
+    }
+  ]
+}

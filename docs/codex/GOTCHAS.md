@@ -26,6 +26,15 @@
 - Do not make fresh pricing or legality claims unless a verified local snapshot supports them.
 - Do not let recommendations become final authority; they are drafts for human review.
 - Do not invent missing source documents, scoring rubrics, card data, or deckbuilding rules.
+- Do not parse card names or decklists from doctrine seed files.
+- Do not make card-level swaps before structural audit.
+- Do not treat card similarity as deck improvement.
+- Do not cut package glue just because it looks weak alone.
+- Do not average different branches into an incoherent hybrid.
+- Do not copy turbo land counts into budget decks without matching acceleration.
+- Do not add backup engines if they make the main engine slower.
+- Do not force a recommendation when no-swap is correct.
+- Do not let raw counts replace structural interpretation in reports.
 
 ## Capture Format
 

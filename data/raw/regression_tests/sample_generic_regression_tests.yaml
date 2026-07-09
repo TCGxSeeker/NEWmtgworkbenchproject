@@ -1,0 +1,19 @@
+generic_regression_tests:
+  - test_id: wrong_seat_replacement
+    description: A replacement must preserve or improve the source card's specific seat.
+    expected_behavior: Return wrong-seat or no-swap when seats do not match.
+  - test_id: structural_repair_before_swap
+    description: Broken deck structure should trigger repair before normal swaps.
+    expected_behavior: Stop recommendation flow and produce structural repair plan.
+  - test_id: package_glue_protection
+    description: Weak-looking package glue should not be cut without preserving engine function.
+    expected_behavior: Flag as protected or human-review-required.
+  - test_id: no_swap
+    description: No-swap is valid when candidates do not improve the current seat.
+    expected_behavior: Return no_swap with explanation.
+  - test_id: fake_turbo
+    description: Low land count without matching acceleration should trigger a mana-plan warning.
+    expected_behavior: Add structural warning.
+  - test_id: branch_detection
+    description: Distinct strategies should be identified as branches, not averaged.
+    expected_behavior: Flag branch conflict.

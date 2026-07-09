@@ -1,0 +1,17 @@
+deckbuilding_templates:
+  - template_id: TODO_template
+    name: TODO Template
+    applies_when:
+      - TODO shell condition
+    target_counts:
+      lands: TODO
+      ramp: TODO
+      draw_or_card_flow: TODO
+      interaction: TODO
+      protection: TODO
+      engines: TODO
+      payoffs: TODO
+      win_conditions: TODO
+    warnings:
+      - TODO warning
+    human_review_required: true

@@ -1,0 +1,23 @@
+{
+  "report_type": "audit",
+  "status": "placeholder",
+  "commander_billboard": null,
+  "deck_thesis": null,
+  "structural_audit": {
+    "total_cards": null,
+    "land_count": null,
+    "ramp_count": null,
+    "draw_count": null,
+    "interaction_count": null,
+    "protection_count": null,
+    "engine_count": null,
+    "payoff_count": null,
+    "win_condition_count": null,
+    "structural_status": "TODO"
+  },
+  "package_map": [],
+  "protected_glue": [],
+  "warnings": [],
+  "human_validation_zones": [],
+  "final_status": "draft"
+}

@@ -1,0 +1,13 @@
+role_definitions:
+  - role_id: TODO_role
+    broad_role: TODO
+    specific_seat: TODO
+    definition: TODO
+    counts_when:
+      - TODO evidence condition
+    does_not_count_when:
+      - TODO exclusion condition
+    evidence_needed:
+      - TODO local rule or card text evidence
+    related_seat_types: []
+    human_review_required: false

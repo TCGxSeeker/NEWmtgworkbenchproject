@@ -56,6 +56,25 @@ Create local fixtures in Phase 1 before parser or recommendation work:
 - Commander profile.
 - Package definition.
 - Known-good audit output.
+- Role definition.
+- Deckbuilding template.
+- Human validation trigger file.
+- Recommendation report output.
+- Generic regression test categories.
+
+## Phase 1 Contract Checks
+
+Run these after changing source seeds, data contracts, or raw fixtures:
+
+```bash
+git rev-parse --show-toplevel
+rg --files --hidden -g '!.git/**'
+python -c "import json; json.load(open('data/raw/cards/sample_card_data_seed.json')); json.load(open('data/raw/reports/sample_audit_report.json')); json.load(open('data/raw/reports/sample_recommendation_report.json'))"
+python -c "import csv; [list(csv.DictReader(open(p, newline=''))) for p in ['data/raw/decklists/sample_csv_decklist.csv','data/raw/owned/sample_owned_cards.csv']]"
+git status --short
+```
+
+YAML fixtures are currently source templates. Until a runtime and YAML parser are approved, verify them by manual review and file presence rather than adding dependencies.
 
 ## Manual Human Review Checklist
 

@@ -29,15 +29,15 @@ The MVP should prove:
 
 ## Source of Truth
 
-Use the user interview answers and supplemental hand-off as the highest-priority product source. If repo files conflict with them, prefer the interview answers and record the conflict in `docs/codex/DECISION_LOG.md`.
+Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PROJECT_MASTER_SEED.md` as the highest-priority product sources. If repo files conflict with them, prefer these sources and record the conflict in `docs/codex/DECISION_LOG.md`.
 
-Current repository inspection found only project operating files: `AGENTS.md`, `docs/codex/`, `.tasks/`, and `.agents/skills/`. There is no source code, test suite, card data, deck fixture, README, local rule file, CSV export, or prior implementation artifact yet. Missing facts should become TODOs or fixtures, not invented details.
+Current repository inspection found project operating files, source seed docs, and tiny raw fixtures. There is still no source code, test suite, parser, analyzer, recommender, UI, dependency file, or runtime package yet. Missing facts should become TODOs or fixtures, not invented details.
 
 ## Key Decisions Before Building
 
 - Proposed runtime: Python CLI, because the MVP needs local parsing, deterministic tests, simple fixtures, and portable offline behavior.
 - Proposed first commands: `mtg audit` and `mtg final-check`.
-- Proposed data style: YAML for editable rules, CSV for ownership lists, JSON for local card snapshots, Markdown for reports and docs.
+- Proposed data style: YAML for editable rules and profiles, CSV for decklist/ownership table inputs, JSON for local card snapshots and machine-readable report outputs, Markdown for doctrine, source notes, and future rendered reports.
 - Scryfall usage: optional future manual bulk-data ingestion only, not runtime analysis.
 - UI: future phase only, after CLI behavior and report outputs are stable.
 
@@ -54,6 +54,8 @@ Planning files:
 - `docs/codex/AUTOMATION_DECISIONS.md`
 - `docs/codex/DECISION_LOG.md`
 - `docs/codex/GOTCHAS.md`
+- `docs/rules/DATA_CONTRACTS.md`
+- `docs/sources/MTG_PROJECT_MASTER_SEED.md`
 
 Future implementation files:
 
@@ -82,6 +84,22 @@ tests/
   analysis/
   recommendations/
   reports/
+```
+
+Phase 1 seed and contract fixtures:
+
+```text
+data/raw/cards/
+data/raw/decklists/
+data/raw/owned/
+data/raw/commander_profiles/
+data/raw/roles/
+data/raw/packages/
+data/raw/templates/
+data/raw/budget/
+data/raw/validation/
+data/raw/reports/
+data/raw/regression_tests/
 ```
 
 ## MVP User Loop
@@ -174,7 +192,7 @@ Finish and review planning docs. Definition of done: docs agree on offline-first
 
 ### Phase 1: Local Data Contracts And Fixtures
 
-Create minimal local fixtures and schemas for cards, decklists, ownership, commander profiles, packages, and templates. Definition of done: fixtures load locally, invalid fixtures fail cleanly, no internet access is required.
+Create minimal local fixtures and schemas for cards, decklists, ownership, commander profiles, roles, packages, templates, budget profiles, validation triggers, report outputs, and generic regression tests. Definition of done: `docs/rules/DATA_CONTRACTS.md` defines the formats, fixtures exist locally, structured fixtures can be syntax-checked without internet, and doctrine files are not treated as parser/card inputs.
 
 ### Phase 2: Decklist Parser And Normalizer
 
