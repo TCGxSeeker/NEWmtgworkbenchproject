@@ -1,0 +1,12 @@
+# Sample Plain Decklist
+# Placeholder only. Replace with a user-approved Commander decklist before parser work.
+# Suggested format:
+# Commander
+# 1 Example Commander
+#
+# Deck
+# 1 Example Card
+# 1 Example Land
+#
+# Maybeboard
+# 1 Example Maybe Card

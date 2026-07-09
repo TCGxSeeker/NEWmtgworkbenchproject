@@ -1,0 +1,18 @@
+{
+  "source": "placeholder",
+  "description": "Replace with a user-approved local card data fixture before implementation.",
+  "cards": [
+    {
+      "name": "TODO Card",
+      "aliases": [],
+      "mana_value": 0,
+      "colors": [],
+      "color_identity": [],
+      "type_line": "TODO",
+      "oracle_text": "TODO",
+      "legalities": {},
+      "prices": {},
+      "notes": "Placeholder only. Do not use for real analysis."
+    }
+  ]
+}
