@@ -1,0 +1,31 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# JavaScript/frontend tooling artifacts.
+node_modules/
+dist/
+build/
+coverage/
+apps/*/node_modules/
+apps/*/dist/
+apps/*/build/
+apps/*/coverage/
+
+# Large local Scryfall bulk snapshots are source data, not repository content.
+data/raw/scryfall/**/*.json
+data/raw/scryfall/**/*.jsonl
+data/raw/scryfall/**/*.jsonl.gz
+!data/raw/scryfall/manifest.json
+!data/raw/scryfall/**/README.md
+
+# Processed local indexes can be regenerated from raw snapshots.
+data/processed/scryfall/*.sqlite
+data/processed/scryfall/*.sqlite-*
+data/processed/scryfall/*.sqlite.tmp
+!data/processed/scryfall/README.md
+!data/processed/scryfall/index_manifest.json

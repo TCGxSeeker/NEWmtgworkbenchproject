@@ -22,6 +22,8 @@ Do not treat seed docs as card data. Do not extract card names or decklists from
 | Audit report output | JSON plus future Markdown rendering | `data/raw/reports/sample_audit_report.json` | `docs/reports/` |
 | Recommendation report output | JSON plus future Markdown rendering | `data/raw/reports/sample_recommendation_report.json` | `docs/reports/` |
 | Generic regression tests | YAML | `data/raw/regression_tests/sample_generic_regression_tests.yaml` | `tests/fixtures/` |
+| Scryfall bulk snapshots | JSON or JSONL.GZ | `data/raw/scryfall/` | future local processed card indexes |
+| Scryfall search indexes | SQLite plus manifest JSON | `data/raw/scryfall/` | `data/processed/scryfall/` |
 
 ## Contract Requirements
 
@@ -29,9 +31,19 @@ Do not treat seed docs as card data. Do not extract card names or decklists from
 
 Must include stable local facts: canonical name, aliases, mana value, colors, color identity, type line, Oracle text, legality snapshot, price snapshot, and source metadata. Unknown cards must be reported instead of guessed.
 
+Phase 2 card snapshots may also include `is_basic_land` as a boolean so duplicate handling can warn only for known non-basic cards.
+
+Full Scryfall bulk snapshots live under `data/raw/scryfall/` as raw source data. They are not parser fixtures and are not committed to Git. Future processed card indexes should be derived from these local files through an approved ingestion step.
+
+Oracle tags are tag-first source data. Each Oracle tag contains `taggings[]` entries that point to card `oracle_id` values. Future `otag:` search should resolve tags first, join to cards by `oracle_id`, then apply remaining card filters such as color identity, mana value, legality, text, or price snapshot constraints.
+
+Processed Scryfall indexes should be generated from local snapshots into `data/processed/scryfall/cards.sqlite`. Generated SQLite files are local build artifacts and ignored by Git; `data/processed/scryfall/index_manifest.json` may be tracked as a small reproducibility record.
+
 ### Decklists
 
 Must preserve quantity, section, card name, category if present, and notes if present. Commander and maybeboard sections must remain distinct from the main deck.
+
+Phase 2 plain text decklists support section headers such as `Commander`, `Deck`, and `Maybeboard`, followed by lines in `quantity card name` format. Phase 2 CSV decklists use `section,quantity,card_name,category,notes`. Parser output must be stable JSON with `commanders`, `mainboard`, `maybeboard`, `unknown_cards`, and `warnings`.
 
 ### Owned/On-Hand Cards
 

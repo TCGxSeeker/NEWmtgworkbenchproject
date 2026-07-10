@@ -1,0 +1,15 @@
+# Phase 2 plain-text parser fixture
+Commander
+1   the boss
+
+Deck
+1 Arcane Helper
+35   Basic Land Name
+1 Duplicate Nonbasic
+1 duplicate nonbasic
+1 Alias Helper
+1 can't stay away
+1 Unknown Mystery
+
+Maybeboard
+1 Maybe Card

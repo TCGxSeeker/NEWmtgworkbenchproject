@@ -69,3 +69,83 @@
   - Alternatives considered: database-first storage or hardcoded Python constants.
   - Risk: YAML validation will need an approved parser once implementation begins.
   - Status: Proposed for Phase 1.
+
+- Decision: Proceed to Phase 2 with a Python CLI parser and normalizer.
+  - Reason: The user approved Python CLI as the MVP runtime and requested a small parser/normalizer layer against tiny local fixtures.
+  - Alternatives considered: waiting for full card database, adding API-backed normalization, starting with UI.
+  - Risk: Tiny fixtures prove behavior but not full MTG coverage.
+  - Status: Accepted for Phase 2.
+
+- Decision: Keep Phase 2 output to stable JSON parse results and basic validation warnings.
+  - Reason: Structural audit and recommendations are future phases.
+  - Alternatives considered: adding audit/recommendation behavior now.
+  - Risk: Output will be intentionally limited.
+  - Status: Accepted.
+
+- Decision: Allow a manually triggered Scryfall bulk-data snapshot under `data/raw/scryfall/`.
+  - Reason: The user explicitly approved grabbing the full Scryfall bulk data and wants local locations for each relevant piece.
+  - Alternatives considered: waiting for a future ingestion command, using live API calls at runtime, or committing full payloads.
+  - Risk: Bulk files are large and can become stale; they must not become runtime API dependencies.
+  - Status: Accepted for local snapshot storage.
+
+- Decision: Model Oracle tag search as tag-first query planning.
+  - Reason: Oracle tags are associated to cards through `taggings[]` with `oracle_id`, so `otag:` should resolve tag matches before card filters.
+  - Alternatives considered: attaching tags to card records first and searching only card-side flattened fields.
+  - Risk: The indexer must maintain a reliable `oracle_id` join and preserve tag weights.
+  - Status: Accepted for future Scryfall indexing.
+
+- Decision: Build a local SQLite Scryfall index from all stored bulk types.
+  - Reason: The deckbuilder needs efficient local search calls and should function without API calls after snapshots are stored.
+  - Alternatives considered: searching compressed JSONL directly, using an external search service, or calling Scryfall search live.
+  - Risk: Generated indexes can be large and must be regenerated after snapshot updates.
+  - Status: Accepted for local indexing.
+
+- Decision: Keep print indexing compact instead of adding print-level FTS in Phase Index-1.
+  - Reason: The first full index attempt exhausted available disk space; oracle-level FTS plus indexed print columns supports the planned syntax-search core without duplicating every print's text.
+  - Alternatives considered: full print FTS, external search service, skipping all_cards rows.
+  - Risk: Future print-specific text search may need an opt-in expanded index.
+  - Status: Accepted for Phase Index-1.
+
+- Decision: Start local syntax search with a narrow supported subset.
+  - Reason: The workbench needs useful offline search soon, but a full Scryfall syntax clone would be too broad for the first pass.
+  - Alternatives considered: implement the entire syntax at once, use live Scryfall search, or delay search until audit features.
+  - Risk: Users may try unsupported syntax early; unsupported clauses must be explicit and test-covered.
+  - Status: Accepted for Phase Search-1.
+
+- Decision: Return unsupported syntax alongside valid search results instead of failing the whole query.
+  - Reason: Users can still get useful local search output while seeing exactly which clauses were ignored.
+  - Alternatives considered: hard failure on any unsupported token, silently dropping unsupported clauses.
+  - Risk: Users may overlook unsupported clauses unless the UI surfaces them clearly later.
+  - Status: Accepted for CLI Phase Search-1.
+
+- Decision: Treat search as substrate, not the product center.
+  - Reason: Local syntax search verifies offline Scryfall querying and supports future lookup, browsing, and candidate pools, but the Workbench product is deck understanding.
+  - Alternatives considered: continuing toward an offline Scryfall clone or designing the app around search-first workflows.
+  - Risk: Search still needs to become strong in-app later, so scope limits must not be confused with abandoning search quality.
+  - Status: Accepted.
+
+- Decision: Complete only the specified Search-2 filters before moving toward deck-understanding work.
+  - Reason: The pending filters are useful infrastructure, but broad syntax expansion should not delay Deck Skeleton Report v0 and structural analysis.
+  - Alternatives considered: full Scryfall syntax parity now, stopping search immediately, or prioritizing search UI.
+  - Risk: Future users may expect more search operators; unsupported syntax must stay explicit until those operators are deliberately added.
+  - Status: Accepted.
+
+## 2026-07-10
+
+- Decision: Treat the deckbuilder workspace as the primary product screen.
+  - Reason: The user clarified that the next priority is planning the main deckbuilder surface from Archidekt/Deckcheck-style capability examples.
+  - Alternatives considered: search-first UI, dashboard-first UI, or continuing only CLI/backend work.
+  - Risk: UI planning can drift into visual cloning if not constrained.
+  - Status: Accepted for product planning.
+
+- Decision: Use reference screenshots for capability extraction only.
+  - Reason: The screenshots are tidy examples but not the final UI goal or clone target.
+  - Alternatives considered: copying exact visual styling, ignoring the references entirely.
+  - Risk: Capability notes may miss subtle interaction details until the PDF is manually reviewed in a proper viewer.
+  - Status: Accepted.
+
+- Decision: Set up only free, isolated frontend tooling before UI implementation.
+  - Reason: Future glass/liquid UI work needs Node-based tooling, but the product should not be over-built before deckbuilder requirements and model contracts are ready.
+  - Alternatives considered: no frontend tooling yet, paid UI kits, desktop packaging now, or product UI implementation now.
+  - Risk: Tooling can create the impression that UI implementation has started; docs must keep this as scaffold-only.
+  - Status: Accepted.

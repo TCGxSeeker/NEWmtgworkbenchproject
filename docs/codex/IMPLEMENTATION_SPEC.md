@@ -31,14 +31,15 @@ The MVP should prove:
 
 Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PROJECT_MASTER_SEED.md` as the highest-priority product sources. If repo files conflict with them, prefer these sources and record the conflict in `docs/codex/DECISION_LOG.md`.
 
-Current repository inspection found project operating files, source seed docs, and tiny raw fixtures. There is still no source code, test suite, parser, analyzer, recommender, UI, dependency file, or runtime package yet. Missing facts should become TODOs or fixtures, not invented details.
+Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, and a free frontend tooling scaffold. The deterministic analyzer, recommender, finished UI, scoring rubric, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
 ## Key Decisions Before Building
 
-- Proposed runtime: Python CLI, because the MVP needs local parsing, deterministic tests, simple fixtures, and portable offline behavior.
-- Proposed first commands: `mtg audit` and `mtg final-check`.
+- Approved runtime: Python CLI, because the MVP needs local parsing, deterministic tests, simple fixtures, and portable offline behavior.
+- Phase 2 command: `mtg parse <decklist_path> --cards <card_snapshot_path>`.
+- Future commands: `mtg audit` and `mtg final-check` after structural audit exists.
 - Proposed data style: YAML for editable rules and profiles, CSV for decklist/ownership table inputs, JSON for local card snapshots and machine-readable report outputs, Markdown for doctrine, source notes, and future rendered reports.
-- Scryfall usage: optional future manual bulk-data ingestion only, not runtime analysis.
+- Scryfall usage: approved manual bulk-data snapshot ingestion into `data/raw/scryfall/`; not runtime analysis and not an API dependency for parser/normalizer behavior.
 - UI: future phase only, after CLI behavior and report outputs are stable.
 
 These are proposed decisions, not irreversible implementation commitments.
@@ -86,6 +87,30 @@ tests/
   reports/
 ```
 
+Product planning files:
+
+```text
+docs/product/deckbuilder/
+  DECKBUILDER_ROADMAP.md
+  MAIN_SCREEN_REQUIREMENTS.md
+  DECK_MODEL_REQUIREMENTS.md
+  VIEW_MODES_REQUIREMENTS.md
+  GROUP_SORT_FILTER_REQUIREMENTS.md
+  SEARCH_WORKSPACE_REQUIREMENTS.md
+  CARD_ACTIONS_REQUIREMENTS.md
+  STATS_AND_PROBABILITY_REQUIREMENTS.md
+  IMPORT_EXPORT_REQUIREMENTS.md
+  UI_NON_GOALS.md
+  OPEN_QUESTIONS.md
+```
+
+Tooling files:
+
+```text
+docs/codex/TOOLING_PLAN.md
+apps/deckbuilder-ui/
+```
+
 Phase 1 seed and contract fixtures:
 
 ```text
@@ -100,6 +125,7 @@ data/raw/budget/
 data/raw/validation/
 data/raw/reports/
 data/raw/regression_tests/
+data/raw/scryfall/
 ```
 
 ## MVP User Loop
@@ -196,27 +222,99 @@ Create minimal local fixtures and schemas for cards, decklists, ownership, comma
 
 ### Phase 2: Decklist Parser And Normalizer
 
-Implement import parsing and card-name normalization. Definition of done: sample decklists parse correctly, quantities are preserved, commanders are detected when marked, and unknown cards are reported rather than guessed.
+Implement import parsing and card-name normalization against tiny local fixtures only. Definition of done: plain text and CSV decklists parse correctly, quantities are preserved, commanders are detected when marked, aliases and case-insensitive names normalize to local snapshot display names, unknown cards are reported rather than guessed, duplicate known non-basic cards produce warnings, and stable JSON output is available from the CLI.
 
-### Phase 3: Structural Audit Engine
+Phase 2 must not add API calls, external services, recommendation logic, structural audit logic beyond basic validation warnings, UI, or card-specific deckbuilding conclusions.
+
+### Manual Scryfall Bulk Snapshot
+
+The project may store manually fetched Scryfall bulk data under `data/raw/scryfall/` as raw local source snapshots. Snapshot payloads are intentionally ignored by Git because they are large. The tracked repository should keep only documentation and small manifests. Runtime features must continue to work from local files and must not call Scryfall directly unless a future user-approved ingestion command is built.
+
+### Phase Index-1: Local Scryfall SQLite Index
+
+Build `data/processed/scryfall/cards.sqlite` from the local Scryfall bulk snapshot. The indexer should process all local bulk types currently stored: oracle cards, default cards, all cards, unique artwork, rulings, oracle tags, and art tags. This is an offline ingestion step only. It must not call Scryfall and must not implement recommendation logic.
+
+Keep the generated index compact. Oracle cards and tags should receive full-text indexes for syntax-search planning. Print rows should be stored with indexed columns and name lookup rows rather than a full print-level FTS copy, because the local machine has limited free disk space.
+
+### Phase Search-1: Local Syntax Search Planner
+
+Implement a read-only local search command over `data/processed/scryfall/cards.sqlite`. The first supported syntax subset should be bare text, `o:`/`oracle:`, `t:`/`type:`, `otag:`, `ci:`/`id:`, and `mv:`/`cmc:` comparisons. Definition of done: tiny SQLite fixture tests prove tag-first `otag:` resolution, card filtering, unsupported syntax reporting, and stable JSON output.
+
+Phase Search-1 must not call external APIs, implement recommendations, infer deckbuilding quality, or claim data freshness beyond the local snapshot manifest.
+
+Search is a substrate, not the product center. It supports future in-app search, card lookup, filtered browsing, and recommendation candidate pools. The long-term in-app search should become Scryfall-like enough to be useful locally, but the Workbench should not become an offline Scryfall clone and should not be designed around search-first workflows.
+
+Current command:
+
+```powershell
+$env:PYTHONPATH='src'
+python -m mtg_workbench.cli search "otag:burn-creature ci:r mv<=2" --index data/processed/scryfall/cards.sqlite
+```
+
+### Phase Search-2: Scoped Local Search Filters
+
+Complete only the already specified filters: `legal:commander`, `usd<=N`, `r:<rarity>`, `set:<code>`, and `is:commander`. Definition of done: remove the expected-failure decorators from the Search-2 tests and make the full suite pass.
+
+Do not expand into broad Scryfall syntax coverage unless explicitly requested. Unsupported syntax should continue to return clear unsupported-syntax messages.
+
+### Phase Product-1: Main Deckbuilder Workspace Planning
+
+Use `docs/product/deckbuilder/` as the product requirements source for the first UI surface. The deckbuilder is the primary user screen; search, stats, reports, and probability tools should support this workspace rather than replace it.
+
+Definition of done: requirements exist for deck model contracts, main screen layout, view modes, group/sort/filter behavior, search workspace, card actions, stats/probability tools, import/export, UI non-goals, and open questions.
+
+### Phase Tooling-1: Free Frontend Tooling Scaffold
+
+Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.
+
+Do not add paid tools, account-based services, secrets, telemetry, Electron/Tauri packaging, or broad UI implementation in this phase.
+
+### Phase 3: Deck Skeleton Report v0
+
+Generate the first deck-understanding report from parsed deck data. Definition of done: a fixture deck produces stable counts for commander, mainboard, maybeboard, total cards, known/unknown cards, basic/non-basic grouping, broad card types, mana values, colors, and obvious missing-data warnings.
+
+### Phase 4: Structural Warnings v0
+
+Implement deterministic warnings for the first mechanical deck-shape issues. Definition of done: fixture decks produce stable warnings for card count issues, duplicate known non-basics, missing commander, unresolved unknown cards, basic color identity mismatches where local data exists, and early land/ramp/draw/interaction count placeholders.
+
+### Phase 5: Commander Profile v0
+
+Create a local commander profile contract and parser. Definition of done: a fixture profile can declare commander identity, intended bracket, deck thesis, primary plan, avoid patterns, required roles, budget posture, and human validation notes.
+
+### Phase 6: Card Seat / Role Report v0
+
+Generate a first role/seat report from local role definitions and optional overrides. Definition of done: a fixture deck can report which cards are counted as ramp, draw, interaction, protection, engine, payoff, win condition, glue, or unknown role without making card-cut decisions.
+
+### Phase 7: Recommendation Explanation v0
+
+Create explanation scaffolding for future recommendation drafts. Definition of done: output can explain why a candidate would be considered, which role it affects, what evidence supports it, what risks remain, and what human approval is required. It must not autonomously finalize cuts or additions.
+
+### Later Phase: Structural Audit Engine
 
 Implement `DeckAnalysis` and deterministic audit passes for curve, colors, card types, lands, ramp, draw, interaction, protection, engines, payoffs, and win conditions. Definition of done: known fixture decks produce expected stable counts.
 
-### Phase 4: Final-Check Report
+### Later Phase: Final-Check Report
 
 Generate a review packet with validation results, unresolved risks, and human approval flags. Definition of done: reports include mechanical checks and never claim final strategic approval automatically.
 
-### Phase 5: Recommendation Draft Engine
+### Later Phase: Recommendation Draft Engine
 
 Generate ranked draft recommendations from local logic only. Definition of done: every recommendation includes reason, role impact, package impact, budget/ownership impact where relevant, risks, confidence, and approval requirements.
 
-### Phase 6: Optional UI Planning
+### Later Phase: Optional UI Planning
 
 Only after CLI behavior is stable, design the luxury workbench UI. Definition of done: UI plan preserves deterministic CLI behavior and prevents copy overflow.
 
 ## Verification Plan
 
-Before coding, update `docs/codex/VERIFICATION_PLAN.md` with exact commands once stack and CLI shape are approved.
+Phase 2 verification:
+
+```bash
+$env:PYTHONPATH='src'
+python -m unittest discover -s tests
+python -m mtg_workbench.cli parse tests/fixtures/decklists/plain_commander.txt --cards tests/fixtures/cards/tiny_cards.json
+python -m mtg_workbench.cli parse tests/fixtures/decklists/csv_commander.csv --cards tests/fixtures/cards/tiny_cards.json
+```
 
 Future verification should include:
 
@@ -250,7 +348,7 @@ Require explicit approval before implementing or changing:
 
 ## Risks
 
-- No local card data or deck fixtures exist yet.
+- Only tiny local fixtures and local Scryfall snapshots exist; full curated project data is still pending.
 - Scoring rubric and Commander bracket mapping are not defined yet.
 - Role taxonomy and package definitions are still conceptual.
 - Recommendations may feel weak until local rules, overrides, and examples mature.
@@ -274,9 +372,7 @@ Require explicit approval before implementing or changing:
 
 ### Blocking Before Feature Code
 
-- Do you approve Python as the default CLI runtime?
-- Can we create the first local card fixture format in Phase 1?
-- Can we create or use one sample Commander decklist fixture in Phase 1?
+- None for Phase 2. Python CLI, tiny local fixtures, and local card snapshot usage are approved.
 
 ### Non-Blocking
 

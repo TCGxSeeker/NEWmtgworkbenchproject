@@ -1,0 +1,74 @@
+{
+  "built_at": "2026-07-09T02:25:26.929695+00:00",
+  "counts": {
+    "all_cards_prints": 531732,
+    "art_taggings": 462578,
+    "art_tags": 11312,
+    "bulk_sources": 7,
+    "default_cards_prints": 115874,
+    "oracle_cards": 38233,
+    "oracle_cards_fts": 38233,
+    "oracle_taggings": 227315,
+    "oracle_tags": 4493,
+    "prints": 647606,
+    "rulings": 76801,
+    "unique_artwork": 53504
+  },
+  "fts_available": true,
+  "index_path": "data\\processed\\scryfall\\cards.sqlite",
+  "no_api_calls": true,
+  "object": "mtg_workbench_scryfall_index_manifest",
+  "schema_version": 1,
+  "source_entries": [
+    {
+      "bytes_downloaded": 22735429,
+      "local_path": "data/raw/scryfall/oracle_cards/oracle-cards-20260708210259.jsonl.gz",
+      "sha256": "af2d5cdedc9d299d36bd6f461f293d32cb00ec87855536dc5b8ea77f714edb22",
+      "type": "oracle_cards",
+      "updated_at": "2026-07-08T21:02:59.672+00:00"
+    },
+    {
+      "bytes_downloaded": 34700602,
+      "local_path": "data/raw/scryfall/unique_artwork/unique-artwork-20260708210438.jsonl.gz",
+      "sha256": "514210c573e5a4660eb0145c61a1af26521cea2883543bab45c07c37f3a4f832",
+      "type": "unique_artwork",
+      "updated_at": "2026-07-08T21:04:38.114+00:00"
+    },
+    {
+      "bytes_downloaded": 72288231,
+      "local_path": "data/raw/scryfall/default_cards/default-cards-20260708211033.jsonl.gz",
+      "sha256": "b3ebd0b448f07ea8dba1a43f1d4329097de15743a7be8a5bb8d5eb04d86d5bbd",
+      "type": "default_cards",
+      "updated_at": "2026-07-08T21:10:33.771+00:00"
+    },
+    {
+      "bytes_downloaded": 365583894,
+      "local_path": "data/raw/scryfall/all_cards/all-cards-20260708212903.jsonl.gz",
+      "sha256": "ed1be323a9932c2b4f7a76d47816d1555c177974945e2144f5b0a400a19c2293",
+      "type": "all_cards",
+      "updated_at": "2026-07-08T21:29:03.090+00:00"
+    },
+    {
+      "bytes_downloaded": 5222761,
+      "local_path": "data/raw/scryfall/rulings/rulings-20260708210040.jsonl.gz",
+      "sha256": "e7df80afad27d9491deeaca5fe61756a7073bf890548fc1e3e430c8ab2e0effe",
+      "type": "rulings",
+      "updated_at": "2026-07-08T21:00:40.289+00:00"
+    },
+    {
+      "bytes_downloaded": 12189695,
+      "local_path": "data/raw/scryfall/art_tags/art-tags-20260708210127.jsonl.gz",
+      "sha256": "9173b3124c3aa49554bdec1ef4e6f160008522f14d4bc195bfe45f2a41020f39",
+      "type": "art_tags",
+      "updated_at": "2026-07-08T21:01:27.699+00:00"
+    },
+    {
+      "bytes_downloaded": 5787971,
+      "local_path": "data/raw/scryfall/oracle_tags/oracle-tags-20260708210040.jsonl.gz",
+      "sha256": "3e51e286611215f0bba591473cd018b33164696b7d095d16949a2cd40f174f31",
+      "type": "oracle_tags",
+      "updated_at": "2026-07-08T21:00:40.940+00:00"
+    }
+  ],
+  "source_manifest_path": "data\\raw\\scryfall\\manifest.json"
+}

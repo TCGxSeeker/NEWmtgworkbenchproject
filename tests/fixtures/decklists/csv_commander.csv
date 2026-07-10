@@ -1,0 +1,8 @@
+section,quantity,card_name,category,notes
+main,1,Example Commander,Commander,category field marks commander
+main,35,example basic land,Land,basic land quantity should not warn
+main,1,Arcane Helper,Ramp,
+main,2,Duplicate Nonbasic,Artifact,duplicate non-basic warning
+main,1,Alias Helper,Creature,alias normalization
+main,1,Unknown CSV Card,Spell,unknown card reporting
+maybeboard,1,Maybe Card,Maybeboard,maybeboard separation

@@ -121,25 +121,36 @@ Use this repository-specific structure for Codex planning, task tracking, and lo
 
 ```text
 AGENTS.md
+apps/deckbuilder-ui/  Free Vite + React + TypeScript UI scaffold
 docs/codex/      Project brief, specs, verification, decisions, gotchas
 .tasks/          Immediate next work and backlog
 .agents/skills/  Project-local Codex skills
+src/             Python package for CLI, parsing, card data, and search
+tests/           Python unit tests and fixtures
 ```
 
-If application code is added later, prefer `src/` for source, `tests/` for automated tests, and `assets/` for static resources. Avoid committing build output, dependency folders, caches, or editor artifacts.
+Avoid committing build output, dependency folders, caches, or editor artifacts.
 
 ## Build, Test, and Development Commands
 
-No build system or package manager is present yet. When one is added, document the canonical commands here:
+Use these checks from the repository root unless noted:
 
-```bash
-npm install      # Install JavaScript dependencies
-npm run dev      # Start local development
-npm test         # Run tests
-npm run build    # Build production output
+```powershell
+$env:PYTHONPATH = 'src'
+python -m unittest discover -s tests
 ```
 
-Use stack-native equivalents when appropriate, such as `python -m pytest`, `cargo test`, or `make build`.
+Runs the Python parser, normalizer, Scryfall indexing/search, and fixture tests.
+
+```powershell
+$env:Path = 'C:\Program Files\nodejs;' + $env:Path
+Push-Location apps/deckbuilder-ui
+& 'C:\Program Files\nodejs\npm.cmd' run build
+& 'C:\Program Files\nodejs\npm.cmd' run lint
+Pop-Location
+```
+
+Builds and lints the free frontend scaffold. Use `npm.cmd` if PowerShell blocks `npm.ps1`.
 
 ## Coding Style & Naming Conventions
 

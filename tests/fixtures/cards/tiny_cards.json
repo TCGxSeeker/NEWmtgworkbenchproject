@@ -1,0 +1,116 @@
+{
+  "source": "phase_2_test_fixture",
+  "description": "Tiny local card snapshot for parser and normalizer tests only.",
+  "cards": [
+    {
+      "name": "Example Commander",
+      "aliases": [
+        "The Boss"
+      ],
+      "mana_value": 3,
+      "colors": [
+        "G"
+      ],
+      "color_identity": [
+        "G"
+      ],
+      "type_line": "Legendary Creature - Example",
+      "oracle_text": "TODO fixture text.",
+      "legalities": {},
+      "prices": {},
+      "is_basic_land": false
+    },
+    {
+      "name": "Example Basic Land",
+      "aliases": [
+        "Basic Land Name"
+      ],
+      "mana_value": 0,
+      "colors": [],
+      "color_identity": [
+        "G"
+      ],
+      "type_line": "Basic Land - Forest",
+      "oracle_text": "TODO fixture text.",
+      "legalities": {},
+      "prices": {},
+      "is_basic_land": true
+    },
+    {
+      "name": "Arcane Helper",
+      "aliases": [],
+      "mana_value": 2,
+      "colors": [],
+      "color_identity": [],
+      "type_line": "Artifact",
+      "oracle_text": "TODO fixture text.",
+      "legalities": {},
+      "prices": {},
+      "is_basic_land": false
+    },
+    {
+      "name": "Alias Target",
+      "aliases": [
+        "Alias Helper"
+      ],
+      "mana_value": 1,
+      "colors": [
+        "G"
+      ],
+      "color_identity": [
+        "G"
+      ],
+      "type_line": "Creature - Example",
+      "oracle_text": "TODO fixture text.",
+      "legalities": {},
+      "prices": {},
+      "is_basic_land": false
+    },
+    {
+      "name": "Duplicate Nonbasic",
+      "aliases": [],
+      "mana_value": 1,
+      "colors": [],
+      "color_identity": [],
+      "type_line": "Artifact",
+      "oracle_text": "TODO fixture text.",
+      "legalities": {},
+      "prices": {},
+      "is_basic_land": false
+    },
+    {
+      "name": "Maybe Card",
+      "aliases": [],
+      "mana_value": 4,
+      "colors": [
+        "G"
+      ],
+      "color_identity": [
+        "G"
+      ],
+      "type_line": "Creature - Example",
+      "oracle_text": "TODO fixture text.",
+      "legalities": {},
+      "prices": {},
+      "is_basic_land": false
+    },
+    {
+      "name": "Can't Stay Away",
+      "aliases": [],
+      "mana_value": 2,
+      "colors": [
+        "W",
+        "B"
+      ],
+      "color_identity": [
+        "W",
+        "B"
+      ],
+      "type_line": "Sorcery",
+      "oracle_text": "TODO fixture text.",
+      "legalities": {},
+      "prices": {},
+      "is_basic_land": false
+    }
+  ]
+}
