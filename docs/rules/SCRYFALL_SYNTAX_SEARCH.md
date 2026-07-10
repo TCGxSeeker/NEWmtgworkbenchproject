@@ -8,9 +8,9 @@ Search is infrastructure for a future in-app search bar, card lookup, filtered b
 
 Long term, the in-app search function should become rich and Scryfall-like for local browsing. The Workbench itself should not become an offline Scryfall clone; deck analysis and deck understanding remain the product center.
 
-## Phase Search-1 Scope
+## Supported Scope
 
-Support a small, deterministic subset first:
+Support this deterministic local subset:
 
 - Bare text: search normalized card names first, then Oracle card FTS.
 - `o:` or `oracle:`: search Oracle text.
@@ -18,6 +18,11 @@ Support a small, deterministic subset first:
 - `otag:`: resolve Oracle tags first, expand `oracle_taggings.oracle_id`, then join cards.
 - `ci:` and `id:`: filter by exact color identity.
 - `mv:` and `cmc:`: filter by mana value with `=`, `<`, `<=`, `>`, and `>=`.
+- `legal:commander`: include cards whose local legality snapshot is legal in Commander.
+- `usd<=N`: compare the local USD price snapshot numerically.
+- `r:<rarity>`: filter by rarity, such as `r:mythic`.
+- `set:<code>`: filter by local set code.
+- `is:commander`: filter cards that the local index marked as commander candidates.
 
 Unsupported syntax must return an explicit unsupported-feature result. Do not guess.
 
@@ -43,12 +48,12 @@ python -m mtg_workbench.cli search "otag:burn-creature ci:r mv<=2" --index data/
 2. Resolve `otag:` clauses before card filters.
 3. Match `otag:` by exact tag slug, exact label, or exact alias.
 4. Convert tag matches to `oracle_id` sets using `oracle_taggings`.
-5. Apply color identity and mana value filters after tag expansion.
+5. Apply color identity, mana value, legality, price, rarity, set, and commander-candidate filters after tag expansion.
 6. Apply Oracle text, type line, and bare text search over local indexes.
 7. Intersect required clauses by default.
 8. Return stable JSON with matches, applied filters, unsupported clauses, and snapshot metadata.
 
-Phase Search-1 treats all supported clauses as required intersections. It does not implement boolean groups, negation, regex, set filters, or full Scryfall syntax aliases beyond the listed subset.
+The current search layer treats all supported clauses as required intersections. It does not implement boolean groups, negation, regex, print-specific search, or full Scryfall syntax aliases beyond the listed subset.
 
 Multiple syntax additions in one search are required behavior, not an advanced edge case. For example, `mv<=2 id:g t:instant` should return only green instant cards with mana value 2 or less; adding `o:draw` should further narrow those results to matching Oracle text. In a future deck-context search bar, the app may automatically apply the current deck color identity, but users must still be able to see, override, or explicitly set color filters.
 
@@ -89,25 +94,23 @@ Use tiny SQLite fixtures first. Tests should cover:
 
 Current tests live in `tests/test_scryfall_search.py` and build a tiny local SQLite fixture from local JSONL files.
 
-## Phase Search-2 Pending Filter Contracts
+## Phase Search-2 Completed Filter Contracts
 
-The next filter expansion should make the expected-failure tests in `tests/test_scryfall_search.py` pass, then remove their `@unittest.expectedFailure` decorators.
+Phase Search-2 implemented:
 
-Pending filters:
+- `legal:commander`
+- `usd<=N`
+- `r:<rarity>`
+- `set:<code>`
+- `is:commander`
 
-- `legal:commander`: include cards whose local legality snapshot is legal in Commander.
-- `usd<=N`: compare local USD price snapshot numerically.
-- `r:<rarity>`: filter by rarity, such as `r:mythic`.
-- `set:<code>`: filter by local set code.
-- `is:commander`: filter cards that the local index marked as commander candidates.
-
-Additional noted future syntax:
+Additional noted future syntax, not yet implemented:
 
 - `fo:` / `fulloracle:`: full Oracle-style text search alias for narrowing results by card text, such as `fo:draw`.
 
-These filters must continue to use local SQLite data only and must not make freshness claims about prices or legality beyond the snapshot manifest.
+Search-2 filters use local SQLite data only and must not make freshness claims about prices or legality beyond the snapshot manifest.
 
-After these filters are complete, pause search expansion and move toward deck understanding work unless the user explicitly asks for more search syntax. The next product priorities are:
+Search expansion should now pause and move toward deck understanding work unless the user explicitly asks for more search syntax. The next product priorities are:
 
 1. Deck Skeleton Report v0.
 2. Structural Warnings v0.

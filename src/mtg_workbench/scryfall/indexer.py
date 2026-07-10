@@ -24,6 +24,7 @@ SOURCE_TYPES = (
 
 COLOR_BITS = {"W": 1, "U": 2, "B": 4, "R": 8, "G": 16}
 BATCH_SIZE = 5000
+SCHEMA_VERSION = 2
 
 
 @dataclass(frozen=True)
@@ -307,6 +308,9 @@ def _create_indexes(conn: sqlite3.Connection) -> None:
         CREATE INDEX idx_oracle_cards_normalized_name ON oracle_cards(normalized_name);
         CREATE INDEX idx_oracle_cards_color_identity_mask ON oracle_cards(color_identity_mask);
         CREATE INDEX idx_oracle_cards_mana_value ON oracle_cards(mana_value);
+        CREATE INDEX idx_oracle_cards_rarity ON oracle_cards(rarity COLLATE NOCASE);
+        CREATE INDEX idx_oracle_cards_set_code ON oracle_cards(set_code COLLATE NOCASE);
+        CREATE INDEX idx_oracle_cards_is_commander_candidate ON oracle_cards(is_commander_candidate);
         CREATE INDEX idx_rulings_oracle_id ON rulings(oracle_id);
         CREATE INDEX idx_oracle_tags_slug ON oracle_tags(slug);
         CREATE INDEX idx_oracle_taggings_slug ON oracle_taggings(slug);
@@ -810,7 +814,7 @@ def _write_index_manifest(
         "index_path": str(output_path),
         "no_api_calls": True,
         "object": "mtg_workbench_scryfall_index_manifest",
-        "schema_version": 1,
+        "schema_version": SCHEMA_VERSION,
         "source_entries": [
             {
                 "bytes_downloaded": entry.get("bytes_downloaded"),

@@ -2,11 +2,11 @@
 
 ## Tiny Next Tasks
 
-1. Review `git status --short --ignored` and confirm generated Scryfall files stay ignored.
-2. Commit the current parser, normalizer, raw snapshot docs, and local indexer work when approved.
-3. Implement the pending Search-2 filters currently marked `@unittest.expectedFailure`.
-4. Remove the expected-failure decorators after the filters pass.
-5. Move to Deck Skeleton Report v0 after Search-2 unless more search syntax is explicitly requested.
+1. Review and commit the completed Search-2 filter work when approved.
+2. Start Deck Skeleton Report v0.
+3. Define the first stable deck-report output contract.
+4. Add fixture expectations for commander, mainboard, maybeboard, known/unknown cards, type counts, mana values, colors, and missing-data warnings.
+5. Keep broader Scryfall syntax expansion paused unless explicitly requested.
 
 ## Human Checkpoint
 

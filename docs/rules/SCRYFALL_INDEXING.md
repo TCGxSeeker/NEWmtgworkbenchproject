@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define how local Scryfall bulk snapshots should become searchable offline indexes. This is a planning contract, not an implemented ingestion pipeline.
+Define how local Scryfall bulk snapshots become searchable offline indexes. This document is both the indexing contract and the current implementation guide.
 
 ## Core Principle
 
@@ -26,8 +26,9 @@ This mirrors why Oracle tags are stored tag-first: the tag is the search entry p
 - `names`: normalized names and aliases to `oracle_id`.
 - `oracle_text_fts`: full-text index over Oracle text.
 - `type_line_fts`: full-text index over type lines.
-- `legalities`: local legality snapshot fields.
-- `prices`: local price snapshot fields.
+- `legalities`: local legality snapshot fields stored on `oracle_cards`.
+- `prices`: local price snapshot fields stored on `oracle_cards`.
+- `rarity`, `set_code`, and `is_commander_candidate`: indexed Oracle-card columns for Search-2 filters.
 - `oracle_tags`: tag slug, label, aliases, parent IDs, child IDs, description.
 - `oracle_taggings`: tag slug/id to `oracle_id` plus weight.
 - `art_tags`: art tag slug, label, aliases, and taggings where useful.
@@ -56,15 +57,18 @@ Large generated SQLite files remain ignored by Git. `data/processed/scryfall/ind
 
 ## Search Planner Notes
 
-- See `docs/rules/SCRYFALL_SYNTAX_SEARCH.md` for the Phase Search-1 syntax subset.
+- See `docs/rules/SCRYFALL_SYNTAX_SEARCH.md` for the supported syntax subset.
 - Free text should search names first.
 - `o:` / `oracle:` should search Oracle text.
 - `t:` / `type:` should search type line tokens.
 - `otag:` should search the Oracle tag index before card filters.
 - `art:` should search art tags before card filters.
-- `ci:` / `id:` / `commander:` should filter card color identity.
+- `ci:` / `id:` should filter card color identity.
 - `mv:` / `cmc:` should filter numeric mana value.
-- `legal:` / `f:` should filter local legality snapshot only.
+- `legal:commander` should filter the local Commander legality snapshot only.
+- `usd<=N` should filter the local USD price snapshot only.
+- `r:<rarity>` and `set:<code>` should filter indexed local card columns.
+- `is:commander` should filter the local commander-candidate marker.
 - Unsupported syntax should fail with an explicit unsupported-feature result, not a guessed interpretation.
 
 ## SQLite Tables

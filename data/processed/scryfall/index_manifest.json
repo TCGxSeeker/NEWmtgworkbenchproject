@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-07-09T02:25:26.929695+00:00",
+  "built_at": "2026-07-10T11:47:37.827038+00:00",
   "counts": {
     "all_cards_prints": 531732,
     "art_taggings": 462578,
@@ -18,7 +18,7 @@
   "index_path": "data\\processed\\scryfall\\cards.sqlite",
   "no_api_calls": true,
   "object": "mtg_workbench_scryfall_index_manifest",
-  "schema_version": 1,
+  "schema_version": 2,
   "source_entries": [
     {
       "bytes_downloaded": 22735429,

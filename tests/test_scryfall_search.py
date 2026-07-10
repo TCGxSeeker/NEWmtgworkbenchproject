@@ -75,7 +75,6 @@ class ScryfallSearchTests(unittest.TestCase):
 
 
 class ScryfallFutureFilterTests(unittest.TestCase):
-    @unittest.expectedFailure
     def test_legal_filter_contract(self) -> None:
         with _search_index() as index_path:
             payload = search_cards(index_path, "legal:commander", limit=10)
@@ -85,7 +84,6 @@ class ScryfallFutureFilterTests(unittest.TestCase):
         self.assertNotIn("Forbidden Tutor", names)
         self.assertEqual(payload["unsupported_clauses"], [])
 
-    @unittest.expectedFailure
     def test_usd_price_filter_contract(self) -> None:
         with _search_index() as index_path:
             payload = search_cards(index_path, "usd<=1", limit=10)
@@ -95,7 +93,6 @@ class ScryfallFutureFilterTests(unittest.TestCase):
         self.assertNotIn("Expensive Dragon", names)
         self.assertEqual(payload["unsupported_clauses"], [])
 
-    @unittest.expectedFailure
     def test_rarity_filter_contract(self) -> None:
         with _search_index() as index_path:
             payload = search_cards(index_path, "r:mythic", limit=10)
@@ -103,7 +100,6 @@ class ScryfallFutureFilterTests(unittest.TestCase):
         self.assertEqual(_result_names(payload), ["Expensive Dragon"])
         self.assertEqual(payload["unsupported_clauses"], [])
 
-    @unittest.expectedFailure
     def test_set_filter_contract(self) -> None:
         with _search_index() as index_path:
             payload = search_cards(index_path, "set:m21", limit=10)
@@ -111,12 +107,22 @@ class ScryfallFutureFilterTests(unittest.TestCase):
         self.assertEqual(_result_names(payload), ["Divination"])
         self.assertEqual(payload["unsupported_clauses"], [])
 
-    @unittest.expectedFailure
     def test_commander_candidate_filter_contract(self) -> None:
         with _search_index() as index_path:
             payload = search_cards(index_path, "is:commander", limit=10)
 
         self.assertEqual(_result_names(payload), ["Example Commander"])
+        self.assertEqual(payload["unsupported_clauses"], [])
+
+    def test_search_2_filters_intersect_with_existing_clauses(self) -> None:
+        with _search_index() as index_path:
+            payload = search_cards(index_path, "legal:commander usd<=1 r:common set:lea t:instant", limit=10)
+
+        self.assertEqual(_result_names(payload), ["Lightning Bolt"])
+        self.assertEqual(
+            payload["results"][0]["matched_terms"],
+            ["legal:commander", "r:common", "set:lea", "t:instant", "usd<=1"],
+        )
         self.assertEqual(payload["unsupported_clauses"], [])
 
 

@@ -13,6 +13,7 @@ from mtg_workbench.scryfall.indexer import COLOR_BITS
 
 
 _MV_RE = re.compile(r"^(mv|cmc)(?::)?(<=|>=|<|>|=)?(.+)$", re.IGNORECASE)
+_USD_RE = re.compile(r"^usd(?::)?(<=|>=|<|>|=)?(.+)$", re.IGNORECASE)
 _PREFIX_RE = re.compile(r"^([A-Za-z]+):(.*)$")
 _UNKNOWN_COMPARISON_RE = re.compile(r"^[A-Za-z]+(?:<=|>=|<|>|=).+")
 _LIKE_ESCAPE_RE = re.compile(r"([%_\\])")
@@ -101,6 +102,16 @@ def parse_query(query: str) -> tuple[list[SearchClause], list[UnsupportedClause]
                 clauses.append(SearchClause(kind="mana_value", raw=raw, value=value, operator=operator))
             continue
 
+        usd_match = _USD_RE.match(raw)
+        if usd_match:
+            operator = usd_match.group(1) or "="
+            value = usd_match.group(2).strip()
+            if _as_float(value) is None:
+                unsupported.append(UnsupportedClause(raw=raw, reason="invalid_usd_price"))
+            else:
+                clauses.append(SearchClause(kind="usd_price", raw=raw, value=value, operator=operator))
+            continue
+
         prefix_match = _PREFIX_RE.match(raw)
         if prefix_match:
             prefix = prefix_match.group(1).casefold()
@@ -118,6 +129,20 @@ def parse_query(query: str) -> tuple[list[SearchClause], list[UnsupportedClause]
                     unsupported.append(UnsupportedClause(raw=raw, reason="invalid_color_identity"))
                 else:
                     clauses.append(SearchClause(kind="color_identity", raw=raw, value=value))
+            elif prefix == "legal":
+                if value.casefold() == "commander":
+                    clauses.append(SearchClause(kind="legality", raw=raw, value=value.casefold()))
+                else:
+                    unsupported.append(UnsupportedClause(raw=raw, reason="unsupported_syntax"))
+            elif prefix in {"r", "rarity"}:
+                clauses.append(SearchClause(kind="rarity", raw=raw, value=value.casefold()))
+            elif prefix == "set":
+                clauses.append(SearchClause(kind="set_code", raw=raw, value=value.casefold()))
+            elif prefix == "is":
+                if value.casefold() == "commander":
+                    clauses.append(SearchClause(kind="commander_candidate", raw=raw, value=value.casefold()))
+                else:
+                    unsupported.append(UnsupportedClause(raw=raw, reason="unsupported_syntax"))
             else:
                 unsupported.append(UnsupportedClause(raw=raw, reason="unsupported_syntax"))
             continue
@@ -157,6 +182,24 @@ def _resolve_clause(
         if value is None or clause.operator not in {"=", "<", "<=", ">", ">="}:
             return set(), {}
         ids = _simple_filter_ids(conn, f"mana_value {clause.operator} ?", (value,))
+        return ids, _clause_match_terms(ids, clause.raw)
+    if clause.kind == "legality":
+        ids = _legality_filter_ids(conn, clause.value)
+        return ids, _clause_match_terms(ids, clause.raw)
+    if clause.kind == "usd_price":
+        value = _as_float(clause.value)
+        if value is None or clause.operator not in {"=", "<", "<=", ">", ">="}:
+            return set(), {}
+        ids = _usd_price_filter_ids(conn, clause.operator, value)
+        return ids, _clause_match_terms(ids, clause.raw)
+    if clause.kind == "rarity":
+        ids = _simple_filter_ids(conn, "rarity = ? COLLATE NOCASE", (clause.value,))
+        return ids, _clause_match_terms(ids, clause.raw)
+    if clause.kind == "set_code":
+        ids = _simple_filter_ids(conn, "set_code = ? COLLATE NOCASE", (clause.value,))
+        return ids, _clause_match_terms(ids, clause.raw)
+    if clause.kind == "commander_candidate":
+        ids = _simple_filter_ids(conn, "is_commander_candidate = 1", ())
         return ids, _clause_match_terms(ids, clause.raw)
     return set(), {}
 
@@ -199,6 +242,26 @@ def _text_filter_ids(conn: sqlite3.Connection, field: str, value: str) -> set[st
 
 def _simple_filter_ids(conn: sqlite3.Connection, where: str, params: tuple[Any, ...]) -> set[str]:
     return {row[0] for row in conn.execute(f"SELECT oracle_id FROM oracle_cards WHERE {where}", params)}
+
+
+def _legality_filter_ids(conn: sqlite3.Connection, format_name: str) -> set[str]:
+    rows = conn.execute("SELECT oracle_id, legalities FROM oracle_cards")
+    matches = set()
+    for oracle_id, legalities_json in rows:
+        status = _json_object(legalities_json).get(format_name.casefold())
+        if isinstance(status, str) and status.casefold() == "legal":
+            matches.add(oracle_id)
+    return matches
+
+
+def _usd_price_filter_ids(conn: sqlite3.Connection, operator: str, value: float) -> set[str]:
+    rows = conn.execute("SELECT oracle_id, prices FROM oracle_cards")
+    matches = set()
+    for oracle_id, prices_json in rows:
+        price = _as_float(_json_object(prices_json).get("usd"))
+        if price is not None and _compare_number(price, operator, value):
+            matches.add(oracle_id)
+    return matches
 
 
 def _tag_matches(conn: sqlite3.Connection, clause: SearchClause) -> dict[str, list[dict[str, Any]]]:
@@ -326,12 +389,38 @@ def _color_mask_from_text(value: str) -> int | None:
 def _as_float(value: str) -> float | None:
     try:
         return float(value)
-    except ValueError:
+    except (TypeError, ValueError):
         return None
+
+
+def _compare_number(left: float, operator: str, right: float) -> bool:
+    if operator == "=":
+        return left == right
+    if operator == "<":
+        return left < right
+    if operator == "<=":
+        return left <= right
+    if operator == ">":
+        return left > right
+    if operator == ">=":
+        return left >= right
+    return False
 
 
 def _escape_like(value: str) -> str:
     return _LIKE_ESCAPE_RE.sub(r"\\\1", value)
+
+
+def _json_object(value: str | None) -> dict[str, Any]:
+    if not value:
+        return {}
+    try:
+        payload = json.loads(value)
+    except json.JSONDecodeError:
+        return {}
+    if isinstance(payload, dict):
+        return {str(key).casefold(): item for key, item in payload.items()}
+    return {}
 
 
 def _json_list(value: str | None) -> list[str]:

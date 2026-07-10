@@ -120,7 +120,28 @@ python -m mtg_workbench.cli search "o:draw t:creature" --index data/processed/sc
 
 Expected behavior: search uses SQLite only, returns stable JSON, matches Oracle tags by exact slug, label, or alias, expands Oracle tags through `oracle_taggings.oracle_id`, applies card filters after tag expansion, and reports unsupported syntax instead of guessing.
 
-Pending Search-2 filter tests are marked with `@unittest.expectedFailure` until the filters are implemented. When implementing those filters, remove the decorators and require the same full suite to pass normally.
+Search-2 filter tests are required passing tests. The suite should no longer report expected failures for `legal:commander`, `usd<=N`, `r:<rarity>`, `set:<code>`, or `is:commander`.
+
+Search-2 verification:
+
+```powershell
+$env:PYTHONPATH='src'
+python -m unittest discover -s tests
+python -m mtg_workbench.cli search "legal:commander r:common" --index data/processed/scryfall/cards.sqlite --limit 5
+python -m mtg_workbench.cli search "usd<=1 set:m21" --index data/processed/scryfall/cards.sqlite --limit 5
+python -m mtg_workbench.cli search "is:commander" --index data/processed/scryfall/cards.sqlite --limit 5
+```
+
+Expected behavior: Search-2 filters use local SQLite only, multiple clauses intersect, unsupported syntax remains explicit, and the full unit suite has no expected failures once decorators are removed.
+
+Latest Search-2 run on 2026-07-10:
+
+- `python -m unittest discover -s tests`: passed, 25 tests, 0 expected failures
+- `python -m mtg_workbench.cli search "legal:commander r:common" --index data/processed/scryfall/cards.sqlite --limit 5`: passed
+- `python -m mtg_workbench.cli search "usd<=1 set:m21" --index data/processed/scryfall/cards.sqlite --limit 5`: passed
+- `python -m mtg_workbench.cli search "is:commander" --index data/processed/scryfall/cards.sqlite --limit 5`: passed
+- `python -m mtg_workbench.cli search "pow>=3 legal:commander" --index data/processed/scryfall/cards.sqlite --limit 3`: passed, with `pow>=3` reported as unsupported syntax
+- Rebuilt `data/processed/scryfall/cards.sqlite` from local raw snapshots only; `index_manifest.json` now reports schema version 2 and the rebuilt SQLite file contains indexes for rarity, set code, and commander-candidate filters
 
 ## Deckbuilder Product Planning Checks
 

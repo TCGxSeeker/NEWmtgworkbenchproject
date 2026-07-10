@@ -67,10 +67,13 @@
 - Added tests for local syntax search behavior.
   - What this means: Search behavior is covered by tiny local SQLite fixtures. Tests verify name search, Oracle text search, type search, tag-first lookup, filtering, stable JSON, and unsupported syntax reporting.
 
-## Pending Filter Contracts
+## Search-2 Filters
 
-- Added expected-failure tests for future Search-2 filters.
-  - What this means: The next filter expansion is already specified by tests for `legal:commander`, `usd<=N`, `r:<rarity>`, `set:<code>`, and `is:commander`. These tests are intentionally pending until the filters are implemented.
+- Implemented the Search-2 filters for `legal:commander`, `usd<=N`, `r:<rarity>`, `set:<code>`, and `is:commander`.
+  - What this means: Local search can now narrow results by Commander legality, local USD snapshot price, rarity, set code, and commander-candidate status. These filters still use local SQLite only and make no live freshness claims.
+
+- Removed expected-failure status from the Search-2 tests.
+  - What this means: Search-2 behavior is now required to pass in the normal unit suite instead of being documented as future work.
 
 ## Search Scope Reframe
 
@@ -83,10 +86,15 @@
 ## Verification
 
 - Ran the unit test suite repeatedly as features were added.
-  - What this means: The current suite passes with expected failures for future filters. The latest suite state is 23 tests with 5 expected failures.
+  - What this means: The current suite passes normally. The latest suite state is 25 tests with 0 expected failures.
 
 - Ran real local smoke checks against the generated Scryfall SQLite index.
   - What this means: The local search command works against the full local snapshot index, not only tiny fixtures. Generated large files remain ignored by Git.
+
+## Free Frontend Tooling Scaffold
+
+- Added an isolated Vite, React, and TypeScript scaffold under `apps/deckbuilder-ui/`.
+  - What this means: Future UI experiments have free local tooling available, but the real deckbuilder UI has not been implemented yet.
 
 ## Design Gotchas Captured
 
@@ -95,8 +103,8 @@
 
 ## Current Practical Status
 
-- The project has a working local parser, normalizer, Scryfall indexer, and narrow local syntax search command.
+- The project has a working local parser, normalizer, Scryfall indexer, Search-2 local syntax filters, and frontend tooling scaffold.
   - What this means: The foundation for offline card lookup and decklist ingestion exists. The project is not yet a full deckbuilder, audit engine, recommendation engine, or finished UI.
 
-- The clean next implementation target is the pending Search-2 filter set.
-  - What this means: Implementing those filters will make local search more useful before moving into structural deck audit. After that, the project can start analyzing actual deck shape rather than just reading and searching data.
+- The clean next implementation target is Deck Skeleton Report v0.
+  - What this means: The next useful move is making the tool summarize actual deck shape instead of expanding search syntax further.

@@ -149,3 +149,9 @@
   - Alternatives considered: no frontend tooling yet, paid UI kits, desktop packaging now, or product UI implementation now.
   - Risk: Tooling can create the impression that UI implementation has started; docs must keep this as scaffold-only.
   - Status: Accepted.
+
+- Decision: Complete Search-2 with only the approved local filters.
+  - Reason: `legal:commander`, `usd<=N`, `r:<rarity>`, `set:<code>`, and `is:commander` are useful for future in-app lookup while keeping search scoped as infrastructure.
+  - Alternatives considered: broader Scryfall syntax parity, live Scryfall queries, or delaying all search work until deck reports.
+  - Risk: Price and legality filters reflect only the local snapshot and can become stale.
+  - Status: Accepted and implemented.

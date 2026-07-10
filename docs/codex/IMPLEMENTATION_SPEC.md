@@ -253,9 +253,11 @@ python -m mtg_workbench.cli search "otag:burn-creature ci:r mv<=2" --index data/
 
 ### Phase Search-2: Scoped Local Search Filters
 
-Complete only the already specified filters: `legal:commander`, `usd<=N`, `r:<rarity>`, `set:<code>`, and `is:commander`. Definition of done: remove the expected-failure decorators from the Search-2 tests and make the full suite pass.
+Status: completed for the already specified filters: `legal:commander`, `usd<=N`, `r:<rarity>`, `set:<code>`, and `is:commander`. Definition of done: Search-2 tests are required passing tests, the full suite passes, and CLI smoke checks run against the local SQLite index.
 
 Do not expand into broad Scryfall syntax coverage unless explicitly requested. Unsupported syntax should continue to return clear unsupported-syntax messages.
+
+Implemented behavior: Search-2 reads legality and price from the local indexed JSON fields, rarity/set/commander-candidate from indexed columns, and continues intersecting multiple clauses in one query.
 
 ### Phase Product-1: Main Deckbuilder Workspace Planning
 
