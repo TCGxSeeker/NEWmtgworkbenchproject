@@ -145,12 +145,13 @@ Runs the Python parser, normalizer, Scryfall indexing/search, and fixture tests.
 ```powershell
 $env:Path = 'C:\Program Files\nodejs;' + $env:Path
 Push-Location apps/deckbuilder-ui
+& 'C:\Program Files\nodejs\npm.cmd' ci
 & 'C:\Program Files\nodejs\npm.cmd' run build
 & 'C:\Program Files\nodejs\npm.cmd' run lint
 Pop-Location
 ```
 
-Builds and lints the free frontend scaffold. Use `npm.cmd` if PowerShell blocks `npm.ps1`.
+Restores, builds, and lints the free frontend scaffold. Use `npm.cmd` if PowerShell blocks `npm.ps1`. Dependency restoration may require network access unless the npm cache is warm.
 
 ## Coding Style & Naming Conventions
 
@@ -162,4 +163,4 @@ Add tests with new behavior and bug fixes. Use names such as `feature.test.ts`, 
 
 ## Commit & Pull Request Guidelines
 
-There is no commit history yet. Use concise, imperative commits such as `Add deck parser` or `Create card import tests`. Pull requests should include what changed, why, verification, related issues, UI screenshots, and remaining risks or follow-ups.
+This repo now uses small, checkpoint-style commits with concise imperative messages, such as `Complete Search-2 filters` or `Add deckbuilder foundation docs`. Before committing, run relevant checks, review `git status --short`, and keep generated artifacts ignored. Pull requests should include what changed, why, verification, related issues, UI screenshots when UI changes exist, and remaining risks or follow-ups.

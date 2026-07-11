@@ -8,6 +8,10 @@ Define how local Scryfall bulk snapshots become searchable offline indexes. This
 
 Scryfall syntax search should be modeled as local query planning over indexes, not live API calls.
 
+Raw Scryfall payloads are source records at the ingestion boundary. MTG Workbench should derive smaller internal records for deck analysis and UI work instead of passing full Scryfall card objects everywhere.
+
+Use Oracle-level records for canonical game-object identity and print-level records for physical or digital printing details.
+
 For Oracle tags, process tags first:
 
 1. Parse `otag:` or related tag syntax.
@@ -27,8 +31,9 @@ This mirrors why Oracle tags are stored tag-first: the tag is the search entry p
 - `oracle_text_fts`: full-text index over Oracle text.
 - `type_line_fts`: full-text index over type lines.
 - `legalities`: local legality snapshot fields stored on `oracle_cards`.
-- `prices`: local price snapshot fields stored on `oracle_cards`.
+- `prices`: local representative price snapshot fields stored on `oracle_cards`.
 - `rarity`, `set_code`, and `is_commander_candidate`: indexed Oracle-card columns for Search-2 filters.
+- Print-level `prices`, `rarity`, `set_code`, collector number, language, finish, and artwork data: stored on `prints` or related print tables for future print-aware search.
 - `oracle_tags`: tag slug, label, aliases, parent IDs, child IDs, description.
 - `oracle_taggings`: tag slug/id to `oracle_id` plus weight.
 - `art_tags`: art tag slug, label, aliases, and taggings where useful.
@@ -66,8 +71,8 @@ Large generated SQLite files remain ignored by Git. `data/processed/scryfall/ind
 - `ci:` / `id:` should filter card color identity.
 - `mv:` / `cmc:` should filter numeric mana value.
 - `legal:commander` should filter the local Commander legality snapshot only.
-- `usd<=N` should filter the local USD price snapshot only.
-- `r:<rarity>` and `set:<code>` should filter indexed local card columns.
+- `usd<=N` should filter the local representative USD price snapshot only until print-aware search is implemented.
+- `r:<rarity>` and `set:<code>` currently filter indexed local Oracle-card columns; future print-aware search should query `prints` and map matching Scryfall IDs back to Oracle IDs.
 - `is:commander` should filter the local commander-candidate marker.
 - Unsupported syntax should fail with an explicit unsupported-feature result, not a guessed interpretation.
 
@@ -97,3 +102,4 @@ Large generated SQLite files remain ignored by Git. `data/processed/scryfall/ind
 - Do not apply color, mana value, or legality filters before expanding tag searches unless the query planner can prove the result is equivalent.
 - Do not require a live API call to search.
 - Do not commit generated SQLite indexes.
+- Do not treat print-sensitive filters such as set, rarity, collector number, finish, language, or price as final Oracle-level facts.

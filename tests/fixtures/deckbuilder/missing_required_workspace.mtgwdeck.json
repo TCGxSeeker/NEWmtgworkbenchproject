@@ -1,0 +1,12 @@
+{
+  "commanders": [],
+  "format": "commander",
+  "mainboard": [],
+  "maybeboard": [],
+  "name": "Missing Required Fixture",
+  "saved_state": {
+    "is_dirty": false
+  },
+  "schema_version": 1,
+  "tags": []
+}

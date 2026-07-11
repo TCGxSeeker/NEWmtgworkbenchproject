@@ -155,3 +155,33 @@
   - Alternatives considered: broader Scryfall syntax parity, live Scryfall queries, or delaying all search work until deck reports.
   - Risk: Price and legality filters reflect only the local snapshot and can become stale.
   - Status: Accepted and implemented.
+
+- Decision: Prioritize Deckbuilder Foundation v0 as the next product planning milestone.
+  - Reason: The main deckbuilder workspace is the product center, and supporting search, stats, import/export, and report features should be planned around that screen.
+  - Alternatives considered: continuing broad search syntax expansion, starting UI implementation immediately, or prioritizing report-only planning.
+  - Risk: Foundation planning can still drift into implementation if boundaries are not kept explicit.
+  - Status: Accepted for planning.
+
+- Decision: Use `.mtgwdeck.json` as the native saved deck workspace format.
+  - Reason: The deckbuilder needs to preserve editable workspace state, unknown cards, zones, categories, tags, selected printing placeholders, notes, metadata, and future saved-state fields beyond what plain decklist exports can represent.
+  - Alternatives considered: plain text as native state, CSV as native state, or external deckbuilder export formats as native state.
+  - Risk: The schema will need explicit versioning and migration discipline as the deckbuilder grows.
+  - Status: Accepted for Deck Workspace Model v0.
+
+- Decision: Implement Deck Workspace Mutations v0 as in-place helpers that return the workspace.
+  - Reason: `DeckWorkspace` is a mutable dataclass with mutable section lists, and in-place helpers keep future CLI/UI callers straightforward while still supporting chained calls.
+  - Alternatives considered: immutable copy-return helpers or direct caller-managed list editing.
+  - Risk: Callers must understand that the input object changes immediately.
+  - Status: Accepted for Deck Workspace Mutations v0.
+
+- Decision: Treat plain text decklists as import/export formats, not native workspace state.
+  - Reason: Plain text is useful for moving decklists in and out, but `.mtgwdeck.json` preserves zones, unresolved state, categories, tags, metadata, selected-printing placeholders, and saved-state data.
+  - Alternatives considered: storing plain text as the primary deck state or waiting for external deckbuilder import formats first.
+  - Risk: Plain text round trips will not perfectly reconstruct comments or every original header choice.
+  - Status: Accepted for Deck Workspace Import/Export v0.
+
+- Decision: Mark workspaces clean after successful native save and after file load.
+  - Reason: Dirty state should represent unsaved in-memory changes, not a persisted file that was just loaded or successfully written.
+  - Alternatives considered: preserving dirty state from disk or waiting for a full workspace session layer.
+  - Risk: Low-level JSON dumps can still serialize dirty state for tests or diagnostics, so callers should use `save_workspace` for real saves.
+  - Status: Accepted for Deck Workspace Import/Export v0.

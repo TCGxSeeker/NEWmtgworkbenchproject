@@ -1,0 +1,105 @@
+{
+  "commanders": [
+    {
+      "categories": [
+        "Commander"
+      ],
+      "date_added": "2026-07-10T00:00:00Z",
+      "display_name": "Example Commander",
+      "entry_id": "entry-commander",
+      "foil": false,
+      "input_name": "Example Commander",
+      "is_unresolved": false,
+      "notes": "Primary commander.",
+      "oracle_id": "oracle-example-commander",
+      "pinned": true,
+      "quantity": 1,
+      "selected_printing_id": "scryfall-example-commander",
+      "tags": [
+        "core"
+      ],
+      "zone": "commander"
+    }
+  ],
+  "created_at": "2026-07-10T00:00:00Z",
+  "deck_id": "deck-fixture-001",
+  "format": "commander",
+  "mainboard": [
+    {
+      "categories": [
+        "Ramp"
+      ],
+      "date_added": "2026-07-10T00:00:00Z",
+      "display_name": "Example Ramp",
+      "entry_id": "entry-main-001",
+      "foil": false,
+      "input_name": "example ramp",
+      "is_unresolved": false,
+      "notes": "Keeps the fixture small.",
+      "oracle_id": "oracle-example-ramp",
+      "pinned": false,
+      "quantity": 2,
+      "selected_printing_id": null,
+      "tags": [
+        "test-tag"
+      ],
+      "zone": "mainboard"
+    },
+    {
+      "categories": [
+        "Unknown"
+      ],
+      "date_added": null,
+      "display_name": null,
+      "entry_id": "entry-main-unknown",
+      "foil": false,
+      "input_name": "Mystery Card",
+      "is_unresolved": true,
+      "notes": "Unknown card should be preserved.",
+      "oracle_id": null,
+      "pinned": false,
+      "quantity": 1,
+      "selected_printing_id": null,
+      "tags": [
+        "needs-review"
+      ],
+      "zone": "mainboard"
+    }
+  ],
+  "maybeboard": [
+    {
+      "categories": [
+        "Maybe"
+      ],
+      "date_added": null,
+      "display_name": "Maybe Card",
+      "entry_id": "entry-maybe-001",
+      "foil": true,
+      "input_name": "Maybe Card",
+      "is_unresolved": false,
+      "notes": "Not counted in main deck yet.",
+      "oracle_id": "oracle-maybe-card",
+      "pinned": false,
+      "quantity": 1,
+      "selected_printing_id": "scryfall-maybe-card",
+      "tags": [],
+      "zone": "maybeboard"
+    }
+  ],
+  "metadata": {
+    "import_origin": "fixture",
+    "source_path": "tests/fixtures/deckbuilder/sample_workspace.mtgwdeck.json"
+  },
+  "name": "Fixture Commander Deck",
+  "notes": "Tiny native workspace fixture.",
+  "saved_state": {
+    "is_dirty": false,
+    "last_saved_at": "2026-07-10T00:00:00Z"
+  },
+  "schema_version": 1,
+  "tags": [
+    "fixture",
+    "commander"
+  ],
+  "updated_at": "2026-07-10T00:00:00Z"
+}

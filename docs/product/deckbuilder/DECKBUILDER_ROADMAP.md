@@ -37,4 +37,4 @@ Screenshots from Archidekt/Deckcheck-style tools are product inspiration only. E
 
 ## Immediate Product Priority
 
-After Search-2 filters, move toward Deck Skeleton Report v0 and the main deckbuilder data contracts. Search remains a substrate for adding and finding cards.
+After Search-2 filters, complete Deckbuilder Foundation v0 planning and Deck Skeleton Report v0 planning before implementation. Search remains a substrate for adding and finding cards; the deckbuilder workspace remains the product center.

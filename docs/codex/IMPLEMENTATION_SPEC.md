@@ -6,7 +6,7 @@ Build the MTG Workbench as an offline-first, deterministic Commander deckbuildin
 
 ## Scope
 
-This spec covers the intended MVP and first implementation phases. No feature code should be written until this document is reviewed and the first implementation step is approved.
+This spec covers the intended MVP, completed foundation phases, and next planning phases. New feature work should update this document before implementation when it changes architecture, data contracts, or multi-file behavior.
 
 The MVP should prove:
 
@@ -214,7 +214,7 @@ A recommendation should evaluate whether a candidate:
 
 ### Phase 0: Planning Baseline
 
-Finish and review planning docs. Definition of done: docs agree on offline-first behavior, human validation zones, no feature code exists, and open questions are visible.
+Status: completed. Definition of done: docs agree on offline-first behavior, human validation zones, current feature/code status, and visible open questions.
 
 ### Phase 1: Local Data Contracts And Fixtures
 
@@ -264,6 +264,36 @@ Implemented behavior: Search-2 reads legality and price from the local indexed J
 Use `docs/product/deckbuilder/` as the product requirements source for the first UI surface. The deckbuilder is the primary user screen; search, stats, reports, and probability tools should support this workspace rather than replace it.
 
 Definition of done: requirements exist for deck model contracts, main screen layout, view modes, group/sort/filter behavior, search workspace, card actions, stats/probability tools, import/export, UI non-goals, and open questions.
+
+### Phase Product-2: Deckbuilder Foundation v0 Planning
+
+Status: planning scaffold prepared; implementation not started.
+
+Create the first implementation-ready planning layer for the main deckbuilder workspace without building UI code. Definition of done: `DECKBUILDER_FOUNDATION_V0.md`, `MAIN_SCREEN_V0.md`, `DECK_WORKSPACE_MODEL_V0.md`, `DECKBUILDER_INTERACTIONS_V0.md`, and `DECKBUILDER_ACCEPTANCE_CHECKLIST.md` define the centered workspace, editable deck model, planned interactions, implementation boundaries, and planning-readiness checks.
+
+### Phase Product-3: Deck Workspace Model v0
+
+Status: implemented as the first Deckbuilder Foundation code slice; no UI code, reports, recommendations, scoring logic, or frontend dependencies were added.
+
+Implement the app-native editable deck workspace model without UI code. Definition of done: `src/mtg_workbench/deckbuilder/` defines workspace and entry dataclasses, native `.mtgwdeck.json` serialization, lightweight shape validation, clear malformed-file errors, and tests proving empty workspace creation, zone preservation, unknown-card preservation, categories/tags/notes, stable JSON round trips, and missing-field failures.
+
+Native workspace files preserve deckbuilding state that import/export formats cannot represent. Plain text, CSV, Archidekt-style, and future external formats remain boundaries for import/export rather than the saved workspace source of truth.
+
+### Phase Product-4: Deck Workspace Mutations v0
+
+Status: implemented as an in-memory Deckbuilder Foundation slice; no UI code, reports, recommendations, scoring logic, or frontend dependencies were added.
+
+Implement focused in-memory mutation helpers for `DeckWorkspace` objects without UI code, reports, recommendations, scoring logic, frontend dependencies, or full Commander legality validation. Definition of done: `src/mtg_workbench/deckbuilder/mutations.py` can add, remove, increase, decrease, move zones, set commander, move categories, update tags, and update notes while preserving unresolved entries, applying the v0 duplicate-add policy, generating missing entry ids, marking the workspace dirty, updating `updated_at`, and keeping native JSON round trips valid.
+
+The v0 mutation style should mutate the passed `DeckWorkspace` in place and return it for simple caller chaining. Save/load should remain clean unless a mutation has been applied after loading.
+
+### Phase Product-5: Deck Workspace Import/Export v0
+
+Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.
+
+Implement local plain text conversion for native deck workspaces without UI code, frontend dependencies, reports, recommendations, online dependencies, live APIs, telemetry, or full legality validation. Definition of done: `src/mtg_workbench/deckbuilder/import_export.py` can import plain text decklists into `DeckWorkspace`, export `DeckWorkspace` objects to clean plain text, preserve quantities, zones, unresolved cards, conservative categories, and native save/load behavior, and tests prove import, export, save/load/export, unresolved fallback, and no-network behavior.
+
+Plain text remains an import/export boundary format. `.mtgwdeck.json` remains the saved workspace source of truth.
 
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
@@ -368,7 +398,7 @@ Require explicit approval before implementing or changing:
 - Verification approach is stated.
 - Human validation zones are stated.
 - Risks and open questions are stated.
-- No feature code is created.
+- Current feature/code status is accurate.
 
 ## Open Questions
 

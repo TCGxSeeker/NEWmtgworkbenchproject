@@ -12,6 +12,7 @@ Do not treat seed docs as card data. Do not extract card names or decklists from
 | --- | --- | --- | --- |
 | Card data | JSON | `data/raw/cards/sample_card_data_seed.json` | `data/cards/` |
 | Decklists | TXT and CSV | `data/raw/decklists/` | `data/decks/` |
+| Native deck workspaces | JSON | `*.mtgwdeck.json` | `data/decks/` or user-selected workspace folders |
 | Owned/on-hand cards | CSV | `data/raw/owned/sample_owned_cards.csv` | `data/owned/` |
 | Commander profiles | YAML, with Markdown notes allowed | `data/raw/commander_profiles/` | `data/commander_profiles/` |
 | Role definitions | YAML | `data/raw/roles/sample_role_definitions.yaml` | `data/sources/` |
@@ -44,6 +45,14 @@ Processed Scryfall indexes should be generated from local snapshots into `data/p
 Must preserve quantity, section, card name, category if present, and notes if present. Commander and maybeboard sections must remain distinct from the main deck.
 
 Phase 2 plain text decklists support section headers such as `Commander`, `Deck`, and `Maybeboard`, followed by lines in `quantity card name` format. Phase 2 CSV decklists use `section,quantity,card_name,category,notes`. Parser output must be stable JSON with `commanders`, `mainboard`, `maybeboard`, `unknown_cards`, and `warnings`.
+
+Decklists are import/export formats, not the app-native saved workspace format.
+
+### Native Deck Workspaces
+
+Native deck workspaces use `.mtgwdeck.json`. They must preserve deck metadata, commanders, mainboard, maybeboard, quantities, input names, display names, stable card identifiers when known, selected printing placeholders, categories, tags, notes, unresolved-card status, source metadata, and saved-state placeholders.
+
+The native workspace format is versioned by `schema_version`. Unknown or unresolved entries must round-trip without guessing card identity. Future importers may create workspaces from plain text, CSV, Archidekt-style, or other decklist formats, but those external formats should not replace the native saved workspace source of truth.
 
 ### Owned/On-Hand Cards
 

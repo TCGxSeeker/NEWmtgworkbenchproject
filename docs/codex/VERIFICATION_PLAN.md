@@ -174,13 +174,15 @@ After free frontend tooling setup:
 & 'C:\Program Files\nodejs\npm.cmd' --version
 Test-Path docs/codex/TOOLING_PLAN.md
 Test-Path apps/deckbuilder-ui/package.json
+$env:Path = 'C:\Program Files\nodejs;' + $env:Path
 Push-Location apps/deckbuilder-ui
+& 'C:\Program Files\nodejs\npm.cmd' ci
 & 'C:\Program Files\nodejs\npm.cmd' run build
 & 'C:\Program Files\nodejs\npm.cmd' run lint
 Pop-Location
 ```
 
-Expected behavior: the frontend scaffold builds, dependencies are project-local, generated `node_modules` is ignored, and no product features are implemented.
+Expected behavior: the frontend scaffold restores from the lockfile, builds, dependencies are project-local, generated `node_modules` is ignored, and no product features are implemented. Dependency restoration may require network access unless the npm cache is warm.
 
 Latest run on 2026-07-10:
 
@@ -188,8 +190,100 @@ Latest run on 2026-07-10:
 - `npm --version`: `11.16.0`
 - `npm run build`: passed in `apps/deckbuilder-ui`
 - `npm run lint`: passed in `apps/deckbuilder-ui`
-- `python -m unittest discover -s tests`: passed with 24 tests and 5 expected Search-2 failures
+- `python -m unittest discover -s tests`: current baseline is 25 passing tests and 0 expected failures
 - `git check-ignore -v apps/deckbuilder-ui/node_modules apps/deckbuilder-ui/dist`: confirmed ignored by scaffold `.gitignore`
+
+## Deckbuilder Foundation V0 Planning Checks
+
+After Deckbuilder Foundation v0 docs change:
+
+```powershell
+Test-Path README.md
+Test-Path .gitattributes
+Test-Path docs/product/deckbuilder/DECKBUILDER_FOUNDATION_V0.md
+Test-Path docs/product/deckbuilder/MAIN_SCREEN_V0.md
+Test-Path docs/product/deckbuilder/DECK_WORKSPACE_MODEL_V0.md
+Test-Path docs/product/deckbuilder/DECKBUILDER_INTERACTIONS_V0.md
+Test-Path docs/product/deckbuilder/DECKBUILDER_ACCEPTANCE_CHECKLIST.md
+Test-Path docs/product/deckbuilder/OPEN_QUESTIONS.md
+git diff --check
+```
+
+Expected behavior: stale phase language is removed, the main deckbuilder workspace remains centered, implementation boundaries are explicit, and open questions are listed before implementation starts.
+
+Latest Deckbuilder Foundation v0 planning run on 2026-07-10:
+
+- Required file presence checks: passed
+- Stale-language search for old feature-code, commit-history, and Search-2 test-count wording: no matches
+- `git diff --check`: passed; Git reported expected line-ending normalization warnings after adding `.gitattributes`
+- `python -m unittest discover -s tests`: passed, 25 tests, 0 failures
+- Frontend build/lint checks: not run because this pass did not change frontend code or dependencies
+
+## Deck Workspace Model V0 Checks
+
+After changing native workspace model code or format docs:
+
+```powershell
+$env:PYTHONPATH='src'
+python -m unittest discover -s tests
+Test-Path docs/rules/DECK_WORKSPACE_FORMAT.md
+Test-Path tests/fixtures/deckbuilder/sample_workspace.mtgwdeck.json
+```
+
+Expected behavior: native `.mtgwdeck.json` workspaces can be created, saved, loaded, and round-tripped without losing commander/mainboard/maybeboard entries, quantities, unknown-card state, categories, tags, notes, or optional metadata. Malformed workspace files should fail with clear validation errors. No network access or frontend dependency installation is required.
+
+Latest Deck Workspace Model v0 run on 2026-07-10:
+
+- `python -m unittest discover -s tests`: passed, 35 tests, 0 failures
+- Deck workspace file presence checks: passed
+- `python -m json.tool` on tiny deckbuilder fixtures: passed
+- Stale-boundary search for old implementation/save-format wording: no matches
+- `git diff --check`: passed; Git reported expected line-ending normalization warnings from `.gitattributes`
+- Frontend build/lint checks: not run because this pass did not change frontend code or dependencies
+
+## Deck Workspace Mutations V0 Checks
+
+After changing workspace mutation helpers:
+
+```powershell
+$env:PYTHONPATH='src'
+python -m unittest discover -s tests
+python -m unittest tests.test_deckbuilder_mutations
+```
+
+Expected behavior: mutation helpers edit `DeckWorkspace` in memory, return the updated workspace, preserve native `.mtgwdeck.json` round trips, mark `saved_state.is_dirty` true, update `updated_at`, preserve unresolved entries, merge only clearly identical duplicate adds, create separate entries for ambiguous or materially different adds, set commander moves to quantity `1`, and avoid UI code, frontend dependencies, network access, reports, recommendations, or full legality validation.
+
+Latest Deck Workspace Mutations v0 run on 2026-07-10:
+
+- `python -m unittest discover -s tests`: passed, 60 tests, 0 failures
+- `python -m py_compile src/mtg_workbench/deckbuilder/mutations.py tests/test_deckbuilder_mutations.py`: passed
+- Mutation file presence checks: passed
+- `python -m json.tool` on tiny deckbuilder fixtures: passed
+- Stale-boundary search for old mutation/save-format wording: no matches
+- `git diff --check`: passed; Git reported expected line-ending normalization warnings from `.gitattributes`
+- Frontend build/lint checks: not run because this pass did not change frontend code or dependencies
+
+## Deck Workspace Import/Export V0 Checks
+
+After changing workspace import/export helpers:
+
+```powershell
+$env:PYTHONPATH='src'
+python -m unittest discover -s tests
+python -m unittest tests.test_deckbuilder_import_export
+```
+
+Expected behavior: plain text decklists import into native `DeckWorkspace` objects, `1x Card Name`, `1 Card Name`, and bare card-name lines are supported, commander/mainboard/maybeboard sections are preserved, conservative category headers are applied, unresolved cards are preserved, workspace export uses `1x Card Name` lines with display-name fallback to input name, successful saves mark workspaces clean, and no network access, UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation are involved.
+
+Latest Deck Workspace Import/Export v0 run on 2026-07-10:
+
+- `python -m unittest discover -s tests`: passed, 71 tests, 0 failures
+- `python -m py_compile src/mtg_workbench/deckbuilder/import_export.py tests/test_deckbuilder_import_export.py src/mtg_workbench/deckbuilder/serialization.py`: passed
+- Import/export file presence checks: passed
+- `python -m json.tool` on tiny deckbuilder JSON fixtures: passed
+- Stale-boundary search for old import/save-format wording: no matches
+- `git diff --check`: passed; Git reported expected line-ending normalization warnings from `.gitattributes`
+- Frontend build/lint checks: not run because this pass did not change frontend code or dependencies
 
 ## Manual Human Review Checklist
 

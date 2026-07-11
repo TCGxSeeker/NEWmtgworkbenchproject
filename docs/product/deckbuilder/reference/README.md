@@ -23,3 +23,7 @@ Extract capabilities, control types, and workflow patterns:
 - Import/export affordances.
 
 Do not copy exact styling, layout, branding, icons, or page density.
+
+## Additional References
+
+- `CARD_IDENTITY_AND_PRINTING_MODEL.md`: notes from EDHREC at Home: Card Data and Talking to Scryfall about Oracle IDs, Scryfall IDs, representative printings, raw Scryfall boundary models, color identity, structured card types, and print-aware search concerns.

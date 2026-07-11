@@ -110,6 +110,26 @@ Additional noted future syntax, not yet implemented:
 
 Search-2 filters use local SQLite data only and must not make freshness claims about prices or legality beyond the snapshot manifest.
 
+## Oracle-Level And Print-Sensitive Filters
+
+Search currently returns Oracle-level card results. Some filters are naturally Oracle-level:
+
+- `o:` / `oracle:`
+- `t:` / `type:`
+- `otag:`
+- `ci:` / `id:`
+- `mv:` / `cmc:`
+- `legal:commander`
+- `is:commander`
+
+Other filters are print-sensitive:
+
+- `set:<code>`
+- `r:<rarity>`
+- `usd<=N`
+
+Current Search-2 behavior applies those print-sensitive filters from indexed representative Oracle-card fields. That is useful for early local browsing, but it is not the final print-aware model. Future Scryfall-like local search should query `prints`, map matching Scryfall IDs back to Oracle IDs, and preserve the selected printing when set, rarity, collector number, finish, language, or price matters.
+
 Search expansion should now pause and move toward deck understanding work unless the user explicitly asks for more search syntax. The next product priorities are:
 
 1. Deck Skeleton Report v0.

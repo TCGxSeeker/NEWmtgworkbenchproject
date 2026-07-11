@@ -1,0 +1,7 @@
+Main Deck
+Ramp
+1x Arcane Helper
+Draw
+1 Alias Helper
+Lands
+35 Basic Land Name
