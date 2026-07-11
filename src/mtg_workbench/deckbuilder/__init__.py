@@ -16,6 +16,12 @@ from mtg_workbench.deckbuilder.role_rules import (
     normalize_match_text,
     normalize_role_key,
 )
+from mtg_workbench.deckbuilder.role_evidence import (
+    CardRoleFacts,
+    RoleEvidenceMatch,
+    match_all_role_evidence,
+    match_role_evidence,
+)
 from mtg_workbench.deckbuilder.import_export import export_plain_text_decklist, import_plain_text_decklist
 from mtg_workbench.deckbuilder.mutations import (
     WorkspaceMutationError,
@@ -41,6 +47,10 @@ __all__ = [
     "CategoryNormalization",
     "CategoryTaxonomy",
     "CategoryTaxonomyError",
+    "match_role_evidence",
+    "match_all_role_evidence",
+    "RoleEvidenceMatch",
+    "CardRoleFacts",
     "normalize_role_key",
     "normalize_match_text",
     "load_role_rules",
