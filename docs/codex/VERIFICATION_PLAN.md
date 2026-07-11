@@ -425,6 +425,18 @@ Latest Role Rules v0 run on 2026-07-11:
 - `python -m unittest discover -s tests`: passed, 98 tests, 0 failures
 - `git diff --check`: passed
 
+## Next Session Handoff Checks
+
+After closeout/context-only updates:
+
+```powershell
+Test-Path docs/codex/NEXT_SESSION_HANDOFF.md
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: next-session context summarizes completed milestones, latest test status, core constraints, Role Rules Loader v0 defaults, and work that should not start yet. Closeout updates must not add implementation code, UI, dependencies, live APIs, telemetry, hosted services, AI/LLM calls, recommendations, deck analysis, candidate search, or role enforcement.
+
 ## Manual Human Review Checklist
 
 Use manual review for:

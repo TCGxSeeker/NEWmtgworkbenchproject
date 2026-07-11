@@ -229,3 +229,9 @@
   - Alternatives considered: hardcoded role rules, JSON-only rules, database-first storage, or immediate card-to-role dataset ingestion.
   - Risk: The first schema may need refinement once a loader and real card fixtures exercise edge cases.
   - Status: Accepted for Role Rules v0.
+
+- Decision: Start Role Rules Loader v0 with the tiny YAML subset and `highest_match` scoring only.
+  - Reason: The next slice should verify deterministic loading and simple evidence matching before expanding scoring or classification behavior.
+  - Alternatives considered: full YAML support, additive capped scoring, immediate card classification, or starting deck analysis directly.
+  - Risk: Early loader behavior will be intentionally narrow and may need expansion after fixture-backed tests.
+  - Status: Accepted as next-slice default.

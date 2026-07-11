@@ -347,6 +347,12 @@ Create the first local/offline role-rule format for future deterministic card-fu
 
 Role Rules v0 must not add analyzer code, recommendations, candidate search, add/cut scoring, full deck analysis, AI/LLM calls, live APIs, telemetry, hosted services, frontend dependencies, UI code, large card-to-role datasets, full Scryfall auto-categorization, or primary-role enforcement.
 
+### Phase Algorithm-3: Role Rules Loader v0
+
+Status: next recommended slice; not started.
+
+Build the smallest local loader for the Role Rules v0 fixture. Default assumptions: support only the tiny YAML subset first, use casefolded substring phrase matching with whitespace normalization, and combine scores with `highest_match` only. Do not implement additive capped scoring, card classification, deck analysis, recommendations, UI, candidate search, role enforcement, online dependencies, live APIs, telemetry, hosted services, frontend dependencies, or AI/LLM calls.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

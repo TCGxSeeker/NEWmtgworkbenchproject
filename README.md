@@ -4,7 +4,7 @@ Offline-first Commander deckbuilding workbench for importing decklists, normaliz
 
 ## Current Status
 
-The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, and Deckbuilder Foundation helpers for native `.mtgwdeck.json` files plus plain text import/export.
+The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, Deckbuilder Foundation helpers for native `.mtgwdeck.json` files plus plain text import/export, deterministic algorithm planning, and Role Rules v0 docs/fixtures.
 
 No finished deckbuilder UI, recommendation engine, scoring rubric, or structural audit engine exists yet.
 
@@ -41,6 +41,8 @@ Pop-Location
 
 - Project operating docs: `docs/codex/`
 - Rules and data contracts: `docs/rules/`
+- Deterministic algorithm planning: `docs/product/algorithm/`
+- Next-session handoff: `docs/codex/NEXT_SESSION_HANDOFF.md`
 - Deckbuilder product planning: `docs/product/deckbuilder/`
 - Deckbuilder Foundation v0 planning: `docs/product/deckbuilder/DECKBUILDER_FOUNDATION_V0.md`
 - Native workspace format: `docs/rules/DECK_WORKSPACE_FORMAT.md`
