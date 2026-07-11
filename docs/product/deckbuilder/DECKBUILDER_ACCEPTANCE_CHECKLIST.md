@@ -110,7 +110,29 @@ Deferred beyond this slice:
 
 Deferred beyond this slice:
 
-- Import/export integration with imported and normalized category fields.
 - Primary-role enforcement.
 - Role-counting engine.
 - Card-to-category dataset ingestion.
+
+## Deck Entry Category Metadata V0
+
+- [x] `DeckEntry` stores imported category labels.
+- [x] `DeckEntry` stores taxonomy-normalized category labels.
+- [x] `DeckEntry` stores generic category hints.
+- [x] `DeckEntry` stores a future deck-specific primary role placeholder.
+- [x] `DeckEntry` stores secondary tags.
+- [x] `DeckEntry` stores category origin.
+- [x] Native `.mtgwdeck.json` round trips preserve category metadata.
+- [x] Workspace validation reports malformed category metadata.
+- [x] Mutation helpers can create entries with category metadata.
+- [x] Plain text import can use the local category taxonomy when supplied.
+- [x] Unknown category labels are not guessed.
+- [x] No UI code, frontend dependency changes, recommendations, role counting, auto-categorization, live APIs, or large datasets were added.
+
+Deferred beyond this slice:
+
+- Primary-role enforcement.
+- Role-counting engine.
+- Card-to-category dataset ingestion.
+- UI controls for category metadata.
+- Strategic category/role recommendations.

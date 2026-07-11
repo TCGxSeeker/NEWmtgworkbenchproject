@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import datetime, timezone
 import re
 
 from mtg_workbench.cards.catalog import CardCatalog
+from mtg_workbench.deckbuilder.categories import CategoryTaxonomy
 from mtg_workbench.deckbuilder.models import DeckEntry, DeckWorkspace
 from mtg_workbench.deckbuilder.mutations import add_entry
 
@@ -29,10 +31,20 @@ _CATEGORY_HEADERS = {
 }
 
 
+@dataclass(frozen=True)
+class _CategoryMetadata:
+    category: str
+    imported_category: str
+    normalized_category: str | None
+    generic_category_hint: str | None
+    category_origin: str
+
+
 def import_plain_text_decklist(
     text: str,
     *,
     catalog: CardCatalog | None = None,
+    category_taxonomy: CategoryTaxonomy | None = None,
     name: str = "Imported Deck",
     format: str = "commander",
     deck_id: str | None = None,
@@ -51,7 +63,7 @@ def import_plain_text_decklist(
     )
 
     current_zone = "mainboard"
-    current_category: str | None = None
+    current_category_metadata: _CategoryMetadata | None = None
 
     for raw_line in text.splitlines():
         line = _clean_line(raw_line)
@@ -61,12 +73,12 @@ def import_plain_text_decklist(
         zone = _section_header_zone(line)
         if zone:
             current_zone = zone
-            current_category = None
+            current_category_metadata = None
             continue
 
-        category = _category_header(line)
-        if category:
-            current_category = category
+        category_metadata = _category_metadata(line, category_taxonomy)
+        if category_metadata:
+            current_category_metadata = category_metadata
             continue
 
         parsed = _parse_entry_line(line)
@@ -86,7 +98,11 @@ def import_plain_text_decklist(
             display_name=display_name,
             quantity=entry_quantity,
             zone=entry_zone,
-            categories=[current_category] if current_category else [],
+            categories=[current_category_metadata.category] if current_category_metadata else [],
+            imported_category=current_category_metadata.imported_category if current_category_metadata else None,
+            normalized_category=current_category_metadata.normalized_category if current_category_metadata else None,
+            generic_category_hint=current_category_metadata.generic_category_hint if current_category_metadata else None,
+            category_origin=current_category_metadata.category_origin if current_category_metadata else None,
             is_unresolved=is_unresolved,
             updated_at=timestamp,
         )
@@ -158,6 +174,30 @@ def _section_header_zone(line: str) -> str | None:
 
 def _category_header(line: str) -> str | None:
     return _CATEGORY_HEADERS.get(_normalize_header(line))
+
+
+def _category_metadata(line: str, category_taxonomy: CategoryTaxonomy | None) -> _CategoryMetadata | None:
+    if category_taxonomy is not None:
+        normalized = category_taxonomy.normalize(line)
+        if normalized.is_known and normalized.normalized_category is not None:
+            return _CategoryMetadata(
+                category=normalized.normalized_category,
+                imported_category=normalized.input_category,
+                normalized_category=normalized.normalized_category,
+                generic_category_hint=normalized.normalized_category,
+                category_origin=normalized.category_origin,
+            )
+
+    category = _category_header(line)
+    if category is None:
+        return None
+    return _CategoryMetadata(
+        category=category,
+        imported_category=line,
+        normalized_category=None,
+        generic_category_hint=category,
+        category_origin="imported",
+    )
 
 
 def _normalize_header(line: str) -> str:

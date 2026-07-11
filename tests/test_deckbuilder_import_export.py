@@ -3,6 +3,7 @@ from tempfile import TemporaryDirectory
 import unittest
 
 from mtg_workbench.cards.catalog import CardCatalog
+from mtg_workbench.deckbuilder.categories import load_category_taxonomy
 from mtg_workbench.deckbuilder.import_export import export_plain_text_decklist, import_plain_text_decklist
 from mtg_workbench.deckbuilder.mutations import add_entry
 from mtg_workbench.deckbuilder.models import DeckWorkspace
@@ -12,6 +13,7 @@ from mtg_workbench.deckbuilder.serialization import dumps_workspace, load_worksp
 FIXTURE_ROOT = Path(__file__).parent / "fixtures"
 DECKBUILDER_FIXTURES = FIXTURE_ROOT / "deckbuilder"
 CARDS_FIXTURE = FIXTURE_ROOT / "cards" / "tiny_cards.json"
+TAXONOMY_FIXTURE = Path(__file__).parent.parent / "data" / "fixtures" / "categories" / "category_taxonomy.example.yaml"
 STAMP = "2026-07-10T03:00:00Z"
 
 
@@ -93,6 +95,44 @@ class DeckbuilderImportExportTests(unittest.TestCase):
         self.assertEqual([entry.display_name for entry in workspace.mainboard], ["Arcane Helper", "Alias Target", "Example Basic Land"])
         self.assertEqual([entry.quantity for entry in workspace.mainboard], [1, 1, 35])
         self.assertEqual([entry.categories for entry in workspace.mainboard], [["Ramp"], ["Draw"], ["Lands"]])
+
+    def test_import_with_taxonomy_preserves_imported_and_normalized_category_metadata(self) -> None:
+        taxonomy = load_category_taxonomy(TAXONOMY_FIXTURE)
+        text = "Main Deck\nCard Draw\n1x Arcane Helper\n"
+
+        workspace = import_plain_text_decklist(
+            text,
+            catalog=self.catalog,
+            category_taxonomy=taxonomy,
+            deck_id="taxonomy-category",
+            updated_at=STAMP,
+        )
+
+        entry = workspace.mainboard[0]
+        self.assertEqual(entry.categories, ["Draw"])
+        self.assertEqual(entry.imported_category, "Card Draw")
+        self.assertEqual(entry.normalized_category, "Draw")
+        self.assertEqual(entry.generic_category_hint, "Draw")
+        self.assertEqual(entry.category_origin, "normalized")
+
+    def test_import_with_taxonomy_uses_fallback_category_without_claiming_taxonomy_normalization(self) -> None:
+        taxonomy = load_category_taxonomy(TAXONOMY_FIXTURE)
+        text = "Main Deck\nLands\n35 Basic Land Name\n"
+
+        workspace = import_plain_text_decklist(
+            text,
+            catalog=self.catalog,
+            category_taxonomy=taxonomy,
+            deck_id="fallback-category",
+            updated_at=STAMP,
+        )
+
+        entry = workspace.mainboard[0]
+        self.assertEqual(entry.categories, ["Lands"])
+        self.assertEqual(entry.imported_category, "Lands")
+        self.assertIsNone(entry.normalized_category)
+        self.assertEqual(entry.generic_category_hint, "Lands")
+        self.assertEqual(entry.category_origin, "imported")
 
     def test_export_workspace_to_plain_text_sections(self) -> None:
         workspace = DeckWorkspace.create_empty(name="Export Test", deck_id="export-test")

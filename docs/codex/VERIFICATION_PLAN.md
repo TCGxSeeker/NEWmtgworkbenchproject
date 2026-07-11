@@ -349,6 +349,25 @@ Latest Category Taxonomy Loader/Normalizer v0 run on 2026-07-11:
 - `python -m py_compile src/mtg_workbench/deckbuilder/categories.py tests/test_deckbuilder_categories.py`: passed
 - `git diff --check`: passed
 
+## Deck Entry Category Metadata V0 Checks
+
+After changing deck entry category metadata fields or taxonomy-backed import behavior:
+
+```powershell
+python -m unittest discover -s tests
+python -m unittest tests.test_deckbuilder_workspace tests.test_deckbuilder_mutations tests.test_deckbuilder_import_export
+git diff --check
+```
+
+Expected behavior: native `.mtgwdeck.json` entries preserve imported category labels, normalized category labels, generic category hints, future deck-specific primary role placeholders, secondary tags, and category origin values. Plain text import may use the local taxonomy fixture when supplied, while unknown category labels remain preserved instead of guessed. This slice must not add auto-categorization, role counting, recommendations, UI code, frontend dependencies, network calls, live APIs, or large datasets.
+
+Latest Deck Entry Category Metadata v0 run on 2026-07-11:
+
+- `python -m unittest tests.test_deckbuilder_workspace tests.test_deckbuilder_mutations tests.test_deckbuilder_import_export`: passed, 52 tests, 0 failures
+- `python -m py_compile src/mtg_workbench/deckbuilder/models.py src/mtg_workbench/deckbuilder/validation.py src/mtg_workbench/deckbuilder/mutations.py src/mtg_workbench/deckbuilder/import_export.py`: passed
+- `python -m unittest discover -s tests`: passed, 86 tests, 0 failures
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

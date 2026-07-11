@@ -42,6 +42,12 @@ Each entry should plan for:
 - Selected printing placeholder.
 - Section.
 - Category.
+- Imported category label.
+- Normalized category label.
+- Generic category hint.
+- Future deck-specific primary role placeholder.
+- Secondary tags.
+- Category origin.
 - Tags.
 - Notes placeholder.
 - Unknown-card state.
@@ -49,6 +55,8 @@ Each entry should plan for:
 ## Categories And Tags
 
 Categories should support deck organization and future grouping. Tags should remain flexible for user-facing labels, warnings, or future analysis hints, but should not become recommendation authority without an approved rule.
+
+Deck Entry Category Metadata v0 preserves category provenance on entries. `categories` remains the current grouping field; `imported_category`, `normalized_category`, `generic_category_hint`, `deck_specific_primary_role`, `secondary_tags`, and `category_origin` are stored so future role analysis can distinguish imported labels from deck-context truth.
 
 ## Selected Printing Placeholder
 
@@ -92,6 +100,7 @@ The first model slice lives under `src/mtg_workbench/deckbuilder/`:
 - `validation.py`: lightweight workspace shape validation and user-facing errors.
 - `mutations.py`: in-place workspace edit helpers that return the updated workspace.
 - `import_export.py`: plain text import/export conversion helpers.
+- `categories.py`: local category taxonomy loading and label normalization helpers.
 
 ## Mutation Model
 

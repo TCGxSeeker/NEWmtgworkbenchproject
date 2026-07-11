@@ -63,6 +63,7 @@ field_model:
     - normalized
     - inferred
     - taxonomy_default
+    - unknown
 deferred:
   - card_to_category_dataset_ingestion
   - automatic_card_categorization

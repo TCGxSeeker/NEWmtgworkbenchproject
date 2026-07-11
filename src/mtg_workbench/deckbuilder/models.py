@@ -7,6 +7,14 @@ from uuid import uuid4
 
 SCHEMA_VERSION = 1
 VALID_ZONES = {"commander", "mainboard", "maybeboard"}
+VALID_CATEGORY_ORIGINS = {
+    "imported",
+    "inferred",
+    "normalized",
+    "taxonomy_default",
+    "unknown",
+    "user",
+}
 
 _WORKSPACE_FIELDS = {
     "commanders",
@@ -26,16 +34,22 @@ _WORKSPACE_FIELDS = {
 
 _ENTRY_FIELDS = {
     "categories",
+    "category_origin",
     "date_added",
+    "deck_specific_primary_role",
     "display_name",
     "entry_id",
     "foil",
+    "generic_category_hint",
+    "imported_category",
     "input_name",
     "is_unresolved",
+    "normalized_category",
     "notes",
     "oracle_id",
     "pinned",
     "quantity",
+    "secondary_tags",
     "selected_printing_id",
     "tags",
     "zone",
@@ -57,6 +71,12 @@ class DeckEntry:
     selected_printing_id: str | None = None
     categories: list[str] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
+    imported_category: str | None = None
+    normalized_category: str | None = None
+    generic_category_hint: str | None = None
+    deck_specific_primary_role: str | None = None
+    secondary_tags: list[str] = field(default_factory=list)
+    category_origin: str | None = None
     notes: str | None = None
     pinned: bool = False
     foil: bool = False
@@ -69,16 +89,22 @@ class DeckEntry:
         payload.update(
             {
                 "categories": list(self.categories),
+                "category_origin": self.category_origin,
                 "date_added": self.date_added,
+                "deck_specific_primary_role": self.deck_specific_primary_role,
                 "display_name": self.display_name,
                 "entry_id": self.entry_id,
                 "foil": self.foil,
+                "generic_category_hint": self.generic_category_hint,
+                "imported_category": self.imported_category,
                 "input_name": self.input_name,
                 "is_unresolved": self.is_unresolved,
+                "normalized_category": self.normalized_category,
                 "notes": self.notes,
                 "oracle_id": self.oracle_id,
                 "pinned": self.pinned,
                 "quantity": self.quantity,
+                "secondary_tags": list(self.secondary_tags),
                 "selected_printing_id": self.selected_printing_id,
                 "tags": list(self.tags),
                 "zone": self.zone,
@@ -99,6 +125,12 @@ class DeckEntry:
             zone=payload["zone"],
             categories=list(payload["categories"]),
             tags=list(payload["tags"]),
+            imported_category=payload.get("imported_category"),
+            normalized_category=payload.get("normalized_category"),
+            generic_category_hint=payload.get("generic_category_hint"),
+            deck_specific_primary_role=payload.get("deck_specific_primary_role"),
+            secondary_tags=list(payload.get("secondary_tags") or []),
+            category_origin=payload.get("category_origin"),
             notes=payload.get("notes"),
             pinned=payload.get("pinned", False),
             foil=payload.get("foil", False),

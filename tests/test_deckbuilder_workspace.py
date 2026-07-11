@@ -115,6 +115,38 @@ class DeckbuilderWorkspaceTests(unittest.TestCase):
         self.assertEqual(loaded.commanders[0].tags, ["manual"])
         self.assertEqual(loaded.commanders[0].notes, "Created in test.")
 
+    def test_entry_category_metadata_round_trips(self) -> None:
+        workspace = DeckWorkspace.create_empty(name="Category Metadata", deck_id="deck-category-metadata")
+        workspace.mainboard.append(
+            DeckEntry(
+                entry_id="entry-category",
+                quantity=1,
+                input_name="Arcane Helper",
+                display_name="Arcane Helper",
+                zone="mainboard",
+                categories=["Draw"],
+                tags=["test"],
+                imported_category="Card Draw",
+                normalized_category="Draw",
+                generic_category_hint="Draw",
+                deck_specific_primary_role="Card Advantage",
+                secondary_tags=["cantrip", "engine-support"],
+                category_origin="normalized",
+                notes="Preserve provenance.",
+            )
+        )
+
+        loaded = loads_workspace(dumps_workspace(workspace))
+        entry = loaded.mainboard[0]
+
+        self.assertEqual(entry.imported_category, "Card Draw")
+        self.assertEqual(entry.normalized_category, "Draw")
+        self.assertEqual(entry.generic_category_hint, "Draw")
+        self.assertEqual(entry.deck_specific_primary_role, "Card Advantage")
+        self.assertEqual(entry.secondary_tags, ["cantrip", "engine-support"])
+        self.assertEqual(entry.category_origin, "normalized")
+        self.assertEqual(entry.notes, "Preserve provenance.")
+
     def test_malformed_json_reports_clear_error(self) -> None:
         with self.assertRaises(WorkspaceValidationError) as context:
             loads_workspace("{not valid json")
@@ -137,6 +169,17 @@ class DeckbuilderWorkspaceTests(unittest.TestCase):
             loads_workspace(json.dumps(payload))
 
         self.assertIn("mainboard[0].zone is 'maybeboard'", str(context.exception))
+
+    def test_malformed_category_metadata_reports_clear_errors(self) -> None:
+        payload = load_workspace(WORKSPACE_FIXTURE).to_dict()
+        payload["mainboard"][0]["secondary_tags"] = ["valid", 123]
+        payload["mainboard"][0]["category_origin"] = "invented"
+
+        with self.assertRaises(WorkspaceValidationError) as context:
+            loads_workspace(json.dumps(payload))
+
+        self.assertIn("mainboard[0].secondary_tags[1] must be a string.", str(context.exception))
+        self.assertIn("mainboard[0].category_origin must be one of", str(context.exception))
 
 
 if __name__ == "__main__":

@@ -52,6 +52,32 @@ class DeckbuilderMutationTests(unittest.TestCase):
         self.assertEqual(workspace.updated_at, STAMP_ONE)
         self.assertTrue(workspace.saved_state["is_dirty"])
 
+    def test_add_entry_preserves_category_metadata(self) -> None:
+        workspace = _workspace()
+
+        add_entry(
+            workspace,
+            "Arcane Helper",
+            display_name="Arcane Helper",
+            entry_id="category-metadata",
+            categories=["Draw"],
+            imported_category="Card Draw",
+            normalized_category="Draw",
+            generic_category_hint="Draw",
+            deck_specific_primary_role="Card Advantage",
+            secondary_tags=["cantrip", "setup"],
+            category_origin="normalized",
+            updated_at=STAMP_ONE,
+        )
+
+        entry = workspace.mainboard[0]
+        self.assertEqual(entry.imported_category, "Card Draw")
+        self.assertEqual(entry.normalized_category, "Draw")
+        self.assertEqual(entry.generic_category_hint, "Draw")
+        self.assertEqual(entry.deck_specific_primary_role, "Card Advantage")
+        self.assertEqual(entry.secondary_tags, ["cantrip", "setup"])
+        self.assertEqual(entry.category_origin, "normalized")
+
     def test_add_entry_to_commander(self) -> None:
         workspace = _workspace()
 
@@ -300,6 +326,37 @@ class DeckbuilderMutationTests(unittest.TestCase):
         self.assertEqual(len(workspace.mainboard), 4)
         self.assertEqual(len(workspace.maybeboard), 1)
         self.assertEqual([entry.quantity for entry in list_entries(workspace)], [1, 1, 1, 1, 1])
+
+    def test_duplicate_add_preserves_separate_entries_when_category_metadata_differs(self) -> None:
+        workspace = _workspace()
+        common_kwargs = {
+            "input_name": "Flexible Card",
+            "display_name": "Flexible Card",
+            "oracle_id": "oracle-flex",
+            "categories": ["Draw"],
+            "selected_printing_id": "p1",
+            "updated_at": STAMP_ONE,
+        }
+
+        add_entry(
+            workspace,
+            entry_id="alias-category",
+            imported_category="Card Draw",
+            normalized_category="Draw",
+            category_origin="normalized",
+            **common_kwargs,
+        )
+        add_entry(
+            workspace,
+            entry_id="canonical-category",
+            imported_category="Draw",
+            normalized_category="Draw",
+            category_origin="normalized",
+            **common_kwargs,
+        )
+
+        self.assertEqual(len(workspace.mainboard), 2)
+        self.assertEqual([entry.entry_id for entry in workspace.mainboard], ["alias-category", "canonical-category"])
 
     def test_unresolved_entry_preservation_and_merge_policy(self) -> None:
         workspace = _workspace()

@@ -40,7 +40,7 @@ Mutation behavior:
 
 Category Taxonomy v0 defines the controlled language future category helpers should use. Imported and user category text should be preserved; normalized categories are hints for future reasoning and should not become deck-specific role truth by themselves.
 
-Category Taxonomy Loader/Normalizer v0 can load the tiny local taxonomy fixture and normalize a label to a canonical category or `unknown` result. It does not mutate workspace entries yet.
+Category Taxonomy Loader/Normalizer v0 can load the tiny local taxonomy fixture and normalize a label to a canonical category or `unknown` result. Deck Entry Category Metadata v0 lets import/mutation helpers preserve both imported and normalized category fields, but it still does not auto-categorize cards or decide deck-specific role truth.
 
 ## Filtering And Search Context
 
@@ -87,6 +87,8 @@ Deck Workspace Import/Export v0 implements plain text conversion only:
 - Successful native saves mark the workspace clean.
 
 Category normalization should use `docs/rules/CATEGORY_TAXONOMY.md` when a category/header clearly matches a canonical category or alias. Unknown category labels should remain user/imported text rather than being guessed.
+
+When category normalization is used during import, the original header should remain available as `imported_category`, while the canonical match should be stored as `normalized_category` and used as the current grouping category.
 
 ## Human Validation
 

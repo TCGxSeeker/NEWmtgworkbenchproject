@@ -205,3 +205,9 @@
   - Alternatives considered: immediately normalizing import/export categories in place or adding deck-entry schema fields in this slice.
   - Risk: Import/export will not use aliases automatically until a later category field-model slice.
   - Status: Accepted for Category Taxonomy Loader/Normalizer v0.
+
+- Decision: Preserve deck entry category provenance separately from grouping categories and future role truth.
+  - Reason: Imported labels, taxonomy-normalized categories, generic hints, and deck-specific roles have different meanings and should not overwrite each other.
+  - Alternatives considered: continuing to store only `categories`, normalizing imported labels in place, or enforcing primary roles immediately.
+  - Risk: The model has more nullable metadata fields before UI controls exist, so future code must avoid treating empty fields as analysis failures.
+  - Status: Accepted for Deck Entry Category Metadata v0.

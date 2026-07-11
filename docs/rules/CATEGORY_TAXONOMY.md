@@ -76,14 +76,16 @@ Aliases normalize imported headers and user labels to canonical categories when 
 
 ## Category Fields
 
-Future model and analysis work should distinguish:
+Deck Entry Category Metadata v0 stores these distinctions on native deck entries:
 
 - `imported_category`: original category/header from imported decklists.
 - `normalized_category`: taxonomy-normalized category when an alias or canonical category matches.
 - `generic_category_hint`: broad card-category hint from imports, defaults, or user labels.
 - `deck_specific_primary_role`: the role that counts for this exact deck context.
 - `secondary_tags`: non-counting labels or supporting role hints.
-- `category_origin`: source of the category, such as `imported`, `user`, `normalized`, `inferred`, or `taxonomy_default`.
+- `category_origin`: source of the category, such as `imported`, `user`, `normalized`, `inferred`, `taxonomy_default`, or `unknown`.
+
+`categories` remains the current grouping field for deckbuilder behavior. Metadata fields preserve provenance and future analysis context; they do not make a category count as a deck-specific role by themselves.
 
 ## Normalization Rules
 
@@ -114,7 +116,23 @@ The normalizer returns:
 
 Unknown labels return `normalized_category: None` and keep the original label intact.
 
-V0 does not mutate `DeckWorkspace` or `DeckEntry` categories. Import/export integration should wait until the model can preserve both imported and normalized category fields.
+Loader/Normalizer v0 does not mutate `DeckWorkspace` or `DeckEntry` categories by itself.
+
+## Deck Entry Category Metadata V0
+
+The native `DeckEntry` model now preserves imported and normalized category metadata. Plain text import can use a supplied local taxonomy to recognize canonical or alias category headers.
+
+When taxonomy import recognizes a category header:
+
+- `categories` receives the normalized category for current grouping.
+- `imported_category` keeps the source header exactly as cleaned by the importer.
+- `normalized_category` keeps the canonical category.
+- `generic_category_hint` keeps the canonical category as a non-authoritative hint.
+- `category_origin` records `normalized`.
+
+When a conservative built-in header is recognized without taxonomy normalization, `categories` and `generic_category_hint` keep that header, `imported_category` keeps the source header, `normalized_category` remains empty, and `category_origin` records `imported`.
+
+Unknown category labels are not guessed.
 
 ## Deferred
 
@@ -125,4 +143,4 @@ V0 does not mutate `DeckWorkspace` or `DeckEntry` categories. Import/export inte
 - No recommendation behavior.
 - No UI controls.
 - No large external data source.
-- No workspace category mutation from taxonomy normalization yet.
+- No automatic category mutation outside explicit import/mutation helpers.

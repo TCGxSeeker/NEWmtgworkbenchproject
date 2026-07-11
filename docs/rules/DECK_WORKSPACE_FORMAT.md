@@ -40,6 +40,12 @@ Each entry stores:
 - `zone`
 - `categories`
 - `tags`
+- `imported_category`
+- `normalized_category`
+- `generic_category_hint`
+- `deck_specific_primary_role`
+- `secondary_tags`
+- `category_origin`
 - `notes`
 - `pinned`
 - `foil`
@@ -47,6 +53,19 @@ Each entry stores:
 - `is_unresolved`
 
 `zone` must be one of `commander`, `mainboard`, or `maybeboard`.
+
+## Deck Entry Category Metadata
+
+`categories` remains the current grouping field. The category metadata fields preserve provenance and future analysis context:
+
+- `imported_category`: original category/header from an import or user action.
+- `normalized_category`: canonical category when the local taxonomy matched a canonical name or alias.
+- `generic_category_hint`: broad non-authoritative category hint for grouping or later review.
+- `deck_specific_primary_role`: future placeholder for the role that counts in this exact deck context.
+- `secondary_tags`: non-counting supporting labels.
+- `category_origin`: category source, such as `imported`, `user`, `normalized`, `inferred`, `taxonomy_default`, or `unknown`.
+
+V0 does not enforce primary roles, auto-categorize cards, or use these fields for role counting.
 
 ## Unknown Card Preservation
 
@@ -81,6 +100,7 @@ V0 merges duplicate adds only when the new card clearly matches an existing logi
 - Same `selected_printing_id`.
 - Same display/input-name fallback when no `oracle_id` exists.
 - Same categories.
+- Same category metadata.
 - Same foil flag.
 - Same unresolved status.
 
@@ -118,6 +138,8 @@ Supported section headers:
 `Sideboard` is treated as `maybeboard` in v0 because the native model does not have a sideboard zone.
 
 Conservative category headers may be applied when they exactly match known deckbuilder categories such as `Ramp`, `Draw`, `Removal`, `Interaction`, `Protection`, `Lands`, `Creatures`, `Instants`, or `Sorceries`.
+
+When a local category taxonomy is supplied to the importer, canonical category names and aliases can populate `normalized_category` while preserving the original `imported_category`. Unknown labels are not guessed.
 
 Export uses `Commander`, `Mainboard`, and `Maybeboard` sections with lines formatted as `1x Card Name`. Export prefers `display_name` and falls back to `input_name` for unresolved cards.
 

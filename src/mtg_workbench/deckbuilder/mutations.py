@@ -23,6 +23,12 @@ def add_entry(
     selected_printing_id: str | None = None,
     categories: Iterable[str] | None = None,
     tags: Iterable[str] | None = None,
+    imported_category: str | None = None,
+    normalized_category: str | None = None,
+    generic_category_hint: str | None = None,
+    deck_specific_primary_role: str | None = None,
+    secondary_tags: Iterable[str] | None = None,
+    category_origin: str | None = None,
     notes: str | None = None,
     pinned: bool = False,
     foil: bool = False,
@@ -33,8 +39,9 @@ def add_entry(
     target_zone = _require_zone(zone)
     amount = _require_positive_int(quantity, "quantity")
     clean_input_name = _require_non_empty_string(input_name, "input_name")
-    clean_categories = _stable_unique(categories or [])
-    clean_tags = _stable_unique(tags or [])
+    clean_categories = _stable_unique(categories or [], "categories")
+    clean_tags = _stable_unique(tags or [], "tags")
+    clean_secondary_tags = _stable_unique(secondary_tags or [], "secondary_tags")
 
     candidate = DeckEntry(
         entry_id=entry_id or str(uuid4()),
@@ -46,6 +53,12 @@ def add_entry(
         zone=target_zone,
         categories=clean_categories,
         tags=clean_tags,
+        imported_category=imported_category,
+        normalized_category=normalized_category,
+        generic_category_hint=generic_category_hint,
+        deck_specific_primary_role=deck_specific_primary_role,
+        secondary_tags=clean_secondary_tags,
+        category_origin=category_origin,
         notes=notes,
         pinned=pinned,
         foil=foil,
@@ -56,7 +69,7 @@ def add_entry(
     existing = _find_merge_target(workspace, candidate)
     if existing:
         existing.quantity += amount
-        existing.tags = _stable_unique([*existing.tags, *candidate.tags])
+        existing.tags = _stable_unique([*existing.tags, *candidate.tags], "tags")
         existing.pinned = existing.pinned or candidate.pinned
         if existing.notes is None and candidate.notes is not None:
             existing.notes = candidate.notes
@@ -144,7 +157,7 @@ def move_category(
     if isinstance(categories, str):
         entry.categories = [categories]
     else:
-        entry.categories = _stable_unique(categories)
+        entry.categories = _stable_unique(categories, "categories")
     return _mark_dirty(workspace, updated_at)
 
 
@@ -159,11 +172,11 @@ def update_tags(
 ) -> DeckWorkspace:
     entry = require_entry(workspace, entry_id)
     if tags is not None:
-        next_tags = _stable_unique(tags)
+        next_tags = _stable_unique(tags, "tags")
     else:
         next_tags = list(entry.tags)
         if add:
-            next_tags = _stable_unique([*next_tags, *add])
+            next_tags = _stable_unique([*next_tags, *add], "tags")
         if remove:
             remove_set = set(remove)
             next_tags = [tag for tag in next_tags if tag not in remove_set]
@@ -218,6 +231,18 @@ def _can_merge(existing: DeckEntry, candidate: DeckEntry) -> bool:
     if existing.selected_printing_id != candidate.selected_printing_id:
         return False
     if existing.categories != candidate.categories:
+        return False
+    if existing.imported_category != candidate.imported_category:
+        return False
+    if existing.normalized_category != candidate.normalized_category:
+        return False
+    if existing.generic_category_hint != candidate.generic_category_hint:
+        return False
+    if existing.deck_specific_primary_role != candidate.deck_specific_primary_role:
+        return False
+    if existing.secondary_tags != candidate.secondary_tags:
+        return False
+    if existing.category_origin != candidate.category_origin:
         return False
     if existing.foil != candidate.foil:
         return False
@@ -279,12 +304,12 @@ def _require_non_empty_string(value: str, field_name: str) -> str:
     return value.strip()
 
 
-def _stable_unique(values: Iterable[str]) -> list[str]:
+def _stable_unique(values: Iterable[str], field_name: str) -> list[str]:
     result: list[str] = []
     seen: set[str] = set()
     for value in values:
         if not isinstance(value, str):
-            raise WorkspaceMutationError("categories and tags must contain only strings.")
+            raise WorkspaceMutationError(f"{field_name} must contain only strings.")
         if value not in seen:
             result.append(value)
             seen.add(value)

@@ -315,6 +315,14 @@ Status: implemented as a rules/data utility slice.
 
 Load the tiny local category taxonomy fixture and normalize category labels without mutating deck entries. Definition of done: `src/mtg_workbench/deckbuilder/categories.py` can load canonical categories and aliases from the local fixture, normalize labels case-insensitively with repeated-space cleanup, preserve the original input label in the result, report unknown labels without guessing, and validate alias targets. No card auto-categorization, deck analysis, recommendation logic, UI, frontend dependency, live API, telemetry, or large dataset ingestion is included.
 
+### Phase Product-8: Deck Entry Category Metadata v0
+
+Status: implemented.
+
+Preserve category provenance on native deck entries so imported/user labels and taxonomy-normalized categories can coexist. Definition of done: `DeckEntry` supports imported category, normalized category, generic category hint, future deck-specific primary role, secondary tags, and category origin fields; native `.mtgwdeck.json` round trips preserve those fields; validation reports malformed metadata clearly; mutations can create entries with metadata; plain text import can use the local category taxonomy when supplied; and tests prove alias-backed category import without implementing auto-categorization, role counting, deck analysis, recommendations, UI, live APIs, or large datasets.
+
+`categories` remains the compatibility grouping field for current deckbuilder behavior. Deck-specific primary role remains a future human-approved analysis concept, not a derived truth in this slice.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

@@ -50,7 +50,7 @@ Decklists are import/export formats, not the app-native saved workspace format.
 
 ### Native Deck Workspaces
 
-Native deck workspaces use `.mtgwdeck.json`. They must preserve deck metadata, commanders, mainboard, maybeboard, quantities, input names, display names, stable card identifiers when known, selected printing placeholders, categories, tags, notes, unresolved-card status, source metadata, and saved-state placeholders.
+Native deck workspaces use `.mtgwdeck.json`. They must preserve deck metadata, commanders, mainboard, maybeboard, quantities, input names, display names, stable card identifiers when known, selected printing placeholders, categories, category provenance metadata, tags, notes, unresolved-card status, source metadata, and saved-state placeholders.
 
 The native workspace format is versioned by `schema_version`. Unknown or unresolved entries must round-trip without guessing card identity. Future importers may create workspaces from plain text, CSV, Archidekt-style, or other decklist formats, but those external formats should not replace the native saved workspace source of truth.
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from mtg_workbench.deckbuilder.models import SCHEMA_VERSION, VALID_ZONES
+from mtg_workbench.deckbuilder.models import SCHEMA_VERSION, VALID_CATEGORY_ORIGINS, VALID_ZONES
 
 
 class WorkspaceValidationError(ValueError):
@@ -108,8 +108,14 @@ def _validate_entry(
     _check_optional_string(errors, entry, "selected_printing_id", location)
     _check_optional_string(errors, entry, "notes", location)
     _check_optional_string(errors, entry, "date_added", location)
+    _check_optional_string(errors, entry, "imported_category", location)
+    _check_optional_string(errors, entry, "normalized_category", location)
+    _check_optional_string(errors, entry, "generic_category_hint", location)
+    _check_optional_string(errors, entry, "deck_specific_primary_role", location)
+    _check_optional_category_origin(errors, entry, location)
     _check_string_list(errors, entry, "categories", location)
     _check_string_list(errors, entry, "tags", location)
+    _check_string_list(errors, entry, "secondary_tags", location)
 
     if "quantity" in entry:
         if not _is_int(entry["quantity"]):
@@ -183,6 +189,16 @@ def _check_optional_bool(errors: list[str], payload: dict[str, Any], field_name:
     if field_name not in payload:
         return
     _check_bool(errors, payload, field_name, location)
+
+
+def _check_optional_category_origin(errors: list[str], payload: dict[str, Any], location: str) -> None:
+    if "category_origin" not in payload or payload["category_origin"] is None:
+        return
+    value = payload["category_origin"]
+    if not isinstance(value, str):
+        errors.append(f"{location}.category_origin must be a string or null.")
+    elif value not in VALID_CATEGORY_ORIGINS:
+        errors.append(f"{location}.category_origin must be one of {sorted(VALID_CATEGORY_ORIGINS)}.")
 
 
 def _is_int(value: Any) -> bool:
