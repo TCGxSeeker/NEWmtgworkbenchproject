@@ -235,3 +235,21 @@
   - Alternatives considered: full YAML support, additive capped scoring, immediate card classification, or starting deck analysis directly.
   - Risk: Early loader behavior will be intentionally narrow and may need expansion after fixture-backed tests.
   - Status: Accepted as next-slice default.
+
+- Decision: Keep Role Evidence Matcher v0 scoped to explicit `CardRoleFacts`.
+  - Reason: Matching should prove deterministic local evidence behavior before deriving facts from full card records or deck workspaces.
+  - Alternatives considered: classifying full decks immediately, deriving card facts from the Scryfall index in the same slice, or selecting primary roles automatically.
+  - Risk: Callers must build `CardRoleFacts` explicitly until a later bridge slice exists.
+  - Status: Accepted for Role Evidence Matcher v0.
+
+- Decision: Separate role evidence report summaries from machine/debug evidence.
+  - Reason: The UI visibility doctrine requires concise default summaries, optional explanations, and raw evidence only for advanced/debug contexts.
+  - Alternatives considered: returning raw matcher objects only, flattening all evidence into user-visible text, or waiting for full deck reports.
+  - Risk: This report is intentionally card-level role evidence, not a full deck report.
+  - Status: Accepted for Role Evidence Report v0.
+
+- Decision: Add a small Card Facts Adapter before full card classification.
+  - Reason: Role evidence matching needs a deterministic bridge from local/Scryfall-ish card dictionaries to explicit `CardRoleFacts` without starting deck analysis.
+  - Alternatives considered: making the matcher accept raw card records directly, deriving facts inside full deck analysis, or ingesting large Scryfall datasets first.
+  - Risk: The adapter uses conservative subtype parsing and may need expansion when richer local card models arrive.
+  - Status: Accepted for Card Facts Adapter v0.

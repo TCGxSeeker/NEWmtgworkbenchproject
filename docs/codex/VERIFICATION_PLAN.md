@@ -384,7 +384,7 @@ Latest Deck Workspace Category Editing Helpers v0 run on 2026-07-11:
 
 - `python -m unittest tests.test_deckbuilder_mutations`: passed, 39 tests, 0 failures
 - `python -m py_compile src/mtg_workbench/deckbuilder/mutations.py tests/test_deckbuilder_mutations.py`: passed
-- `python -m unittest discover -s tests`: passed, 98 tests, 0 failures
+- `python -m unittest discover -s tests`: passed, 120 tests, 0 failures
 - `git diff --check`: passed
 
 ## Deterministic Deck Analysis Algorithm Spec V0 Checks
@@ -402,7 +402,7 @@ Expected behavior: the spec exists and describes local/offline deterministic ana
 Latest Deterministic Deck Analysis Algorithm Spec v0 run on 2026-07-11:
 
 - `Test-Path docs/product/algorithm/DETERMINISTIC_DECK_ANALYSIS_ALGORITHM_V0.md`: passed
-- `python -m unittest discover -s tests`: passed, 98 tests, 0 failures
+- `python -m unittest discover -s tests`: passed, 120 tests, 0 failures
 - `git diff --check`: passed
 
 ## Role Rules V0 Checks
@@ -422,7 +422,7 @@ Latest Role Rules v0 run on 2026-07-11:
 
 - `Test-Path docs/rules/ROLE_RULES.md`: passed
 - `Test-Path data/fixtures/roles/role_rules.example.yaml`: passed
-- `python -m unittest discover -s tests`: passed, 98 tests, 0 failures
+- `python -m unittest discover -s tests`: passed, 120 tests, 0 failures
 - `git diff --check`: passed
 
 ## Next Session Handoff Checks
@@ -435,7 +435,79 @@ python -m unittest discover -s tests
 git diff --check
 ```
 
-Expected behavior: next-session context summarizes completed milestones, latest test status, core constraints, Role Rules Loader v0 defaults, and work that should not start yet. Closeout updates must not add implementation code, UI, dependencies, live APIs, telemetry, hosted services, AI/LLM calls, recommendations, deck analysis, candidate search, or role enforcement.
+Expected behavior: next-session context summarizes completed milestones, latest test status, core constraints, established role evidence defaults, next recommended slice, and work that should not start yet. Closeout updates must not add UI, dependencies, live APIs, telemetry, hosted services, AI/LLM calls, recommendations, deck analysis, candidate search, or role enforcement.
+
+Latest context refresh on 2026-07-11:
+
+- `python -m unittest discover -s tests`: passed, 120 tests, 0 failures
+
+## Role Rules Loader V0 Checks
+
+After changing role rule loading:
+
+```powershell
+python -m unittest tests.test_deckbuilder_role_rules
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: the loader reads the tiny YAML role-rule fixture, validates schema version, score bands, role ids, canonical role names, `highest_match` score policy, and score ranges. It must not classify cards, run deck analysis, implement recommendations, use live APIs, or add UI.
+
+Latest known status:
+
+- `python -m unittest discover -s tests`: passed, 120 tests, 0 failures
+
+## Role Evidence Matcher V0 Checks
+
+After changing role evidence matching:
+
+```powershell
+python -m unittest tests.test_deckbuilder_role_evidence
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: matching runs from explicit `CardRoleFacts`, uses casefolded whitespace-normalized phrase matching, supports type/subtype/keyword/mana value evidence, honors exclusion rules, uses `highest_match`, and reports unmatched roles without guessing.
+
+Latest known status:
+
+- `python -m unittest discover -s tests`: passed, 120 tests, 0 failures
+
+## Role Evidence Report V0 Checks
+
+After changing role evidence report output:
+
+```powershell
+python -m unittest tests.test_deckbuilder_role_report
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: report output separates concise `user_summary`, machine evidence, explanations, and optional debug details. This is not a full deck report, recommendation report, UI component, or deck analysis engine.
+
+Latest known status:
+
+- `python -m unittest discover -s tests`: passed, 120 tests, 0 failures
+
+## Card Facts Adapter V0 Checks
+
+After changing card fact adapter behavior:
+
+```powershell
+python -m py_compile src/mtg_workbench/deckbuilder/card_facts.py
+python -m unittest tests.test_deckbuilder_card_facts
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: local or Scryfall-ish record dictionaries convert into `CardRoleFacts`, missing optional text becomes empty strings, missing keywords become an empty tuple, invalid mana values become `None`, two-faced records combine face text in order, subtypes are parsed conservatively from type lines, and missing names raise `CardFactsError`. This adapter must not add deck analysis, recommendations, candidate search, add/cut scoring, role enforcement, UI, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or large data ingestion.
+
+Latest Card Facts Adapter v0 run on 2026-07-11:
+
+- `python -m py_compile src/mtg_workbench/deckbuilder/card_facts.py`: passed
+- `python -m unittest tests.test_deckbuilder_card_facts`: passed, 10 tests, 0 failures
+- `python -m unittest discover -s tests`: passed, 130 tests, 0 failures
+- `git diff --check`: passed
 
 ## Manual Human Review Checklist
 

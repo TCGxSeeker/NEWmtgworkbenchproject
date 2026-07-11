@@ -12,11 +12,15 @@
 - Deck Workspace Category Editing Helpers v0
 - Deterministic Deck Analysis Algorithm Spec v0
 - Role Rules v0
+- Role Rules Loader v0
+- Role Evidence Matcher v0
+- Role Evidence Report v0
+- Card Facts Adapter v0
 
 ## Current Test Status
 
 - `python -m unittest discover -s tests`
-- Latest known result: 98 tests passing
+- Latest known result: 130 tests passing
 - `git diff --check` passing
 
 ## Core Constraints
@@ -46,15 +50,18 @@ Future output schemas should separate machine-readable evidence, concise user-fa
 
 ## Next Recommended Slice
 
-Role Rules Loader v0.
+Deck Skeleton Report v0 planning, or a small deck/workspace bridge that feeds known local card records through `card_record_to_role_facts` and the existing role evidence matcher.
 
-## Role Rules Loader V0 Defaults
+## Established Role Evidence Defaults
 
-- Support only the tiny YAML subset first.
-- Use casefolded substring phrase matching with whitespace normalization.
-- Use `highest_match` score combination only.
-- Do not implement additive capped scoring yet.
-- Do not classify cards yet.
+- Role rules load from the tiny YAML fixture format.
+- Evidence phrase matching uses casefolded substring matching with whitespace normalization.
+- Score combination uses `highest_match` only.
+- Role evidence matching works from explicit `CardRoleFacts`.
+- `card_record_to_role_facts` converts local/Scryfall-ish records into `CardRoleFacts`.
+- Role evidence reports separate user summaries, machine evidence, explanations, and optional debug details.
+- Additive capped scoring is not implemented.
+- Full deck classification is not implemented.
 - Do not implement deck analysis, recommendations, UI, candidate search, or role enforcement yet.
 
 ## Do Not Start Yet

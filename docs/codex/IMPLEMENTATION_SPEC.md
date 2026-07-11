@@ -349,9 +349,33 @@ Role Rules v0 must not add analyzer code, recommendations, candidate search, add
 
 ### Phase Algorithm-3: Role Rules Loader v0
 
-Status: next recommended slice; not started.
+Status: implemented.
 
 Build the smallest local loader for the Role Rules v0 fixture. Default assumptions: support only the tiny YAML subset first, use casefolded substring phrase matching with whitespace normalization, and combine scores with `highest_match` only. Do not implement additive capped scoring, card classification, deck analysis, recommendations, UI, candidate search, role enforcement, online dependencies, live APIs, telemetry, hosted services, frontend dependencies, or AI/LLM calls.
+
+### Phase Algorithm-4: Role Evidence Matcher v0
+
+Status: implemented.
+
+Match explicit local `CardRoleFacts` against loaded role rules without performing deck analysis or workspace-wide classification. Definition of done: the matcher supports normalized Oracle text phrase matches, type-line matches, subtype matches, keyword matches, mana value constraints, exclusion rules, `highest_match` score selection, deterministic `RoleEvidenceMatch` output, and tests for matching, exclusion, constraints, and unmatched-role behavior.
+
+Role Evidence Matcher v0 must not add recommendations, candidate search, add/cut scoring, full deck analysis, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or primary-role enforcement.
+
+### Phase Algorithm-5: Role Evidence Report v0
+
+Status: implemented.
+
+Wrap role evidence matches in a small report object that keeps progressive-disclosure output boundaries. Definition of done: role evidence reports expose a concise `user_summary`, matched and unmatched role counts, best match, machine-readable evidence, optional explanations, and debug details only when explicitly requested.
+
+Role Evidence Report v0 is not a full deck report, structural audit, recommendation report, candidate search surface, UI component, or primary-role classifier.
+
+### Phase Algorithm-6: Card Facts Adapter v0
+
+Status: implemented.
+
+Create a small local/offline adapter that converts local or Scryfall-ish card record dictionaries into `CardRoleFacts` for the existing role evidence matcher. Definition of done: `card_record_to_role_facts(record)` maps name, Oracle text, type line, keywords, mana value, and conservative subtypes; two-faced `card_faces` records combine face Oracle text and type lines; missing optional data becomes empty strings, empty tuples, or `None`; missing name raises a clear `CardFactsError`; and tests prove the adapter output can feed `build_role_evidence_report`.
+
+Card Facts Adapter v0 must not add deck analysis, recommendations, candidate search, add/cut scoring, primary-role selection, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or large dataset ingestion.
 
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
