@@ -57,6 +57,7 @@
 - Do not let the deckbuilder workspace become secondary to search, stats, probability tools, or reports. Those features support the primary deck screen.
 - Do not treat frontend tooling scaffold as product implementation. A Vite/React shell is infrastructure until deckbuilder contracts and UI requirements are ready.
 - Do not install paid UI kits, account-gated services, telemetry tools, or desktop packaging frameworks without an explicit human checkpoint.
+- Do not treat "Delete Deck" as deleting card data. In the future UI, deleting a deck should remove/close/delete only that deck's native `.mtgwdeck.json` workspace and remove its cards from the current deck view; it must never delete cards from the local Scryfall/card database, card snapshots, shared indexes, owned-card data, source fixtures, or other decks.
 
 ## Capture Format
 
