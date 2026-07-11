@@ -40,6 +40,8 @@ Mutation behavior:
 
 Category Taxonomy v0 defines the controlled language future category helpers should use. Imported and user category text should be preserved; normalized categories are hints for future reasoning and should not become deck-specific role truth by themselves.
 
+Category Taxonomy Loader/Normalizer v0 can load the tiny local taxonomy fixture and normalize a label to a canonical category or `unknown` result. It does not mutate workspace entries yet.
+
 ## Filtering And Search Context
 
 - Filter current deck by text.

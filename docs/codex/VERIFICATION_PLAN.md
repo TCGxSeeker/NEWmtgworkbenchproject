@@ -331,6 +331,24 @@ Latest Test Command Hygiene v0 run on 2026-07-11:
 - `python -c "import mtg_workbench, mtg_workbench.cards.catalog as c"`: passed
 - `git diff --check`: passed
 
+## Category Taxonomy Loader/Normalizer V0 Checks
+
+After changing category taxonomy loader or normalization behavior:
+
+```powershell
+python -m unittest discover -s tests
+python -m unittest tests.test_deckbuilder_categories
+```
+
+Expected behavior: the loader reads the tiny local taxonomy fixture, validates canonical categories and alias targets, normalizes labels case-insensitively after whitespace cleanup, preserves the original label in normalization results, reports unknown labels without guessing, and does not mutate deck workspaces or auto-categorize cards.
+
+Latest Category Taxonomy Loader/Normalizer v0 run on 2026-07-11:
+
+- `python -m unittest discover -s tests`: passed, 80 tests, 0 failures
+- `python -m unittest tests.test_deckbuilder_categories`: passed, 9 tests, 0 failures
+- `python -m py_compile src/mtg_workbench/deckbuilder/categories.py tests/test_deckbuilder_categories.py`: passed
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

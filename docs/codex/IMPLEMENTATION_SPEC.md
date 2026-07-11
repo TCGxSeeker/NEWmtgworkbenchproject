@@ -309,6 +309,12 @@ Status: implemented.
 
 Make the canonical test command work from the repository root without manual environment setup. Definition of done: `python -m unittest discover -s tests` imports the `src/` package through repository-local setup, passes the full test suite, and does not add external dependencies.
 
+### Phase Product-7: Category Taxonomy Loader/Normalizer v0
+
+Status: implemented as a rules/data utility slice.
+
+Load the tiny local category taxonomy fixture and normalize category labels without mutating deck entries. Definition of done: `src/mtg_workbench/deckbuilder/categories.py` can load canonical categories and aliases from the local fixture, normalize labels case-insensitively with repeated-space cleanup, preserve the original input label in the result, report unknown labels without guessing, and validate alias targets. No card auto-categorization, deck analysis, recommendation logic, UI, frontend dependency, live API, telemetry, or large dataset ingestion is included.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

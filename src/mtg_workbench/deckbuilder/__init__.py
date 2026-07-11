@@ -1,5 +1,12 @@
 """Deckbuilder workspace model and native JSON serialization."""
 
+from mtg_workbench.deckbuilder.categories import (
+    CategoryNormalization,
+    CategoryTaxonomy,
+    CategoryTaxonomyError,
+    load_category_taxonomy,
+    normalize_category_key,
+)
 from mtg_workbench.deckbuilder.import_export import export_plain_text_decklist, import_plain_text_decklist
 from mtg_workbench.deckbuilder.mutations import (
     WorkspaceMutationError,
@@ -22,6 +29,9 @@ from mtg_workbench.deckbuilder.serialization import load_workspace, save_workspa
 __all__ = [
     "DeckEntry",
     "DeckWorkspace",
+    "CategoryNormalization",
+    "CategoryTaxonomy",
+    "CategoryTaxonomyError",
     "WorkspaceMutationError",
     "add_entry",
     "decrease_quantity",
@@ -30,10 +40,12 @@ __all__ = [
     "get_zone_entries",
     "increase_quantity",
     "import_plain_text_decklist",
+    "load_category_taxonomy",
     "list_entries",
     "load_workspace",
     "move_category",
     "move_zone",
+    "normalize_category_key",
     "remove_entry",
     "save_workspace",
     "set_commander",

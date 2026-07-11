@@ -93,7 +93,24 @@ Deferred beyond this slice:
 
 Deferred beyond this slice:
 
-- Category taxonomy loader/normalizer code.
+- Primary-role enforcement.
+- Role-counting engine.
+- Card-to-category dataset ingestion.
+
+## Category Taxonomy Loader/Normalizer V0
+
+- [x] Category taxonomy loader exists.
+- [x] Category label normalizer exists.
+- [x] Alias normalization is tested.
+- [x] Canonical category normalization is tested.
+- [x] Unknown category labels are preserved without guessing.
+- [x] Alias targets are validated.
+- [x] No workspace categories are mutated by taxonomy normalization in this slice.
+- [x] No new dependencies, UI, recommendations, analysis, or large datasets were added.
+
+Deferred beyond this slice:
+
+- Import/export integration with imported and normalized category fields.
 - Primary-role enforcement.
 - Role-counting engine.
 - Card-to-category dataset ingestion.

@@ -199,3 +199,9 @@
   - Alternatives considered: requiring `PYTHONPATH`, editing every test file, adding packaging/install steps, or using `sitecustomize.py`.
   - Risk: The root shim duplicates minimal package metadata and must keep pointing submodule imports at `src/mtg_workbench`.
   - Status: Accepted for Test Command Hygiene v0.
+
+- Decision: Keep Category Taxonomy Loader/Normalizer v0 separate from workspace mutation.
+  - Reason: The current deck entry model cannot preserve imported and normalized category fields separately yet, so the normalizer should return `input_category`, `normalized_category`, and origin metadata without overwriting user/imported labels.
+  - Alternatives considered: immediately normalizing import/export categories in place or adding deck-entry schema fields in this slice.
+  - Risk: Import/export will not use aliases automatically until a later category field-model slice.
+  - Status: Accepted for Category Taxonomy Loader/Normalizer v0.

@@ -94,6 +94,28 @@ Future model and analysis work should distinguish:
 - If a label is unknown, keep it as imported/user text and do not guess.
 - Do not infer deck-specific role from generic category alone.
 
+## Loader/Normalizer V0
+
+The v0 loader lives in `src/mtg_workbench/deckbuilder/categories.py`.
+
+It supports the tiny local fixture shape in `data/fixtures/categories/category_taxonomy.example.yaml` without adding a YAML dependency. It loads:
+
+- `schema_version`
+- `source`
+- `description`
+- `canonical_categories`
+- `aliases`
+
+The normalizer returns:
+
+- `input_category`: original user/imported label.
+- `normalized_category`: canonical category when an exact canonical or alias match exists.
+- `category_origin`: `normalized` or `unknown`.
+
+Unknown labels return `normalized_category: None` and keep the original label intact.
+
+V0 does not mutate `DeckWorkspace` or `DeckEntry` categories. Import/export integration should wait until the model can preserve both imported and normalized category fields.
+
 ## Deferred
 
 - No card-to-category dataset ingestion.
@@ -103,3 +125,4 @@ Future model and analysis work should distinguish:
 - No recommendation behavior.
 - No UI controls.
 - No large external data source.
+- No workspace category mutation from taxonomy normalization yet.
