@@ -323,6 +323,14 @@ Preserve category provenance on native deck entries so imported/user labels and 
 
 `categories` remains the compatibility grouping field for current deckbuilder behavior. Deck-specific primary role remains a future human-approved analysis concept, not a derived truth in this slice.
 
+### Phase Product-9: Deck Workspace Category Editing Helpers v0
+
+Status: implemented.
+
+Add explicit in-memory mutation helpers for editing deck entry category metadata after import/add flows. Definition of done: helpers can set or clear imported category, normalized category, generic category hint, deck-specific primary role placeholder, and category origin; helpers can add, remove, replace, or clear secondary tags; every helper finds entries by `entry_id`, raises clear missing-entry errors, preserves the existing `categories` grouping field, marks the workspace dirty, updates `updated_at`, and keeps native workspace round trips valid.
+
+If a category taxonomy is supplied, normalized categories may be validated as canonical taxonomy categories. Without a taxonomy, helpers preserve caller-supplied values without guessing or auto-normalizing. This phase must not add auto-categorization, role counting, recommendation logic, deck analysis, UI code, frontend dependencies, live APIs, telemetry, or large datasets.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

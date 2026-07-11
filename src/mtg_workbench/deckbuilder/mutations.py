@@ -4,7 +4,8 @@ from datetime import datetime, timezone
 from typing import Iterable
 from uuid import uuid4
 
-from mtg_workbench.deckbuilder.models import DeckEntry, DeckWorkspace, VALID_ZONES
+from mtg_workbench.deckbuilder.categories import CategoryTaxonomy
+from mtg_workbench.deckbuilder.models import DeckEntry, DeckWorkspace, VALID_CATEGORY_ORIGINS, VALID_ZONES
 
 
 class WorkspaceMutationError(ValueError):
@@ -161,6 +162,124 @@ def move_category(
     return _mark_dirty(workspace, updated_at)
 
 
+def set_imported_category(
+    workspace: DeckWorkspace,
+    entry_id: str,
+    value: str | None,
+    *,
+    updated_at: str | None = None,
+) -> DeckWorkspace:
+    entry = require_entry(workspace, entry_id)
+    entry.imported_category = _require_optional_string(value, "imported_category")
+    return _mark_dirty(workspace, updated_at)
+
+
+def set_normalized_category(
+    workspace: DeckWorkspace,
+    entry_id: str,
+    value: str | None,
+    *,
+    category_taxonomy: CategoryTaxonomy | None = None,
+    updated_at: str | None = None,
+) -> DeckWorkspace:
+    entry = require_entry(workspace, entry_id)
+    normalized_category = _require_optional_string(value, "normalized_category")
+    _validate_normalized_category(normalized_category, category_taxonomy)
+    entry.normalized_category = normalized_category
+    return _mark_dirty(workspace, updated_at)
+
+
+def set_generic_category_hint(
+    workspace: DeckWorkspace,
+    entry_id: str,
+    value: str | None,
+    *,
+    updated_at: str | None = None,
+) -> DeckWorkspace:
+    entry = require_entry(workspace, entry_id)
+    entry.generic_category_hint = _require_optional_string(value, "generic_category_hint")
+    return _mark_dirty(workspace, updated_at)
+
+
+def set_deck_specific_primary_role(
+    workspace: DeckWorkspace,
+    entry_id: str,
+    value: str | None,
+    *,
+    updated_at: str | None = None,
+) -> DeckWorkspace:
+    entry = require_entry(workspace, entry_id)
+    entry.deck_specific_primary_role = _require_optional_string(value, "deck_specific_primary_role")
+    return _mark_dirty(workspace, updated_at)
+
+
+def set_category_origin(
+    workspace: DeckWorkspace,
+    entry_id: str,
+    value: str | None,
+    *,
+    updated_at: str | None = None,
+) -> DeckWorkspace:
+    entry = require_entry(workspace, entry_id)
+    category_origin = _require_optional_string(value, "category_origin")
+    _validate_category_origin(category_origin)
+    entry.category_origin = category_origin
+    return _mark_dirty(workspace, updated_at)
+
+
+def add_secondary_tag(
+    workspace: DeckWorkspace,
+    entry_id: str,
+    tag: str,
+    *,
+    updated_at: str | None = None,
+) -> DeckWorkspace:
+    entry = require_entry(workspace, entry_id)
+    entry.secondary_tags = _stable_unique([*entry.secondary_tags, tag], "secondary_tags")
+    return _mark_dirty(workspace, updated_at)
+
+
+def remove_secondary_tag(
+    workspace: DeckWorkspace,
+    entry_id: str,
+    tag: str,
+    *,
+    updated_at: str | None = None,
+) -> DeckWorkspace:
+    entry = require_entry(workspace, entry_id)
+    tag_to_remove = _require_string(tag, "secondary_tag")
+    entry.secondary_tags = [existing_tag for existing_tag in entry.secondary_tags if existing_tag != tag_to_remove]
+    return _mark_dirty(workspace, updated_at)
+
+
+def replace_secondary_tags(
+    workspace: DeckWorkspace,
+    entry_id: str,
+    tags: Iterable[str],
+    *,
+    updated_at: str | None = None,
+) -> DeckWorkspace:
+    entry = require_entry(workspace, entry_id)
+    entry.secondary_tags = _stable_unique(tags, "secondary_tags")
+    return _mark_dirty(workspace, updated_at)
+
+
+def clear_category_metadata(
+    workspace: DeckWorkspace,
+    entry_id: str,
+    *,
+    updated_at: str | None = None,
+) -> DeckWorkspace:
+    entry = require_entry(workspace, entry_id)
+    entry.imported_category = None
+    entry.normalized_category = None
+    entry.generic_category_hint = None
+    entry.deck_specific_primary_role = None
+    entry.secondary_tags = []
+    entry.category_origin = None
+    return _mark_dirty(workspace, updated_at)
+
+
 def update_tags(
     workspace: DeckWorkspace,
     entry_id: str,
@@ -302,6 +421,32 @@ def _require_non_empty_string(value: str, field_name: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise WorkspaceMutationError(f"{field_name} must be a non-empty string.")
     return value.strip()
+
+
+def _require_optional_string(value: str | None, field_name: str) -> str | None:
+    if value is None:
+        return None
+    return _require_string(value, field_name)
+
+
+def _require_string(value: str, field_name: str) -> str:
+    if not isinstance(value, str):
+        raise WorkspaceMutationError(f"{field_name} must be a string or null.")
+    return value
+
+
+def _validate_normalized_category(value: str | None, category_taxonomy: CategoryTaxonomy | None) -> None:
+    if value is None or category_taxonomy is None:
+        return
+    if not category_taxonomy.is_canonical(value):
+        raise WorkspaceMutationError(f"normalized_category must be a canonical category: {value}.")
+
+
+def _validate_category_origin(value: str | None) -> None:
+    if value is None:
+        return
+    if value not in VALID_CATEGORY_ORIGINS:
+        raise WorkspaceMutationError(f"category_origin must be one of {sorted(VALID_CATEGORY_ORIGINS)}.")
 
 
 def _stable_unique(values: Iterable[str], field_name: str) -> list[str]:

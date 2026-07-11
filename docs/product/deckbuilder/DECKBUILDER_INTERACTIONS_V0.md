@@ -34,6 +34,7 @@ Mutation behavior:
 - Quantity decreases remove the entry when quantity reaches zero.
 - Moving to commander sets quantity to `1`.
 - Categories are stored as a list and can be replaced.
+- Category metadata can be edited explicitly without changing the grouping category.
 - Tags can be replaced, added, or removed with stable ordering.
 - Notes can be set or cleared.
 - Every mutation updates `updated_at` and marks the workspace dirty.
@@ -41,6 +42,8 @@ Mutation behavior:
 Category Taxonomy v0 defines the controlled language future category helpers should use. Imported and user category text should be preserved; normalized categories are hints for future reasoning and should not become deck-specific role truth by themselves.
 
 Category Taxonomy Loader/Normalizer v0 can load the tiny local taxonomy fixture and normalize a label to a canonical category or `unknown` result. Deck Entry Category Metadata v0 lets import/mutation helpers preserve both imported and normalized category fields, but it still does not auto-categorize cards or decide deck-specific role truth.
+
+Deck Workspace Category Editing Helpers v0 allows intentional edits to imported category, normalized category, generic category hint, deck-specific primary role placeholder, category origin, and secondary tags. These helpers preserve the current grouping category unless the separate category replacement action is used.
 
 ## Filtering And Search Context
 

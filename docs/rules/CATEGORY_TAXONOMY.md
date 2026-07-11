@@ -134,6 +134,22 @@ When a conservative built-in header is recognized without taxonomy normalization
 
 Unknown category labels are not guessed.
 
+## Deck Workspace Category Editing Helpers V0
+
+Category metadata can be edited after import/add flows through explicit workspace mutation helpers.
+
+Supported edits:
+
+- Set or clear `imported_category`.
+- Set or clear `normalized_category`.
+- Set or clear `generic_category_hint`.
+- Set or clear `deck_specific_primary_role`.
+- Set or clear `category_origin`.
+- Add, remove, replace, or clear `secondary_tags`.
+- Clear all category metadata while preserving `categories`.
+
+Helpers preserve the current `categories` grouping field unless a caller uses the separate category replacement helper. Supplying a taxonomy can validate that `normalized_category` is canonical; helpers do not auto-normalize arbitrary labels.
+
 ## Deferred
 
 - No card-to-category dataset ingestion.

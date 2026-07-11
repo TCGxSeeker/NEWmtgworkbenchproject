@@ -211,3 +211,9 @@
   - Alternatives considered: continuing to store only `categories`, normalizing imported labels in place, or enforcing primary roles immediately.
   - Risk: The model has more nullable metadata fields before UI controls exist, so future code must avoid treating empty fields as analysis failures.
   - Status: Accepted for Deck Entry Category Metadata v0.
+
+- Decision: Add explicit category metadata edit helpers without changing the grouping category.
+  - Reason: Users and future UI actions need to revise imported, normalized, hint, origin, and secondary-tag metadata after import without silently changing deck organization.
+  - Alternatives considered: overloading `move_category`, auto-normalizing all category edits, or waiting for UI controls before adding mutation helpers.
+  - Risk: Callers must choose between grouping edits and metadata edits deliberately.
+  - Status: Accepted for Deck Workspace Category Editing Helpers v0.

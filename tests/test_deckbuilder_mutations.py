@@ -1,17 +1,28 @@
+from pathlib import Path
 import unittest
 
+from mtg_workbench.deckbuilder.categories import load_category_taxonomy
 from mtg_workbench.deckbuilder.models import DeckWorkspace
 from mtg_workbench.deckbuilder.mutations import (
     WorkspaceMutationError,
     add_entry,
+    add_secondary_tag,
+    clear_category_metadata,
     decrease_quantity,
     find_entry,
     increase_quantity,
     list_entries,
     move_category,
     move_zone,
+    remove_secondary_tag,
     remove_entry,
+    replace_secondary_tags,
     set_commander,
+    set_category_origin,
+    set_deck_specific_primary_role,
+    set_generic_category_hint,
+    set_imported_category,
+    set_normalized_category,
     update_notes,
     update_tags,
 )
@@ -20,10 +31,32 @@ from mtg_workbench.deckbuilder.serialization import dumps_workspace, loads_works
 
 STAMP_ONE = "2026-07-10T01:00:00Z"
 STAMP_TWO = "2026-07-10T02:00:00Z"
+TAXONOMY_FIXTURE = Path(__file__).parent.parent / "data" / "fixtures" / "categories" / "category_taxonomy.example.yaml"
 
 
 def _workspace() -> DeckWorkspace:
     return DeckWorkspace.create_empty(name="Mutation Test Deck", deck_id="deck-mutations")
+
+
+def _workspace_with_category_metadata_entry() -> DeckWorkspace:
+    workspace = _workspace()
+    add_entry(
+        workspace,
+        "Arcane Helper",
+        display_name="Arcane Helper",
+        entry_id="category-card",
+        categories=["Draw"],
+        imported_category="Card Draw",
+        normalized_category="Draw",
+        generic_category_hint="Draw",
+        deck_specific_primary_role="Card Advantage",
+        secondary_tags=["setup"],
+        category_origin="normalized",
+        updated_at=STAMP_ONE,
+    )
+    workspace.saved_state["is_dirty"] = False
+    workspace.updated_at = STAMP_ONE
+    return workspace
 
 
 class DeckbuilderMutationTests(unittest.TestCase):
@@ -244,6 +277,120 @@ class DeckbuilderMutationTests(unittest.TestCase):
         self.assertEqual(entry.categories, ["Ramp", "Draw"])
         self.assertEqual(entry.tags, ["keep"])
         self.assertEqual(entry.notes, "Keep this.")
+
+    def test_set_imported_category_preserves_grouping_marks_dirty_and_updates_timestamp(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+
+        returned = set_imported_category(workspace, "category-card", "Draw Spells", updated_at=STAMP_TWO)
+
+        entry = workspace.mainboard[0]
+        self.assertIs(returned, workspace)
+        self.assertEqual(entry.imported_category, "Draw Spells")
+        self.assertEqual(entry.categories, ["Draw"])
+        self.assertTrue(workspace.saved_state["is_dirty"])
+        self.assertEqual(workspace.updated_at, STAMP_TWO)
+
+    def test_set_normalized_category_validates_with_taxonomy_when_supplied(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+        taxonomy = load_category_taxonomy(TAXONOMY_FIXTURE)
+
+        set_normalized_category(workspace, "category-card", "Ramp", category_taxonomy=taxonomy, updated_at=STAMP_TWO)
+
+        self.assertEqual(workspace.mainboard[0].normalized_category, "Ramp")
+        self.assertEqual(workspace.mainboard[0].categories, ["Draw"])
+
+        with self.assertRaises(WorkspaceMutationError) as context:
+            set_normalized_category(workspace, "category-card", "Card Draw", category_taxonomy=taxonomy, updated_at=STAMP_TWO)
+
+        self.assertIn("normalized_category must be a canonical category", str(context.exception))
+
+    def test_set_normalized_category_without_taxonomy_preserves_value_without_guessing(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+
+        set_normalized_category(workspace, "category-card", "Personal Bucket", updated_at=STAMP_TWO)
+
+        self.assertEqual(workspace.mainboard[0].normalized_category, "Personal Bucket")
+
+    def test_set_generic_category_hint(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+
+        set_generic_category_hint(workspace, "category-card", "Selection", updated_at=STAMP_TWO)
+
+        self.assertEqual(workspace.mainboard[0].generic_category_hint, "Selection")
+        self.assertEqual(workspace.mainboard[0].categories, ["Draw"])
+
+    def test_set_deck_specific_primary_role_placeholder(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+
+        set_deck_specific_primary_role(workspace, "category-card", "Engine Setup", updated_at=STAMP_TWO)
+
+        self.assertEqual(workspace.mainboard[0].deck_specific_primary_role, "Engine Setup")
+        self.assertEqual(workspace.mainboard[0].categories, ["Draw"])
+
+    def test_set_category_origin_validates_known_origin(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+
+        set_category_origin(workspace, "category-card", "user", updated_at=STAMP_TWO)
+
+        self.assertEqual(workspace.mainboard[0].category_origin, "user")
+
+        with self.assertRaises(WorkspaceMutationError) as context:
+            set_category_origin(workspace, "category-card", "invented", updated_at=STAMP_TWO)
+
+        self.assertIn("category_origin must be one of", str(context.exception))
+
+    def test_add_secondary_tag_with_stable_deduplication(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+
+        add_secondary_tag(workspace, "category-card", "cantrip", updated_at=STAMP_TWO)
+        add_secondary_tag(workspace, "category-card", "setup", updated_at=STAMP_TWO)
+
+        self.assertEqual(workspace.mainboard[0].secondary_tags, ["setup", "cantrip"])
+
+    def test_remove_secondary_tag(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+        replace_secondary_tags(workspace, "category-card", ["setup", "cantrip"], updated_at=STAMP_TWO)
+
+        remove_secondary_tag(workspace, "category-card", "setup", updated_at=STAMP_TWO)
+
+        self.assertEqual(workspace.mainboard[0].secondary_tags, ["cantrip"])
+
+    def test_replace_secondary_tags(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+
+        replace_secondary_tags(workspace, "category-card", ["engine", "engine", "payoff"], updated_at=STAMP_TWO)
+
+        self.assertEqual(workspace.mainboard[0].secondary_tags, ["engine", "payoff"])
+
+    def test_clear_category_metadata_preserves_grouping_category(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+
+        clear_category_metadata(workspace, "category-card", updated_at=STAMP_TWO)
+
+        entry = workspace.mainboard[0]
+        self.assertEqual(entry.categories, ["Draw"])
+        self.assertIsNone(entry.imported_category)
+        self.assertIsNone(entry.normalized_category)
+        self.assertIsNone(entry.generic_category_hint)
+        self.assertIsNone(entry.deck_specific_primary_role)
+        self.assertEqual(entry.secondary_tags, [])
+        self.assertIsNone(entry.category_origin)
+        self.assertTrue(workspace.saved_state["is_dirty"])
+        self.assertEqual(workspace.updated_at, STAMP_TWO)
+
+    def test_category_metadata_helpers_raise_clear_error_for_missing_entry(self) -> None:
+        with self.assertRaises(WorkspaceMutationError) as context:
+            set_imported_category(_workspace(), "missing-entry", "Draw", updated_at=STAMP_TWO)
+
+        self.assertIn("Entry not found: missing-entry.", str(context.exception))
+
+    def test_category_metadata_helpers_reject_invalid_value_shapes(self) -> None:
+        workspace = _workspace_with_category_metadata_entry()
+
+        with self.assertRaises(WorkspaceMutationError) as context:
+            replace_secondary_tags(workspace, "category-card", ["valid", 123], updated_at=STAMP_TWO)
+
+        self.assertIn("secondary_tags must contain only strings.", str(context.exception))
 
     def test_update_tags_replaces_adds_and_removes_with_stable_order(self) -> None:
         workspace = _workspace()

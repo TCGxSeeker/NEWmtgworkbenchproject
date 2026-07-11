@@ -368,6 +368,25 @@ Latest Deck Entry Category Metadata v0 run on 2026-07-11:
 - `python -m unittest discover -s tests`: passed, 86 tests, 0 failures
 - `git diff --check`: passed
 
+## Deck Workspace Category Editing Helpers V0 Checks
+
+After changing category metadata mutation helpers:
+
+```powershell
+python -m unittest discover -s tests
+python -m unittest tests.test_deckbuilder_mutations
+git diff --check
+```
+
+Expected behavior: category metadata helpers edit only the requested metadata fields, find entries by `entry_id`, preserve the existing `categories` grouping field, mark `saved_state.is_dirty` true, update `updated_at`, raise clear missing-entry errors, validate normalized categories only when a taxonomy is supplied, and avoid auto-categorization, role counting, recommendations, deck analysis, UI code, frontend dependencies, network calls, live APIs, or large datasets.
+
+Latest Deck Workspace Category Editing Helpers v0 run on 2026-07-11:
+
+- `python -m unittest tests.test_deckbuilder_mutations`: passed, 39 tests, 0 failures
+- `python -m py_compile src/mtg_workbench/deckbuilder/mutations.py tests/test_deckbuilder_mutations.py`: passed
+- `python -m unittest discover -s tests`: passed, 98 tests, 0 failures
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

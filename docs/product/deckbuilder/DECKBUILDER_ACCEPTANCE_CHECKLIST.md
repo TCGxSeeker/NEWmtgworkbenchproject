@@ -136,3 +136,25 @@ Deferred beyond this slice:
 - Card-to-category dataset ingestion.
 - UI controls for category metadata.
 - Strategic category/role recommendations.
+
+## Deck Workspace Category Editing Helpers V0
+
+- [x] Imported category can be set or cleared by entry id.
+- [x] Normalized category can be set or cleared by entry id.
+- [x] Normalized category can be validated against a supplied taxonomy.
+- [x] Generic category hint can be set or cleared by entry id.
+- [x] Deck-specific primary role placeholder can be set or cleared by entry id.
+- [x] Category origin can be set or cleared by entry id.
+- [x] Secondary tags can be added, removed, replaced, and cleared.
+- [x] Missing entry ids raise clear errors.
+- [x] Category metadata edits preserve the current `categories` grouping field.
+- [x] Category metadata edits update `updated_at`.
+- [x] Category metadata edits mark `saved_state.is_dirty` true.
+- [x] No UI code, frontend dependency changes, recommendations, role counting, auto-categorization, live APIs, or large datasets were added.
+
+Deferred beyond this slice:
+
+- UI controls for category metadata.
+- Primary-role enforcement.
+- Role-counting engine.
+- Strategic category/role recommendations.
