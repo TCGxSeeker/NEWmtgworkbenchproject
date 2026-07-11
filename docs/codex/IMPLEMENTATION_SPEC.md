@@ -303,6 +303,12 @@ Define a controlled category language for deckbuilder card roles and imported de
 
 Generic card category is a hint. Deck-specific role is the truth.
 
+### Phase Hygiene-1: Test Command Hygiene v0
+
+Status: implemented.
+
+Make the canonical test command work from the repository root without manual environment setup. Definition of done: `python -m unittest discover -s tests` imports the `src/` package through repository-local setup, passes the full test suite, and does not add external dependencies.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

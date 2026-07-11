@@ -20,6 +20,16 @@ Expected root: `C:/Users/StDeL/Documents/New MTG project`.
 - Recommendation outputs must cite local rules, local data, or explicit user-approved exceptions.
 - Human validation flags must be testable and visible in reports.
 
+## Standard Test Command
+
+Run Python tests from the repository root:
+
+```powershell
+python -m unittest discover -s tests
+```
+
+The repository-root `mtg_workbench` import shim points submodule imports at `src/mtg_workbench`.
+
 ## Future Test Categories
 
 Add unit and fixture tests for:
@@ -303,6 +313,22 @@ Latest Category Taxonomy v0 run on 2026-07-11:
 - `python -m unittest discover -s tests`: failed because `src` was not on `PYTHONPATH`; tests could not import `mtg_workbench`
 - `$env:PYTHONPATH='src'; python -m unittest discover -s tests`: passed, 71 tests, 0 failures
 - Category taxonomy file presence checks: passed
+- `git diff --check`: passed
+
+## Test Command Hygiene V0 Checks
+
+After changing repository Python import/test setup:
+
+```powershell
+python -m unittest discover -s tests
+```
+
+Expected behavior: tests run from the repository root without manual `PYTHONPATH` setup, no external dependencies are added, and existing test behavior is unchanged.
+
+Latest Test Command Hygiene v0 run on 2026-07-11:
+
+- `python -m unittest discover -s tests`: passed, 71 tests, 0 failures
+- `python -c "import mtg_workbench, mtg_workbench.cards.catalog as c"`: passed
 - `git diff --check`: passed
 
 ## Manual Human Review Checklist

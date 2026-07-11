@@ -13,9 +13,10 @@ No finished deckbuilder UI, recommendation engine, scoring rubric, or structural
 Run Python tests from the repo root:
 
 ```powershell
-$env:PYTHONPATH = 'src'
 python -m unittest discover -s tests
 ```
+
+The repository-root `mtg_workbench` import shim points submodule imports at `src/mtg_workbench`, so manual `PYTHONPATH` setup is not required for the standard test command.
 
 Run the frontend scaffold checks:
 

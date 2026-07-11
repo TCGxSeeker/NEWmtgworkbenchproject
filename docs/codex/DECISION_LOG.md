@@ -193,3 +193,9 @@
   - Alternatives considered: auto-categorizing cards immediately, ingesting a large card-to-category dataset, or treating imported category names as authoritative deck roles.
   - Risk: Future code may over-count roles if category hints are treated as primary roles without a deck-context role model.
   - Status: Accepted for Category Taxonomy v0.
+
+- Decision: Use a repository-root import shim for test command hygiene.
+  - Reason: The project uses a `src/` layout, and the standard command `python -m unittest discover -s tests` should work from the repository root without manual `PYTHONPATH` setup.
+  - Alternatives considered: requiring `PYTHONPATH`, editing every test file, adding packaging/install steps, or using `sitecustomize.py`.
+  - Risk: The root shim duplicates minimal package metadata and must keep pointing submodule imports at `src/mtg_workbench`.
+  - Status: Accepted for Test Command Hygiene v0.
