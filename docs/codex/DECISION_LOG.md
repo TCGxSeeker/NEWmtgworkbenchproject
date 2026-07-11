@@ -217,3 +217,9 @@
   - Alternatives considered: overloading `move_category`, auto-normalizing all category edits, or waiting for UI controls before adding mutation helpers.
   - Risk: Callers must choose between grouping edits and metadata edits deliberately.
   - Status: Accepted for Deck Workspace Category Editing Helpers v0.
+
+- Decision: Design deterministic rules-based analysis before implementing automated deck analysis or recommendations.
+  - Reason: The product needs reproducible local evidence, explainable scoring, and clear human validation boundaries before any recommendation engine exists.
+  - Alternatives considered: implementing analysis directly from current fixtures, AI-assisted recommendations, live API-backed recommendations, or popularity-driven ranking.
+  - Risk: The algorithm may need refinement once real deck fixtures and scoring rubrics are supplied.
+  - Status: Accepted for Deterministic Deck Analysis Algorithm v0 planning.

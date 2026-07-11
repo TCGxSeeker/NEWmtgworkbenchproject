@@ -387,6 +387,24 @@ Latest Deck Workspace Category Editing Helpers v0 run on 2026-07-11:
 - `python -m unittest discover -s tests`: passed, 98 tests, 0 failures
 - `git diff --check`: passed
 
+## Deterministic Deck Analysis Algorithm Spec V0 Checks
+
+After changing the deterministic algorithm planning doc:
+
+```powershell
+Test-Path docs/product/algorithm/DETERMINISTIC_DECK_ANALYSIS_ALGORITHM_V0.md
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: the spec exists and describes local/offline deterministic analysis layers, inputs, mechanical validation, card feature extraction, role/category classification, shell audit, commander thesis matching, package detection, candidate search, add/cut scoring, explanation output, phase plan, non-goals, and future acceptance criteria. This planning slice must not add code, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, recommendations, or deck analysis behavior.
+
+Latest Deterministic Deck Analysis Algorithm Spec v0 run on 2026-07-11:
+
+- `Test-Path docs/product/algorithm/DETERMINISTIC_DECK_ANALYSIS_ALGORITHM_V0.md`: passed
+- `python -m unittest discover -s tests`: passed, 98 tests, 0 failures
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

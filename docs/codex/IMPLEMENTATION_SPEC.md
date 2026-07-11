@@ -331,6 +331,14 @@ Add explicit in-memory mutation helpers for editing deck entry category metadata
 
 If a category taxonomy is supplied, normalized categories may be validated as canonical taxonomy categories. Without a taxonomy, helpers preserve caller-supplied values without guessing or auto-normalizing. This phase must not add auto-categorization, role counting, recommendation logic, deck analysis, UI code, frontend dependencies, live APIs, telemetry, or large datasets.
 
+### Phase Algorithm-1: Deterministic Deck Analysis Algorithm v0
+
+Status: planned.
+
+Design the local/offline rules-based algorithm before implementing deck analysis or recommendations. Definition of done: `docs/product/algorithm/DETERMINISTIC_DECK_ANALYSIS_ALGORITHM_V0.md` documents inputs, algorithm layers, mechanical validation, feature extraction, role/category classification, shell audit, commander thesis matching, package detection, candidate search, add/cut scoring, explanation output, phase plan, non-goals, and future acceptance criteria.
+
+The algorithm plan must preserve core doctrine: Oracle text and local card data are evidence, generic category is a hint, deck-specific role is the truth, imported/user labels are preserved, recommendations must be explainable and reproducible, and `no_swap` is valid. This phase must not add analyzer code, recommendations, AI/LLM calls, live APIs, UI, frontend dependencies, telemetry, hosted services, popularity-based ranking, full combo solving, full judge legality, or full price optimization.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.
