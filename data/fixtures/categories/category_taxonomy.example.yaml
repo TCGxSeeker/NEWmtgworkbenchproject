@@ -1,0 +1,72 @@
+schema_version: 1
+source: category_taxonomy_v0_example
+description: Tiny local example fixture for canonical category names and aliases.
+canonical_categories:
+  - Commander
+  - Land
+  - Ramp
+  - Fixing
+  - Draw
+  - Selection
+  - Tutor
+  - Engine
+  - Interaction
+  - Removal
+  - Countermagic
+  - Board Wipe
+  - Protection
+  - Recursion
+  - Sac Outlet
+  - Token Maker
+  - Aristocrat Payoff
+  - Combo Piece
+  - Payoff
+  - Wincon
+  - Stax
+  - Voltron
+  - Equipment
+  - Aura
+  - Utility
+  - Flex
+  - Pet Card
+aliases:
+  Acceleration: Ramp
+  Boardwipe: Board Wipe
+  Cantrip: Selection
+  Card Advantage: Draw
+  Card Draw: Draw
+  Closer: Wincon
+  Counterspell: Countermagic
+  Counterspells: Countermagic
+  Filtering: Selection
+  Finisher: Wincon
+  Graveyard Recursion: Recursion
+  Looting: Selection
+  Mana Dork: Ramp
+  Mana Rock: Ramp
+  Protection Spell: Protection
+  Reanimation: Recursion
+  Rummaging: Selection
+  Sacrifice Outlet: Sac Outlet
+  Spot Removal: Removal
+  Win Condition: Wincon
+  Wrath: Board Wipe
+field_model:
+  imported_category: Original category or header from imported decklists.
+  normalized_category: Canonical category matched from alias or exact canonical name.
+  generic_category_hint: Broad category hint that should not become role truth by itself.
+  deck_specific_primary_role: Future primary role that counts in this exact deck context.
+  secondary_tags: Non-counting labels and supporting hints.
+  category_origin:
+    - imported
+    - user
+    - normalized
+    - inferred
+    - taxonomy_default
+deferred:
+  - card_to_category_dataset_ingestion
+  - automatic_card_categorization
+  - role_counting_engine
+  - primary_role_enforcement
+  - recommendations
+  - ui_controls

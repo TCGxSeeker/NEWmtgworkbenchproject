@@ -285,6 +285,26 @@ Latest Deck Workspace Import/Export v0 run on 2026-07-10:
 - `git diff --check`: passed; Git reported expected line-ending normalization warnings from `.gitattributes`
 - Frontend build/lint checks: not run because this pass did not change frontend code or dependencies
 
+## Category Taxonomy V0 Checks
+
+After changing category taxonomy docs or fixtures:
+
+```powershell
+$env:PYTHONPATH='src'
+python -m unittest discover -s tests
+Test-Path docs/rules/CATEGORY_TAXONOMY.md
+Test-Path data/fixtures/categories/category_taxonomy.example.yaml
+```
+
+Expected behavior: taxonomy docs define canonical categories, aliases, normalization approach, imported/user category preservation, future field distinctions, and deferred auto-categorization behavior. The fixture remains tiny and local. No network access, UI code, frontend dependencies, recommendations, full deck analysis, telemetry, live APIs, or large card-to-category datasets are involved.
+
+Latest Category Taxonomy v0 run on 2026-07-11:
+
+- `python -m unittest discover -s tests`: failed because `src` was not on `PYTHONPATH`; tests could not import `mtg_workbench`
+- `$env:PYTHONPATH='src'; python -m unittest discover -s tests`: passed, 71 tests, 0 failures
+- Category taxonomy file presence checks: passed
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

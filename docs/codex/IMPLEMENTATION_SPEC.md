@@ -295,6 +295,14 @@ Implement local plain text conversion for native deck workspaces without UI code
 
 Plain text remains an import/export boundary format. `.mtgwdeck.json` remains the saved workspace source of truth.
 
+### Phase Product-6: Category Taxonomy v0
+
+Status: implemented as a rules/data foundation slice; no code auto-categorization, UI, frontend dependencies, recommendations, large datasets, online dependencies, telemetry, or deck analysis were added.
+
+Define a controlled category language for deckbuilder card roles and imported decklist headers. Definition of done: `docs/rules/CATEGORY_TAXONOMY.md` defines canonical categories, aliases, normalization doctrine, imported/user category preservation, future category field distinctions, and deferred behavior; `data/fixtures/categories/category_taxonomy.example.yaml` provides a tiny local example fixture.
+
+Generic card category is a hint. Deck-specific role is the truth.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

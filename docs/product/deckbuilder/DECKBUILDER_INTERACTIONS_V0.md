@@ -38,6 +38,8 @@ Mutation behavior:
 - Notes can be set or cleared.
 - Every mutation updates `updated_at` and marks the workspace dirty.
 
+Category Taxonomy v0 defines the controlled language future category helpers should use. Imported and user category text should be preserved; normalized categories are hints for future reasoning and should not become deck-specific role truth by themselves.
+
 ## Filtering And Search Context
 
 - Filter current deck by text.
@@ -81,6 +83,8 @@ Deck Workspace Import/Export v0 implements plain text conversion only:
 - Export emits Commander, Mainboard, and Maybeboard sections with `1x Card Name` lines.
 - Export uses `display_name` when present and falls back to `input_name`.
 - Successful native saves mark the workspace clean.
+
+Category normalization should use `docs/rules/CATEGORY_TAXONOMY.md` when a category/header clearly matches a canonical category or alias. Unknown category labels should remain user/imported text rather than being guessed.
 
 ## Human Validation
 

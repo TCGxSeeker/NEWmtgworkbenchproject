@@ -78,3 +78,22 @@ Deferred beyond this slice:
 - Full external deckbuilder format support.
 - Perfect reconstruction of original comments or every source header.
 - Full Commander legality validation.
+
+## Category Taxonomy V0
+
+- [x] Category taxonomy doc exists.
+- [x] Canonical categories are defined.
+- [x] Aliases and synonyms are defined.
+- [x] Imported/user categories are separated from normalized and inferred categories.
+- [x] Tiny local category fixture exists.
+- [x] Generic category is documented as a hint.
+- [x] Deck-specific role is documented as the truth.
+- [x] No large card-to-category dataset was added.
+- [x] No auto-categorization, recommendations, analysis, UI, or frontend dependency changes were added for this slice.
+
+Deferred beyond this slice:
+
+- Category taxonomy loader/normalizer code.
+- Primary-role enforcement.
+- Role-counting engine.
+- Card-to-category dataset ingestion.

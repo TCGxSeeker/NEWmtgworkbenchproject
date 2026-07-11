@@ -185,3 +185,11 @@
   - Alternatives considered: preserving dirty state from disk or waiting for a full workspace session layer.
   - Risk: Low-level JSON dumps can still serialize dirty state for tests or diagnostics, so callers should use `save_workspace` for real saves.
   - Status: Accepted for Deck Workspace Import/Export v0.
+
+## 2026-07-11
+
+- Decision: Define Category Taxonomy v0 as a controlled category language, not an auto-categorization engine.
+  - Reason: Imported/user categories should be preserved, normalized categories should help future reasoning, and deck-specific role must remain the source of truth.
+  - Alternatives considered: auto-categorizing cards immediately, ingesting a large card-to-category dataset, or treating imported category names as authoritative deck roles.
+  - Risk: Future code may over-count roles if category hints are treated as primary roles without a deck-context role model.
+  - Status: Accepted for Category Taxonomy v0.
