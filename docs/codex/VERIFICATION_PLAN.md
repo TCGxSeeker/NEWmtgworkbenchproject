@@ -509,6 +509,28 @@ Latest Card Facts Adapter v0 run on 2026-07-11:
 - `python -m unittest discover -s tests`: passed, 130 tests, 0 failures
 - `git diff --check`: passed
 
+## Card Role Evidence Pipeline V0 Checks
+
+After changing card role evidence pipeline behavior:
+
+```powershell
+python -m py_compile src/mtg_workbench/deckbuilder/card_role_pipeline.py
+python -m py_compile src/mtg_workbench/deckbuilder/__init__.py
+python -m unittest tests.test_deckbuilder_card_role_pipeline
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: local or Scryfall-ish card record dictionaries convert into card-level `RoleEvidenceReport` objects by using `card_record_to_role_facts` and `build_role_evidence_report`. Missing-name validation remains `CardFactsError`, batch conversion returns reports in input order, `include_unmatched` flows through for advanced/debug views, and output keeps user summaries, machine evidence, explanations, and debug details separated. This pipeline must not add deck analysis, recommendations, candidate search, add/cut scoring, role enforcement, UI, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or large data ingestion.
+
+Latest Card Role Evidence Pipeline v0 run on 2026-07-11:
+
+- `python -m py_compile src/mtg_workbench/deckbuilder/card_role_pipeline.py`: passed
+- `python -m py_compile src/mtg_workbench/deckbuilder/__init__.py`: passed
+- `python -m unittest tests.test_deckbuilder_card_role_pipeline`: passed, 8 tests, 0 failures
+- `python -m unittest discover -s tests`: passed, 138 tests, 0 failures
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

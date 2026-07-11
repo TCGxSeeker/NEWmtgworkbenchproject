@@ -377,6 +377,14 @@ Create a small local/offline adapter that converts local or Scryfall-ish card re
 
 Card Facts Adapter v0 must not add deck analysis, recommendations, candidate search, add/cut scoring, primary-role selection, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or large dataset ingestion.
 
+### Phase Algorithm-7: Card Role Evidence Pipeline v0
+
+Status: implemented.
+
+Create the smallest bridge from local or Scryfall-ish card records to `RoleEvidenceReport` objects. Definition of done: `card_record_to_role_evidence_report(record, ruleset)` converts one record through `card_record_to_role_facts` and `build_role_evidence_report`; `card_records_to_role_evidence_reports(records, ruleset)` preserves input order and returns a tuple; `include_unmatched` is passed through for advanced/debug reporting; and clear `CardFactsError` validation behavior is preserved.
+
+Card Role Evidence Pipeline v0 must remain card-level evidence plumbing only. It must not add deck analysis, recommendations, candidate search, add/cut scoring, primary-role selection, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or large dataset ingestion.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

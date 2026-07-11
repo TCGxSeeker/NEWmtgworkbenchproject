@@ -86,7 +86,7 @@ Feature extraction converts local card data into stable facts:
 
 Extraction should store evidence references such as source field, matched phrase, and local rule id.
 
-Card Facts Adapter v0 bridges local or Scryfall-ish record dictionaries into `CardRoleFacts` for role evidence matching. It does not perform deck analysis or primary-role selection.
+Card Facts Adapter v0 bridges local or Scryfall-ish record dictionaries into `CardRoleFacts` for role evidence matching. Card Role Evidence Pipeline v0 then converts those records into `RoleEvidenceReport` objects. Neither layer performs deck analysis or primary-role selection.
 
 ## 6. Role/Category Classification
 

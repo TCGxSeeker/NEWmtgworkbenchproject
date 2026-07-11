@@ -253,3 +253,9 @@
   - Alternatives considered: making the matcher accept raw card records directly, deriving facts inside full deck analysis, or ingesting large Scryfall datasets first.
   - Risk: The adapter uses conservative subtype parsing and may need expansion when richer local card models arrive.
   - Status: Accepted for Card Facts Adapter v0.
+
+- Decision: Add a thin Card Role Evidence Pipeline before deck-level reports.
+  - Reason: Local/Scryfall-ish card records should flow through the existing card facts adapter and role evidence report without teaching the matcher about raw record shapes.
+  - Alternatives considered: making report builders accept raw dictionaries directly, starting deck analysis immediately, or selecting primary roles in the same slice.
+  - Risk: This remains card-level evidence only, so future deck reports still need an explicit workspace/deck aggregation layer.
+  - Status: Accepted for Card Role Evidence Pipeline v0.

@@ -16,11 +16,16 @@
 - Role Evidence Matcher v0
 - Role Evidence Report v0
 - Card Facts Adapter v0
+- Card Role Evidence Pipeline v0
+
+## Current Branch
+
+- `card-role-evidence-pipeline-v0`
 
 ## Current Test Status
 
 - `python -m unittest discover -s tests`
-- Latest known result: 130 tests passing
+- Latest known result: 138 tests passing
 - `git diff --check` passing
 
 ## Core Constraints
@@ -50,7 +55,7 @@ Future output schemas should separate machine-readable evidence, concise user-fa
 
 ## Next Recommended Slice
 
-Deck Skeleton Report v0 planning, or a small deck/workspace bridge that feeds known local card records through `card_record_to_role_facts` and the existing role evidence matcher.
+Deck Skeleton Report v0 planning, or a small workspace/deck aggregation bridge that feeds known local card records through the card role evidence pipeline.
 
 ## Established Role Evidence Defaults
 
@@ -59,6 +64,8 @@ Deck Skeleton Report v0 planning, or a small deck/workspace bridge that feeds kn
 - Score combination uses `highest_match` only.
 - Role evidence matching works from explicit `CardRoleFacts`.
 - `card_record_to_role_facts` converts local/Scryfall-ish records into `CardRoleFacts`.
+- `card_record_to_role_evidence_report` converts one local/Scryfall-ish record into a card-level `RoleEvidenceReport`.
+- `card_records_to_role_evidence_reports` returns a tuple of card-level reports in input order.
 - Role evidence reports separate user summaries, machine evidence, explanations, and optional debug details.
 - Additive capped scoring is not implemented.
 - Full deck classification is not implemented.

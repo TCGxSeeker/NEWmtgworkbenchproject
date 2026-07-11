@@ -27,6 +27,10 @@ from mtg_workbench.deckbuilder.card_facts import (
     card_record_to_role_facts,
     records_to_role_facts,
 )
+from mtg_workbench.deckbuilder.card_role_pipeline import (
+    card_record_to_role_evidence_report,
+    card_records_to_role_evidence_reports,
+)
 from mtg_workbench.deckbuilder.import_export import export_plain_text_decklist, import_plain_text_decklist
 from mtg_workbench.deckbuilder.mutations import (
     WorkspaceMutationError,
@@ -57,6 +61,8 @@ __all__ = [
     "RoleEvidenceMatch",
     "CardRoleFacts",
     "CardFactsError",
+    "card_record_to_role_evidence_report",
+    "card_records_to_role_evidence_reports",
     "card_record_to_role_facts",
     "normalize_role_key",
     "normalize_match_text",

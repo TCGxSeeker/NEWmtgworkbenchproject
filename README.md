@@ -4,7 +4,7 @@ Offline-first Commander deckbuilding workbench for importing decklists, normaliz
 
 ## Current Status
 
-The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, Deckbuilder Foundation helpers for native `.mtgwdeck.json` files plus plain text import/export, deterministic algorithm planning, Role Rules v0 docs/fixtures, a role-rule loader, a role evidence matcher, a card facts adapter, and a small role evidence report object.
+The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, Deckbuilder Foundation helpers for native `.mtgwdeck.json` files plus plain text import/export, deterministic algorithm planning, Role Rules v0 docs/fixtures, a role-rule loader, a role evidence matcher, a card facts adapter, a card role evidence pipeline, and a small role evidence report object.
 
 No finished deckbuilder UI, recommendation engine, scoring rubric, structural audit engine, or full deck report exists yet.
 
@@ -50,4 +50,4 @@ Pop-Location
 
 ## Implementation Boundary
 
-Deckbuilder Foundation implementation has begun with the native workspace model, in-memory mutation helpers, plain text import/export, role-rule loading, card facts adaptation, role evidence matching, and role evidence report output. Do not add app UI, new frontend dependencies, full deck reports, recommendations, scoring logic, live APIs, or visual components until their own implementation slice is approved.
+Deckbuilder Foundation implementation has begun with the native workspace model, in-memory mutation helpers, plain text import/export, role-rule loading, card facts adaptation, card-level role evidence pipelines, role evidence matching, and role evidence report output. Do not add app UI, new frontend dependencies, full deck reports, recommendations, scoring logic, live APIs, or visual components until their own implementation slice is approved.
