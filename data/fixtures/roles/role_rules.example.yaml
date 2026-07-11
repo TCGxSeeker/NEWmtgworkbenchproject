@@ -1,0 +1,350 @@
+schema_version: 1
+source: role_rules_v0_example
+description: Tiny local example role rules for deterministic card-function evidence.
+
+evidence_score_bands:
+  - score: 0
+    meaning: no evidence
+  - score: 25
+    meaning: weak hint
+  - score: 50
+    meaning: plausible role
+  - score: 75
+    meaning: strong role
+  - score: 100
+    meaning: exact or direct role evidence
+
+ui_visibility:
+  default: show concise user-facing summaries
+  expanded: show short why-this-was-flagged explanations
+  advanced_debug: show raw rule evidence, confidence scores, matched phrases, and internal data
+  output_fields:
+    - machine_evidence
+    - user_summary
+    - explanation
+    - debug_details
+
+roles:
+  - role_id: land
+    canonical_role: Land
+    description: Land-slot card or card with land type evidence.
+    evidence_rules:
+      type_matches:
+        - field: type_line
+          contains: Land
+          score: 100
+    exclusion_rules: []
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: Counts as a land when its type line contains Land.
+    explanation_template: "{card_name} matched Land because {matched_field} contains {matched_value}."
+
+  - role_id: ramp
+    canonical_role: Ramp
+    description: Mana acceleration beyond normal land-per-turn development.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: add
+          score: 75
+        - phrase: search your library for a land card
+          score: 75
+        - phrase: put a land card onto the battlefield
+          score: 100
+      subtype_matches:
+        - subtype: Treasure
+          score: 50
+      mana_value:
+        max: 4
+        score_adjustment: 0
+    exclusion_rules:
+      - field: oracle_text
+        contains: opponent adds
+        reason: Mana is granted to an opponent, not the deck.
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as ramp when it produces mana or puts lands onto the battlefield.
+    explanation_template: "{card_name} matched Ramp from {matched_field}: {matched_value}."
+
+  - role_id: draw
+    canonical_role: Draw
+    description: Card advantage or repeatable card flow.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: draw a card
+          score: 75
+        - phrase: draw two cards
+          score: 100
+        - phrase: draw cards
+          score: 100
+      keyword_matches: []
+    exclusion_rules:
+      - field: oracle_text
+        contains: each opponent draws
+        reason: Opponent-only draw should not count as deck draw.
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as draw when it directly draws cards for you.
+    explanation_template: "{card_name} matched Draw from Oracle text phrase {matched_value}."
+
+  - role_id: selection
+    canonical_role: Selection
+    description: Card filtering, selection, looting, rummaging, or top-deck setup.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: scry
+          score: 50
+        - phrase: surveil
+          score: 50
+        - phrase: look at the top
+          score: 50
+        - phrase: discard a card, then draw a card
+          score: 75
+    exclusion_rules: []
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as selection when it filters draws or manipulates the top of the library.
+    explanation_template: "{card_name} matched Selection from phrase {matched_value}."
+
+  - role_id: tutor
+    canonical_role: Tutor
+    description: Finds a specific card or card class from the library.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: search your library for a card
+          score: 100
+        - phrase: search your library for an
+          score: 75
+        - phrase: reveal it and put it into your hand
+          score: 75
+    exclusion_rules:
+      - field: oracle_text
+        contains: basic land card
+        reason: Basic-land searching is usually ramp/fixing, not a general tutor.
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as tutor when it searches the library for a card or narrow card class.
+    explanation_template: "{card_name} matched Tutor from phrase {matched_value}."
+
+  - role_id: interaction
+    canonical_role: Interaction
+    description: Broad answer or stack/board interaction.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: counter target
+          score: 75
+        - phrase: destroy target
+          score: 75
+        - phrase: exile target
+          score: 75
+        - phrase: return target
+          score: 50
+    exclusion_rules: []
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as interaction when it answers opposing cards or actions.
+    explanation_template: "{card_name} matched Interaction from phrase {matched_value}."
+
+  - role_id: removal
+    canonical_role: Removal
+    description: Targeted permanent or creature answer.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: destroy target creature
+          score: 100
+        - phrase: exile target creature
+          score: 100
+        - phrase: destroy target artifact
+          score: 75
+        - phrase: exile target permanent
+          score: 100
+    exclusion_rules:
+      - field: oracle_text
+        contains: you control
+        reason: Self-targeted sacrifice or blink text may not be opponent-facing removal.
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as removal when it directly answers a target permanent or creature.
+    explanation_template: "{card_name} matched Removal from phrase {matched_value}."
+
+  - role_id: countermagic
+    canonical_role: Countermagic
+    description: Stack denial that counters spells or abilities.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: counter target spell
+          score: 100
+        - phrase: counter target activated or triggered ability
+          score: 100
+        - phrase: unless its controller pays
+          score: 75
+      type_matches:
+        - field: type_line
+          contains: Instant
+          score: 25
+    exclusion_rules: []
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as countermagic when it counters spells or abilities.
+    explanation_template: "{card_name} matched Countermagic from phrase {matched_value}."
+
+  - role_id: board_wipe
+    canonical_role: Board Wipe
+    description: Mass removal or reset effect.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: destroy all creatures
+          score: 100
+        - phrase: exile all creatures
+          score: 100
+        - phrase: destroy all artifacts
+          score: 75
+        - phrase: each creature
+          score: 50
+    exclusion_rules:
+      - field: oracle_text
+        contains: target creature
+        reason: Targeted removal should not count as a board wipe.
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as a board wipe when it affects many permanents at once.
+    explanation_template: "{card_name} matched Board Wipe from phrase {matched_value}."
+
+  - role_id: protection
+    canonical_role: Protection
+    description: Protects the commander, board, combo, or key permanent.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: gains hexproof
+          score: 75
+        - phrase: gains indestructible
+          score: 75
+        - phrase: phase out
+          score: 75
+        - phrase: prevent all damage
+          score: 50
+      keyword_matches:
+        - keyword: Hexproof
+          score: 50
+        - keyword: Indestructible
+          score: 50
+    exclusion_rules: []
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as protection when it shields important cards or board state.
+    explanation_template: "{card_name} matched Protection from {matched_field}: {matched_value}."
+
+  - role_id: recursion
+    canonical_role: Recursion
+    description: Reuses cards from graveyard or returns permanents/cards from graveyard.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: return target card from your graveyard
+          score: 100
+        - phrase: return target creature card from your graveyard
+          score: 100
+        - phrase: from your graveyard to your hand
+          score: 75
+        - phrase: from your graveyard to the battlefield
+          score: 100
+    exclusion_rules:
+      - field: oracle_text
+        contains: exile it instead
+        reason: One-shot flashback-like use may need deck-context review.
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as recursion when it reuses cards from the graveyard.
+    explanation_template: "{card_name} matched Recursion from phrase {matched_value}."
+
+  - role_id: engine
+    canonical_role: Engine
+    description: Repeatable value system that drives the deck over time.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: whenever
+          score: 50
+        - phrase: at the beginning of
+          score: 50
+        - phrase: once each turn
+          score: 75
+        - phrase: you may pay
+          score: 25
+    exclusion_rules:
+      - field: type_line
+        contains: Instant
+        reason: One-shot instants usually are not engines without special context.
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 75
+    user_summary_template: May count as an engine when it creates repeatable value.
+    explanation_template: "{card_name} matched Engine from repeatable text cue {matched_value}."
+
+  - role_id: payoff
+    canonical_role: Payoff
+    description: Converts setup, synergy, or repeated actions into advantage or pressure.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: whenever you
+          score: 50
+        - phrase: create a token
+          score: 50
+        - phrase: deals damage to each opponent
+          score: 75
+        - phrase: put a +1/+1 counter
+          score: 50
+    exclusion_rules: []
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 75
+    user_summary_template: May count as a payoff when it rewards the deck for doing its main thing.
+    explanation_template: "{card_name} matched Payoff from phrase {matched_value}."
+
+  - role_id: wincon
+    canonical_role: Wincon
+    description: Primary or realistic route to ending the game.
+    evidence_rules:
+      oracle_text_phrases:
+        - phrase: you win the game
+          score: 100
+        - phrase: loses the game
+          score: 100
+        - phrase: each opponent loses
+          score: 75
+        - phrase: deals damage to each opponent
+          score: 75
+      mana_value:
+        min: 4
+        score_adjustment: 0
+    exclusion_rules:
+      - field: oracle_text
+        contains: target opponent
+        reason: Single-opponent pressure may not be a multiplayer win condition by itself.
+    score_policy:
+      combine: highest_match
+      default_score: 0
+      max_score: 100
+    user_summary_template: May count as a win condition when it can realistically close the game.
+    explanation_template: "{card_name} matched Wincon from phrase {matched_value}."

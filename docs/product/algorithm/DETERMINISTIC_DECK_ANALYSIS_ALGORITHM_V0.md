@@ -234,6 +234,25 @@ Each recommendation draft should include:
 
 `no_swap` is valid when no candidate improves the deck enough or when strategic uncertainty is too high.
 
+## 13.1 UI Visibility Doctrine
+
+Not all algorithm data should become visible UI text.
+
+The deterministic algorithm may produce internal evidence, scores, role matches, rule hits, warnings, and explanations. Future UI should present this through progressive disclosure:
+
+1. Default UI: short human-readable summaries.
+2. Expanded UI: concise why-this-was-flagged explanations.
+3. Advanced/debug UI: raw rule evidence, confidence scores, matched phrases, and internal data.
+
+Future output schemas should keep separate fields for:
+
+- Machine-readable evidence.
+- Concise user-facing summary.
+- Optional explanation text.
+- Debug/internal details.
+
+The UI should avoid overwhelming users with raw algorithm text.
+
 ## 14. Phase Plan
 
 Suggested implementation sequence:

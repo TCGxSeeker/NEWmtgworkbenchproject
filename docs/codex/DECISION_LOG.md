@@ -223,3 +223,9 @@
   - Alternatives considered: implementing analysis directly from current fixtures, AI-assisted recommendations, live API-backed recommendations, or popularity-driven ranking.
   - Risk: The algorithm may need refinement once real deck fixtures and scoring rubrics are supplied.
   - Status: Accepted for Deterministic Deck Analysis Algorithm v0 planning.
+
+- Decision: Use YAML for Role Rules v0 with deterministic 0-100 evidence bands.
+  - Reason: Role rules need to be local, readable, editable, fixture-friendly, and explainable before any analyzer or recommender is implemented.
+  - Alternatives considered: hardcoded role rules, JSON-only rules, database-first storage, or immediate card-to-role dataset ingestion.
+  - Risk: The first schema may need refinement once a loader and real card fixtures exercise edge cases.
+  - Status: Accepted for Role Rules v0.

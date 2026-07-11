@@ -339,6 +339,14 @@ Design the local/offline rules-based algorithm before implementing deck analysis
 
 The algorithm plan must preserve core doctrine: Oracle text and local card data are evidence, generic category is a hint, deck-specific role is the truth, imported/user labels are preserved, recommendations must be explainable and reproducible, and `no_swap` is valid. This phase must not add analyzer code, recommendations, AI/LLM calls, live APIs, UI, frontend dependencies, telemetry, hosted services, popularity-based ranking, full combo solving, full judge legality, or full price optimization.
 
+### Phase Algorithm-2: Role Rules v0
+
+Status: implemented as a local rules-format scaffold.
+
+Create the first local/offline role-rule format for future deterministic card-function classification. Definition of done: `docs/rules/ROLE_RULES.md` documents the purpose, taxonomy distinction, YAML schema, evidence scoring, explanation behavior, imported/user category preservation, deck-specific role deferral, UI visibility doctrine, and non-goals; `data/fixtures/roles/role_rules.example.yaml` defines a tiny example ruleset for Land, Ramp, Draw, Selection, Tutor, Interaction, Removal, Countermagic, Board Wipe, Protection, Recursion, Engine, Payoff, and Wincon.
+
+Role Rules v0 must not add analyzer code, recommendations, candidate search, add/cut scoring, full deck analysis, AI/LLM calls, live APIs, telemetry, hosted services, frontend dependencies, UI code, large card-to-role datasets, full Scryfall auto-categorization, or primary-role enforcement.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

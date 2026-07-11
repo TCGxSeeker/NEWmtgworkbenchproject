@@ -405,6 +405,26 @@ Latest Deterministic Deck Analysis Algorithm Spec v0 run on 2026-07-11:
 - `python -m unittest discover -s tests`: passed, 98 tests, 0 failures
 - `git diff --check`: passed
 
+## Role Rules V0 Checks
+
+After changing role-rule docs or fixtures:
+
+```powershell
+Test-Path docs/rules/ROLE_RULES.md
+Test-Path data/fixtures/roles/role_rules.example.yaml
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: `ROLE_RULES.md` exists, the tiny YAML fixture exists, the format supports deterministic local role evidence from Oracle text, type, subtype, keyword, mana value, exclusions, evidence score, and explanations, and the UI visibility doctrine separates machine evidence from concise user-facing output. This slice must not add analyzer code, recommendations, candidate search, add/cut scoring, full deck analysis, AI/LLM calls, live APIs, telemetry, hosted services, frontend dependencies, UI code, large datasets, or primary-role enforcement.
+
+Latest Role Rules v0 run on 2026-07-11:
+
+- `Test-Path docs/rules/ROLE_RULES.md`: passed
+- `Test-Path data/fixtures/roles/role_rules.example.yaml`: passed
+- `python -m unittest discover -s tests`: passed, 98 tests, 0 failures
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:
