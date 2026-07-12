@@ -277,3 +277,11 @@
   - Alternatives considered: keeping the private skeleton-report normalizer, matching on raw entry names only, or querying the local Scryfall index directly in this slice.
   - Risk: `CardCatalog.find()` cannot expose ambiguous matches, so ambiguity reporting is limited to supplied record collections where duplicate normalized keys can be observed.
   - Status: Accepted for Local Card Fact Lookup Bridge v0.
+
+## 2026-07-12
+
+- Decision: Add a Deck Inspection Report envelope before deck-level role summaries.
+  - Reason: The project needs one stable report object that composes skeleton facts, mechanical warnings, card fact coverage, and optional card-level role evidence without starting strategic analysis.
+  - Alternatives considered: jumping directly to deck role counts, shell-quality warnings, or a full deck report.
+  - Risk: The envelope may feel factual and sparse until later approved slices add deck-context role summaries and analysis.
+  - Status: Accepted for Deck Inspection Report Envelope v0.

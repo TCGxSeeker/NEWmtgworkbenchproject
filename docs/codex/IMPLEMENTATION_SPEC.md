@@ -409,6 +409,14 @@ Create a deterministic bridge from `DeckWorkspace` entries to local card fact re
 
 Local Card Fact Lookup Bridge v0 must not mutate workspaces, implement deck-level role counting, select primary roles, make strategic quality judgments, inspect live services, call APIs, add UI, add frontend dependencies, ingest large data, implement recommendations, candidate search, add/cut scoring, commander profiles, package analysis, price optimization, or combo solving.
 
+### Phase Algorithm-11: Deck Inspection Report Envelope v0
+
+Status: implemented.
+
+Create a bounded report envelope that composes existing deck skeleton facts, mechanical structural warnings, optional local card fact lookup coverage, and optional card-level role evidence. Definition of done: `build_deck_inspection_report(...)` always builds the skeleton and structural warning reports, succeeds without a card source by marking lookup as not attempted, reports found/missing/ambiguous local card facts when a source is supplied, optionally emits card-level role evidence only for deterministically found records with a supplied ruleset, and keeps user summaries, machine evidence, and debug details separated.
+
+Deck Inspection Report Envelope v0 must not mutate workspaces, implement deck-level role totals, select primary roles, make shell-quality or strategic judgments, create low-ramp/draw warnings, implement recommendations, candidate search, add/cut scoring, commander profiles, package analysis, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, price optimization, or combo solving.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

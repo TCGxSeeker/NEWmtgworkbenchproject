@@ -20,15 +20,16 @@
 - Card Role Evidence Pipeline v0
 - Deck Skeleton Report v0
 - Structural Warnings v0
+- Deck Inspection Report Envelope v0
 
 ## Current Branch
 
-- `local-card-fact-lookup-bridge-v0`
+- `deck-inspection-report-envelope-v0`
 
 ## Current Test Status
 
 - `python -m unittest discover -s tests`
-- Latest known result: 165 tests passing
+- Latest known result: 175 tests passing
 - `git diff --check` passing
 
 ## Core Constraints
@@ -58,7 +59,7 @@ Future output schemas should separate machine-readable evidence, concise user-fa
 
 ## Next Recommended Slice
 
-Pause before Deck Role Summary v0 until deck-level role counting is approved. Safe next slice: a report envelope that combines card fact lookup, skeleton, and structural warnings without adding new judgments.
+Pause before Deck Role Summary v0 until deck-level role counting is approved. Safe next slice: Deck Inspection Report CLI/fixture Smoke v0, which would expose the existing factual envelope through a small local command or fixture output without adding deck-level judgments.
 
 ## Established Role Evidence Defaults
 
@@ -73,6 +74,7 @@ Pause before Deck Role Summary v0 until deck-level role counting is approved. Sa
 - Role evidence reports separate user summaries, machine evidence, explanations, and optional debug details.
 - `build_deck_skeleton_report` inventories deck metadata, zones, quantities, commander names, active categories, unresolved entries, missing local facts, and known non-basic duplicates.
 - `build_structural_warnings_report` consumes skeleton facts and emits mechanical warnings only.
+- `build_deck_inspection_report` composes skeleton facts, structural warnings, card fact lookup coverage, and optional found-card-only role evidence.
 - Additive capped scoring is not implemented.
 - Deck-level role counting is not implemented.
 - Full deck classification is not implemented.

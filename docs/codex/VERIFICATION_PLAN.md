@@ -597,6 +597,28 @@ Latest Local Card Fact Lookup Bridge v0 run on 2026-07-11:
 - `python -m unittest discover -s tests`: passed, 165 tests, 0 failures
 - `git diff --check`: passed
 
+## Deck Inspection Report Envelope V0 Checks
+
+After changing the deck inspection report envelope:
+
+```powershell
+python -m py_compile src/mtg_workbench/deckbuilder/deck_inspection_report.py
+python -m py_compile src/mtg_workbench/deckbuilder/__init__.py
+python -m unittest tests.test_deckbuilder_deck_inspection_report
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: the envelope composes the deck skeleton report and structural warnings report, marks card lookup as not attempted when no local source is supplied, reports found/missing/ambiguous card fact coverage when local records or a `CardCatalog` are supplied, optionally attaches card-level role evidence only for found records with a supplied ruleset, and keeps summaries, machine evidence, and debug details separated. It must not mutate the workspace, count deck-level roles, select primary roles, make strategic or shell-quality judgments, add recommendations, run candidate search, add UI, call live services, or ingest large data.
+
+Latest Deck Inspection Report Envelope v0 run on 2026-07-12:
+
+- `python -m py_compile src/mtg_workbench/deckbuilder/deck_inspection_report.py`: passed
+- `python -m py_compile src/mtg_workbench/deckbuilder/__init__.py`: passed
+- `python -m unittest tests.test_deckbuilder_deck_inspection_report`: passed, 10 tests, 0 failures
+- `python -m unittest discover -s tests`: passed, 175 tests, 0 failures
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

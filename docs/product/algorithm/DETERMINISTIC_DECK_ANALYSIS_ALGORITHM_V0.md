@@ -74,6 +74,8 @@ Deck Skeleton Report v0 implements the first inventory layer: workspace metadata
 
 Structural Warnings v0 consumes the skeleton report and emits mechanical warnings only: missing Commander commanders, Commander active quantity mismatch, unresolved entries, missing supplied local card facts, and known non-basic duplicates. It does not inspect raw card records independently or create role-density/quality warnings.
 
+Deck Inspection Report Envelope v0 composes the skeleton report, structural warnings, local card fact coverage, and optional card-level role evidence into one factual report object. It does not create deck-level role totals, choose primary roles, make shell-quality judgments, or produce recommendations.
+
 ## 5. Card Feature Extraction
 
 Feature extraction converts local card data into stable facts:
