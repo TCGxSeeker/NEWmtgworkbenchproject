@@ -70,6 +70,8 @@ Checks should include:
 
 Mechanical failures should block confidence-heavy claims but should not erase user data.
 
+Deck Skeleton Report v0 implements the first inventory layer: workspace metadata, zone counts, active quantity totals, commander names, active category counts, unresolved entries, missing local card-fact entries when records are supplied, and known non-basic duplicate warnings only when local facts confirm the card is non-basic. It does not make strategic quality judgments, count deck-level roles, or guess unavailable card facts.
+
 ## 5. Card Feature Extraction
 
 Feature extraction converts local card data into stable facts:

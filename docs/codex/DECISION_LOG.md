@@ -259,3 +259,9 @@
   - Alternatives considered: making report builders accept raw dictionaries directly, starting deck analysis immediately, or selecting primary roles in the same slice.
   - Risk: This remains card-level evidence only, so future deck reports still need an explicit workspace/deck aggregation layer.
   - Status: Accepted for Card Role Evidence Pipeline v0.
+
+- Decision: Start deck reporting with structural skeleton facts only.
+  - Reason: The product needs a trustworthy inventory layer before structural warnings, role summaries, or analysis can make use of deck data.
+  - Alternatives considered: starting strategic analysis immediately, counting deck-level roles from card evidence, or warning on duplicate cards without local card facts.
+  - Risk: Skeleton v0 intentionally omits strategic quality judgments and may feel sparse until Structural Warnings v0 is added.
+  - Status: Accepted for Deck Skeleton Report v0.

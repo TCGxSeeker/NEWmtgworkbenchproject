@@ -17,6 +17,7 @@
 - Role Evidence Report v0
 - Card Facts Adapter v0
 - Card Role Evidence Pipeline v0
+- Deck Skeleton Report v0
 
 ## Current Branch
 
@@ -25,7 +26,7 @@
 ## Current Test Status
 
 - `python -m unittest discover -s tests`
-- Latest known result: 138 tests passing
+- Latest known result: 148 tests passing
 - `git diff --check` passing
 
 ## Core Constraints
@@ -55,7 +56,7 @@ Future output schemas should separate machine-readable evidence, concise user-fa
 
 ## Next Recommended Slice
 
-Deck Skeleton Report v0 planning, or a small workspace/deck aggregation bridge that feeds known local card records through the card role evidence pipeline.
+Structural Warnings v0, limited to mechanical warnings that consume Deck Skeleton Report v0 facts.
 
 ## Established Role Evidence Defaults
 
@@ -67,9 +68,19 @@ Deck Skeleton Report v0 planning, or a small workspace/deck aggregation bridge t
 - `card_record_to_role_evidence_report` converts one local/Scryfall-ish record into a card-level `RoleEvidenceReport`.
 - `card_records_to_role_evidence_reports` returns a tuple of card-level reports in input order.
 - Role evidence reports separate user summaries, machine evidence, explanations, and optional debug details.
+- `build_deck_skeleton_report` inventories deck metadata, zones, quantities, commander names, active categories, unresolved entries, missing local facts, and known non-basic duplicates.
 - Additive capped scoring is not implemented.
+- Deck-level role counting is not implemented.
 - Full deck classification is not implemented.
 - Do not implement deck analysis, recommendations, UI, candidate search, or role enforcement yet.
+
+## Structural Warning Defaults
+
+- Warnings should be mechanical only.
+- No strategic quality judgments.
+- No deck-level role counting yet.
+- No guessing when card facts are unavailable.
+- Missing facts should be surfaced as missing data, not inferred.
 
 ## Do Not Start Yet
 

@@ -531,6 +531,28 @@ Latest Card Role Evidence Pipeline v0 run on 2026-07-11:
 - `python -m unittest discover -s tests`: passed, 138 tests, 0 failures
 - `git diff --check`: passed
 
+## Deck Skeleton Report V0 Checks
+
+After changing deck skeleton report behavior:
+
+```powershell
+python -m py_compile src/mtg_workbench/deckbuilder/deck_skeleton_report.py
+python -m py_compile src/mtg_workbench/deckbuilder/__init__.py
+python -m unittest tests.test_deckbuilder_deck_skeleton_report
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: the report inventories workspace metadata, commander/mainboard/maybeboard entry counts, zone quantity totals, active deck quantity, commander names, active category counts, unresolved entries, missing card-fact entries when local records are supplied, and known non-basic duplicate warnings only when local card facts confirm the card is non-basic. It must not make strategic quality judgments, count deck-level roles, guess unavailable card facts, add recommendations, run candidate search, add UI, call live services, or ingest large data.
+
+Latest Deck Skeleton Report v0 run on 2026-07-11:
+
+- `python -m py_compile src/mtg_workbench/deckbuilder/deck_skeleton_report.py`: passed
+- `python -m py_compile src/mtg_workbench/deckbuilder/__init__.py`: passed
+- `python -m unittest tests.test_deckbuilder_deck_skeleton_report`: passed, 10 tests, 0 failures
+- `python -m unittest discover -s tests`: passed, 148 tests, 0 failures
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

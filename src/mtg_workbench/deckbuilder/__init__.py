@@ -31,6 +31,12 @@ from mtg_workbench.deckbuilder.card_role_pipeline import (
     card_record_to_role_evidence_report,
     card_records_to_role_evidence_reports,
 )
+from mtg_workbench.deckbuilder.deck_skeleton_report import (
+    DeckEntryReference,
+    DeckSkeletonReport,
+    DuplicateNonbasicWarning,
+    build_deck_skeleton_report,
+)
 from mtg_workbench.deckbuilder.import_export import export_plain_text_decklist, import_plain_text_decklist
 from mtg_workbench.deckbuilder.mutations import (
     WorkspaceMutationError,
@@ -53,6 +59,9 @@ from mtg_workbench.deckbuilder.serialization import load_workspace, save_workspa
 __all__ = [
     "DeckEntry",
     "DeckWorkspace",
+    "DeckEntryReference",
+    "DeckSkeletonReport",
+    "DuplicateNonbasicWarning",
     "CategoryNormalization",
     "CategoryTaxonomy",
     "CategoryTaxonomyError",
@@ -64,6 +73,7 @@ __all__ = [
     "card_record_to_role_evidence_report",
     "card_records_to_role_evidence_reports",
     "card_record_to_role_facts",
+    "build_deck_skeleton_report",
     "normalize_role_key",
     "normalize_match_text",
     "load_role_rules",

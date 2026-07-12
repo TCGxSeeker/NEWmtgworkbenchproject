@@ -385,6 +385,14 @@ Create the smallest bridge from local or Scryfall-ish card records to `RoleEvide
 
 Card Role Evidence Pipeline v0 must remain card-level evidence plumbing only. It must not add deck analysis, recommendations, candidate search, add/cut scoring, primary-role selection, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or large dataset ingestion.
 
+### Phase Algorithm-8: Deck Skeleton Report v0
+
+Status: implemented.
+
+Create the first deterministic deck inventory report from `DeckWorkspace`. Definition of done: `build_deck_skeleton_report(workspace, card_records_by_name=None)` reports deck metadata, zone entry counts, zone quantity totals, active deck quantity, commander names, active category counts, unresolved entries, missing card-fact entries when local records are supplied, and known non-basic duplicate warnings only when local card facts confirm the duplicate is non-basic.
+
+Deck Skeleton Report v0 must not make strategic quality judgments, perform deck-level role counting, infer missing card facts, implement recommendations, candidate search, add/cut scoring, commander philosophy checks, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or large dataset ingestion.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.
