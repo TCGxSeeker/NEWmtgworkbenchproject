@@ -18,6 +18,10 @@ Before making changes, Codex must identify:
 
 Prefer small, reviewable changes. Avoid broad rewrites unless explicitly requested.
 
+### Workflow Integrity Rule
+
+Do not intentionally cut corners in the required project workflow. If a required step is genuinely not applicable, state why. If a constraint prevents a check, plan update, or validation step, report the constraint and provide the safest smaller alternative. Never imply that planning, verification, review, or validation happened when it did not.
+
 ### Planning Rule
 
 For any feature, refactor, architecture change, automation, or multi-file task:

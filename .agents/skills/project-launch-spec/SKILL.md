@@ -48,6 +48,7 @@ Do not use this skill for tiny one-line fixes, formatting-only edits, or simple 
 - Do not jump directly into coding.
 - Do not overbuild the first version.
 - Do not assume the user wants full automation.
+- Do not intentionally skip project-launch steps because the work seems obvious or inconvenient.
 - Always document assumptions.
 - Always include verification.
 

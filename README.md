@@ -4,7 +4,7 @@ Offline-first Commander deckbuilding workbench for importing decklists, normaliz
 
 ## Current Status
 
-The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, Deckbuilder Foundation helpers for native `.mtgwdeck.json` files plus plain text import/export, deterministic algorithm planning, Role Rules v0 docs/fixtures, a role-rule loader, a role evidence matcher, a card facts adapter, a local card fact lookup bridge, a card role evidence pipeline, a card-level role evidence report object, Deck Skeleton Report v0, mechanical Structural Warnings v0, and Deck Inspection Report Envelope v0.
+The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, Deckbuilder Foundation helpers for native `.mtgwdeck.json` files plus plain text import/export, deterministic algorithm planning, Role Rules v0 docs/fixtures, a role-rule loader, a role evidence matcher, a card facts adapter, a local card fact lookup bridge, a card role evidence pipeline, a card-level role evidence report object, Deck Skeleton Report v0, mechanical Structural Warnings v0, Deck Inspection Report Envelope v0, a deck inspection smoke fixture, and Card Relationship Primitives v0 planning.
 
 No finished deckbuilder UI, recommendation engine, scoring rubric, structural audit engine, or full deck report exists yet.
 
@@ -50,4 +50,4 @@ Pop-Location
 
 ## Implementation Boundary
 
-Deckbuilder Foundation implementation has begun with the native workspace model, in-memory mutation helpers, plain text import/export, role-rule loading, local card fact lookup, card facts adaptation, card-level role evidence pipelines, role evidence matching, role evidence report output, structural deck skeleton reporting, mechanical structural warnings, and a factual deck inspection envelope. Do not add app UI, new frontend dependencies, full deck analysis, recommendations, scoring logic, strategic quality judgments, live APIs, or visual components until their own implementation slice is approved.
+Deckbuilder Foundation implementation has begun with the native workspace model, in-memory mutation helpers, plain text import/export, role-rule loading, local card fact lookup, card facts adaptation, card-level role evidence pipelines, role evidence matching, role evidence report output, structural deck skeleton reporting, mechanical structural warnings, a factual deck inspection envelope, stable inspection smoke fixtures, and relationship primitive planning. Do not add app UI, new frontend dependencies, full deck analysis, recommendations, scoring logic, strategic quality judgments, live APIs, or visual components until their own implementation slice is approved.

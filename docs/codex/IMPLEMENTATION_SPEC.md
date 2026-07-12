@@ -417,6 +417,22 @@ Create a bounded report envelope that composes existing deck skeleton facts, mec
 
 Deck Inspection Report Envelope v0 must not mutate workspaces, implement deck-level role totals, select primary roles, make shell-quality or strategic judgments, create low-ramp/draw warnings, implement recommendations, candidate search, add/cut scoring, commander profiles, package analysis, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, price optimization, or combo solving.
 
+### Phase Algorithm-12: Deck Inspection Fixture Smoke v0
+
+Status: implemented.
+
+Create a stable end-to-end fixture for the factual deck inspection report envelope. Definition of done: tiny workspace and card-record fixtures produce a deterministic expected report, the fixture proves no network use, no workspace mutation, card fact coverage, optional found-card-only role evidence, and absence of forbidden strategic fields.
+
+Deck Inspection Fixture Smoke v0 must not add product UI, live data, recommendation behavior, deck-quality claims, deck-level role totals, candidate search, add/cut scoring, package detection, commander analysis, online dependencies, telemetry, hosted services, or AI/LLM calls.
+
+### Phase Algorithm-13: Card Relationship Primitives v0
+
+Status: implemented as a planning and vocabulary contract.
+
+Define the smallest deterministic vocabulary for factual relationships between deck entries before implementing relationship models or edge derivation. Definition of done: `docs/codex/CARD_RELATIONSHIP_PRIMITIVES_V0.md` documents the doctrine, behavior-interface direction, evidence contract, confidence bands, derivation boundaries, non-goals, and planned implementation order; `data/fixtures/relationships/card_relationship_primitives.example.json` locks a tiny machine-readable vocabulary fixture; tests verify the fixture contract.
+
+Card Relationship Primitives v0 must not implement relationship derivation, all-pairs comparison, package detection, synergy scoring, recommendations, candidate search, add/cut scoring, commander analysis, deck-level role totals, card-quality judgments, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, or AI/LLM calls.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

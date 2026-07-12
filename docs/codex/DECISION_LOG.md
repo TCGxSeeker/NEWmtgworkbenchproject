@@ -285,3 +285,15 @@
   - Alternatives considered: jumping directly to deck role counts, shell-quality warnings, or a full deck report.
   - Risk: The envelope may feel factual and sparse until later approved slices add deck-context role summaries and analysis.
   - Status: Accepted for Deck Inspection Report Envelope v0.
+
+- Decision: Add a stable deck inspection smoke fixture before broadening reports.
+  - Reason: The factual report envelope needs a deterministic end-to-end guard against network use, workspace mutation, accidental strategic fields, and output drift.
+  - Alternatives considered: relying only on unit tests or moving directly into CLI/report surfaces.
+  - Risk: Expected-output fixtures require intentional updates when report shape changes.
+  - Status: Accepted for Deck Inspection Fixture Smoke v0.
+
+- Decision: Plan card relationships as behavioral primitives before deriving edges.
+  - Reason: Future synergy/package work needs a factual vocabulary for behavior interfaces and relationship evidence before any scoring or judgment exists.
+  - Alternatives considered: package detection first, role-count-driven relationships, all-pairs card comparison, or recommendation-oriented synergy scoring.
+  - Risk: The primitive vocabulary may need refinement once typed models and behavior extraction reveal real edge cases.
+  - Status: Accepted for Card Relationship Primitives v0 planning.

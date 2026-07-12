@@ -619,6 +619,42 @@ Latest Deck Inspection Report Envelope v0 run on 2026-07-12:
 - `python -m unittest discover -s tests`: passed, 175 tests, 0 failures
 - `git diff --check`: passed
 
+## Deck Inspection Fixture Smoke V0 Checks
+
+After changing the deck inspection smoke fixtures:
+
+```powershell
+python -m unittest tests.test_deckbuilder_inspection_smoke
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: the smoke fixture loads a tiny native workspace and local card records, builds `build_deck_inspection_report` with optional card-level role evidence, matches a stable expected JSON fixture, proves repeated execution is deterministic, blocks accidental network use, preserves workspace state, and keeps forbidden strategic fields out of the payload.
+
+Latest Deck Inspection Fixture Smoke v0 run on 2026-07-12:
+
+- `python -m unittest tests.test_deckbuilder_inspection_smoke`: passed
+- `python -m unittest discover -s tests`: passed, 183 tests, 0 failures
+- `git diff --check`: passed
+
+## Card Relationship Primitives V0 Checks
+
+After changing the relationship primitives planning fixture:
+
+```powershell
+python -m unittest tests.test_card_relationship_primitives_fixture
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: the JSON fixture keeps schema version `card_relationship_primitives.v0`, unique snake_case vocabulary values, locked v0 relationship types, evidence fields, confidence bands, deferred relationship types, and explicit non-goals. This is a planning/vocabulary contract only and must not derive relationship edges, score synergy, detect packages, or make recommendations.
+
+Latest Card Relationship Primitives v0 run on 2026-07-12:
+
+- `python -m unittest tests.test_card_relationship_primitives_fixture`: passed
+- `python -m unittest discover -s tests`: passed, 183 tests, 0 failures
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

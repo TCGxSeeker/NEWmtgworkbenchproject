@@ -5,6 +5,18 @@
 - The repository now has Python source/tests and an isolated frontend scaffold, but no production app build, finished UI, or Git remote.
 - Hidden directories such as `.tasks/` and `.agents/` may not appear in simple file listings. Use `rg --files --hidden -g '!.git/**'`.
 - Do not assume conventions from nearby projects apply here.
+- Do not intentionally cut corners in project workflow. If a required step does not apply or cannot be run, explain why and choose the safest smaller alternative instead of silently skipping it.
+
+## Workflow Corrections
+
+### 2026-07-12: Do Not Intentionally Cut Corners
+
+- Symptom: Workflow shortcuts can make planning, validation, or handoff quality look complete when it is not.
+- Cause: Compressing required project steps because a task feels small, obvious, repetitive, or inconvenient.
+- Fix: Follow the required workflow unless a step is genuinely inapplicable or blocked; document any skipped or blocked step explicitly.
+- Prevention: Keep `AGENTS.md`, local skills, specs, verification plans, and final summaries honest about what was planned, run, skipped, or deferred.
+- Regression test: Not directly testable in code; verify through review of task summaries and verification evidence.
+- Skill update: Update planning and verification skill gotchas to reinforce this rule.
 
 ## MTG Workbench Gotchas
 

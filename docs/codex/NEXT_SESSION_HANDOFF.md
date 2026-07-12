@@ -1,5 +1,15 @@
 # Next Session Handoff
 
+## Current Baseline
+
+- Repository root: `C:/Users/StDeL/Documents/New MTG project`
+- Current branch: `master`
+- Current head: `578144b Plan Card Relationship Primitives v0`
+- Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
+- Working tree at refresh time: clean
+- Current verification: `python -m unittest discover -s tests` passed with 183 tests
+- `git diff --check` passed
+
 ## Current Completed Milestones
 
 - Deck Workspace Model v0
@@ -21,16 +31,14 @@
 - Deck Skeleton Report v0
 - Structural Warnings v0
 - Deck Inspection Report Envelope v0
+- Deck Inspection Fixture Smoke v0
+- Card Relationship Primitives Plan v0
 
-## Current Branch
+## Most Recent Changes
 
-- `deck-inspection-report-envelope-v0`
+Deck Inspection Fixture Smoke v0 added a stable end-to-end fixture for `build_deck_inspection_report`. It verifies deterministic output, no network use, no workspace mutation, card fact coverage, optional found-card-only role evidence, and no strategic/reporting fields that imply recommendations or deck quality.
 
-## Current Test Status
-
-- `python -m unittest discover -s tests`
-- Latest known result: 175 tests passing
-- `git diff --check` passing
+Card Relationship Primitives Plan v0 added `docs/codex/CARD_RELATIONSHIP_PRIMITIVES_V0.md`, a tiny JSON vocabulary fixture, and tests that lock the planning contract. It is a vocabulary and doctrine contract only, not a relationship engine.
 
 ## Core Constraints
 
@@ -44,6 +52,7 @@
 - Generic category is a hint.
 - Deck-specific role is the truth.
 - User/imported labels must be preserved.
+- Missing, unknown, or ambiguous facts must stay visible instead of being guessed.
 
 ## UI Visibility Doctrine
 
@@ -57,37 +66,52 @@ Future UI should use progressive disclosure:
 
 Future output schemas should separate machine-readable evidence, concise user-facing summaries, optional explanation text, and debug/internal details.
 
-## Next Recommended Slice
+## Established Report Defaults
 
-Pause before Deck Role Summary v0 until deck-level role counting is approved. Safe next slice: Deck Inspection Report CLI/fixture Smoke v0, which would expose the existing factual envelope through a small local command or fixture output without adding deck-level judgments.
-
-## Established Role Evidence Defaults
-
-- Role rules load from the tiny YAML fixture format.
-- Evidence phrase matching uses casefolded substring matching with whitespace normalization.
-- Score combination uses `highest_match` only.
-- Role evidence matching works from explicit `CardRoleFacts`.
-- `lookup_workspace_card_facts` resolves entries to explicit found, missing, or ambiguous local card fact results.
-- `card_record_to_role_facts` converts local/Scryfall-ish records into `CardRoleFacts`.
-- `card_record_to_role_evidence_report` converts one local/Scryfall-ish record into a card-level `RoleEvidenceReport`.
-- `card_records_to_role_evidence_reports` returns a tuple of card-level reports in input order.
-- Role evidence reports separate user summaries, machine evidence, explanations, and optional debug details.
 - `build_deck_skeleton_report` inventories deck metadata, zones, quantities, commander names, active categories, unresolved entries, missing local facts, and known non-basic duplicates.
 - `build_structural_warnings_report` consumes skeleton facts and emits mechanical warnings only.
 - `build_deck_inspection_report` composes skeleton facts, structural warnings, card fact lookup coverage, and optional found-card-only role evidence.
-- Additive capped scoring is not implemented.
+- Deck inspection smoke fixtures are stable expected-output fixtures, not product UI.
+- Role evidence remains card-level advisory metadata.
 - Deck-level role counting is not implemented.
 - Full deck classification is not implemented.
-- Do not implement deck analysis, recommendations, UI, candidate search, or role enforcement yet.
 
-## Structural Warning Defaults
+## Relationship Primitive Defaults
 
-- Warnings should be mechanical only.
-- No strategic quality judgments.
-- No deck-level role counting yet.
-- No guessing when card facts are unavailable.
-- Missing facts should be surfaced as missing data, not inferred.
-- Stop before Deck Role Summary v0 unless the user approves deck-level role counting.
+- Facts describe cards.
+- Interfaces describe behavior.
+- Edges describe relationships.
+- Subgraphs may later describe packages.
+- Context may later describe relevance.
+- Judgment comes last.
+
+Current relationship primitives are planning vocabulary only:
+
+- `supplies`
+- `triggers`
+- `enables`
+- `amplifies`
+- `protects`
+- `recurs`
+- `conflicts_with`
+
+Deferred relationship concepts remain out of v0:
+
+- `redundant_with`
+- `competes_with`
+- `converts`
+- `closes_with`
+
+## Parsed Next Steps
+
+Recommended next implementation order:
+
+1. Typed Card Relationship Primitive Models v0: load and validate the existing JSON vocabulary fixture as typed local objects. Do not derive edges yet.
+2. Card Behavioral Profile Model v0: define a factual profile shape for outputs, costs, requirements, events, permissions, modifiers, zone constraints, and timing constraints. Do not extract behavior yet.
+3. Bounded Behavior Atom Extraction v0: extract only explicit low-risk atoms from local card facts and Oracle text. Do not infer strategy or quality.
+4. Relationship Edge Derivation v0: derive edges only between compatible behavior groups with traceable evidence. Do not compare every card against every other card.
+5. Card Relationship Report v0: expose relationship evidence with summary, machine evidence, optional explanations, and debug details.
+6. Deck Role Summary v0: start only after explicit human approval for deck-level role counting.
 
 ## Do Not Start Yet
 
@@ -95,6 +119,11 @@ Pause before Deck Role Summary v0 until deck-level role counting is approved. Sa
 - Recommendations.
 - Candidate search.
 - Add/cut scoring.
+- Package detection.
+- Commander analysis.
+- Synergy scoring.
+- Deck-level role totals.
+- All-pairs relationship comparison.
 - App UI.
 - Frontend dependencies.
 - Online services or live API calls.

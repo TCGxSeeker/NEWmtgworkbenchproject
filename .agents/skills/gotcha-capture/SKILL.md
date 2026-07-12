@@ -31,4 +31,5 @@ Use this when the user says something like:
 
 - Do not store random preferences that are unlikely to matter again.
 - Do not overwrite existing gotchas; append and organize them.
+- Do not minimize workflow corrections by only acknowledging them in chat; update the durable project rules when they affect repeated work.
 - Do not hide uncertainty. If the correction is ambiguous, record it as a question.

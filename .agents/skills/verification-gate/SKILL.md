@@ -38,6 +38,7 @@ Consider:
 
 - Do not claim success without evidence.
 - If a check cannot be run, say why.
+- Do not intentionally downgrade, skip, or hand-wave verification because the task seems small.
 - Do not skip manual validation for high-risk areas.
 - Do not treat "no errors shown" as full verification.
 
