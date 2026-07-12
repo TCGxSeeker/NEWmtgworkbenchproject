@@ -393,6 +393,14 @@ Create the first deterministic deck inventory report from `DeckWorkspace`. Defin
 
 Deck Skeleton Report v0 must not make strategic quality judgments, perform deck-level role counting, infer missing card facts, implement recommendations, candidate search, add/cut scoring, commander philosophy checks, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or large dataset ingestion.
 
+### Phase Algorithm-9: Structural Warnings v0
+
+Status: implemented.
+
+Create a mechanical warning report that consumes `DeckSkeletonReport` facts. Definition of done: `build_structural_warnings_report(skeleton_report)` reports missing Commander commander entries, Commander active quantity mismatches, unresolved entries, missing local card facts, and known non-basic duplicate warnings already proven by the skeleton report.
+
+Structural Warnings v0 must not make strategic quality judgments, count deck-level roles, infer unavailable card facts, inspect raw card records independently, implement recommendations, candidate search, add/cut scoring, commander philosophy checks, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or large dataset ingestion.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

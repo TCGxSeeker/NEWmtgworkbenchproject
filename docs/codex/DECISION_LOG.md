@@ -265,3 +265,9 @@
   - Alternatives considered: starting strategic analysis immediately, counting deck-level roles from card evidence, or warning on duplicate cards without local card facts.
   - Risk: Skeleton v0 intentionally omits strategic quality judgments and may feel sparse until Structural Warnings v0 is added.
   - Status: Accepted for Deck Skeleton Report v0.
+
+- Decision: Keep Structural Warnings v0 mechanical and skeleton-driven.
+  - Reason: Warnings can safely surface missing commander, active quantity, unresolved entries, missing local facts, and known non-basic duplicates without making strategy or quality claims.
+  - Alternatives considered: adding shell-quality warnings, role-density warnings, or inspecting raw card records directly.
+  - Risk: The warning set is intentionally narrow until deck-level role counting and strategy checks are approved.
+  - Status: Accepted for Structural Warnings v0.

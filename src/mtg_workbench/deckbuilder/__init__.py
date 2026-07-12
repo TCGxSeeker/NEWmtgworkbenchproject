@@ -37,6 +37,11 @@ from mtg_workbench.deckbuilder.deck_skeleton_report import (
     DuplicateNonbasicWarning,
     build_deck_skeleton_report,
 )
+from mtg_workbench.deckbuilder.structural_warnings import (
+    StructuralWarning,
+    StructuralWarningsReport,
+    build_structural_warnings_report,
+)
 from mtg_workbench.deckbuilder.import_export import export_plain_text_decklist, import_plain_text_decklist
 from mtg_workbench.deckbuilder.mutations import (
     WorkspaceMutationError,
@@ -62,6 +67,8 @@ __all__ = [
     "DeckEntryReference",
     "DeckSkeletonReport",
     "DuplicateNonbasicWarning",
+    "StructuralWarning",
+    "StructuralWarningsReport",
     "CategoryNormalization",
     "CategoryTaxonomy",
     "CategoryTaxonomyError",
@@ -74,6 +81,7 @@ __all__ = [
     "card_records_to_role_evidence_reports",
     "card_record_to_role_facts",
     "build_deck_skeleton_report",
+    "build_structural_warnings_report",
     "normalize_role_key",
     "normalize_match_text",
     "load_role_rules",

@@ -553,6 +553,28 @@ Latest Deck Skeleton Report v0 run on 2026-07-11:
 - `python -m unittest discover -s tests`: passed, 148 tests, 0 failures
 - `git diff --check`: passed
 
+## Structural Warnings V0 Checks
+
+After changing structural warning behavior:
+
+```powershell
+python -m py_compile src/mtg_workbench/deckbuilder/structural_warnings.py
+python -m py_compile src/mtg_workbench/deckbuilder/__init__.py
+python -m unittest tests.test_deckbuilder_structural_warnings
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: the report consumes `DeckSkeletonReport` facts and emits mechanical warnings for missing Commander commanders, Commander active quantity mismatches, unresolved entries, missing local card facts, and known non-basic duplicates already proven by the skeleton report. It must not make strategic quality judgments, count deck-level roles, guess unavailable card facts, inspect raw card records independently, add recommendations, run candidate search, add UI, call live services, or ingest large data.
+
+Latest Structural Warnings v0 run on 2026-07-11:
+
+- `python -m py_compile src/mtg_workbench/deckbuilder/structural_warnings.py`: passed
+- `python -m py_compile src/mtg_workbench/deckbuilder/__init__.py`: passed
+- `python -m unittest tests.test_deckbuilder_structural_warnings`: passed, 8 tests, 0 failures
+- `python -m unittest discover -s tests`: passed, 156 tests, 0 failures
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

@@ -72,6 +72,8 @@ Mechanical failures should block confidence-heavy claims but should not erase us
 
 Deck Skeleton Report v0 implements the first inventory layer: workspace metadata, zone counts, active quantity totals, commander names, active category counts, unresolved entries, missing local card-fact entries when records are supplied, and known non-basic duplicate warnings only when local facts confirm the card is non-basic. It does not make strategic quality judgments, count deck-level roles, or guess unavailable card facts.
 
+Structural Warnings v0 consumes the skeleton report and emits mechanical warnings only: missing Commander commanders, Commander active quantity mismatch, unresolved entries, missing supplied local card facts, and known non-basic duplicates. It does not inspect raw card records independently or create role-density/quality warnings.
+
 ## 5. Card Feature Extraction
 
 Feature extraction converts local card data into stable facts:

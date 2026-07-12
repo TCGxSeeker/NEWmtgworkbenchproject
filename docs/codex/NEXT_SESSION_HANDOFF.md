@@ -18,6 +18,7 @@
 - Card Facts Adapter v0
 - Card Role Evidence Pipeline v0
 - Deck Skeleton Report v0
+- Structural Warnings v0
 
 ## Current Branch
 
@@ -26,7 +27,7 @@
 ## Current Test Status
 
 - `python -m unittest discover -s tests`
-- Latest known result: 148 tests passing
+- Latest known result: 156 tests passing
 - `git diff --check` passing
 
 ## Core Constraints
@@ -56,7 +57,7 @@ Future output schemas should separate machine-readable evidence, concise user-fa
 
 ## Next Recommended Slice
 
-Structural Warnings v0, limited to mechanical warnings that consume Deck Skeleton Report v0 facts.
+Pause before Deck Role Summary v0 until deck-level role counting is approved. Safe next slice: a local card fact lookup/input bridge for reports, or a report envelope that combines skeleton and structural warnings without adding new judgments.
 
 ## Established Role Evidence Defaults
 
@@ -69,6 +70,7 @@ Structural Warnings v0, limited to mechanical warnings that consume Deck Skeleto
 - `card_records_to_role_evidence_reports` returns a tuple of card-level reports in input order.
 - Role evidence reports separate user summaries, machine evidence, explanations, and optional debug details.
 - `build_deck_skeleton_report` inventories deck metadata, zones, quantities, commander names, active categories, unresolved entries, missing local facts, and known non-basic duplicates.
+- `build_structural_warnings_report` consumes skeleton facts and emits mechanical warnings only.
 - Additive capped scoring is not implemented.
 - Deck-level role counting is not implemented.
 - Full deck classification is not implemented.
@@ -81,6 +83,7 @@ Structural Warnings v0, limited to mechanical warnings that consume Deck Skeleto
 - No deck-level role counting yet.
 - No guessing when card facts are unavailable.
 - Missing facts should be surfaced as missing data, not inferred.
+- Stop before Deck Role Summary v0 unless the user approves deck-level role counting.
 
 ## Do Not Start Yet
 
