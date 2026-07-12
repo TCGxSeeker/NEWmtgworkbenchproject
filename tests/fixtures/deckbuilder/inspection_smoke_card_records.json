@@ -1,0 +1,56 @@
+{
+    "Smoke Commander":  {
+                            "name":  "Smoke Commander",
+                            "oracle_text":  "Whenever you cast a spell, scry 1.",
+                            "type_line":  "Legendary Creature — Human Wizard",
+                            "keywords":  [
+
+                                         ],
+                            "mana_value":  3
+                        },
+    "Smoke Ramp":  {
+                       "name":  "Smoke Ramp",
+                       "oracle_text":  "Add one mana of any color.",
+                       "type_line":  "Artifact",
+                       "keywords":  [
+
+                                    ],
+                       "mana_value":  2
+                   },
+    "Smoke Draw":  {
+                       "name":  "Smoke Draw",
+                       "oracle_text":  "Draw two cards.",
+                       "type_line":  "Sorcery",
+                       "keywords":  [
+
+                                    ],
+                       "mana_value":  3
+                   },
+    "Island":  {
+                   "name":  "Island",
+                   "oracle_text":  "({T}: Add {U}.)",
+                   "type_line":  "Basic Land — Island",
+                   "keywords":  [
+
+                                ],
+                   "mana_value":  0
+               },
+    "Smoke Treasure":  {
+                           "name":  "Smoke Treasure",
+                           "oracle_text":  "{T}, Sacrifice this artifact: Add one mana of any color.",
+                           "type_line":  "Artifact — Treasure",
+                           "keywords":  [
+
+                                        ],
+                           "mana_value":  1
+                       },
+    "Maybe Card":  {
+                       "name":  "Maybe Card",
+                       "oracle_text":  "Scry 1.",
+                       "type_line":  "Instant",
+                       "keywords":  [
+
+                                    ],
+                       "mana_value":  1
+                   }
+}

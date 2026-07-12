@@ -1,0 +1,167 @@
+{
+    "commanders":  [
+                       {
+                           "categories":  [
+                                              "Commander"
+                                          ],
+                           "date_added":  "2026-07-12T00:00:00Z",
+                           "display_name":  "Smoke Commander",
+                           "entry_id":  "entry-smoke-commander",
+                           "foil":  false,
+                           "input_name":  "Smoke Commander",
+                           "is_unresolved":  false,
+                           "notes":  "",
+                           "oracle_id":  "oracle-entry-smoke-commander",
+                           "pinned":  true,
+                           "quantity":  1,
+                           "selected_printing_id":  null,
+                           "tags":  [
+
+                                    ],
+                           "zone":  "commander"
+                       }
+                   ],
+    "created_at":  "2026-07-12T00:00:00Z",
+    "deck_id":  "deck-inspection-smoke-v0",
+    "format":  "commander",
+    "mainboard":  [
+                      {
+                          "categories":  [
+                                             "Ramp"
+                                         ],
+                          "date_added":  "2026-07-12T00:00:00Z",
+                          "display_name":  "Smoke Ramp",
+                          "entry_id":  "entry-smoke-ramp",
+                          "foil":  false,
+                          "input_name":  "Smoke Ramp",
+                          "is_unresolved":  false,
+                          "notes":  "",
+                          "oracle_id":  "oracle-entry-smoke-ramp",
+                          "pinned":  false,
+                          "quantity":  1,
+                          "selected_printing_id":  null,
+                          "tags":  [
+
+                                   ],
+                          "zone":  "mainboard"
+                      },
+                      {
+                          "categories":  [
+                                             "Draw"
+                                         ],
+                          "date_added":  "2026-07-12T00:00:00Z",
+                          "display_name":  "Smoke Draw",
+                          "entry_id":  "entry-smoke-draw",
+                          "foil":  false,
+                          "input_name":  "Smoke Draw",
+                          "is_unresolved":  false,
+                          "notes":  "",
+                          "oracle_id":  "oracle-entry-smoke-draw",
+                          "pinned":  false,
+                          "quantity":  1,
+                          "selected_printing_id":  null,
+                          "tags":  [
+
+                                   ],
+                          "zone":  "mainboard"
+                      },
+                      {
+                          "categories":  [
+                                             "Land"
+                                         ],
+                          "date_added":  "2026-07-12T00:00:00Z",
+                          "display_name":  "Island",
+                          "entry_id":  "entry-smoke-island",
+                          "foil":  false,
+                          "input_name":  "Island",
+                          "is_unresolved":  false,
+                          "notes":  "",
+                          "oracle_id":  "oracle-entry-smoke-island",
+                          "pinned":  false,
+                          "quantity":  2,
+                          "selected_printing_id":  null,
+                          "tags":  [
+
+                                   ],
+                          "zone":  "mainboard"
+                      },
+                      {
+                          "categories":  [
+                                             "Ramp"
+                                         ],
+                          "date_added":  "2026-07-12T00:00:00Z",
+                          "display_name":  "Smoke Treasure",
+                          "entry_id":  "entry-smoke-treasure",
+                          "foil":  false,
+                          "input_name":  "Smoke Treasure",
+                          "is_unresolved":  false,
+                          "notes":  "",
+                          "oracle_id":  "oracle-entry-smoke-treasure",
+                          "pinned":  false,
+                          "quantity":  1,
+                          "selected_printing_id":  null,
+                          "tags":  [
+
+                                   ],
+                          "zone":  "mainboard"
+                      },
+                      {
+                          "categories":  [
+                                             "Unknown"
+                                         ],
+                          "date_added":  "2026-07-12T00:00:00Z",
+                          "display_name":  null,
+                          "entry_id":  "entry-smoke-missing",
+                          "foil":  false,
+                          "input_name":  "Mystery Card",
+                          "is_unresolved":  true,
+                          "notes":  "",
+                          "oracle_id":  null,
+                          "pinned":  false,
+                          "quantity":  1,
+                          "selected_printing_id":  null,
+                          "tags":  [
+
+                                   ],
+                          "zone":  "mainboard"
+                      }
+                  ],
+    "maybeboard":  [
+                       {
+                           "categories":  [
+                                              "Maybe"
+                                          ],
+                           "date_added":  "2026-07-12T00:00:00Z",
+                           "display_name":  "Maybe Card",
+                           "entry_id":  "entry-smoke-maybe",
+                           "foil":  false,
+                           "input_name":  "Maybe Card",
+                           "is_unresolved":  false,
+                           "notes":  "",
+                           "oracle_id":  "oracle-entry-smoke-maybe",
+                           "pinned":  false,
+                           "quantity":  1,
+                           "selected_printing_id":  null,
+                           "tags":  [
+
+                                    ],
+                           "zone":  "maybeboard"
+                       }
+                   ],
+    "metadata":  {
+                     "import_origin":  "fixture",
+                     "source_path":  "tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json"
+                 },
+    "name":  "Inspection Smoke Deck",
+    "notes":  "End-to-end factual inspection fixture.",
+    "saved_state":  {
+                        "is_dirty":  false,
+                        "last_saved_at":  "2026-07-12T00:00:00Z"
+                    },
+    "schema_version":  1,
+    "tags":  [
+                 "fixture",
+                 "inspection-smoke"
+             ],
+    "updated_at":  "2026-07-12T00:00:00Z"
+}

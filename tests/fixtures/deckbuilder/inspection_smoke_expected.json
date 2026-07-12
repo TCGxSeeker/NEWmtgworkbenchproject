@@ -1,0 +1,456 @@
+{
+  "card_fact_coverage": {
+    "ambiguous_count": 0,
+    "ambiguous_entry_ids": [],
+    "found_count": 6,
+    "found_entry_ids": [
+      "entry-smoke-commander",
+      "entry-smoke-ramp",
+      "entry-smoke-draw",
+      "entry-smoke-island",
+      "entry-smoke-treasure",
+      "entry-smoke-maybe"
+    ],
+    "has_complete_coverage": false,
+    "lookup_attempted": true,
+    "missing_count": 1,
+    "missing_entry_ids": [
+      "entry-smoke-missing"
+    ],
+    "source_available": true,
+    "total_entries_considered": 7
+  },
+  "card_role_reports": [
+    {
+      "card_name": "Smoke Commander",
+      "entry_id": "entry-smoke-commander",
+      "lookup_name": "Smoke Commander",
+      "role_report": {
+        "best_match": {
+          "canonical_role": "Selection",
+          "exclusion_reason": null,
+          "explanation": "Smoke Commander matched Selection from phrase scry.",
+          "matched": true,
+          "matched_field": "oracle_text",
+          "matched_value": "scry",
+          "role_id": "selection",
+          "score": 50,
+          "user_summary": "May count as selection when it filters draws or manipulates the top of the library."
+        },
+        "card_name": "Smoke Commander",
+        "explanations": [
+          "Smoke Commander matched Selection from phrase scry.",
+          "Smoke Commander matched Engine from repeatable text cue whenever.",
+          "Smoke Commander matched Payoff from phrase whenever you."
+        ],
+        "machine_evidence": [
+          {
+            "canonical_role": "Selection",
+            "exclusion_reason": null,
+            "explanation": "Smoke Commander matched Selection from phrase scry.",
+            "matched": true,
+            "matched_field": "oracle_text",
+            "matched_value": "scry",
+            "role_id": "selection",
+            "score": 50,
+            "user_summary": "May count as selection when it filters draws or manipulates the top of the library."
+          },
+          {
+            "canonical_role": "Engine",
+            "exclusion_reason": null,
+            "explanation": "Smoke Commander matched Engine from repeatable text cue whenever.",
+            "matched": true,
+            "matched_field": "oracle_text",
+            "matched_value": "whenever",
+            "role_id": "engine",
+            "score": 50,
+            "user_summary": "May count as an engine when it creates repeatable value."
+          },
+          {
+            "canonical_role": "Payoff",
+            "exclusion_reason": null,
+            "explanation": "Smoke Commander matched Payoff from phrase whenever you.",
+            "matched": true,
+            "matched_field": "oracle_text",
+            "matched_value": "whenever you",
+            "role_id": "payoff",
+            "score": 50,
+            "user_summary": "May count as a payoff when it rewards the deck for doing its main thing."
+          }
+        ],
+        "matched_role_count": 3,
+        "schema_version": "role_evidence_report.v0",
+        "unmatched_role_count": 0,
+        "user_summary": "Smoke Commander: matched 3 role evidence entries; strongest is Selection."
+      },
+      "zone": "commander"
+    },
+    {
+      "card_name": "Smoke Ramp",
+      "entry_id": "entry-smoke-ramp",
+      "lookup_name": "Smoke Ramp",
+      "role_report": {
+        "best_match": {
+          "canonical_role": "Ramp",
+          "exclusion_reason": null,
+          "explanation": "Smoke Ramp matched Ramp from oracle_text: add.",
+          "matched": true,
+          "matched_field": "oracle_text",
+          "matched_value": "add",
+          "role_id": "ramp",
+          "score": 75,
+          "user_summary": "May count as ramp when it produces mana or puts lands onto the battlefield."
+        },
+        "card_name": "Smoke Ramp",
+        "explanations": [
+          "Smoke Ramp matched Ramp from oracle_text: add."
+        ],
+        "machine_evidence": [
+          {
+            "canonical_role": "Ramp",
+            "exclusion_reason": null,
+            "explanation": "Smoke Ramp matched Ramp from oracle_text: add.",
+            "matched": true,
+            "matched_field": "oracle_text",
+            "matched_value": "add",
+            "role_id": "ramp",
+            "score": 75,
+            "user_summary": "May count as ramp when it produces mana or puts lands onto the battlefield."
+          }
+        ],
+        "matched_role_count": 1,
+        "schema_version": "role_evidence_report.v0",
+        "unmatched_role_count": 0,
+        "user_summary": "Smoke Ramp: matched Ramp evidence."
+      },
+      "zone": "mainboard"
+    },
+    {
+      "card_name": "Smoke Draw",
+      "entry_id": "entry-smoke-draw",
+      "lookup_name": "Smoke Draw",
+      "role_report": {
+        "best_match": {
+          "canonical_role": "Draw",
+          "exclusion_reason": null,
+          "explanation": "Smoke Draw matched Draw from Oracle text phrase draw two cards.",
+          "matched": true,
+          "matched_field": "oracle_text",
+          "matched_value": "draw two cards",
+          "role_id": "draw",
+          "score": 100,
+          "user_summary": "May count as draw when it directly draws cards for you."
+        },
+        "card_name": "Smoke Draw",
+        "explanations": [
+          "Smoke Draw matched Draw from Oracle text phrase draw two cards."
+        ],
+        "machine_evidence": [
+          {
+            "canonical_role": "Draw",
+            "exclusion_reason": null,
+            "explanation": "Smoke Draw matched Draw from Oracle text phrase draw two cards.",
+            "matched": true,
+            "matched_field": "oracle_text",
+            "matched_value": "draw two cards",
+            "role_id": "draw",
+            "score": 100,
+            "user_summary": "May count as draw when it directly draws cards for you."
+          }
+        ],
+        "matched_role_count": 1,
+        "schema_version": "role_evidence_report.v0",
+        "unmatched_role_count": 0,
+        "user_summary": "Smoke Draw: matched Draw evidence."
+      },
+      "zone": "mainboard"
+    },
+    {
+      "card_name": "Island",
+      "entry_id": "entry-smoke-island",
+      "lookup_name": "Island",
+      "role_report": {
+        "best_match": {
+          "canonical_role": "Land",
+          "exclusion_reason": null,
+          "explanation": "Island matched Land because type_line contains Land.",
+          "matched": true,
+          "matched_field": "type_line",
+          "matched_value": "Land",
+          "role_id": "land",
+          "score": 100,
+          "user_summary": "Counts as a land when its type line contains Land."
+        },
+        "card_name": "Island",
+        "explanations": [
+          "Island matched Land because type_line contains Land.",
+          "Island matched Ramp from oracle_text: add."
+        ],
+        "machine_evidence": [
+          {
+            "canonical_role": "Land",
+            "exclusion_reason": null,
+            "explanation": "Island matched Land because type_line contains Land.",
+            "matched": true,
+            "matched_field": "type_line",
+            "matched_value": "Land",
+            "role_id": "land",
+            "score": 100,
+            "user_summary": "Counts as a land when its type line contains Land."
+          },
+          {
+            "canonical_role": "Ramp",
+            "exclusion_reason": null,
+            "explanation": "Island matched Ramp from oracle_text: add.",
+            "matched": true,
+            "matched_field": "oracle_text",
+            "matched_value": "add",
+            "role_id": "ramp",
+            "score": 75,
+            "user_summary": "May count as ramp when it produces mana or puts lands onto the battlefield."
+          }
+        ],
+        "matched_role_count": 2,
+        "schema_version": "role_evidence_report.v0",
+        "unmatched_role_count": 0,
+        "user_summary": "Island: matched 2 role evidence entries; strongest is Land."
+      },
+      "zone": "mainboard"
+    },
+    {
+      "card_name": "Smoke Treasure",
+      "entry_id": "entry-smoke-treasure",
+      "lookup_name": "Smoke Treasure",
+      "role_report": {
+        "best_match": {
+          "canonical_role": "Ramp",
+          "exclusion_reason": null,
+          "explanation": "Smoke Treasure matched Ramp from oracle_text: add.",
+          "matched": true,
+          "matched_field": "oracle_text",
+          "matched_value": "add",
+          "role_id": "ramp",
+          "score": 75,
+          "user_summary": "May count as ramp when it produces mana or puts lands onto the battlefield."
+        },
+        "card_name": "Smoke Treasure",
+        "explanations": [
+          "Smoke Treasure matched Ramp from oracle_text: add."
+        ],
+        "machine_evidence": [
+          {
+            "canonical_role": "Ramp",
+            "exclusion_reason": null,
+            "explanation": "Smoke Treasure matched Ramp from oracle_text: add.",
+            "matched": true,
+            "matched_field": "oracle_text",
+            "matched_value": "add",
+            "role_id": "ramp",
+            "score": 75,
+            "user_summary": "May count as ramp when it produces mana or puts lands onto the battlefield."
+          }
+        ],
+        "matched_role_count": 1,
+        "schema_version": "role_evidence_report.v0",
+        "unmatched_role_count": 0,
+        "user_summary": "Smoke Treasure: matched Ramp evidence."
+      },
+      "zone": "mainboard"
+    },
+    {
+      "card_name": "Maybe Card",
+      "entry_id": "entry-smoke-maybe",
+      "lookup_name": "Maybe Card",
+      "role_report": {
+        "best_match": {
+          "canonical_role": "Selection",
+          "exclusion_reason": null,
+          "explanation": "Maybe Card matched Selection from phrase scry.",
+          "matched": true,
+          "matched_field": "oracle_text",
+          "matched_value": "scry",
+          "role_id": "selection",
+          "score": 50,
+          "user_summary": "May count as selection when it filters draws or manipulates the top of the library."
+        },
+        "card_name": "Maybe Card",
+        "explanations": [
+          "Maybe Card matched Selection from phrase scry.",
+          "Maybe Card matched Countermagic from phrase Instant."
+        ],
+        "machine_evidence": [
+          {
+            "canonical_role": "Selection",
+            "exclusion_reason": null,
+            "explanation": "Maybe Card matched Selection from phrase scry.",
+            "matched": true,
+            "matched_field": "oracle_text",
+            "matched_value": "scry",
+            "role_id": "selection",
+            "score": 50,
+            "user_summary": "May count as selection when it filters draws or manipulates the top of the library."
+          },
+          {
+            "canonical_role": "Countermagic",
+            "exclusion_reason": null,
+            "explanation": "Maybe Card matched Countermagic from phrase Instant.",
+            "matched": true,
+            "matched_field": "type_line",
+            "matched_value": "Instant",
+            "role_id": "countermagic",
+            "score": 25,
+            "user_summary": "May count as countermagic when it counters spells or abilities."
+          }
+        ],
+        "matched_role_count": 2,
+        "schema_version": "role_evidence_report.v0",
+        "unmatched_role_count": 0,
+        "user_summary": "Maybe Card: matched 2 role evidence entries; strongest is Selection."
+      },
+      "zone": "maybeboard"
+    }
+  ],
+  "deck_id": "deck-inspection-smoke-v0",
+  "deck_name": "Inspection Smoke Deck",
+  "format": "commander",
+  "machine_evidence": {
+    "active_quantity_total": 7,
+    "card_fact_coverage": {
+      "ambiguous_count": 0,
+      "ambiguous_entry_ids": [],
+      "found_count": 6,
+      "found_entry_ids": [
+        "entry-smoke-commander",
+        "entry-smoke-ramp",
+        "entry-smoke-draw",
+        "entry-smoke-island",
+        "entry-smoke-treasure",
+        "entry-smoke-maybe"
+      ],
+      "has_complete_coverage": false,
+      "lookup_attempted": true,
+      "missing_count": 1,
+      "missing_entry_ids": [
+        "entry-smoke-missing"
+      ],
+      "source_available": true,
+      "total_entries_considered": 7
+    },
+    "card_role_report_count": 6,
+    "role_evidence_is_card_level_only": true,
+    "structural_warning_count": 3
+  },
+  "schema_version": "deck_inspection_report.v0",
+  "skeleton_report": {
+    "deck_id": "deck-inspection-smoke-v0",
+    "deck_name": "Inspection Smoke Deck",
+    "format": "commander",
+    "machine_evidence": {
+      "active_quantity_total": 7,
+      "card_fact_lookup_status": "checked",
+      "category_entry_counts": {
+        "Commander": 1,
+        "Draw": 1,
+        "Land": 1,
+        "Ramp": 2,
+        "Unknown": 1
+      },
+      "category_quantity_totals": {
+        "Commander": 1,
+        "Draw": 1,
+        "Land": 2,
+        "Ramp": 2,
+        "Unknown": 1
+      },
+      "commander_names": [
+        "Smoke Commander"
+      ],
+      "missing_card_fact_entries": [
+        {
+          "categories": [
+            "Unknown"
+          ],
+          "display_name": null,
+          "entry_id": "entry-smoke-missing",
+          "input_name": "Mystery Card",
+          "is_unresolved": true,
+          "oracle_id": null,
+          "quantity": 1,
+          "zone": "mainboard"
+        }
+      ],
+      "unresolved_entries": [
+        {
+          "categories": [
+            "Unknown"
+          ],
+          "display_name": null,
+          "entry_id": "entry-smoke-missing",
+          "input_name": "Mystery Card",
+          "is_unresolved": true,
+          "oracle_id": null,
+          "quantity": 1,
+          "zone": "mainboard"
+        }
+      ],
+      "zone_entry_counts": {
+        "commander": 1,
+        "mainboard": 5,
+        "maybeboard": 1
+      },
+      "zone_quantity_totals": {
+        "commander": 1,
+        "mainboard": 6,
+        "maybeboard": 1
+      }
+    },
+    "mechanical_warnings": {
+      "duplicate_nonbasic": []
+    },
+    "schema_version": "deck_skeleton_report.v0",
+    "user_summary": "Inspection Smoke Deck: 7 active cards across 1 commander entries and 5 mainboard entries; 1 unresolved entries; 0 known non-basic duplicate warnings."
+  },
+  "structural_warnings_report": {
+    "deck_id": "deck-inspection-smoke-v0",
+    "deck_name": "Inspection Smoke Deck",
+    "format": "commander",
+    "schema_version": "structural_warnings_report.v0",
+    "user_summary": "Inspection Smoke Deck: 3 mechanical structural warnings.",
+    "warning_count": 3,
+    "warnings": [
+      {
+        "machine_evidence": {
+          "actual_active_quantity": 7,
+          "expected_active_quantity": 100,
+          "format": "commander"
+        },
+        "severity": "warning",
+        "user_summary": "Commander deck active quantity is not 100.",
+        "warning_id": "commander_active_quantity_mismatch"
+      },
+      {
+        "machine_evidence": {
+          "entry_count": 1,
+          "entry_ids": [
+            "entry-smoke-missing"
+          ]
+        },
+        "severity": "warning",
+        "user_summary": "Deck contains unresolved entries.",
+        "warning_id": "unresolved_entries"
+      },
+      {
+        "machine_evidence": {
+          "entry_count": 1,
+          "entry_ids": [
+            "entry-smoke-missing"
+          ]
+        },
+        "severity": "warning",
+        "user_summary": "Deck contains entries without supplied local card facts.",
+        "warning_id": "missing_card_facts"
+      }
+    ]
+  },
+  "user_summary": "Inspection Smoke Deck: 7 active cards; 6 found, 1 missing, 0 ambiguous card fact lookups; 3 mechanical warnings."
+}
