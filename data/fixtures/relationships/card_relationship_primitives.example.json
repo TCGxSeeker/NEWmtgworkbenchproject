@@ -1,0 +1,77 @@
+{
+    "schema_version":  "card_relationship_primitives.v0",
+    "behavior_dimensions":  [
+                                "outputs",
+                                "costs",
+                                "requirements",
+                                "emitted_events",
+                                "observed_events",
+                                "permissions",
+                                "modifiers",
+                                "zone_constraints",
+                                "timing_constraints"
+                            ],
+    "resources":  [
+                      "mana",
+                      "treasure",
+                      "artifact",
+                      "creature",
+                      "card_in_hand",
+                      "graveyard_card"
+                  ],
+    "events":  [
+                   "spell_cast",
+                   "noncreature_spell_cast",
+                   "permanent_entered",
+                   "attack_declared",
+                   "combat_damage_dealt",
+                   "card_discarded",
+                   "permanent_sacrificed",
+                   "creature_died",
+                   "card_drawn"
+               ],
+    "relationship_types":  [
+                               "supplies",
+                               "triggers",
+                               "enables",
+                               "amplifies",
+                               "protects",
+                               "recurs",
+                               "conflicts_with"
+                           ],
+    "evidence_fields":  [
+                            "source_entry_id",
+                            "target_entry_id",
+                            "relationship_type",
+                            "source_behavior",
+                            "target_behavior",
+                            "oracle_evidence",
+                            "conditions",
+                            "zones",
+                            "confidence_band",
+                            "derivation_rule"
+                        ],
+    "confidence_bands":  [
+                             0,
+                             25,
+                             50,
+                             75,
+                             100
+                         ],
+    "deferred_relationship_types":  [
+                                        "redundant_with",
+                                        "competes_with",
+                                        "converts",
+                                        "closes_with"
+                                    ],
+    "non_goals":  [
+                      "synergy_scoring",
+                      "deck_level_role_totals",
+                      "package_detection",
+                      "commander_analysis",
+                      "recommendations",
+                      "card_quality_judgments",
+                      "all_pairs_comparison",
+                      "hidden_inference"
+                  ]
+}
