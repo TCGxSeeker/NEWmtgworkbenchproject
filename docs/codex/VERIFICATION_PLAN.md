@@ -575,6 +575,28 @@ Latest Structural Warnings v0 run on 2026-07-11:
 - `python -m unittest discover -s tests`: passed, 156 tests, 0 failures
 - `git diff --check`: passed
 
+## Local Card Fact Lookup Bridge V0 Checks
+
+After changing local card fact lookup behavior:
+
+```powershell
+python -m py_compile src/mtg_workbench/deckbuilder/card_fact_lookup.py
+python -m py_compile src/mtg_workbench/deckbuilder/__init__.py
+python -m unittest tests.test_deckbuilder_card_fact_lookup
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior: lookup uses the existing `normalize_lookup_key` helper, resolves workspace entries against supplied local card records or `CardCatalog`, preserves workspace entry order, returns explicit `found`, `missing`, or `ambiguous` statuses, reports ambiguity without selecting a winner, and does not guess when card facts are unavailable. It must not mutate workspaces, count deck-level roles, make strategy or quality judgments, call live services, add UI, or ingest large data.
+
+Latest Local Card Fact Lookup Bridge v0 run on 2026-07-11:
+
+- `python -m py_compile src/mtg_workbench/deckbuilder/card_fact_lookup.py`: passed
+- `python -m py_compile src/mtg_workbench/deckbuilder/__init__.py`: passed
+- `python -m unittest tests.test_deckbuilder_card_fact_lookup`: passed, 9 tests, 0 failures
+- `python -m unittest discover -s tests`: passed, 165 tests, 0 failures
+- `git diff --check`: passed
+
 ## Manual Human Review Checklist
 
 Use manual review for:

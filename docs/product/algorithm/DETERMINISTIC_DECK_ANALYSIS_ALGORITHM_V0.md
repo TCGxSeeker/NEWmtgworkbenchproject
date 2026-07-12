@@ -92,6 +92,8 @@ Extraction should store evidence references such as source field, matched phrase
 
 Card Facts Adapter v0 bridges local or Scryfall-ish record dictionaries into `CardRoleFacts` for role evidence matching. Card Role Evidence Pipeline v0 then converts those records into `RoleEvidenceReport` objects. Neither layer performs deck analysis or primary-role selection.
 
+Local Card Fact Lookup Bridge v0 resolves `DeckWorkspace` entries against supplied local records or the existing `CardCatalog` using `normalize_lookup_key`. It returns explicit found, missing, or ambiguous lookup results and does not guess, mutate the workspace, or reduce the deck to role counts.
+
 ## 6. Role/Category Classification
 
 Generic category is a hint. Deck-specific role is the truth.

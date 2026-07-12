@@ -16,18 +16,19 @@
 - Role Evidence Matcher v0
 - Role Evidence Report v0
 - Card Facts Adapter v0
+- Local Card Fact Lookup Bridge v0
 - Card Role Evidence Pipeline v0
 - Deck Skeleton Report v0
 - Structural Warnings v0
 
 ## Current Branch
 
-- `card-role-evidence-pipeline-v0`
+- `local-card-fact-lookup-bridge-v0`
 
 ## Current Test Status
 
 - `python -m unittest discover -s tests`
-- Latest known result: 156 tests passing
+- Latest known result: 165 tests passing
 - `git diff --check` passing
 
 ## Core Constraints
@@ -57,7 +58,7 @@ Future output schemas should separate machine-readable evidence, concise user-fa
 
 ## Next Recommended Slice
 
-Pause before Deck Role Summary v0 until deck-level role counting is approved. Safe next slice: a local card fact lookup/input bridge for reports, or a report envelope that combines skeleton and structural warnings without adding new judgments.
+Pause before Deck Role Summary v0 until deck-level role counting is approved. Safe next slice: a report envelope that combines card fact lookup, skeleton, and structural warnings without adding new judgments.
 
 ## Established Role Evidence Defaults
 
@@ -65,6 +66,7 @@ Pause before Deck Role Summary v0 until deck-level role counting is approved. Sa
 - Evidence phrase matching uses casefolded substring matching with whitespace normalization.
 - Score combination uses `highest_match` only.
 - Role evidence matching works from explicit `CardRoleFacts`.
+- `lookup_workspace_card_facts` resolves entries to explicit found, missing, or ambiguous local card fact results.
 - `card_record_to_role_facts` converts local/Scryfall-ish records into `CardRoleFacts`.
 - `card_record_to_role_evidence_report` converts one local/Scryfall-ish record into a card-level `RoleEvidenceReport`.
 - `card_records_to_role_evidence_reports` returns a tuple of card-level reports in input order.

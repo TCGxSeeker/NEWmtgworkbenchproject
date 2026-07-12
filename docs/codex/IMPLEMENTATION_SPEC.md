@@ -401,6 +401,14 @@ Create a mechanical warning report that consumes `DeckSkeletonReport` facts. Def
 
 Structural Warnings v0 must not make strategic quality judgments, count deck-level roles, infer unavailable card facts, inspect raw card records independently, implement recommendations, candidate search, add/cut scoring, commander philosophy checks, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or large dataset ingestion.
 
+### Phase Algorithm-10: Local Card Fact Lookup Bridge v0
+
+Status: implemented.
+
+Create a deterministic bridge from `DeckWorkspace` entries to local card fact records. Definition of done: lookup uses the existing `normalize_lookup_key` helper, accepts either supplied local card records or an existing `CardCatalog`, returns explicit `found`, `missing`, or `ambiguous` results, preserves entry order, reports missing and ambiguous data instead of guessing, and exposes found records by entry id for later report layers.
+
+Local Card Fact Lookup Bridge v0 must not mutate workspaces, implement deck-level role counting, select primary roles, make strategic quality judgments, inspect live services, call APIs, add UI, add frontend dependencies, ingest large data, implement recommendations, candidate search, add/cut scoring, commander profiles, package analysis, price optimization, or combo solving.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.

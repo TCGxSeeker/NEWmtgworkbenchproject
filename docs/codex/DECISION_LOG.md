@@ -271,3 +271,9 @@
   - Alternatives considered: adding shell-quality warnings, role-density warnings, or inspecting raw card records directly.
   - Risk: The warning set is intentionally narrow until deck-level role counting and strategy checks are approved.
   - Status: Accepted for Structural Warnings v0.
+
+- Decision: Use the existing card catalog lookup key for deckbuilder card fact resolution.
+  - Reason: `normalize_lookup_key` is already used by `CardCatalog` and local Scryfall indexing/search, so the deckbuilder bridge should not create another card-name normalization system.
+  - Alternatives considered: keeping the private skeleton-report normalizer, matching on raw entry names only, or querying the local Scryfall index directly in this slice.
+  - Risk: `CardCatalog.find()` cannot expose ambiguous matches, so ambiguity reporting is limited to supplied record collections where duplicate normalized keys can be observed.
+  - Status: Accepted for Local Card Fact Lookup Bridge v0.
