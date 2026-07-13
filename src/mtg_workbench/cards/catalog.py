@@ -15,6 +15,10 @@ def normalize_lookup_key(name: str) -> str:
     return _SPACE_RE.sub(" ", name.strip()).casefold()
 
 
+class CardCatalogAmbiguityError(ValueError):
+    """Raised when one lookup key resolves to multiple logical card identities."""
+
+
 @dataclass(frozen=True)
 class CardRecord:
     name: str
@@ -27,6 +31,8 @@ class CardRecord:
     legalities: dict[str, Any]
     prices: dict[str, Any]
     is_basic_land: bool = False
+    oracle_id: str | None = None
+    representative_scryfall_id: str | None = None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "CardRecord":
@@ -41,13 +47,19 @@ class CardRecord:
             legalities=dict(data.get("legalities", {})),
             prices=dict(data.get("prices", {})),
             is_basic_land=bool(data.get("is_basic_land", False)),
+            oracle_id=_optional_text(data.get("oracle_id")),
+            representative_scryfall_id=_optional_text(
+                data.get("representative_scryfall_id")
+                or data.get("scryfall_id")
+            ),
         )
 
 
 class CardCatalog:
     def __init__(self, cards: list[CardRecord]) -> None:
         self.cards = cards
-        self._lookup: dict[str, CardRecord] = {}
+        self._lookup: dict[str, list[CardRecord]] = {}
+
         for card in cards:
             self._add_lookup(card.name, card)
             for alias in card.aliases:
@@ -57,13 +69,62 @@ class CardCatalog:
     def from_json_file(cls, path: str | Path) -> "CardCatalog":
         with Path(path).open("r", encoding="utf-8") as handle:
             payload = json.load(handle)
+
         cards = [CardRecord.from_dict(card) for card in payload.get("cards", [])]
         return cls(cards)
 
+    def find_all(self, name: str) -> tuple[CardRecord, ...]:
+        key = normalize_lookup_key(name)
+        candidates = self._lookup.get(key, [])
+
+        return tuple(sorted(candidates, key=_card_sort_key))
+
     def find(self, name: str) -> CardRecord | None:
-        return self._lookup.get(normalize_lookup_key(name))
+        candidates = self.find_all(name)
+
+        if not candidates:
+            return None
+
+        identities = {_logical_identity(card) for card in candidates}
+
+        if len(identities) > 1:
+            candidate_names = ", ".join(card.name for card in candidates)
+            raise CardCatalogAmbiguityError(
+                f"Card lookup is ambiguous for {name!r}: {candidate_names}."
+            )
+
+        return candidates[0]
 
     def _add_lookup(self, name: str, card: CardRecord) -> None:
         key = normalize_lookup_key(name)
-        if key:
-            self._lookup[key] = card
+
+        if not key:
+            return
+
+        bucket = self._lookup.setdefault(key, [])
+
+        if card not in bucket:
+            bucket.append(card)
+
+
+def _logical_identity(card: CardRecord) -> str:
+    if card.oracle_id:
+        return f"oracle:{card.oracle_id}"
+
+    return f"name:{normalize_lookup_key(card.name)}"
+
+
+def _card_sort_key(card: CardRecord) -> tuple[str, str, str]:
+    return (
+        card.oracle_id or "",
+        normalize_lookup_key(card.name),
+        card.representative_scryfall_id or "",
+    )
+
+
+def _optional_text(value: Any) -> str | None:
+    if value is None:
+        return None
+
+    text = str(value).strip()
+    return text or None

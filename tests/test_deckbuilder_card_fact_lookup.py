@@ -157,5 +157,112 @@ class CardFactLookupBridgeTests(unittest.TestCase):
             )
 
 
+    def test_catalog_source_reports_alias_ambiguity_across_oracle_ids(self) -> None:
+        from mtg_workbench.cards.catalog import CardRecord
+
+        first = CardRecord.from_dict(
+            {
+                "name": "First Card",
+                "aliases": ["Shared Alias"],
+                "oracle_id": "oracle-first",
+                "representative_scryfall_id": "printing-first",
+            }
+        )
+        second = CardRecord.from_dict(
+            {
+                "name": "Second Card",
+                "aliases": ["Shared Alias"],
+                "oracle_id": "oracle-second",
+                "representative_scryfall_id": "printing-second",
+            }
+        )
+
+        result = lookup_deck_entry_card_fact(
+            _entry("catalog-ambiguous", "Shared Alias"),
+            catalog=CardCatalog([first, second]),
+        )
+
+        self.assertEqual(result.status, AMBIGUOUS)
+        self.assertEqual(
+            {candidate.display_name for candidate in result.candidates},
+            {"First Card", "Second Card"},
+        )
+        self.assertEqual(
+            {candidate.oracle_id for candidate in result.candidates},
+            {"oracle-first", "oracle-second"},
+        )
+
+    def test_catalog_source_preserves_oracle_and_representative_printing_identity(
+        self,
+    ) -> None:
+        from mtg_workbench.cards.catalog import CardRecord
+
+        sol_ring = CardRecord.from_dict(
+            {
+                "name": "Sol Ring",
+                "aliases": [],
+                "oracle_id": "oracle-sol-ring",
+                "representative_scryfall_id": "printing-sol-ring",
+                "mana_value": 1,
+                "colors": [],
+                "color_identity": [],
+                "type_line": "Artifact",
+                "oracle_text": "{T}: Add {C}{C}.",
+                "legalities": {"commander": "legal"},
+                "prices": {"usd": "1.50"},
+            }
+        )
+
+        result = lookup_deck_entry_card_fact(
+            _entry("catalog-found", "Sol Ring"),
+            catalog=CardCatalog([sol_ring]),
+        )
+
+        self.assertEqual(result.status, FOUND)
+        self.assertEqual(len(result.candidates), 1)
+        self.assertEqual(result.candidates[0].oracle_id, "oracle-sol-ring")
+        self.assertEqual(
+            result.candidates[0].selected_printing_id,
+            "printing-sol-ring",
+        )
+
+
+    def test_catalog_source_collapses_multiple_printings_of_one_oracle_identity(
+        self,
+    ) -> None:
+        from mtg_workbench.cards.catalog import CardRecord
+
+        first_printing = CardRecord.from_dict(
+            {
+                "name": "Sol Ring",
+                "oracle_id": "oracle-sol-ring",
+                "representative_scryfall_id": "printing-z",
+            }
+        )
+        default_printing = CardRecord.from_dict(
+            {
+                "name": "Sol Ring",
+                "oracle_id": "oracle-sol-ring",
+                "representative_scryfall_id": "printing-a",
+            }
+        )
+
+        result = lookup_deck_entry_card_fact(
+            _entry("sol-ring", "Sol Ring"),
+            catalog=CardCatalog([first_printing, default_printing]),
+        )
+
+        self.assertEqual(result.status, FOUND)
+        self.assertEqual(len(result.candidates), 1)
+        self.assertEqual(
+            result.candidates[0].oracle_id,
+            "oracle-sol-ring",
+        )
+        self.assertEqual(
+            result.candidates[0].selected_printing_id,
+            "printing-a",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

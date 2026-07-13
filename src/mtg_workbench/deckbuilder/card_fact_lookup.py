@@ -221,10 +221,17 @@ class _CatalogResolver:
         self.catalog = catalog
 
     def resolve(self, lookup_name: str) -> tuple[CardFactCandidate, ...]:
-        card = self.catalog.find(lookup_name)
-        if card is None:
-            return ()
-        return (_candidate_from_record(_card_record_to_dict(card), lookup_name),)
+        cards = self.catalog.find_all(lookup_name)
+
+        candidates = [
+            _candidate_from_record(
+                _card_record_to_dict(card),
+                lookup_name,
+            )
+            for card in cards
+        ]
+
+        return tuple(_dedupe_candidates(candidates))
 
 
 class _RecordResolver:
@@ -300,6 +307,8 @@ def _card_record_to_dict(card: CardRecord) -> dict[str, Any]:
         "legalities": dict(card.legalities),
         "prices": dict(card.prices),
         "is_basic_land": card.is_basic_land,
+        "oracle_id": card.oracle_id,
+        "representative_scryfall_id": card.representative_scryfall_id,
     }
 
 
@@ -312,6 +321,7 @@ def _candidate_from_record(record: dict[str, Any], matched_name: str) -> CardFac
         oracle_id=_optional_text(record.get("oracle_id")),
         selected_printing_id=_optional_text(
             record.get("selected_printing_id")
+            or record.get("representative_scryfall_id")
             or record.get("scryfall_id")
             or record.get("id")
         ),
