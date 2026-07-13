@@ -55,6 +55,7 @@ def validate_workspace_payload(payload: Any) -> list[str]:
     _check_entry_section(errors, payload, "commanders", "commander")
     _check_entry_section(errors, payload, "mainboard", "mainboard")
     _check_entry_section(errors, payload, "maybeboard", "maybeboard")
+    _check_unique_entry_ids(errors, payload)
     return errors
 
 
@@ -136,6 +137,34 @@ def _validate_entry(
     _check_optional_bool(errors, entry, "pinned", location)
     _check_optional_bool(errors, entry, "foil", location)
 
+
+
+def _check_unique_entry_ids(errors: list[str], payload: dict[str, Any]) -> None:
+    first_locations: dict[str, str] = {}
+
+    for section_name in ("commanders", "mainboard", "maybeboard"):
+        section = payload.get(section_name)
+        if not isinstance(section, list):
+            continue
+
+        for index, entry in enumerate(section):
+            if not isinstance(entry, dict):
+                continue
+
+            entry_id = entry.get("entry_id")
+            if not isinstance(entry_id, str) or not entry_id.strip():
+                continue
+
+            location = f"{section_name}[{index}]"
+            first_location = first_locations.get(entry_id)
+            if first_location is not None:
+                errors.append(
+                    f"Duplicate entry_id {entry_id!r} at {location}; "
+                    f"first used at {first_location}."
+                )
+                continue
+
+            first_locations[entry_id] = location
 
 def _require_fields(errors: list[str], payload: dict[str, Any], fields: list[str], location: str) -> None:
     for field_name in fields:

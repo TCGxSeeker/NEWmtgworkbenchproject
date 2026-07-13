@@ -44,8 +44,10 @@ def add_entry(
     clean_tags = _stable_unique(tags or [], "tags")
     clean_secondary_tags = _stable_unique(secondary_tags or [], "secondary_tags")
 
+    candidate_entry_id = entry_id or _new_unique_entry_id(workspace)
+
     candidate = DeckEntry(
-        entry_id=entry_id or str(uuid4()),
+        entry_id=candidate_entry_id,
         quantity=amount,
         input_name=clean_input_name,
         display_name=display_name,
@@ -67,13 +69,18 @@ def add_entry(
         is_unresolved=is_unresolved,
     )
 
-    existing = _find_merge_target(workspace, candidate)
-    if existing:
-        existing.quantity += amount
-        existing.tags = _stable_unique([*existing.tags, *candidate.tags], "tags")
-        existing.pinned = existing.pinned or candidate.pinned
-        if existing.notes is None and candidate.notes is not None:
-            existing.notes = candidate.notes
+    merge_target = _find_merge_target(workspace, candidate)
+    entry_id_owner = find_entry(workspace, candidate.entry_id)
+
+    if entry_id_owner is not None and entry_id_owner is not merge_target:
+        raise WorkspaceMutationError(f"entry_id already exists: {candidate.entry_id}.")
+
+    if merge_target:
+        merge_target.quantity += amount
+        merge_target.tags = _stable_unique([*merge_target.tags, *candidate.tags], "tags")
+        merge_target.pinned = merge_target.pinned or candidate.pinned
+        if merge_target.notes is None and candidate.notes is not None:
+            merge_target.notes = candidate.notes
     else:
         _zone_entries(workspace, target_zone).append(candidate)
 
@@ -316,10 +323,14 @@ def update_notes(
 
 
 def find_entry(workspace: DeckWorkspace, entry_id: str) -> DeckEntry | None:
-    for entry in list_entries(workspace):
-        if entry.entry_id == entry_id:
-            return entry
-    return None
+    matches = [entry for entry in list_entries(workspace) if entry.entry_id == entry_id]
+
+    if len(matches) > 1:
+        raise WorkspaceMutationError(
+            f"Multiple entries found for entry_id: {entry_id}."
+        )
+
+    return matches[0] if matches else None
 
 
 def require_entry(workspace: DeckWorkspace, entry_id: str) -> DeckEntry:
@@ -336,6 +347,13 @@ def list_entries(workspace: DeckWorkspace) -> list[DeckEntry]:
 def get_zone_entries(workspace: DeckWorkspace, zone: str) -> list[DeckEntry]:
     return _zone_entries(workspace, _require_zone(zone))
 
+
+
+def _new_unique_entry_id(workspace: DeckWorkspace) -> str:
+    candidate = str(uuid4())
+    while find_entry(workspace, candidate) is not None:
+        candidate = str(uuid4())
+    return candidate
 
 def _find_merge_target(workspace: DeckWorkspace, candidate: DeckEntry) -> DeckEntry | None:
     for entry in _zone_entries(workspace, candidate.zone):
@@ -386,11 +404,22 @@ def _require_entry_location(
     workspace: DeckWorkspace,
     entry_id: str,
 ) -> tuple[list[DeckEntry], int, DeckEntry]:
+    matches: list[tuple[list[DeckEntry], int, DeckEntry]] = []
+
     for collection in [workspace.commanders, workspace.mainboard, workspace.maybeboard]:
         for index, entry in enumerate(collection):
             if entry.entry_id == entry_id:
-                return collection, index, entry
-    raise WorkspaceMutationError(f"Entry not found: {entry_id}.")
+                matches.append((collection, index, entry))
+
+    if len(matches) > 1:
+        raise WorkspaceMutationError(
+            f"Multiple entries found for entry_id: {entry_id}."
+        )
+
+    if not matches:
+        raise WorkspaceMutationError(f"Entry not found: {entry_id}.")
+
+    return matches[0]
 
 
 def _zone_entries(workspace: DeckWorkspace, zone: str) -> list[DeckEntry]:

@@ -2,7 +2,7 @@ from pathlib import Path
 import unittest
 
 from mtg_workbench.deckbuilder.categories import load_category_taxonomy
-from mtg_workbench.deckbuilder.models import DeckWorkspace
+from mtg_workbench.deckbuilder.models import DeckEntry, DeckWorkspace
 from mtg_workbench.deckbuilder.mutations import (
     WorkspaceMutationError,
     add_entry,
@@ -547,6 +547,191 @@ class DeckbuilderMutationTests(unittest.TestCase):
     def test_find_entry_returns_none_when_missing(self) -> None:
         self.assertIsNone(find_entry(_workspace(), "missing"))
 
+
+    def test_add_entry_rejects_supplied_id_owned_by_different_entry(self) -> None:
+        workspace = _workspace()
+        add_entry(
+            workspace,
+            "First Card",
+            display_name="First Card",
+            entry_id="shared-id",
+            updated_at=STAMP_ONE,
+        )
+
+        with self.assertRaises(WorkspaceMutationError) as context:
+            add_entry(
+                workspace,
+                "Different Card",
+                display_name="Different Card",
+                entry_id="shared-id",
+                updated_at=STAMP_TWO,
+            )
+
+        self.assertIn("entry_id already exists: shared-id.", str(context.exception))
+        self.assertEqual(len(workspace.mainboard), 1)
+        self.assertEqual(workspace.mainboard[0].display_name, "First Card")
+        self.assertEqual(workspace.mainboard[0].quantity, 1)
+
+    def test_merge_rejects_incoming_id_owned_by_another_entry(self) -> None:
+        workspace = _workspace()
+        add_entry(
+            workspace,
+            "Merge Target",
+            display_name="Merge Target",
+            entry_id="merge-target",
+            oracle_id="oracle-target",
+            selected_printing_id="printing-target",
+            categories=["Ramp"],
+            updated_at=STAMP_ONE,
+        )
+        add_entry(
+            workspace,
+            "Other Entry",
+            display_name="Other Entry",
+            entry_id="already-owned",
+            oracle_id="oracle-other",
+            selected_printing_id="printing-other",
+            categories=["Utility"],
+            updated_at=STAMP_ONE,
+        )
+
+        with self.assertRaises(WorkspaceMutationError) as context:
+            add_entry(
+                workspace,
+                "Merge Target",
+                display_name="Merge Target",
+                entry_id="already-owned",
+                oracle_id="oracle-target",
+                selected_printing_id="printing-target",
+                categories=["Ramp"],
+                quantity=2,
+                updated_at=STAMP_TWO,
+            )
+
+        self.assertIn("entry_id already exists: already-owned.", str(context.exception))
+        self.assertEqual(len(workspace.mainboard), 2)
+        self.assertEqual(find_entry(workspace, "merge-target").quantity, 1)
+        self.assertEqual(find_entry(workspace, "already-owned").display_name, "Other Entry")
+
+    def test_identical_merge_with_unused_incoming_id_preserves_existing_id(self) -> None:
+        workspace = _workspace()
+        add_entry(
+            workspace,
+            "Merge Card",
+            display_name="Merge Card",
+            entry_id="original-id",
+            oracle_id="oracle-merge",
+            selected_printing_id="printing-merge",
+            categories=["Draw"],
+            updated_at=STAMP_ONE,
+        )
+
+        add_entry(
+            workspace,
+            "Merge Card",
+            display_name="Merge Card",
+            entry_id="unused-incoming-id",
+            oracle_id="oracle-merge",
+            selected_printing_id="printing-merge",
+            categories=["Draw"],
+            quantity=2,
+            updated_at=STAMP_TWO,
+        )
+
+        self.assertEqual(len(workspace.mainboard), 1)
+        self.assertEqual(workspace.mainboard[0].entry_id, "original-id")
+        self.assertEqual(workspace.mainboard[0].quantity, 3)
+        self.assertIsNone(find_entry(workspace, "unused-incoming-id"))
+
+
+
+    def test_find_entry_rejects_ambiguous_in_memory_entry_ids(self) -> None:
+        workspace = _workspace()
+        workspace.mainboard.append(
+            DeckEntry(
+                entry_id="duplicate-id",
+                quantity=1,
+                input_name="First Duplicate",
+                display_name="First Duplicate",
+                zone="mainboard",
+            )
+        )
+        workspace.maybeboard.append(
+            DeckEntry(
+                entry_id="duplicate-id",
+                quantity=1,
+                input_name="Second Duplicate",
+                display_name="Second Duplicate",
+                zone="maybeboard",
+            )
+        )
+
+        with self.assertRaises(WorkspaceMutationError) as context:
+            find_entry(workspace, "duplicate-id")
+
+        self.assertIn(
+            "Multiple entries found for entry_id: duplicate-id.",
+            str(context.exception),
+        )
+
+    def test_remove_entry_rejects_ambiguous_in_memory_entry_ids(self) -> None:
+        workspace = _workspace()
+        workspace.mainboard.append(
+            DeckEntry(
+                entry_id="duplicate-id",
+                quantity=1,
+                input_name="First Duplicate",
+                display_name="First Duplicate",
+                zone="mainboard",
+            )
+        )
+        workspace.maybeboard.append(
+            DeckEntry(
+                entry_id="duplicate-id",
+                quantity=1,
+                input_name="Second Duplicate",
+                display_name="Second Duplicate",
+                zone="maybeboard",
+            )
+        )
+
+        with self.assertRaises(WorkspaceMutationError) as context:
+            remove_entry(workspace, "duplicate-id", updated_at=STAMP_TWO)
+
+        self.assertIn(
+            "Multiple entries found for entry_id: duplicate-id.",
+            str(context.exception),
+        )
+        self.assertEqual(len(workspace.mainboard), 1)
+        self.assertEqual(len(workspace.maybeboard), 1)
+
+    def test_generated_entry_id_retries_after_collision(self) -> None:
+        from unittest.mock import patch
+
+        workspace = _workspace()
+        add_entry(
+            workspace,
+            "Existing Card",
+            display_name="Existing Card",
+            entry_id="collision-id",
+            updated_at=STAMP_ONE,
+        )
+
+        with patch(
+            "mtg_workbench.deckbuilder.mutations.uuid4",
+            side_effect=["collision-id", "fresh-id"],
+        ):
+            add_entry(
+                workspace,
+                "Generated Card",
+                display_name="Generated Card",
+                updated_at=STAMP_TWO,
+            )
+
+        generated = find_entry(workspace, "fresh-id")
+        self.assertIsNotNone(generated)
+        self.assertEqual(generated.display_name, "Generated Card")
+        self.assertEqual(len(workspace.mainboard), 2)
 
 if __name__ == "__main__":
     unittest.main()

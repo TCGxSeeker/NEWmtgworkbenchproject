@@ -182,5 +182,39 @@ class DeckbuilderWorkspaceTests(unittest.TestCase):
         self.assertIn("mainboard[0].category_origin must be one of", str(context.exception))
 
 
+    def test_duplicate_entry_ids_inside_same_zone_are_rejected(self) -> None:
+        payload = load_workspace(WORKSPACE_FIXTURE).to_dict()
+        payload["mainboard"][1]["entry_id"] = payload["mainboard"][0]["entry_id"]
+
+        with self.assertRaises(WorkspaceValidationError) as context:
+            loads_workspace(json.dumps(payload))
+
+        self.assertIn(
+            "Duplicate entry_id",
+            str(context.exception),
+        )
+        self.assertIn(
+            payload["mainboard"][0]["entry_id"],
+            str(context.exception),
+        )
+
+    def test_duplicate_entry_ids_across_zones_are_rejected(self) -> None:
+        payload = load_workspace(WORKSPACE_FIXTURE).to_dict()
+        payload["mainboard"][0]["entry_id"] = payload["commanders"][0]["entry_id"]
+
+        with self.assertRaises(WorkspaceValidationError) as context:
+            loads_workspace(json.dumps(payload))
+
+        self.assertIn(
+            "Duplicate entry_id",
+            str(context.exception),
+        )
+        self.assertIn(
+            payload["commanders"][0]["entry_id"],
+            str(context.exception),
+        )
+
+
+
 if __name__ == "__main__":
     unittest.main()
