@@ -65,6 +65,7 @@ Deck Workspace Category Editing Helpers v0 allows intentional edits to imported 
 Card context actions should include:
 
 - Open details.
+- Compare card with.
 - Increase quantity.
 - Decrease quantity.
 - Add as new card.
@@ -73,6 +74,31 @@ Card context actions should include:
 - Move to maybeboard.
 - Move to mainboard.
 - Remove card.
+
+## Visual Card Pair Compare
+
+The baseline comparison flow is visual and temporary:
+
+1. Invoke `Compare card with...` from one card.
+2. Show a temporary `Choose one more card` state.
+3. Selecting the second card opens the comparison overlay.
+4. Show exactly two selected cards together.
+5. Allow either comparison side to be replaced.
+6. Close or cancel comparison and return to the unchanged workspace.
+
+Selection state is transient and is not persisted in `.mtgwdeck.json`.
+
+Opening, changing, or closing comparison does not:
+
+- add, remove, or move cards
+- change quantities or categories
+- mark the workspace dirty
+- produce automatic analysis
+- produce a strategic recommendation
+
+A later explicit `Inspect interaction` action may consume the factual
+relationship subsystem, but that behavior is not part of baseline visual
+comparison.
 
 ## Import And Export
 

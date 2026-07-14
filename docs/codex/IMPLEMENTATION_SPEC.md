@@ -824,6 +824,72 @@ Verification:
 - input-record immutability test
 - full offline Python unit-test suite
 
+
+### Phase Product-10: Visual Card Pair Compare v0 Planning
+
+Status: implemented as a product interaction contract; no UI code added.
+
+Goal:
+
+Define the smallest useful baseline for placing two explicitly selected cards
+together inside the primary deckbuilder workspace without introducing
+analysis clutter.
+
+Baseline interaction:
+
+1. The user chooses `Compare card with...` from one card context action.
+2. The deckbuilder enters a temporary `Choose one more card` state.
+3. Selecting the second card opens a temporary modal or overlay.
+4. The overlay displays exactly two selected card images together.
+5. The user may replace either selected card.
+6. Closing comparison returns to the unchanged deck workspace.
+
+Required behavior:
+
+- operate only from cards explicitly selected by the user
+- compare exactly two cards
+- prefer side-by-side presentation when screen width allows
+- remain readable on narrow screens
+- provide an obvious close action
+- support Escape dismissal where keyboard input exists
+- preserve the open deck, grouping, sorting, filters, and scroll context
+- perform no deck mutation when comparison opens, changes, or closes
+- keep comparison state transient and outside persisted deck state
+- avoid permanent panels or dashboard widgets
+- avoid automatic relationship analysis
+- avoid automatic strategic card comparisons
+
+Deferred progressive disclosure:
+
+A later explicit `Inspect interaction` action may consume the factual
+relationship-report pipeline. It must remain separate from baseline visual
+comparison and must not appear automatically.
+
+This planning phase must not add:
+
+- React components
+- modal implementation
+- card-image loading behavior
+- frontend state management
+- automatic relationship reports
+- synergy scores
+- add/cut recommendations
+- card winner labels
+- purchase recommendations
+- deck mutations
+- persistent comparison state
+- network dependencies
+
+Verification:
+
+- the deckbuilder roadmap explicitly contains the baseline comparison flow
+- card-action requirements classify visual comparison as a core planned action
+- deckbuilder interaction requirements define selection and dismissal behavior
+- main-screen planning keeps comparison temporary
+- a dedicated bounded interaction contract records its state and non-goals
+- no application or frontend code is changed
+- the full offline Python unit-test suite remains green
+
 ## Verification Plan
 
 Phase 2 verification:

@@ -25,6 +25,10 @@ Screenshots from Archidekt/Deckcheck-style tools are product inspiration only. E
 
 6. Card context actions.
    - Provide common card actions without cluttering each card row.
+   - Include a baseline `Compare card with...` flow that places exactly two
+     explicitly selected cards together in a temporary visual overlay.
+   - Keep visual comparison separate from analysis, recommendations, and
+     permanent workspace panels.
 
 7. Deck stats and probability tools.
    - Surface color, curve, mana value, and draw probability information only when useful.

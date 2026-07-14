@@ -58,6 +58,30 @@ The card workspace should display grouped deck entries and preserve deck-editing
 
 Each visible card entry should allow access to context actions without crowding every row or card tile.
 
+## Temporary Card Pair Overlay
+
+Visual card comparison should use a temporary modal or overlay above the
+current deck workspace.
+
+The comparison surface should:
+
+- display exactly two explicitly selected cards
+- prefer side-by-side card images when the viewport allows
+- remain readable on narrow screens
+- provide a visible close action
+- support Escape dismissal where keyboard input exists
+- allow replacement of either selected card
+- preserve the current view, grouping, sorting, filters, and scroll context
+
+The comparison surface should not become:
+
+- a permanent sidebar
+- a dashboard widget
+- a default report panel
+- an automatic recommendation surface
+
+Closing it returns the user to the same deckbuilder context.
+
 ## Stats And Details Area
 
 Stats/details should live in a right-side panel or drawer-style surface. It should support deck facts, selected-card details, and future report summaries without making the main card workspace feel crowded.
