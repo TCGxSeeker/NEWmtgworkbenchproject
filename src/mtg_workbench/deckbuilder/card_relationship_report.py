@@ -6,6 +6,7 @@ from typing import Any, Iterable
 
 from mtg_workbench.deckbuilder.relationship_primitives import (
     RelationshipEdge,
+    relationship_edge_identity_key,
 )
 
 
@@ -117,32 +118,13 @@ def _normalize_edges(
         normalized.append(edge)
 
     unique = {
-        _edge_sort_key(edge): edge
+        relationship_edge_identity_key(edge): edge
         for edge in normalized
     }
 
     return tuple(
         unique[key]
         for key in sorted(unique)
-    )
-
-
-def _edge_sort_key(
-    edge: RelationshipEdge,
-) -> tuple[object, ...]:
-    evidence = edge.evidence
-
-    return (
-        edge.relationship_type,
-        evidence.source_behavior,
-        evidence.target_behavior,
-        evidence.oracle_evidence,
-        evidence.conditions,
-        evidence.zones,
-        evidence.confidence_band,
-        evidence.derivation_rule,
-        edge.source_entry_id,
-        edge.target_entry_id,
     )
 
 

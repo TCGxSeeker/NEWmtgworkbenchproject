@@ -7,6 +7,7 @@ from mtg_workbench.deckbuilder.card_behavioral_profile import (
 from mtg_workbench.deckbuilder.relationship_primitives import (
     RelationshipEdge,
     RelationshipEvidence,
+    relationship_edge_identity_key,
 )
 
 
@@ -46,7 +47,7 @@ def derive_relationship_edges(
     )
 
     unique = {
-        _edge_sort_key(edge): edge
+        relationship_edge_identity_key(edge): edge
         for edge in edges
     }
 
@@ -107,18 +108,3 @@ def _derive_exact_matches(
     return tuple(edges)
 
 
-def _edge_sort_key(edge: RelationshipEdge) -> tuple[object, ...]:
-    evidence = edge.evidence
-
-    return (
-        edge.relationship_type,
-        evidence.source_behavior,
-        evidence.target_behavior,
-        evidence.oracle_evidence,
-        evidence.conditions,
-        evidence.zones,
-        evidence.confidence_band,
-        evidence.derivation_rule,
-        edge.source_entry_id,
-        edge.target_entry_id,
-    )

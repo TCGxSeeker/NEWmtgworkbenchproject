@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Any
 
 from mtg_workbench.deckbuilder.relationship_primitives import (
     EVENT_KINDS,
@@ -191,9 +192,24 @@ def _normalized_atom_tuple(
     allowed_kinds: tuple[str, ...] | None = None,
     kind_label: str | None = None,
 ) -> tuple[BehaviorAtom, ...]:
+    if (
+        values is None
+        or isinstance(values, (str, bytes, bytearray))
+    ):
+        raise CardBehavioralProfileError(
+            f"{field_name} must be an iterable of BehaviorAtom values."
+        )
+
+    try:
+        iterator = iter(values)
+    except TypeError as error:
+        raise CardBehavioralProfileError(
+            f"{field_name} must be an iterable of BehaviorAtom values."
+        ) from error
+
     atoms: list[BehaviorAtom] = []
 
-    for value in values:
+    for value in iterator:
         if not isinstance(value, BehaviorAtom):
             raise CardBehavioralProfileError(
                 f"{field_name} must contain only BehaviorAtom values."
@@ -258,11 +274,26 @@ def _normalized_text_tuple(
     *,
     require_nonempty: bool = False,
 ) -> tuple[str, ...]:
+    if (
+        values is None
+        or isinstance(values, (str, bytes, bytearray))
+    ):
+        raise CardBehavioralProfileError(
+            f"{field_name} must be an iterable of strings."
+        )
+
+    try:
+        iterator = iter(values)
+    except TypeError as error:
+        raise CardBehavioralProfileError(
+            f"{field_name} must be an iterable of strings."
+        ) from error
+
     normalized = tuple(
         sorted(
             {
                 _required_text(value, field_name)
-                for value in values
+                for value in iterator
             }
         )
     )

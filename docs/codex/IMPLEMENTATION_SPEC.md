@@ -628,6 +628,65 @@ Verification:
 - source fixture immutability check
 - full offline Python unit-test suite
 
+
+### Phase Relationship-5: Relationship Input Contract Hardening v0
+
+Status: implementation in progress.
+
+Goal:
+
+Harden the relationship primitive and behavioral-profile input contracts before
+they are exposed through reusable production-facing orchestration.
+
+Required behavior:
+
+- required text fields accept strings only
+- non-string values are rejected rather than coerced with `str`
+- collection fields reject plain strings and bytes
+- `None` collection values produce domain-specific validation errors
+- valid collection values remain normalized, deduplicated, and sorted
+- canonical RelationshipEdge identity and ordering use one shared helper
+- derivation and report layers use the shared edge identity helper
+- existing valid serialized output remains unchanged
+
+Files likely involved:
+
+- `src/mtg_workbench/deckbuilder/relationship_primitives.py`
+- `src/mtg_workbench/deckbuilder/card_behavioral_profile.py`
+- `src/mtg_workbench/deckbuilder/relationship_edge_derivation.py`
+- `src/mtg_workbench/deckbuilder/card_relationship_report.py`
+- focused relationship contract tests
+
+Human validation zones:
+
+None. This slice tightens deterministic validation and does not alter scoring,
+strategy, recommendations, user-facing product behavior, or persisted workspace
+schemas.
+
+This phase must not add:
+
+- new relationship derivation rules
+- behavioral extraction coverage
+- deck-wide scanning
+- all-pairs comparison
+- profile lookup or card lookup
+- package detection
+- combo solving
+- synergy scoring
+- recommendations
+- strategic quality judgments
+- commander analysis
+- user-interface behavior
+
+Verification:
+
+- focused regression tests for non-string required fields
+- focused regression tests for string-as-collection inputs
+- focused regression tests for `None` collections
+- shared edge identity and deterministic ordering tests
+- existing relationship derivation and report tests
+- full offline Python unit-test suite
+
 ## Verification Plan
 
 Phase 2 verification:

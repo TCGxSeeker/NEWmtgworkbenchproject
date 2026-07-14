@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Any
 
 
 RESOURCE_KINDS = (
@@ -153,8 +154,37 @@ class RelationshipEdge:
         }
 
 
+def relationship_edge_identity_key(
+    edge: RelationshipEdge,
+) -> tuple[object, ...]:
+    if not isinstance(edge, RelationshipEdge):
+        raise RelationshipPrimitiveError(
+            "edge must be a RelationshipEdge instance."
+        )
+
+    evidence = edge.evidence
+
+    return (
+        edge.relationship_type,
+        evidence.source_behavior,
+        evidence.target_behavior,
+        evidence.oracle_evidence,
+        evidence.conditions,
+        evidence.zones,
+        evidence.confidence_band,
+        evidence.derivation_rule,
+        edge.source_entry_id,
+        edge.target_entry_id,
+    )
+
+
 def _required_text(value: Any, field_name: str) -> str:
-    text = str(value).strip()
+    if not isinstance(value, str):
+        raise RelationshipPrimitiveError(
+            f"{field_name} must be a string."
+        )
+
+    text = value.strip()
 
     if not text:
         raise RelationshipPrimitiveError(
@@ -170,11 +200,26 @@ def _normalized_text_tuple(
     *,
     require_nonempty: bool = False,
 ) -> tuple[str, ...]:
+    if (
+        values is None
+        or isinstance(values, (str, bytes, bytearray))
+    ):
+        raise RelationshipPrimitiveError(
+            f"{field_name} must be an iterable of strings."
+        )
+
+    try:
+        iterator = iter(values)
+    except TypeError as error:
+        raise RelationshipPrimitiveError(
+            f"{field_name} must be an iterable of strings."
+        ) from error
+
     normalized = tuple(
         sorted(
             {
                 _required_text(value, field_name)
-                for value in values
+                for value in iterator
             }
         )
     )
