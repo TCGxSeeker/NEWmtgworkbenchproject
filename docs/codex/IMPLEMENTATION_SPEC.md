@@ -475,6 +475,57 @@ Generate ranked draft recommendations from local logic only. Definition of done:
 
 Only after CLI behavior is stable, design the luxury workbench UI. Definition of done: UI plan preserves deterministic CLI behavior and prevents copy overflow.
 
+
+### Phase Relationship-2: Deterministic Relationship Edge Derivation v0
+
+Status: implementation in progress.
+
+Goal:
+
+Derive factual relationship edges between one explicitly supplied source deck
+entry profile and one explicitly supplied target deck entry profile.
+
+Initial supported derivation rules:
+
+1. An exact source output-kind match against a target cost-kind produces a
+   `supplies` relationship.
+2. An exact source emitted-event match against a target observed-event produces
+   a `triggers` relationship.
+
+Required behavior:
+
+- source and target deck-entry identifiers are supplied explicitly
+- only compatible behavior dimensions are compared
+- matched source and target behaviors are preserved
+- Oracle-text evidence remains traceable
+- conditions and zones are preserved deterministically
+- derivation-rule identifiers are explicit
+- exact v0 matches use confidence band 100
+- duplicate edges are removed deterministically
+- returned edges have stable ordering
+
+This phase must not add:
+
+- deck-wide scanning
+- all-pairs comparison
+- package detection
+- combo solving
+- synergy scoring
+- recommendation logic
+- candidate search
+- card-quality judgments
+- commander analysis
+- user-interface behavior
+
+Verification:
+
+- focused unit tests for exact resource matches
+- focused unit tests for exact event matches
+- negative tests for mismatched behaviors
+- deterministic ordering and deduplication tests
+- entry-identity preservation tests
+- full offline Python unit-test suite
+
 ## Verification Plan
 
 Phase 2 verification:
