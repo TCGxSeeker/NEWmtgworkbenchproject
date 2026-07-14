@@ -32,11 +32,31 @@ def loads_workspace(text: str) -> DeckWorkspace:
     return DeckWorkspace.from_dict(payload)
 
 
+def _dumps_workspace_for_save(workspace: DeckWorkspace) -> str:
+    payload = workspace.to_dict()
+    saved_state = payload.get("saved_state")
+
+    if isinstance(saved_state, dict):
+        saved_state["is_dirty"] = False
+
+    _raise_if_invalid(payload)
+    return json.dumps(payload, indent=2, sort_keys=True) + "\n"
+
+
 def save_workspace(workspace: DeckWorkspace, path: str | Path) -> None:
     workspace_path = Path(path)
     workspace_path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = workspace_path.with_name(f"{workspace_path.name}.tmp")
+    serialized = _dumps_workspace_for_save(workspace)
+
+    try:
+        temp_path.write_text(serialized, encoding="utf-8")
+        temp_path.replace(workspace_path)
+    except Exception:
+        temp_path.unlink(missing_ok=True)
+        raise
+
     _mark_clean(workspace)
-    workspace_path.write_text(dumps_workspace(workspace), encoding="utf-8")
 
 
 def load_workspace(path: str | Path) -> DeckWorkspace:

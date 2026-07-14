@@ -216,5 +216,33 @@ class DeckbuilderWorkspaceTests(unittest.TestCase):
 
 
 
+    def test_failed_save_preserves_existing_file_and_dirty_state(self) -> None:
+        workspace = load_workspace(WORKSPACE_FIXTURE)
+        workspace.saved_state["is_dirty"] = True
+
+        with TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "deck.mtgwdeck.json"
+            path.write_text("original contents\n", encoding="utf-8")
+
+            original_replace = Path.replace
+
+            def fail_replace(self: Path, target: Path) -> Path:
+                raise OSError("simulated replace failure")
+
+            Path.replace = fail_replace
+            try:
+                with self.assertRaisesRegex(OSError, "simulated replace failure"):
+                    save_workspace(workspace, path)
+            finally:
+                Path.replace = original_replace
+
+            self.assertEqual(
+                path.read_text(encoding="utf-8"),
+                "original contents\n",
+            )
+            self.assertTrue(workspace.saved_state["is_dirty"])
+            self.assertFalse(path.with_name(f"{path.name}.tmp").exists())
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -76,6 +76,37 @@ class ScryfallIndexerTests(unittest.TestCase):
             self.assertEqual(list(payload.keys()), sorted(payload.keys()))
 
 
+    def test_failed_rebuild_preserves_existing_index(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            raw_dir = Path(temp_dir) / "raw" / "scryfall"
+            output_path = Path(temp_dir) / "processed" / "scryfall" / "cards.sqlite"
+            _write_snapshot(raw_dir)
+
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_bytes(b"known-good-index")
+
+            manifest_path = raw_dir / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["entries"][0]["local_path"] = str(
+                raw_dir / "oracle_cards" / "missing.jsonl"
+            )
+            manifest_path.write_text(
+                json.dumps(manifest, indent=2, sort_keys=True),
+                encoding="utf-8",
+            )
+
+            with self.assertRaises(FileNotFoundError):
+                build_scryfall_index(raw_dir, output_path)
+
+            self.assertEqual(
+                output_path.read_bytes(),
+                b"known-good-index",
+            )
+            self.assertFalse(
+                output_path.with_name(f"{output_path.name}.tmp").exists()
+            )
+
+
 def _write_snapshot(raw_dir: Path) -> None:
     rows_by_type = {
         "oracle_cards": [

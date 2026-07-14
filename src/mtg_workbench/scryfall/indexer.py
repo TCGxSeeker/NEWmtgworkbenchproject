@@ -58,7 +58,6 @@ def build_scryfall_index(raw_dir: str | Path, output_path: str | Path) -> IndexB
     output.parent.mkdir(parents=True, exist_ok=True)
     temp_output = output.with_name(f"{output.name}.tmp")
     _remove_sqlite_file(temp_output)
-    _remove_sqlite_file(output)
 
     counts = _empty_counts()
     tag_text_by_oracle_id: dict[str, set[str]] = defaultdict(set)
@@ -66,34 +65,38 @@ def build_scryfall_index(raw_dir: str | Path, output_path: str | Path) -> IndexB
 
     conn = sqlite3.connect(temp_output)
     try:
-        conn.execute("PRAGMA journal_mode=OFF")
-        conn.execute("PRAGMA synchronous=OFF")
-        conn.execute("PRAGMA temp_store=MEMORY")
-        conn.execute("PRAGMA cache_size=-200000")
-        fts_available = _create_schema(conn)
+        try:
+            conn.execute("PRAGMA journal_mode=OFF")
+            conn.execute("PRAGMA synchronous=OFF")
+            conn.execute("PRAGMA temp_store=MEMORY")
+            conn.execute("PRAGMA cache_size=-200000")
+            fts_available = _create_schema(conn)
 
-        conn.execute("BEGIN")
-        _insert_bulk_sources(conn, manifest, counts)
-        _index_oracle_cards(conn, raw_root, manifest, counts)
-        _index_print_cards(conn, raw_root, manifest, "default_cards", counts)
-        _index_print_cards(conn, raw_root, manifest, "all_cards", counts)
-        _index_unique_artwork(conn, raw_root, manifest, counts)
-        _index_rulings(conn, raw_root, manifest, counts)
-        _index_oracle_tags(conn, raw_root, manifest, counts, tag_text_by_oracle_id)
-        _index_art_tags(conn, raw_root, manifest, counts)
-        _index_oracle_card_fts(conn, counts, tag_text_by_oracle_id)
-        conn.commit()
+            conn.execute("BEGIN")
+            _insert_bulk_sources(conn, manifest, counts)
+            _index_oracle_cards(conn, raw_root, manifest, counts)
+            _index_print_cards(conn, raw_root, manifest, "default_cards", counts)
+            _index_print_cards(conn, raw_root, manifest, "all_cards", counts)
+            _index_unique_artwork(conn, raw_root, manifest, counts)
+            _index_rulings(conn, raw_root, manifest, counts)
+            _index_oracle_tags(conn, raw_root, manifest, counts, tag_text_by_oracle_id)
+            _index_art_tags(conn, raw_root, manifest, counts)
+            _index_oracle_card_fts(conn, counts, tag_text_by_oracle_id)
+            conn.commit()
 
-        conn.execute("BEGIN")
-        _create_indexes(conn)
-        conn.commit()
+            conn.execute("BEGIN")
+            _create_indexes(conn)
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            conn.close()
+
+        temp_output.replace(output)
     except Exception:
-        conn.rollback()
+        _remove_sqlite_file(temp_output)
         raise
-    finally:
-        conn.close()
-
-    temp_output.replace(output)
     index_manifest_path = output.parent / "index_manifest.json"
     _write_index_manifest(
         index_manifest_path,
