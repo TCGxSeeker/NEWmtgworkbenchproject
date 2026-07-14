@@ -526,6 +526,58 @@ Verification:
 - entry-identity preservation tests
 - full offline Python unit-test suite
 
+
+### Phase Relationship-3: Card Relationship Report v0
+
+Status: implementation in progress.
+
+Goal:
+
+Expose already-derived factual relationship edges through a stable,
+deterministic report contract.
+
+The report must separate:
+
+- concise user summary
+- machine-readable relationship evidence
+- optional explanations
+- optional debug details
+
+Required behavior:
+
+- accept an explicit iterable of RelationshipEdge values
+- preserve source and target deck-entry identity
+- preserve every edge's traceable evidence
+- group or count relationships without assigning strategic value
+- return deterministic ordering
+- serialize to a stable versioned dictionary
+- include debug details only when explicitly requested
+- expose explicit report boundaries
+
+This phase must not add:
+
+- relationship derivation
+- deck-wide scanning
+- all-pairs comparison
+- graph traversal
+- package detection
+- combo solving
+- synergy scoring
+- recommendation logic
+- card-quality judgments
+- commander analysis
+- user-interface behavior
+
+Verification:
+
+- focused tests for empty reports
+- focused tests for multiple relationship types
+- deterministic ordering tests
+- machine-evidence preservation tests
+- debug inclusion and exclusion tests
+- input validation tests
+- full offline Python unit-test suite
+
 ## Verification Plan
 
 Phase 2 verification:
