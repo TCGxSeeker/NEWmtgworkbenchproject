@@ -1,7 +1,7 @@
 from pathlib import Path
 import unittest
 
-from mtg_workbench.cards.catalog import CardCatalog
+from mtg_workbench.cards.catalog import CardCatalog, CardRecord
 from mtg_workbench.deckbuilder.deck_inspection_report import (
     DeckInspectionReportError,
     build_deck_inspection_report,
@@ -216,6 +216,114 @@ class DeckInspectionReportEnvelopeTests(unittest.TestCase):
                 card_records_by_name=_card_records(),
                 card_catalog=CardCatalog([]),
             )
+
+
+    def test_iterable_source_matches_mapping_source_inspection_meaning(
+        self,
+    ) -> None:
+        workspace = DeckWorkspace.create_empty(
+            name="Source Parity",
+            deck_id="source-parity",
+        )
+        workspace.mainboard.append(
+            _entry(
+                "tower",
+                "Command Tower",
+                quantity=2,
+            )
+        )
+
+        record = {
+            "name": "Command Tower",
+            "oracle_id": "oracle-command-tower",
+            "scryfall_id": "printing-command-tower",
+            "type_line": "Land",
+            "oracle_text": "{T}: Add one mana of any color in your commander's color identity.",
+        }
+
+        mapping_report = build_deck_inspection_report(
+            workspace,
+            card_records_by_name={"Command Tower": record},
+        )
+        iterable_report = build_deck_inspection_report(
+            workspace,
+            card_records_by_name=[record],
+        )
+
+        self.assertEqual(
+            iterable_report.card_fact_coverage.to_dict(),
+            mapping_report.card_fact_coverage.to_dict(),
+        )
+        self.assertEqual(
+            iterable_report.skeleton_report.card_fact_lookup_status,
+            mapping_report.skeleton_report.card_fact_lookup_status,
+        )
+        self.assertEqual(
+            iterable_report.skeleton_report.missing_card_fact_entries,
+            mapping_report.skeleton_report.missing_card_fact_entries,
+        )
+        self.assertEqual(
+            iterable_report.skeleton_report.duplicate_nonbasic_warnings,
+            mapping_report.skeleton_report.duplicate_nonbasic_warnings,
+        )
+        self.assertEqual(
+            iterable_report.structural_warnings_report.to_dict(),
+            mapping_report.structural_warnings_report.to_dict(),
+        )
+
+    def test_catalog_source_matches_mapping_source_inspection_meaning(
+        self,
+    ) -> None:
+        workspace = DeckWorkspace.create_empty(
+            name="Catalog Parity",
+            deck_id="catalog-parity",
+        )
+        workspace.mainboard.append(
+            _entry(
+                "tower",
+                "Command Tower",
+                quantity=2,
+            )
+        )
+
+        record = {
+            "name": "Command Tower",
+            "oracle_id": "oracle-command-tower",
+            "scryfall_id": "printing-command-tower",
+            "type_line": "Land",
+            "oracle_text": "{T}: Add one mana of any color in your commander's color identity.",
+        }
+        catalog_record = CardRecord.from_dict(record)
+
+        mapping_report = build_deck_inspection_report(
+            workspace,
+            card_records_by_name={"Command Tower": record},
+        )
+        catalog_report = build_deck_inspection_report(
+            workspace,
+            card_catalog=CardCatalog([catalog_record]),
+        )
+
+        self.assertEqual(
+            catalog_report.card_fact_coverage.to_dict(),
+            mapping_report.card_fact_coverage.to_dict(),
+        )
+        self.assertEqual(
+            catalog_report.skeleton_report.card_fact_lookup_status,
+            mapping_report.skeleton_report.card_fact_lookup_status,
+        )
+        self.assertEqual(
+            catalog_report.skeleton_report.missing_card_fact_entries,
+            mapping_report.skeleton_report.missing_card_fact_entries,
+        )
+        self.assertEqual(
+            catalog_report.skeleton_report.duplicate_nonbasic_warnings,
+            mapping_report.skeleton_report.duplicate_nonbasic_warnings,
+        )
+        self.assertEqual(
+            catalog_report.structural_warnings_report.to_dict(),
+            mapping_report.structural_warnings_report.to_dict(),
+        )
 
 
 if __name__ == "__main__":

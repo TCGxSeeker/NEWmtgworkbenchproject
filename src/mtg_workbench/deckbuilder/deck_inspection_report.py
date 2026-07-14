@@ -206,17 +206,17 @@ def build_deck_inspection_report(
             "ruleset is required when include_card_role_evidence is true."
         )
 
-    skeleton_source = _skeleton_records_from_source(card_records_by_name)
-    skeleton_report = build_deck_skeleton_report(
-        workspace,
-        card_records_by_name=skeleton_source,
-    )
-    structural_warnings_report = build_structural_warnings_report(skeleton_report)
     lookup_report = _lookup_report(
         workspace,
         card_records_by_name=card_records_by_name,
         card_catalog=card_catalog,
     )
+    skeleton_source = _skeleton_records_from_lookup_report(lookup_report)
+    skeleton_report = build_deck_skeleton_report(
+        workspace,
+        card_records_by_name=skeleton_source,
+    )
+    structural_warnings_report = build_structural_warnings_report(skeleton_report)
     coverage = (
         CardFactCoverage.from_lookup_report(lookup_report)
         if lookup_report is not None
@@ -268,14 +268,25 @@ def _lookup_report(
     )
 
 
-def _skeleton_records_from_source(
-    card_records_by_name: CardRecordsSource | None,
+def _skeleton_records_from_lookup_report(
+    lookup_report: CardFactLookupReport | None,
 ) -> Mapping[str, Mapping[str, Any]] | None:
-    if not isinstance(card_records_by_name, Mapping):
+    if lookup_report is None:
         return None
-    if not all(isinstance(record, Mapping) for record in card_records_by_name.values()):
-        return None
-    return card_records_by_name
+
+    records: dict[str, Mapping[str, Any]] = {}
+
+    for result in lookup_report.results:
+        if not result.is_found or result.record is None:
+            continue
+
+        records.setdefault(result.lookup_name, result.record)
+
+        record_name = result.record.get("name")
+        if isinstance(record_name, str) and record_name.strip():
+            records.setdefault(record_name, result.record)
+
+    return records
 
 
 def _build_card_role_reports(
