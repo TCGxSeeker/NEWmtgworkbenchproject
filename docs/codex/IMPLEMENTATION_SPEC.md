@@ -687,6 +687,72 @@ Verification:
 - existing relationship derivation and report tests
 - full offline Python unit-test suite
 
+
+### Phase Relationship-6: Explicit Relationship Pair Inspection v0
+
+Status: implemented and verified.
+
+Goal:
+
+Create a small production-facing orchestration boundary for inspecting one
+explicitly requested source-target relationship pair from an explicit mapping
+of already-resolved CardBehavioralProfile values.
+
+Required behavior:
+
+- accept one explicit source deck-entry identifier
+- accept one explicit target deck-entry identifier
+- accept a mapping of deck-entry identifiers to CardBehavioralProfile values
+- validate request identifiers as non-empty strings
+- require source and target identifiers to be different
+- resolve both profiles without guessing
+- report missing source or target profiles clearly
+- reject non-CardBehavioralProfile mapping values
+- derive relationships only in the requested source-to-target direction
+- return an empty CardRelationshipReport when no supported exact match exists
+- return the existing deterministic CardRelationshipReport contract
+- preserve all existing relationship evidence and entry identity
+
+Files likely involved:
+
+- `src/mtg_workbench/deckbuilder/relationship_pair_inspection.py`
+- `tests/test_relationship_pair_inspection.py`
+- `docs/codex/EXPLICIT_RELATIONSHIP_PAIR_INSPECTION_V0.md`
+
+Human validation zones:
+
+None. This slice adds deterministic factual orchestration only and does not
+alter strategy, scoring, recommendations, or persisted workspace schemas.
+
+This phase must not add:
+
+- card-record lookup
+- behavioral-profile extraction
+- workspace scanning
+- deck-wide relationship orchestration
+- reverse-direction comparison unless explicitly requested separately
+- all-pairs comparison
+- graph traversal
+- package detection
+- combo solving
+- synergy scoring
+- recommendations
+- strategic quality judgments
+- commander analysis
+- user-interface behavior
+- live APIs or network access
+
+Verification:
+
+- focused tests for successful explicit pair inspection
+- focused tests for no-match empty reports
+- focused tests for missing source and target profiles
+- focused tests for same-entry rejection
+- focused tests for invalid profile-map values
+- focused tests for directionality
+- input mapping immutability test
+- full offline Python unit-test suite
+
 ## Verification Plan
 
 Phase 2 verification:

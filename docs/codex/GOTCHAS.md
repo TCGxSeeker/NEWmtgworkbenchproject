@@ -18,6 +18,15 @@
 - Regression test: Not directly testable in code; verify through review of task summaries and verification evidence.
 - Skill update: Update planning and verification skill gotchas to reinforce this rule.
 
+### 2026-07-14: Distinguish Focused and Full Test Counts
+
+- Symptom: A focused relationship command reported 42 passing tests, which could appear to mean the repository test suite had unexpectedly shrunk.
+- Cause: Explicitly naming test modules runs only those selected modules; it does not perform repository-wide discovery.
+- Fix: Label focused commands as focused verification and use `python -m unittest discover -s tests` as the authoritative full-suite command.
+- Prevention: State separate expected counts for focused verification and full discovery whenever both commands are provided.
+- Regression test: Not directly testable in application code; verify through workflow documentation and command output.
+- Skill update: No skill change required.
+
 ## MTG Workbench Gotchas
 
 - Do not turn every deck into generic staples.
