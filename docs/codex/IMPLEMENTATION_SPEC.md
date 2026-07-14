@@ -578,6 +578,56 @@ Verification:
 - input validation tests
 - full offline Python unit-test suite
 
+
+### Phase Relationship-4: Relationship Pipeline Fixture Smoke v0
+
+Status: implementation in progress.
+
+Goal:
+
+Prove one tiny deterministic end-to-end relationship pipeline using synthetic,
+local fixture records.
+
+Pipeline:
+
+1. Load explicit local card records.
+2. Extract bounded factual behavioral profiles.
+3. Derive relationships only for explicitly declared source-target pairs.
+4. Build a factual Card Relationship Report.
+5. Compare the report against a stable expected-output fixture.
+
+Required behavior:
+
+- use synthetic fixture records rather than a real sample deck
+- preserve source and target deck-entry identity
+- exercise both `supplies` and `triggers`
+- include an unsupported card record that produces no behavioral atoms
+- perform no deck-wide scanning
+- perform no all-pairs comparison
+- require no network access
+- produce stable deterministic JSON-compatible output
+
+This phase must not add:
+
+- general deck relationship orchestration
+- candidate discovery
+- graph traversal
+- package detection
+- combo solving
+- synergy scoring
+- recommendations
+- strategic quality judgments
+- commander analysis
+- user-interface behavior
+
+Verification:
+
+- focused fixture smoke test
+- exact expected-output comparison
+- repeat-run determinism check
+- source fixture immutability check
+- full offline Python unit-test suite
+
 ## Verification Plan
 
 Phase 2 verification:

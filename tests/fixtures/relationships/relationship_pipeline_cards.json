@@ -1,0 +1,54 @@
+﻿{
+    "entries":  [
+                    {
+                        "entry_id":  "treasure-maker-entry",
+                        "record":  {
+                                       "name":  "Fixture Treasure Maker",
+                                       "oracle_id":  "fixture-treasure-maker",
+                                       "oracle_text":  "Create a Treasure token."
+                                   }
+                    },
+                    {
+                        "entry_id":  "treasure-consumer-entry",
+                        "record":  {
+                                       "name":  "Fixture Treasure Consumer",
+                                       "oracle_id":  "fixture-treasure-consumer",
+                                       "oracle_text":  "Sacrifice a Treasure: Draw a card."
+                                   }
+                    },
+                    {
+                        "entry_id":  "discard-outlet-entry",
+                        "record":  {
+                                       "name":  "Fixture Discard Outlet",
+                                       "oracle_id":  "fixture-discard-outlet",
+                                       "oracle_text":  "Discard a card: Draw a card."
+                                   }
+                    },
+                    {
+                        "entry_id":  "discard-listener-entry",
+                        "record":  {
+                                       "name":  "Fixture Discard Listener",
+                                       "oracle_id":  "fixture-discard-listener",
+                                       "oracle_text":  "Whenever you discard a card, draw a card."
+                                   }
+                    },
+                    {
+                        "entry_id":  "unsupported-entry",
+                        "record":  {
+                                       "name":  "Fixture Unsupported Card",
+                                       "oracle_id":  "fixture-unsupported",
+                                       "oracle_text":  "Investigate, then untap target permanent."
+                                   }
+                    }
+                ],
+    "pairs":  [
+                  {
+                      "source_entry_id":  "treasure-maker-entry",
+                      "target_entry_id":  "treasure-consumer-entry"
+                  },
+                  {
+                      "source_entry_id":  "unsupported-entry",
+                      "target_entry_id":  "treasure-consumer-entry"
+                  }
+              ]
+}

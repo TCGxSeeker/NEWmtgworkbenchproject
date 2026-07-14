@@ -1,0 +1,58 @@
+{
+  "schema_version": "card_relationship_report.v0",
+  "user_summary": "2 factual card relationships reported (supplies: 1, triggers: 1).",
+  "relationship_count": 2,
+  "relationship_types": [
+    "supplies",
+    "triggers"
+  ],
+  "machine_evidence": {
+    "relationship_count": 2,
+    "relationship_type_counts": {
+      "supplies": 1,
+      "triggers": 1
+    },
+    "edges": [
+      {
+        "source_entry_id": "treasure-maker-entry",
+        "target_entry_id": "treasure-consumer-entry",
+        "relationship_type": "supplies",
+        "evidence": {
+          "source_behavior": "outputs:treasure",
+          "target_behavior": "costs:treasure",
+          "oracle_evidence": [
+            "Create a Treasure token.",
+            "Sacrifice a Treasure: Draw a card."
+          ],
+          "conditions": [],
+          "zones": [],
+          "confidence_band": 100,
+          "derivation_rule": "exact_resource_output_matches_cost"
+        }
+      },
+      {
+        "source_entry_id": "discard-outlet-entry",
+        "target_entry_id": "discard-listener-entry",
+        "relationship_type": "triggers",
+        "evidence": {
+          "source_behavior": "emitted_events:card_discarded",
+          "target_behavior": "observed_events:card_discarded",
+          "oracle_evidence": [
+            "Discard a card:",
+            "Whenever you discard a card, draw a card."
+          ],
+          "conditions": [],
+          "zones": [
+            "battlefield"
+          ],
+          "confidence_band": 100,
+          "derivation_rule": "exact_emitted_event_matches_observer"
+        }
+      }
+    ]
+  },
+  "explanations": [
+    "treasure-maker-entry supplies treasure-consumer-entry because outputs:treasure exactly matches costs:treasure.",
+    "discard-outlet-entry triggers discard-listener-entry because emitted_events:card_discarded exactly matches observed_events:card_discarded."
+  ]
+}
