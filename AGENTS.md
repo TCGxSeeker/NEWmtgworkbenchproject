@@ -2,7 +2,7 @@
 
 ## Repository Isolation
 
-Treat `C:\Users\StDeL\Documents\New MTG project` as the only workspace. Before editing, verify the root with `git rev-parse --show-toplevel` and keep changes inside that path. Do not copy files, config, dependencies, generated output, or `.env` values from sibling projects unless explicitly requested. This repository has no Git remote, so add one only after confirming the destination.
+Treat `C:\Users\StDeL\Documents\New MTG project` as the only workspace. Before editing, verify the root with `git rev-parse --show-toplevel` and keep changes inside that path. Do not copy files, config, dependencies, generated output, or `.env` values from sibling projects unless explicitly requested. This repository uses the configured GitHub remote as its shared source of truth. Verify the current remote with `git remote -v` before changing remote configuration or pushing to a different destination.
 
 ## Codex Project Instructions
 

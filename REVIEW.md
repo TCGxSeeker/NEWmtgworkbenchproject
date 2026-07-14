@@ -1,3 +1,13 @@
+# Historical Review Snapshot
+
+> This review was generated on 2026-07-12 when the repository had 183
+> passing tests. It is preserved as a historical architecture review and
+> does not represent the current implementation status. Consult `README.md`,
+> `docs/codex/IMPLEMENTATION_SPEC.md`, and the latest Git history for the
+> active repository state.
+
+---
+
 # NEWmtgworkbenchproject - Full Project Review
 
 **Generated**: 2026-07-12  

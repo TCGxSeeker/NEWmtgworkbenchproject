@@ -478,7 +478,7 @@ Only after CLI behavior is stable, design the luxury workbench UI. Definition of
 
 ### Phase Relationship-2: Deterministic Relationship Edge Derivation v0
 
-Status: implementation in progress.
+Status: implemented and verified.
 
 Goal:
 
@@ -529,7 +529,7 @@ Verification:
 
 ### Phase Relationship-3: Card Relationship Report v0
 
-Status: implementation in progress.
+Status: implemented and verified.
 
 Goal:
 
@@ -581,7 +581,7 @@ Verification:
 
 ### Phase Relationship-4: Relationship Pipeline Fixture Smoke v0
 
-Status: implementation in progress.
+Status: implemented and verified.
 
 Goal:
 
