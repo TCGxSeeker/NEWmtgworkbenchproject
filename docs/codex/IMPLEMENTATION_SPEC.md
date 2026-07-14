@@ -753,6 +753,77 @@ Verification:
 - input mapping immutability test
 - full offline Python unit-test suite
 
+
+### Phase Relationship-7: Explicit Card Record Pair Inspection v0
+
+Status: implemented and verified.
+
+Goal:
+
+Create a bounded production-facing bridge from two explicitly supplied local
+or Scryfall-style card records to the existing directional factual
+relationship report.
+
+Pipeline:
+
+1. Validate two explicit deck-entry identifiers.
+2. Validate two explicit card-record mappings.
+3. Extract one bounded CardBehavioralProfile from each record.
+4. Inspect only the requested source-to-target direction.
+5. Return the existing deterministic CardRelationshipReport.
+
+Required behavior:
+
+- accept one explicit source entry identifier and source card record
+- accept one explicit target entry identifier and target card record
+- require different source and target entry identifiers
+- reject non-mapping card records with domain-specific errors
+- normalize surrounding entry-identifier whitespace
+- extract profiles without mutating either supplied record
+- preserve source and target deck-entry identity
+- preserve extracted Oracle-text evidence
+- return an empty report when no supported exact relationship exists
+- translate profile-extraction failures into clear source/target errors
+- use no network access
+
+Bounded extractor addition:
+
+- exact wording containing `Sacrifice a Treasure:` produces a `treasure`
+  cost atom
+- the same wording emits `permanent_sacrificed`
+- no other extraction vocabulary is added in this slice
+
+This phase does not add:
+
+- workspace scanning
+- deck-wide relationship orchestration
+- automatic reverse-direction inspection
+- all-pairs comparison
+- graph traversal
+- broad Oracle-text extraction expansion
+- package detection
+- combo solving
+- synergy scoring
+- recommendations
+- add/cut comparison
+- strategic card-quality judgments
+- commander analysis
+- user-interface behavior
+- live APIs or network access
+
+Verification:
+
+- focused Treasure-consumer extraction regression
+- successful explicit card-record pair inspection
+- strict directionality test
+- unsupported/no-match empty report test
+- source and target record validation tests
+- same-entry rejection test
+- identifier-normalization test
+- source-record extraction-error test
+- input-record immutability test
+- full offline Python unit-test suite
+
 ## Verification Plan
 
 Phase 2 verification:

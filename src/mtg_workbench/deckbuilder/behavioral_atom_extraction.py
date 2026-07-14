@@ -52,6 +52,24 @@ def extract_card_behavioral_profile(
                 )
             )
 
+        if "sacrifice a treasure:" in normalized:
+            costs.append(
+                BehaviorAtom(
+                    kind="treasure",
+                    oracle_evidence=(evidence,),
+                    conditions=(),
+                    zones=(),
+                )
+            )
+            emitted_events.append(
+                BehaviorAtom(
+                    kind="permanent_sacrificed",
+                    oracle_evidence=(evidence,),
+                    conditions=(),
+                    zones=(),
+                )
+            )
+
         if "sacrifice an artifact:" in normalized:
             costs.append(
                 BehaviorAtom(

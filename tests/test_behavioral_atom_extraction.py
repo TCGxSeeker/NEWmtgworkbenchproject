@@ -154,5 +154,28 @@ class BehavioralAtomExtractionTests(unittest.TestCase):
         )
 
 
+    def test_extracts_treasure_sacrifice_cost_and_event(self) -> None:
+        profile = extract_card_behavioral_profile(
+            {
+                "name": "Treasure Consumer",
+                "oracle_text": (
+                    "{T}, Sacrifice a Treasure: Draw a card."
+                ),
+            }
+        )
+
+        self.assertEqual(
+            tuple(atom.kind for atom in profile.costs),
+            ("treasure",),
+        )
+        self.assertEqual(
+            tuple(atom.kind for atom in profile.emitted_events),
+            ("permanent_sacrificed",),
+        )
+        self.assertEqual(
+            profile.costs[0].oracle_evidence,
+            ("{T}, Sacrifice a Treasure: Draw a card.",),
+        )
+
 if __name__ == "__main__":
     unittest.main()
