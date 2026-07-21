@@ -419,3 +419,9 @@
   - Alternatives considered: wiring directly to native workspace file mutation commands, opening full local Scryfall search in the UI, or adding recommendation-style candidate lists.
   - Risk: Added cards reset on refresh until app-native persistence is explicitly wired.
   - Status: Accepted for Find And Add Cards v0.
+
+- Decision: Preserve the collapsible add-card panel concept but reject current styling as final.
+  - Reason: Human review found the function highly responsive and the collapsible add-card surface directionally useful, while calling the visual treatment rough test-flight quality.
+  - Alternatives considered: treating the current screen as visually approved, or removing the collapsible add surface entirely.
+  - Risk: Future UI work may need a deliberate visual design pass before adding too many more visible workflows.
+  - Status: Accepted as human validation feedback after Find And Add Cards v0.

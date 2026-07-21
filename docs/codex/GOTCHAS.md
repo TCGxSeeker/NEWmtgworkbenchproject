@@ -86,6 +86,7 @@
 - Do not count planned/contracted UI features as implemented deckbuilder functionality. Mark them as planned until there is working product behavior, even when backend data models or documentation already exist.
 - Do not treat safe workspace deletion as implemented until a dedicated helper or command exists and has tests. Current delete behavior is doctrine and UI intent, not completed functionality.
 - Keep recommendation commentary off the near-term deckbuilder parity path unless the user explicitly asks for it. The current parity sequence is about seeing the deck, finding/adding cards, understanding cards, validating, editing safely, inspecting stats, managing printings, and recovering versions.
+- Do not treat the current `Find And Add Cards v0` styling as approved final UI direction. The human pass accepted the responsive function and the collapsible add-card panel concept, but called the visual style rough/test-flight quality and closer to an old deckbuilder ancestor than the eventual product.
 
 ## Capture Format
 
