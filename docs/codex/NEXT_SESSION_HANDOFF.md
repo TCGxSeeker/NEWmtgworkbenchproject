@@ -4,12 +4,14 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: category metadata and entry annotation CLI bundle
+- Current implemented checkpoint: workspace view projection and CLI bundle
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
 - Step 6 visual compare direction docs are complete
-- Current verification: `python -m unittest discover -s tests` passed with 322 tests
+- Current verification: `python -m unittest discover -s tests` passed with 334 tests
+- Current focused deck workspace view projection verification: `python -m unittest tests.test_deckbuilder_workspace_view` passed with 8 tests
+- Current focused workspace view CLI verification: `python -m unittest tests.test_cli_workspace_view` passed with 4 tests
 - Current focused workspace category/annotation CLI verification: `python -m unittest tests.test_cli_workspace_category_metadata` passed with 5 tests
 - Current focused Deck Workspace Mutation CLI verification: `python -m unittest tests.test_cli_workspace_mutations` passed with 6 tests
 - Current Deck Workspace Mutation CLI smoke: `workspace-add-card` added `Alias Helper` to a temporary native workspace with local card catalog resolution
@@ -70,6 +72,8 @@
 - Deck Inspection CLI Polish v0
 - Category Metadata Mutation CLI v0
 - Entry Annotation CLI v0
+- Deck Workspace View Projection v0
+- Workspace View CLI v0
 
 ## Audit Status
 
@@ -128,14 +132,18 @@ Known files:
   category, normalized category, generic category hint, category origin,
   secondary tags, and clearing category metadata.
 - Entry Annotation CLI v0 exposes safe copy-out commands for notes and tags.
+- Deck Workspace View Projection v0 creates read-only grouped, sorted, and
+  filtered projections over existing saved workspace fields.
+- Workspace View CLI v0 exposes those projections through
+  `python -m mtg_workbench.cli workspace-view`.
 
 ## Next Refresh Notes
 
-- Safe stopping point: category metadata and entry annotation CLI bundle is implemented and verified.
-- Next low-risk mechanical slice: Deck Workspace View Projection v0.
-- Suggested next scope: read-only grouping, sorting, and current-deck filtering
-  projections over existing native workspace fields, without UI or strategic
-  analysis.
+- Safe stopping point: workspace view projection and CLI bundle is implemented and verified.
+- Next low-risk mechanical slice: Card-Fact-Backed Workspace Projection v0.
+- Suggested next scope: use explicitly supplied local card facts to add factual
+  type and mana-value grouping/sorting while keeping missing or ambiguous facts
+  visible instead of guessed.
 - Deck Role Summary v0 still requires explicit approval because it starts
   deck-level role counting.
 - Do not start recommendations, scoring, commander analysis, package detection,

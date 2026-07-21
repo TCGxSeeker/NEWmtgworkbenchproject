@@ -222,3 +222,21 @@ Deferred beyond this slice:
 - Syntax-backed current-deck filtering.
 - Type, mana value, color, color identity, price, rarity, and printing projections.
 - Category creation, rename, and reorder helpers.
+
+## Workspace View CLI V0
+
+- [x] `workspace-view` prints read-only projection JSON from a native workspace.
+- [x] `--group-by` supports the projection layer's current group modes.
+- [x] `--sort-by` supports the projection layer's current sort modes.
+- [x] `--filter` supports current-deck text filtering.
+- [x] Repeated `--zone` options can limit visible zones.
+- [x] The command validates native workspace input and existing files.
+- [x] Unsupported projection options return clear errors.
+- [x] The command does not write output files or mutate the workspace.
+- [x] No UI code, frontend dependency changes, card fact lookup, deck analysis, role counting, recommendations, live APIs, or large datasets were added.
+
+Deferred beyond this slice:
+
+- Workspace projection output formats besides JSON.
+- Syntax-backed filtering.
+- UI controls for group, sort, and filter state.

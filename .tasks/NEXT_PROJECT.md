@@ -4,29 +4,29 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Branch: `master`
-- Current implemented checkpoint: category metadata and entry annotation CLI bundle
-- Current full-suite baseline: `python -m unittest discover -s tests` passes with 322 tests
+- Current implemented checkpoint: workspace view projection and CLI bundle
+- Current full-suite baseline: `python -m unittest discover -s tests` passes with 334 tests
 - Current product center remains the deckbuilder foundation and deterministic local analysis pipeline
 
 ## Current Catchup
 
-Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, and Entry Annotation CLI v0 are implemented and verified.
+Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, and Workspace View CLI v0 are implemented and verified.
 
 ## Next Recommended Slice
 
-Deck Workspace View Projection v0.
+Card-Fact-Backed Workspace Projection v0.
 
-Goal: create a read-only projection layer that prepares native workspace entries for future deckbuilder grouping, sorting, and current-deck filtering without app UI.
+Goal: expand read-only workspace projection to use explicitly supplied local card facts for factual type and mana-value grouping/sorting without deck analysis or guessing.
 
 Expected scope:
 
 1. Update `docs/codex/IMPLEMENTATION_SPEC.md` before coding.
-2. Inspect deckbuilder view-mode/group/sort/filter docs.
-3. Add a small read-only module that groups by existing workspace fields such as zone, category, and full deck.
-4. Add deterministic sorting by alphabet, quantity, and current category fields where data already exists.
-5. Add simple current-deck text filtering over entry names and tags only.
-6. Add tests against tiny in-memory workspaces.
-7. Do not add UI, strategic analysis, recommendations, live APIs, deck-level role totals, or new dependencies.
+2. Inspect `workspace_view.py`, card fact lookup behavior, and group/sort/filter requirements.
+3. Use only explicitly supplied local card records or existing local catalog data.
+4. Add type and mana-value grouping/sorting only when local facts are found.
+5. Keep missing/ambiguous facts visible instead of guessed.
+6. Add tests against tiny fixtures.
+7. Do not add UI, strategic analysis, recommendations, live APIs, deck-level role totals, syntax filtering, or new dependencies.
 
 ## Boundaries
 

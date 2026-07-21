@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 330 tests after Deck Workspace View Projection v0.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 334 tests after Workspace View CLI v0.
 
 ## Key Decisions Before Building
 
@@ -324,6 +324,14 @@ Create a read-only projection layer that prepares existing native workspace entr
 Category grouping may use multiple category memberships when an entry has multiple `categories`; projection-level totals should remain explicit so callers do not mistake view grouping for deck analysis.
 
 Deck Workspace View Projection v0 must not add UI, frontend dependencies, card-fact lookup, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, or new dependencies.
+
+### Phase Product-4E: Workspace View CLI v0
+
+Status: implemented and verified.
+
+Expose Deck Workspace View Projection v0 through a read-only local CLI command. Definition of done: `workspace-view <deck.mtgwdeck.json>` emits stable projection JSON, accepts `--group-by`, `--sort-by`, `--filter`, and repeated `--zone` options, validates native workspace input, reports unsupported projection options clearly, writes no output file, and has focused tests against tiny temporary workspaces.
+
+Workspace View CLI v0 must not add UI, frontend dependencies, card-fact lookup, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, or new dependencies.
 
 ### Phase Product-5: Deck Workspace Import/Export v0
 

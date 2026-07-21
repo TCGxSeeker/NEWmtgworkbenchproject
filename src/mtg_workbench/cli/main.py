@@ -40,6 +40,10 @@ from mtg_workbench.deckbuilder.serialization import (
     load_workspace,
     save_workspace,
 )
+from mtg_workbench.deckbuilder.workspace_view import (
+    WorkspaceViewError,
+    build_workspace_view_projection,
+)
 from mtg_workbench.decks.normalizer import normalize_deck
 from mtg_workbench.decks.parser import parse_decklist
 from mtg_workbench.io.json_output import stable_json
@@ -131,6 +135,22 @@ def main(argv: list[str] | None = None) -> int:
         required=True,
         type=Path,
         help="Plain text decklist output path.",
+    )
+
+    workspace_view_parser = subparsers.add_parser(
+        "workspace-view",
+        help="Print a read-only grouped/sorted/filtered workspace projection.",
+    )
+    workspace_view_parser.add_argument("workspace_path", type=Path)
+    workspace_view_parser.add_argument("--group-by", default="category")
+    workspace_view_parser.add_argument("--sort-by", default="alphabet")
+    workspace_view_parser.add_argument("--filter", default=None, help="Current-deck text filter.")
+    workspace_view_parser.add_argument(
+        "--zone",
+        action="append",
+        default=None,
+        choices=("commander", "mainboard", "maybeboard"),
+        help="Limit projection to a workspace zone. Can be repeated.",
     )
 
     workspace_add_parser = subparsers.add_parser(
@@ -323,6 +343,14 @@ def main(argv: list[str] | None = None) -> int:
         )
     if args.command == "workspace-export":
         return _workspace_export_command(args.workspace_path, output_path=args.output)
+    if args.command == "workspace-view":
+        return _workspace_view_command(
+            args.workspace_path,
+            group_by=args.group_by,
+            sort_by=args.sort_by,
+            filter_text=args.filter,
+            zones=args.zone,
+        )
     if args.command == "workspace-add-card":
         return _workspace_add_card_command(
             args.workspace_path,
@@ -590,6 +618,35 @@ def _workspace_export_command(workspace_path: Path, *, output_path: Path) -> int
             }
         )
     )
+    return 0
+
+
+def _workspace_view_command(
+    workspace_path: Path,
+    *,
+    group_by: str,
+    sort_by: str,
+    filter_text: str | None,
+    zones: list[str] | None,
+) -> int:
+    if not _require_native_workspace_path(workspace_path, "workspace_path"):
+        return 2
+    if not _require_existing_file(workspace_path, "workspace_path"):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        projection = build_workspace_view_projection(
+            workspace,
+            group_by=group_by,
+            sort_by=sort_by,
+            filter_text=filter_text,
+            zones=zones,
+        )
+    except WorkspaceViewError as error:
+        return _print_error(str(error))
+
+    print(stable_json(projection.to_dict()))
     return 0
 
 

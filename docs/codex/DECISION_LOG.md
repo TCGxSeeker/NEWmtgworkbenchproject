@@ -371,3 +371,9 @@
   - Alternatives considered: waiting until React UI work, projecting directly inside future UI components, or expanding projection through card facts immediately.
   - Risk: V0 only covers existing workspace fields, so type/mana/color/price projections need later card-fact-backed slices.
   - Status: Accepted for Deck Workspace View Projection v0.
+
+- Decision: Expose workspace view projections through a read-only CLI command.
+  - Reason: The projection layer should be inspectable and testable from local files before any deckbuilder UI consumes it.
+  - Alternatives considered: leaving projection internal-only until UI work or adding a saved projection output file.
+  - Risk: CLI JSON is a developer-facing preview of view data, not a committed UI contract.
+  - Status: Accepted for Workspace View CLI v0.
