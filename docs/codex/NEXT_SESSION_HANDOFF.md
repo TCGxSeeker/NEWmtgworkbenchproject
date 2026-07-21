@@ -168,6 +168,12 @@ Known files:
   success/status banners, tab-like mode controls, and separated side panels.
   Do not import the side project's non-MTG domain, card/deck names, file paths,
   APIs, or service behavior.
+- Archidekt reference screenshots captured for new-deck and search/add pathing:
+  keep the ideas of a simple new-deck form, collapsed advanced setup, empty
+  deck guidance, focused search workspace, search tabs, card-image result grids,
+  and immediate added-card quantity feedback. Do not copy hosted visibility
+  states, ads, account/profile features, online integrations, recommendation
+  tabs, price-source behavior, or exact layout density.
 
 ## Current Readiness Snapshot
 
@@ -190,6 +196,9 @@ Known files:
   do not preserve the current rough visual treatment as final direction.
 - Visual reference note: `docs/product/deckbuilder/reference/VISUAL_REFERENCE_NOTES.md`
   captures approved style cues only; it is not a clone target or domain source.
+- Archidekt pathing reference:
+  `docs/product/deckbuilder/reference/ARCHIDEKT_NEW_DECK_SEARCH_REFERENCE.md`
+  captures capability and interaction cues only.
 - Next recommended slice: Card Details Surface v0.
 - Suggested scope: define the implementation spec, then add the smallest
   selected-card details surface using only factual fields already present in

@@ -13,6 +13,11 @@ Define planned user actions for the first deckbuilder workspace. This is interac
 - Import decklist.
 - Export decklist.
 
+Create-deck flow should request only the essential fields first: deck name,
+format, and optional Commander bracket or power target. Nonessential setup
+belongs behind collapsed advanced sections. Hosted/social visibility choices
+are not part of the local-first v0 flow.
+
 ## Add And Edit Cards
 
 - Quick add card by name.
@@ -52,6 +57,8 @@ Deck Workspace Category Editing Helpers v0 allows intentional edits to imported 
 - Open global card search from the add-card entry point.
 - Keep global search distinct from current-deck filtering.
 - Preserve visible search/filter context so users know whether they are browsing the deck or the full local card index.
+- Keep advanced search options collapsed until requested.
+- Preserve immediate quantity feedback for cards added from search.
 
 ## Workspace Modes
 

@@ -100,3 +100,22 @@ The first user path should be:
 4. Filter, sort, or switch view.
 5. Inspect stats/details when needed.
 6. Export or save when ready.
+
+## New Deck Path
+
+New deck creation should start with a small, clear form:
+
+- deck name
+- format
+- optional Commander bracket or power target
+
+Advanced setup such as card packages, folder/storage choices, and category
+options should use collapsed sections. Hosted visibility states such as private,
+unlisted, public profile listing, or theorycrafted/social flags are not core to
+the local-first MTG Workbench.
+
+## Empty Deck Guidance
+
+An empty deck should still show the real deck workspace. Empty guidance should
+briefly point to import, quick add, and card search without replacing the
+workspace with an instructional page.

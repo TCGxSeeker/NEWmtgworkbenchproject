@@ -431,3 +431,9 @@
   - Alternatives considered: ignoring the screenshot, copying the design directly, or storing unrelated side-project product details in MTG Workbench docs.
   - Risk: Future visual work could overfit to a utility layout unless references remain capability/style cues rather than clone targets.
   - Status: Accepted as visual-reference guidance.
+
+- Decision: Capture Archidekt new-deck and search/add screenshots as pathing reference only.
+  - Reason: The screenshots show useful deckbuilder interaction patterns: simple deck creation, advanced options hidden by default, empty deck guidance, focused search tabs, card-image search grids, and immediate quantity feedback after add.
+  - Alternatives considered: cloning the interface, ignoring the reference, or importing hosted/account/advertising behavior into the local app.
+  - Risk: The reference is visually dense in places, so MTG Workbench must keep search/add secondary to the deck workspace and calmer than the source.
+  - Status: Accepted as product-reference guidance.

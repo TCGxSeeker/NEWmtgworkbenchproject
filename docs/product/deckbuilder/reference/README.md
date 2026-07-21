@@ -28,3 +28,4 @@ Do not copy exact styling, layout, branding, icons, or page density.
 
 - `CARD_IDENTITY_AND_PRINTING_MODEL.md`: notes from EDHREC at Home: Card Data and Talking to Scryfall about Oracle IDs, Scryfall IDs, representative printings, raw Scryfall boundary models, color identity, structured card types, and print-aware search concerns.
 - `VISUAL_REFERENCE_NOTES.md`: visual-only notes from a user-provided side-project screenshot, capturing useful button, panel, spacing, and collapsible-workflow cues while excluding non-MTG domain data.
+- `ARCHIDEKT_NEW_DECK_SEARCH_REFERENCE.md`: product-reference notes from user-provided Archidekt screenshots for new-deck setup, empty deck guidance, search workspace structure, card-image result grids, and added-card quantity feedback.

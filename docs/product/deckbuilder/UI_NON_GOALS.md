@@ -12,6 +12,8 @@
 - Do not carry forward rough proof-of-function styling as final visual direction.
 - Do not treat an accepted interaction concept as approval of its current visual polish.
 - Do not import visual-reference domain content, card names, product names, file paths, or service behavior into MTG Workbench.
+- Do not copy hosted deck visibility or social/profile states from external deckbuilder references into the local-first v0 product.
+- Do not add ad slots, sponsored panels, or external recommendation tabs as default product surfaces.
 
 ## Preferred Direction
 
@@ -27,5 +29,6 @@
 - Collapsible/drawer-style work surfaces are acceptable when they keep the main deck view centered.
 - The add-card workflow may remain a collapsible panel concept, but the final styling should feel more modern and polished than the current fixture-backed test screen.
 - Future dark UI passes may borrow the feel of polished panels, soft borders, smooth buttons, and calm status banners from approved visual references without cloning them.
+- Search/add can use focused overlays or expanded panels, but it should remain a supporting workflow around the deck workspace.
 
 The user should feel guided through deck understanding, not buried under widgets.

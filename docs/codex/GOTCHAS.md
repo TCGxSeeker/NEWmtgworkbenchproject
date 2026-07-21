@@ -88,6 +88,7 @@
 - Keep recommendation commentary off the near-term deckbuilder parity path unless the user explicitly asks for it. The current parity sequence is about seeing the deck, finding/adding cards, understanding cards, validating, editing safely, inspecting stats, managing printings, and recovering versions.
 - Do not treat the current `Find And Add Cards v0` styling as approved final UI direction. The human pass accepted the responsive function and the collapsible add-card panel concept, but called the visual style rough/test-flight quality and closer to an old deckbuilder ancestor than the eventual product.
 - When the user provides side-project screenshots for visual inspiration, capture only transferable visual/interaction cues. Do not store, reuse, or design around unrelated non-MTG domain content, card names, deck names, file paths, APIs, or service-specific workflows.
+- When using Archidekt screenshots as reference, extract deckbuilder pathing and interaction cues only. Do not copy hosted visibility states, account/social features, ads, external recommendation tabs, price-source behavior, or exact layout density.
 
 ## Capture Format
 
