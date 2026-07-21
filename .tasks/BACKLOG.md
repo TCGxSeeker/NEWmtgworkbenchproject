@@ -3,7 +3,7 @@
 ## Active Catchup Repair Queue
 
 - No active numbered catchup repair remains after Step 6.
-- Do a readiness checkpoint before starting the next implementation slice.
+- Readiness checkpoint passed before Deck Inspection CLI v0.
 
 ## Completed Catchup Repairs
 
@@ -31,6 +31,7 @@
 
 ## Near Term
 
+- Native Workspace Import/Export CLI v0.
 - Keep deck inspection reports factual and deterministic.
 - Keep unsupported Scryfall syntax explicit instead of guessed.
 - Decide when Deck Role Summary v0 is safe to start, because it introduces deck-level role counting.

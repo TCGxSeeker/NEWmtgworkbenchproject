@@ -4,12 +4,14 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Last committed repair checkpoint before Step 6: `7f67e40 Harden Scryfall index persistence`
+- Current implemented checkpoint: Deck Inspection CLI v0
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
 - Step 6 visual compare direction docs are complete
-- Current verification: `python -m unittest discover -s tests` passed with 298 tests
+- Current verification: `python -m unittest discover -s tests` passed with 303 tests
+- Current focused Deck Inspection CLI verification: `python -m unittest tests.test_cli_inspect_deck` passed with 5 tests
+- Current Deck Inspection CLI smoke: `python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json` passed
 - Current focused pair-inspection verification: `python -m unittest tests.test_relationship_pair_inspection tests.test_card_record_pair_inspection` passed with 21 tests
 - Current focused Scryfall index verification: `python -m unittest tests.test_scryfall_indexer` passed with 5 tests
 - Current focused workspace/card lookup verification: `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report` passed with 85 tests
@@ -55,6 +57,7 @@
 - Explicit Relationship Pair Inspection v0
 - Explicit Card Record Pair Inspection v0
 - Visual Card Pair Compare v0 Planning
+- Deck Inspection CLI v0
 
 ## Audit Status
 
@@ -101,6 +104,8 @@ Known files:
 - No active numbered catchup repair remains after Step 6.
 - Before starting new feature work, do a deliberate readiness checkpoint and
   choose the next bounded slice.
+- Deck Inspection CLI v0 exposes the factual report envelope through
+  `python -m mtg_workbench.cli inspect-deck`.
 
 ## Core Constraints
 

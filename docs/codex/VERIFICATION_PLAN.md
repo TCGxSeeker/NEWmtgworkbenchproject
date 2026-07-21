@@ -14,15 +14,17 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline after Step 6 catchup repairs:
+Latest repository-wide baseline after Deck Inspection CLI v0:
 
 - Repository root: `G:/Documents/New MTG project`
-- Last committed repair checkpoint before Step 6: `7f67e40 Harden Scryfall index persistence`
-- `python -m unittest discover -s tests`: passed after Step 6 visual compare direction docs, 298 tests
+- `python -m unittest discover -s tests`: passed after Deck Inspection CLI v0, 303 tests
+- `python -m unittest tests.test_cli_inspect_deck`: passed, 5 tests
+- `python -m py_compile src/mtg_workbench/cli/main.py`: passed
+- `python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json`: passed
 - `python -m unittest tests.test_relationship_pair_inspection tests.test_card_record_pair_inspection`: passed, 21 tests
 - `python -m unittest tests.test_scryfall_indexer`: passed, 5 tests
 - `python -m py_compile src/mtg_workbench/scryfall/indexer.py`: passed
-- `git diff --check`: passed after Step 6 visual compare direction docs
+- `git diff --check`: passed after Deck Inspection CLI v0
 - `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report`: passed, 85 tests
 - `python -m py_compile src/mtg_workbench/deckbuilder/mutations.py src/mtg_workbench/cards/catalog.py src/mtg_workbench/deckbuilder/card_fact_lookup.py src/mtg_workbench/deckbuilder/deck_inspection_report.py`: passed
 - `python -m unittest tests.test_relationship_input_contract_hardening tests.test_relationship_primitives tests.test_card_behavioral_profile tests.test_behavioral_atom_extraction`: passed, 42 tests
@@ -81,6 +83,13 @@ Focused Scryfall index checks:
 
 ```powershell
 python -m unittest tests.test_scryfall_indexer
+```
+
+Focused deck inspection CLI checks:
+
+```powershell
+python -m unittest tests.test_cli_inspect_deck
+python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json
 ```
 
 Known remaining audit repair queue:

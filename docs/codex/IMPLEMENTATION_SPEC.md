@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 298 tests after the Step 6 visual compare direction documentation update. The last committed repair checkpoint before Step 6 was `7f67e40 Harden Scryfall index persistence`; see `docs/codex/NEXT_SESSION_HANDOFF.md` for the active handoff after the post-July-12 audit.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 303 tests after Deck Inspection CLI v0.
 
 ## Key Decisions Before Building
 
@@ -426,6 +426,14 @@ Status: implemented.
 Create a stable end-to-end fixture for the factual deck inspection report envelope. Definition of done: tiny workspace and card-record fixtures produce a deterministic expected report, the fixture proves no network use, no workspace mutation, card fact coverage, optional found-card-only role evidence, and absence of forbidden strategic fields.
 
 Deck Inspection Fixture Smoke v0 must not add product UI, live data, recommendation behavior, deck-quality claims, deck-level role totals, candidate search, add/cut scoring, package detection, commander analysis, online dependencies, telemetry, hosted services, or AI/LLM calls.
+
+### Phase Algorithm-12A: Deck Inspection CLI v0
+
+Status: implemented and verified.
+
+Expose the existing factual deck inspection report envelope through the local Python CLI. Definition of done: `python -m mtg_workbench.cli inspect-deck <workspace.mtgwdeck.json>` loads a native deck workspace, emits stable JSON, optionally consumes a tiny local card-record fixture or local card catalog, optionally includes card-level role evidence only when local role rules are supplied, and keeps summary, machine evidence, and debug output separated.
+
+Deck Inspection CLI v0 must not mutate workspaces, implement deck-level role totals, select primary roles, make shell-quality or strategic judgments, create low-ramp/draw warnings, implement recommendations, candidate search, add/cut scoring, commander profiles, package analysis, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, price optimization, or combo solving.
 
 ### Phase Algorithm-13: Card Relationship Primitives v0
 
@@ -934,8 +942,8 @@ Completed:
 
 Remaining:
 
-- No active numbered catchup repair remains. Do a deliberate readiness
-  checkpoint before starting the next implementation slice.
+- No active numbered catchup repair remains. Readiness checkpoint passed and
+  Deck Inspection CLI v0 is implemented.
 
 ## Verification Plan
 

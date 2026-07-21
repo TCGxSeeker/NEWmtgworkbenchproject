@@ -4,27 +4,27 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Branch: `master`
-- Last committed repair checkpoint before Step 6: `7f67e40 Harden Scryfall index persistence`
-- Current full-suite baseline: `python -m unittest discover -s tests` passes with 298 tests
+- Current implemented checkpoint: Deck Inspection CLI v0
+- Current full-suite baseline: `python -m unittest discover -s tests` passes with 303 tests
 - Current product center remains the deckbuilder foundation and deterministic local analysis pipeline
 
 ## Current Catchup
 
-Steps 1-5 are committed. Step 6 visual compare direction docs are complete. No active numbered catchup repair remains after Step 6.
+Steps 1-6 are complete, origin/master was caught up through Step 6, and Deck Inspection CLI v0 is implemented locally. No active numbered catchup repair remains after Step 6.
 
 ## Next Recommended Slice
 
-Readiness Checkpoint After Catchup Repairs.
+Native Workspace Import/Export CLI v0.
 
-Goal: review the completed catchup repair queue, commit Step 6, and choose the next bounded implementation slice only after confirming the foundation remains aligned.
+Goal: expose existing native workspace import/export helpers through tiny CLI commands so deck files can move between plain text and `.mtgwdeck.json` without app UI.
 
 Expected scope:
 
-1. Confirm Step 6 docs are committed.
-2. Run `python -m unittest discover -s tests`.
-3. Run `git diff --check`.
-4. Review whether the next slice should be documentation, CLI/report output, or another bounded backend foundation.
-5. Do not start app UI code without a fresh implementation handoff.
+1. Update `docs/codex/IMPLEMENTATION_SPEC.md` before coding.
+2. Inspect `src/mtg_workbench/deckbuilder/import_export.py`.
+3. Add minimal CLI commands only if they wrap existing import/export behavior.
+4. Add tests against tiny fixtures.
+5. Do not add UI, strategic analysis, recommendations, live APIs, or new dependencies.
 
 ## Boundaries
 

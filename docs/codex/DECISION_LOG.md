@@ -335,3 +335,9 @@
   - Alternatives considered: automatically inspecting both directions, prompting for direction before visual comparison, or showing relationship evidence by default.
   - Risk: Users may need a clear affordance to inspect the reverse direction later, but the baseline compare flow remains calm and analysis-free.
   - Status: Accepted for Visual Compare Direction Decision.
+
+- Decision: Expose the factual deck inspection envelope through the CLI before broader deck analysis.
+  - Reason: The backend already has deterministic skeleton, structural warning, card lookup, and optional card-level role evidence reports, but users need a local command to run that bounded report outside tests.
+  - Alternatives considered: starting deck-level role counting, adding UI, or continuing only with internal report modules.
+  - Risk: The command may look report-like while still intentionally omitting strategic analysis, so CLI help and docs must preserve the factual-only boundary.
+  - Status: Accepted for Deck Inspection CLI v0.
