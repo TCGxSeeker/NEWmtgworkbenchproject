@@ -395,6 +395,26 @@ telemetry, hosted services, AI/LLM calls, deck analysis, deck-level role totals,
 recommendations, scoring, price logic, syntax filtering, import/export wiring,
 card mutation wiring, or generated build output.
 
+### Phase Product-4L: Find And Add Cards v0
+
+Status: implemented and verified.
+
+Add the smallest visible search/add workflow to the existing fixture-backed
+deckbuilder screen. Definition of done: the screen has a functional add-card
+entry point, searches a tiny local card fixture without network access, shows
+deterministic local results only after user input, adds an explicitly selected
+card into the visible deck state, preserves quantities by incrementing an
+existing same-card/same-zone entry when appropriate, marks the visible workspace
+as unsaved after local edits, and keeps the current-deck filter distinct from
+global card search.
+
+This slice may update existing frontend files and add tiny TypeScript fixture
+data. It must not add frontend dependencies, backend behavior, persistence,
+file writes, live APIs, telemetry, hosted services, AI/LLM calls, deck analysis,
+recommendations, scoring, price logic, legality claims, broad Scryfall syntax
+coverage, import/export wiring, full mutation command wiring, or generated
+build output.
+
 ### Phase Product-5: Deck Workspace Import/Export v0
 
 Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.

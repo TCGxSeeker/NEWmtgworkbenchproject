@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: See The Deck v0 Visual Review Checkpoint
+- Current implemented checkpoint: Find And Add Cards v0
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
@@ -155,6 +155,10 @@ Known files:
 - See The Deck v0 Visual Review Checkpoint corrected narrow-screen overflow,
   kept the deck workspace ahead of the secondary snapshot panel on stacked
   layouts, and preserved the no-debug/no-inactive-controls default UI.
+- Find And Add Cards v0 adds a functional Add Card entry point, tiny local
+  card-search fixture, mainboard/maybeboard add target, explicit add action,
+  quantity incrementing for same-card/same-zone entries, visible unsaved state,
+  and separate current-deck filtering versus global card search.
 
 ## Current Readiness Snapshot
 
@@ -172,11 +176,11 @@ Known files:
 
 ## Next Refresh Notes
 
-- Safe stopping point: See The Deck v0 Visual Review Checkpoint is implemented and verified.
-- Next recommended slice: Find And Add Cards v0.
+- Safe stopping point: Find And Add Cards v0 is implemented and verified.
+- Next recommended slice: Card Details Surface v0.
 - Suggested scope: define the implementation spec, then add the smallest
-  explicit local search/add workflow around the visible deck screen without
-  recommendations, scoring, live APIs, price logic, or broad syntax expansion.
+  selected-card details surface using only factual fields already present in
+  visible deck entries or tiny local search fixture data.
 - Product north-star sequence: see the deck, find and add cards, understand a
   card, validate the deck, edit safely in bulk, inspect useful statistics, manage
   printings, and recover earlier versions.

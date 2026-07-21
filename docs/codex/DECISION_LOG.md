@@ -413,3 +413,9 @@
   - Alternatives considered: leaving the secondary snapshot above the card list, hiding the snapshot entirely, or adding new drawer behavior.
   - Risk: The snapshot panel still repeats some header counts until a real details/stats surface exists.
   - Status: Accepted for See The Deck v0 Visual Review Checkpoint.
+
+- Decision: Implement `Find And Add Cards v0` as local UI state over a tiny card fixture.
+  - Reason: The first add workflow should prove the visible deckbuilder loop without adding persistence, backend file writes, live search, recommendations, scoring, or broader syntax behavior.
+  - Alternatives considered: wiring directly to native workspace file mutation commands, opening full local Scryfall search in the UI, or adding recommendation-style candidate lists.
+  - Risk: Added cards reset on refresh until app-native persistence is explicitly wired.
+  - Status: Accepted for Find And Add Cards v0.

@@ -355,3 +355,26 @@ Deferred beyond this checkpoint:
 - Opening user-selected deck files.
 - Global search/add workflow.
 - Card details surface.
+
+## Find And Add Cards V0
+
+- [x] Functional Add Card entry point exists on the visible deck screen.
+- [x] Search uses a tiny local TypeScript card fixture only.
+- [x] Search results appear only after user-entered search text.
+- [x] Plain local search checks candidate name, type line, category, tags, colors, and color identity.
+- [x] The current-deck filter remains separate from global card search.
+- [x] Add target can be set to mainboard or maybeboard.
+- [x] Adding an existing same-card/same-zone/same-category entry increments quantity.
+- [x] Adding a new selected card creates a visible deck entry.
+- [x] Added cards update visible deck counts and grouped/table views.
+- [x] Local additions mark the visible workspace as unsaved.
+- [x] No recommendations, scoring, legality claims, price logic, live APIs, broad syntax expansion, backend persistence, or new dependencies were added.
+
+Deferred beyond this slice:
+
+- Saving UI edits to native `.mtgwdeck.json` files.
+- Loading user-selected workspace files into the app.
+- Wiring global search to the local Scryfall SQLite index.
+- Syntax-backed global search UI.
+- Card details surface.
+- Validation warnings for added cards.
