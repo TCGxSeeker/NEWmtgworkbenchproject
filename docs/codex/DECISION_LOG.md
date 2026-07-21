@@ -395,3 +395,9 @@
   - Alternatives considered: relying only on focused unit tests, waiting until UI implementation, or snapshotting a large real deck.
   - Risk: The fixture protects one representative projection, not every future view mode; broader contracts still need their own explicit slices.
   - Status: Accepted for Workspace View Fixture Smoke v0.
+
+- Decision: Document `deck_workspace_view_projection.v0` as a consumer contract before UI work.
+  - Reason: The first visible deck screen should consume a stable view model without exposing backend validation plumbing as normal deckbuilder UI.
+  - Alternatives considered: letting future UI infer behavior from tests, documenting only after UI implementation, or treating projection JSON as a private implementation detail.
+  - Risk: The contract may need a future version if syntax filters, price, rarity, printing, or sideboard fields are added.
+  - Status: Accepted for Workspace Projection Contract Docs v0.

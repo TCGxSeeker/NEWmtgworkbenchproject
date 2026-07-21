@@ -8,7 +8,7 @@ Completed:
 - Deck Workspace Model v0
 - Deck Workspace Mutations v0
 - Deck Workspace Import/Export v0
-- Workspace visibility-delete behavior
+- Workspace delete doctrine/planned behavior note
 - Category Taxonomy v0
 - Category Taxonomy Loader/Normalizer v0
 - Deck Entry Category Metadata v0

@@ -297,3 +297,23 @@ Deferred beyond this slice:
 - Syntax-backed current-deck filtering.
 - Price, rarity, edition, and printing projection modes.
 - Deck-level role totals or strategic reports.
+
+## Workspace Projection Contract Docs V0
+
+- [x] `deck_workspace_view_projection.v0` purpose is documented.
+- [x] Producer and future consumers are documented.
+- [x] Top-level projection fields are documented.
+- [x] Group fields are documented.
+- [x] Entry fields are documented.
+- [x] Grouping, sorting, filtering, and counting semantics are documented.
+- [x] Fact status buckets are documented as advanced/background validation data.
+- [x] The smoke fixture is referenced as the executable example.
+- [x] Deferred UI, syntax, stats, legality, printing, and recommendation behavior is explicit.
+
+Deferred beyond this slice:
+
+- First visible deck screen implementation.
+- Syntax-backed current-deck filtering.
+- Global search/add workflow.
+- Card detail surface.
+- Full legality, statistics, printings, bulk edit, and version recovery behavior.

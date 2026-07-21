@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Branch: `master`
-- Current implemented checkpoint: Workspace View Fixture Smoke v0
+- Current implemented checkpoint: Workspace Projection Contract Docs v0
 - Current full-suite baseline: `python -m unittest discover -s tests` passes with 344 tests
 - Current product center remains the deckbuilder foundation. Canonical framing:
   this is a strong backend foundation with CLI-verifiable contracts, not generic
@@ -12,24 +12,25 @@
 
 ## Current Catchup
 
-Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, Workspace View CLI v0, Card-Fact-Backed Workspace Projection v0, Color Identity Workspace Projection v0, and Workspace View Fixture Smoke v0 are implemented and verified.
+Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, Workspace View CLI v0, Card-Fact-Backed Workspace Projection v0, Color Identity Workspace Projection v0, Workspace View Fixture Smoke v0, and Workspace Projection Contract Docs v0 are implemented and verified.
 
 ## Next Recommended Slice
 
-Workspace Projection Contract Docs v0.
+See The Deck v0.
 
-Goal: document the `deck_workspace_view_projection.v0` payload as a consumer-facing contract before future UI or syntax-filter work depends on it.
+Goal: create the first narrow visible-deck milestone from the existing projection contract, or write its implementation spec if the user wants one more planning checkpoint first.
 
-Context: this is groundwork for the first visible-deck milestone, not an
-analysis or recommendation slice.
+Context: `deck_workspace_view_projection.v0` is now documented as the contract
+future UI should consume.
 
 Expected scope:
 
 1. Update `docs/codex/IMPLEMENTATION_SPEC.md` before editing.
-2. Create or update a concise product/rules contract doc for workspace-view projection output.
-3. Describe group totals, multi-membership groups, fact status buckets, and current deferred fields.
-4. Reference the exact smoke fixture as the current executable contract example.
-5. Do not add UI, strategic analysis, recommendations, live APIs, deck-level role totals, syntax filtering, price logic, or new dependencies.
+2. Keep the first screen centered on opening and seeing a saved deck.
+3. Use only the documented projection contract and existing backend behavior.
+4. Show deck rows, group/sort/filter state, and basic deck actions only.
+5. Do not surface local fact coverage as normal dashboard content.
+6. Do not add strategic analysis, recommendations, live APIs, deck-level role totals, price logic, or new dependencies.
 
 ## Boundaries
 

@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: Workspace View Fixture Smoke v0
+- Current implemented checkpoint: Workspace Projection Contract Docs v0
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
@@ -146,11 +146,14 @@ Known files:
 - Workspace View Fixture Smoke v0 locks one exact expected-output fixture for
   `workspace-view` through the real CLI, local card records, color-identity
   grouping, mana-value sorting, deterministic reruns, and no workspace mutation.
+- Workspace Projection Contract Docs v0 documents
+  `deck_workspace_view_projection.v0` as the current consumer contract for
+  future deckbuilder screens.
 
 ## Current Readiness Snapshot
 
 - Deckbuilder acceptance checklist checkboxes: all current items complete after
-  Workspace View Fixture Smoke v0.
+  Workspace Projection Contract Docs v0.
 - Native workspace model, editing, import/export, category metadata, annotation,
   and view-projection backend are the most complete deckbuilder areas.
 - Finished app UI, recommendation logic, scoring, commander analysis, and
@@ -163,12 +166,12 @@ Known files:
 
 ## Next Refresh Notes
 
-- Safe stopping point: Workspace View Fixture Smoke v0 is implemented and verified.
-- Next low-risk planning slice: Workspace Projection Contract Docs v0, unless
-  the user chooses to pivot directly to the first visible-deck milestone.
-- Suggested projection-doc scope: document `deck_workspace_view_projection.v0`
-  fields, grouping semantics, fact status buckets, deferred fields, and the smoke
-  fixture as the executable contract example before UI consumes projection output.
+- Safe stopping point: Workspace Projection Contract Docs v0 is implemented and
+  verified.
+- Next recommended slice: See The Deck v0.
+- Suggested scope: create the first narrow visible-deck milestone from the
+  documented projection contract, or write its implementation spec if the user
+  wants one more planning checkpoint first.
 - Product north-star sequence: see the deck, find and add cards, understand a
   card, validate the deck, edit safely in bulk, inspect useful statistics, manage
   printings, and recover earlier versions.

@@ -9,7 +9,7 @@ Completed deckbuilder foundation slices:
 - Deck Workspace Mutations v0
 - Deck Workspace Import/Export v0
 - Workspace save/load clean-dirty behavior
-- Workspace delete/visibility behavior patch
+- Workspace delete doctrine/planned behavior note
 
 Important delete clarification:
 "Deleting a deck" means removing the visible deck/workspace from the user's workspace/library view.

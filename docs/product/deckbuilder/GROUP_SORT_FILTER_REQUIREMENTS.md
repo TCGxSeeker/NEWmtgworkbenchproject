@@ -74,3 +74,6 @@ Color Identity Workspace Projection v0 adds factual color projection modes when 
 Price, rarity, printing, and syntax-backed filtering require later local data adapters or the syntax engine and are deferred.
 
 Workspace View Fixture Smoke v0 keeps an exact expected JSON fixture for one fact-backed `workspace-view` run so future changes to grouping, sorting, missing facts, ambiguous facts, or stable output order are reviewed intentionally.
+
+The current projection payload is documented in
+`docs/rules/WORKSPACE_VIEW_PROJECTION_CONTRACT.md`.

@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 344 tests after Workspace View Fixture Smoke v0.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 344 tests after Workspace Projection Contract Docs v0.
 
 ## Key Decisions Before Building
 
@@ -360,6 +360,14 @@ Status: implemented and verified.
 Freeze one tiny end-to-end `workspace-view` contract before projection behavior grows again. Definition of done: a native workspace fixture, local card-record fixture, exact expected JSON fixture, and smoke test prove fact-backed color-identity grouping and mana-value sorting through the CLI; repeated runs produce identical JSON; the source workspace file is not mutated; missing and ambiguous facts stay visible; and the payload contains no strategic analysis or recommendation fields.
 
 Workspace View Fixture Smoke v0 must not add UI, frontend dependencies, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, syntax filtering, price logic, or new dependencies.
+
+### Phase Product-4I: Workspace Projection Contract Docs v0
+
+Status: implemented and verified.
+
+Document `deck_workspace_view_projection.v0` as the current consumer contract for future deckbuilder screens. Definition of done: a concise contract doc identifies the projection purpose, producer, intended consumers, top-level fields, group fields, entry fields, grouping/sorting/filtering semantics, grouped-total caveats, fact-status buckets, fixture-backed example, and UI visibility doctrine.
+
+This slice is documentation only. It must not add UI, frontend dependencies, code behavior, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, syntax filtering, price logic, or new dependencies.
 
 ### Phase Product-5: Deck Workspace Import/Export v0
 

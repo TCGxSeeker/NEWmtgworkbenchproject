@@ -134,3 +134,6 @@ Card-Fact-Backed Workspace Projection v0 can add factual `type` and `mana_value`
 Color Identity Workspace Projection v0 adds factual `color` and `color_identity` grouping/sorting from found local card facts. `color` may group one entry under multiple colors; `color_identity` uses one WUBRG-ordered identity label. Missing, ambiguous, and malformed facts remain visible rather than inferred.
 
 Workspace View Fixture Smoke v0 locks one exact CLI projection fixture for fact-backed color-identity grouping and mana-value sorting. Future projection changes should update that expected fixture intentionally rather than drifting accidentally.
+
+See `docs/rules/WORKSPACE_VIEW_PROJECTION_CONTRACT.md` for the current
+`deck_workspace_view_projection.v0` consumer contract.

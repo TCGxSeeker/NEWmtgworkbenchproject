@@ -8,7 +8,7 @@ The project has operating docs, source fixtures, parser/normalizer code, local S
 
 No finished deckbuilder UI, recommendation engine, scoring rubric, structural audit engine, or full deck report exists yet.
 
-Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 344 tests after Workspace View Fixture Smoke v0.
+Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 344 tests after Workspace Projection Contract Docs v0.
 
 Framing: this repository has a strong deckbuilder backend foundation with
 CLI-verifiable contracts. It does not yet have generic deckbuilder parity as a
@@ -67,6 +67,7 @@ Pop-Location
 
 - Project operating docs: `docs/codex/`
 - Rules and data contracts: `docs/rules/`
+- Workspace view projection contract: `docs/rules/WORKSPACE_VIEW_PROJECTION_CONTRACT.md`
 - Deterministic algorithm planning: `docs/product/algorithm/`
 - Next-session handoff: `docs/codex/NEXT_SESSION_HANDOFF.md`
 - Deckbuilder product planning: `docs/product/deckbuilder/`
