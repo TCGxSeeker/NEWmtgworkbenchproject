@@ -5,12 +5,16 @@ from mtg_workbench.deckbuilder.models import DeckEntry, DeckWorkspace
 from mtg_workbench.deckbuilder.card_fact_lookup import lookup_workspace_card_facts
 from mtg_workbench.deckbuilder.workspace_view import (
     GROUP_CATEGORY,
+    GROUP_COLOR,
+    GROUP_COLOR_IDENTITY,
     GROUP_FULL_DECK,
     GROUP_MANA_VALUE,
     GROUP_TYPE,
     GROUP_ZONE,
     SORT_ALPHABET,
     SORT_CATEGORY,
+    SORT_COLOR,
+    SORT_COLOR_IDENTITY,
     SORT_MANA_VALUE,
     SORT_QUANTITY,
     SORT_TYPE,
@@ -204,6 +208,9 @@ class DeckWorkspaceViewProjectionTests(unittest.TestCase):
         with self.assertRaisesRegex(WorkspaceViewError, "require an explicit card_fact_lookup_report"):
             build_workspace_view_projection(_workspace(), sort_by=SORT_MANA_VALUE)
 
+        with self.assertRaisesRegex(WorkspaceViewError, "require an explicit card_fact_lookup_report"):
+            build_workspace_view_projection(_workspace(), group_by=GROUP_COLOR_IDENTITY)
+
     def test_type_grouping_uses_found_local_card_facts_and_status_buckets(self) -> None:
         workspace = _workspace()
         lookup_report = lookup_workspace_card_facts(
@@ -288,6 +295,62 @@ class DeckWorkspaceViewProjectionTests(unittest.TestCase):
         self.assertEqual(projection.groups[0].label, "Ambiguous Card Facts")
         self.assertEqual(projection.groups[0].entries[0].card_fact_status, "ambiguous")
         self.assertEqual(projection.groups[0].entries[0].type_labels, ())
+
+    def test_color_grouping_uses_found_local_card_facts_and_status_buckets(self) -> None:
+        workspace = _workspace()
+        lookup_report = lookup_workspace_card_facts(
+            workspace,
+            card_records=[
+                {"name": "Zed Commander", "colors": ["G"], "color_identity": ["G", "U"]},
+                {"name": "Arcane Helper", "colors": ["G", "U"], "color_identity": ["G", "U"]},
+                {"name": "Brainstorm Tutor", "colors": ["U"], "color_identity": ["U"]},
+                {"name": "Plain Card", "colors": [], "color_identity": []},
+            ],
+        )
+
+        projection = build_workspace_view_projection(
+            workspace,
+            group_by=GROUP_COLOR,
+            sort_by=SORT_COLOR,
+            card_fact_lookup_report=lookup_report,
+        )
+        groups = {group.label: [entry.entry_id for entry in group.entries] for group in projection.groups}
+
+        self.assertEqual(list(groups), ["Blue", "Green", "Colorless", "Missing Card Facts"])
+        self.assertEqual(groups["Blue"], ["ramp", "draw"])
+        self.assertEqual(groups["Green"], ["ramp", "commander"])
+        self.assertEqual(groups["Colorless"], ["plain"])
+        self.assertEqual(groups["Missing Card Facts"], ["maybe"])
+        self.assertEqual(projection.grouped_entry_count, 6)
+
+    def test_color_identity_grouping_uses_exact_identity_combinations(self) -> None:
+        workspace = _workspace()
+        lookup_report = lookup_workspace_card_facts(
+            workspace,
+            card_records=[
+                {"name": "Zed Commander", "colors": ["G"], "color_identity": ["G", "U"]},
+                {"name": "Arcane Helper", "colors": ["G", "U"], "color_identity": ["G", "U"]},
+                {"name": "Brainstorm Tutor", "colors": ["U"], "color_identity": ["U"]},
+                {"name": "Plain Card", "colors": [], "color_identity": []},
+                {"name": "Maybe Mystery", "colors": ["G"]},
+            ],
+        )
+
+        projection = build_workspace_view_projection(
+            workspace,
+            group_by=GROUP_COLOR_IDENTITY,
+            sort_by=SORT_COLOR_IDENTITY,
+            card_fact_lookup_report=lookup_report,
+        )
+        groups = {group.label: [entry.entry_id for entry in group.entries] for group in projection.groups}
+
+        self.assertEqual(list(groups), ["Colorless", "U", "UG", "Unknown Color Identity"])
+        self.assertEqual(groups["Colorless"], ["plain"])
+        self.assertEqual(groups["U"], ["draw"])
+        self.assertEqual(groups["UG"], ["ramp", "commander"])
+        self.assertEqual(groups["Unknown Color Identity"], ["maybe"])
+        first_entry = groups["UG"][0]
+        self.assertEqual(first_entry, "ramp")
 
 
 if __name__ == "__main__":

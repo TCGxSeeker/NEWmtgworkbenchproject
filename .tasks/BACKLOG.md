@@ -13,6 +13,7 @@
 - Deck Workspace View Projection v0 is implemented and verified.
 - Workspace View CLI v0 is implemented and verified.
 - Card-Fact-Backed Workspace Projection v0 is implemented and verified.
+- Color Identity Workspace Projection v0 is implemented and verified.
 
 ## Completed Catchup Repairs
 
@@ -40,7 +41,7 @@
 
 ## Near Term
 
-- Color Identity Workspace Projection v0.
+- Workspace View Fixture Smoke v0.
 - Keep deck inspection reports factual and deterministic.
 - Keep unsupported Scryfall syntax explicit instead of guessed.
 - Decide when Deck Role Summary v0 is safe to start, because it introduces deck-level role counting.

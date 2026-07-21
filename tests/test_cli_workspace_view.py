@@ -163,6 +163,59 @@ class CliWorkspaceViewTests(unittest.TestCase):
         self.assertEqual(groups["Sorcery"], ["draw"])
         self.assertEqual(groups["Missing Card Facts"], ["maybe"])
 
+    def test_workspace_view_uses_local_card_records_for_color_identity(self) -> None:
+        with TemporaryDirectory() as temp_dir:
+            workspace_path = Path(temp_dir) / "deck.mtgwdeck.json"
+            records_path = Path(temp_dir) / "records.json"
+            save_workspace(_workspace(), workspace_path)
+            records_path.write_text(
+                json.dumps(
+                    {
+                        "Example Commander": {
+                            "name": "Example Commander",
+                            "colors": ["G"],
+                            "color_identity": ["G", "U"],
+                        },
+                        "Arcane Helper": {
+                            "name": "Arcane Helper",
+                            "colors": ["G", "U"],
+                            "color_identity": ["G", "U"],
+                        },
+                        "Brainstorm Tutor": {
+                            "name": "Brainstorm Tutor",
+                            "colors": ["U"],
+                            "color_identity": ["U"],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                exit_code = main(
+                    [
+                        "workspace-view",
+                        str(workspace_path),
+                        "--card-records",
+                        str(records_path),
+                        "--group-by",
+                        "color identity",
+                        "--sort-by",
+                        "color-identity",
+                    ]
+                )
+
+            payload = json.loads(output.getvalue())
+            groups = {group["label"]: [entry["entry_id"] for entry in group["entries"]] for group in payload["groups"]}
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["group_by"], "color_identity")
+        self.assertEqual(payload["sort_by"], "color_identity")
+        self.assertEqual(groups["U"], ["draw"])
+        self.assertEqual(groups["UG"], ["ramp", "commander"])
+        self.assertEqual(groups["Missing Card Facts"], ["maybe"])
+
     def test_workspace_view_rejects_fact_backed_modes_without_local_card_source(self) -> None:
         with TemporaryDirectory() as temp_dir:
             workspace_path = Path(temp_dir) / "deck.mtgwdeck.json"

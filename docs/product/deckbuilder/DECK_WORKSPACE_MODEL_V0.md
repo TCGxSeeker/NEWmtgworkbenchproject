@@ -130,3 +130,5 @@ Deck Workspace View Projection v0 prepares existing workspace entries for future
 Projection output is a view model, not deck analysis. It does not look up card facts, count deck roles, make recommendations, score cards, or mutate `.mtgwdeck.json` data.
 
 Card-Fact-Backed Workspace Projection v0 can add factual `type` and `mana_value` grouping/sorting when a caller supplies an explicit local `CardFactLookupReport`. Missing and ambiguous fact lookups remain visible as status buckets. Projection still does not infer missing facts, analyze deck quality, count roles, or mutate saved workspace data.
+
+Color Identity Workspace Projection v0 adds factual `color` and `color_identity` grouping/sorting from found local card facts. `color` may group one entry under multiple colors; `color_identity` uses one WUBRG-ordered identity label. Missing, ambiguous, and malformed facts remain visible rather than inferred.

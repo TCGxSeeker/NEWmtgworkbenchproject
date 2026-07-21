@@ -4,14 +4,14 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: card-fact-backed workspace projection bundle
+- Current implemented checkpoint: color identity workspace projection bundle
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
 - Step 6 visual compare direction docs are complete
-- Current verification: `python -m unittest discover -s tests` passed with 340 tests
-- Current focused deck workspace view projection verification: `python -m unittest tests.test_deckbuilder_workspace_view` passed with 12 tests
-- Current focused workspace view CLI verification: `python -m unittest tests.test_cli_workspace_view` passed with 6 tests
+- Current verification: `python -m unittest discover -s tests` passed with 343 tests
+- Current focused deck workspace view projection verification: `python -m unittest tests.test_deckbuilder_workspace_view` passed with 14 tests
+- Current focused workspace view CLI verification: `python -m unittest tests.test_cli_workspace_view` passed with 7 tests
 - Current focused workspace category/annotation CLI verification: `python -m unittest tests.test_cli_workspace_category_metadata` passed with 5 tests
 - Current focused Deck Workspace Mutation CLI verification: `python -m unittest tests.test_cli_workspace_mutations` passed with 6 tests
 - Current Deck Workspace Mutation CLI smoke: `workspace-add-card` added `Alias Helper` to a temporary native workspace with local card catalog resolution
@@ -75,6 +75,7 @@
 - Deck Workspace View Projection v0
 - Workspace View CLI v0
 - Card-Fact-Backed Workspace Projection v0
+- Color Identity Workspace Projection v0
 
 ## Audit Status
 
@@ -140,14 +141,17 @@ Known files:
 - Card-Fact-Backed Workspace Projection v0 adds factual `type` and
   `mana_value` grouping/sorting when explicit local card facts are supplied.
   Missing and ambiguous facts remain visible as status buckets.
+- Color Identity Workspace Projection v0 adds factual `color` and
+  `color_identity` grouping/sorting when explicit local card facts are supplied.
+  Colorless, missing, and ambiguous data remain distinct.
 
 ## Next Refresh Notes
 
-- Safe stopping point: card-fact-backed workspace projection bundle is implemented and verified.
-- Next low-risk mechanical slice: Color Identity Workspace Projection v0.
-- Suggested next scope: use explicitly supplied local card facts to add factual
-  color and color-identity grouping/sorting while keeping missing or ambiguous
-  facts visible instead of guessed.
+- Safe stopping point: color identity workspace projection bundle is implemented and verified.
+- Next low-risk mechanical slice: Workspace View Fixture Smoke v0.
+- Suggested next scope: create a tiny exact expected-output fixture for
+  fact-backed `workspace-view` and verify repeat-run determinism plus no
+  workspace mutation.
 - Deck Role Summary v0 still requires explicit approval because it starts
   deck-level role counting.
 - Do not start recommendations, scoring, commander analysis, package detection,

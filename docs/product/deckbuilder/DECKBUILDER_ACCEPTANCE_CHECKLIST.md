@@ -260,3 +260,22 @@ Deferred beyond this slice:
 - Price, rarity, edition, and printing projection modes.
 - Syntax-backed current-deck filtering.
 - Deck-level role totals or strategic reports.
+
+## Color Identity Workspace Projection V0
+
+- [x] `color` grouping is supported when explicit local card facts are supplied.
+- [x] `color_identity` grouping is supported when explicit local card facts are supplied.
+- [x] `color` sorting is supported when explicit local card facts are supplied.
+- [x] `color_identity` sorting is supported when explicit local card facts are supplied.
+- [x] Colorless cards are distinguished from missing or unknown color facts.
+- [x] Missing card facts stay visible as `Missing Card Facts`.
+- [x] Ambiguous card facts stay visible as `Ambiguous Card Facts`.
+- [x] `workspace-view` can use the new modes through `--cards` or `--card-records`.
+- [x] Fact-backed modes fail clearly when no local card source is supplied.
+- [x] No UI code, frontend dependency changes, deck analysis, role counting, recommendations, live APIs, price logic, or large datasets were added.
+
+Deferred beyond this slice:
+
+- Price, rarity, edition, and printing projection modes.
+- Syntax-backed current-deck filtering.
+- Deck-level role totals or strategic reports.

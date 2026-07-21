@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 340 tests after Card-Fact-Backed Workspace Projection v0.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 343 tests after Color Identity Workspace Projection v0.
 
 ## Key Decisions Before Building
 
@@ -342,6 +342,16 @@ Expand read-only workspace projection with factual type and mana-value grouping/
 If `type` or `mana_value` projection is requested without local card facts, it must fail clearly instead of guessing from saved entry names or categories.
 
 Card-Fact-Backed Workspace Projection v0 must not add UI, frontend dependencies, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, syntax filtering, or new dependencies.
+
+### Phase Product-4G: Color Identity Workspace Projection v0
+
+Status: implemented and verified.
+
+Expand read-only workspace projection with factual color and color-identity grouping/sorting when an explicit local card source is supplied. Definition of done: projection supports `color` and `color_identity` group/sort modes, reads `colors` and `color_identity` only from found local card facts, distinguishes `Colorless` from missing/unknown color data, keeps missing and ambiguous fact lookups in explicit status buckets, preserves unresolved entries, leaves input workspaces unchanged, and the existing `workspace-view --cards/--card-records` command can use the new modes.
+
+V0 behavior: `color` grouping may place a multicolor card into multiple color groups. `color_identity` grouping uses the exact WUBRG-ordered identity combination as one group, such as `UG`, so identity filtering remains comparable for future Commander work.
+
+Color Identity Workspace Projection v0 must not add UI, frontend dependencies, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, syntax filtering, price logic, or new dependencies.
 
 ### Phase Product-5: Deck Workspace Import/Export v0
 

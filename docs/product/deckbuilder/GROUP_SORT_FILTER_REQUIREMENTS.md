@@ -63,4 +63,12 @@ Card-Fact-Backed Workspace Projection v0 adds factual projection modes when expl
 - Sorting: `type` and `mana_value`.
 - Missing and ambiguous facts remain visible as explicit status buckets.
 
-Color, color identity, price, rarity, printing, and syntax-backed filtering require later local data adapters or the syntax engine and are deferred.
+Color Identity Workspace Projection v0 adds factual color projection modes when explicit local card facts are supplied:
+
+- Grouping: `color` and `color_identity`.
+- Sorting: `color` and `color_identity`.
+- Multicolor cards can appear in multiple `color` groups.
+- `color_identity` uses one WUBRG-ordered identity group such as `UG`.
+- Missing and ambiguous facts remain visible as explicit status buckets.
+
+Price, rarity, printing, and syntax-backed filtering require later local data adapters or the syntax engine and are deferred.

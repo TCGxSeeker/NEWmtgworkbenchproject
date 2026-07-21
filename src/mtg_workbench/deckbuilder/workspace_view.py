@@ -19,27 +19,59 @@ GROUP_ZONE = "zone"
 GROUP_CATEGORY = "category"
 GROUP_TYPE = "type"
 GROUP_MANA_VALUE = "mana_value"
+GROUP_COLOR = "color"
+GROUP_COLOR_IDENTITY = "color_identity"
 SORT_ALPHABET = "alphabet"
 SORT_QUANTITY = "quantity"
 SORT_CATEGORY = "category"
 SORT_ZONE = "zone"
 SORT_TYPE = "type"
 SORT_MANA_VALUE = "mana_value"
+SORT_COLOR = "color"
+SORT_COLOR_IDENTITY = "color_identity"
 UNCATEGORIZED = "Uncategorized"
 MISSING_CARD_FACTS = "Missing Card Facts"
 AMBIGUOUS_CARD_FACTS = "Ambiguous Card Facts"
 UNKNOWN_TYPE = "Unknown Type"
 UNKNOWN_MANA_VALUE = "Unknown Mana Value"
+UNKNOWN_COLOR = "Unknown Color"
+UNKNOWN_COLOR_IDENTITY = "Unknown Color Identity"
+COLORLESS = "Colorless"
 NOT_REQUESTED = "not_requested"
 CHECKED = "checked"
 
 SUPPORTED_GROUP_MODES = frozenset(
-    {GROUP_FULL_DECK, GROUP_ZONE, GROUP_CATEGORY, GROUP_TYPE, GROUP_MANA_VALUE}
+    {
+        GROUP_FULL_DECK,
+        GROUP_ZONE,
+        GROUP_CATEGORY,
+        GROUP_TYPE,
+        GROUP_MANA_VALUE,
+        GROUP_COLOR,
+        GROUP_COLOR_IDENTITY,
+    }
 )
 SUPPORTED_SORT_MODES = frozenset(
-    {SORT_ALPHABET, SORT_QUANTITY, SORT_CATEGORY, SORT_ZONE, SORT_TYPE, SORT_MANA_VALUE}
+    {
+        SORT_ALPHABET,
+        SORT_QUANTITY,
+        SORT_CATEGORY,
+        SORT_ZONE,
+        SORT_TYPE,
+        SORT_MANA_VALUE,
+        SORT_COLOR,
+        SORT_COLOR_IDENTITY,
+    }
 )
 ZONE_ORDER = {"commander": 0, "mainboard": 1, "maybeboard": 2}
+COLOR_ORDER = {"W": 0, "U": 1, "B": 2, "R": 3, "G": 4}
+COLOR_LABELS = {
+    "W": "White",
+    "U": "Blue",
+    "B": "Black",
+    "R": "Red",
+    "G": "Green",
+}
 TYPE_ORDER = {
     "Land": 0,
     "Creature": 1,
@@ -54,6 +86,9 @@ TYPE_ORDER = {
 FACT_STATUS_ORDER = {
     UNKNOWN_TYPE: 50,
     UNKNOWN_MANA_VALUE: 50,
+    UNKNOWN_COLOR: 50,
+    UNKNOWN_COLOR_IDENTITY: 50,
+    COLORLESS: 55,
     MISSING_CARD_FACTS: 60,
     AMBIGUOUS_CARD_FACTS: 70,
 }
@@ -82,6 +117,8 @@ class WorkspaceViewEntry:
     type_line: str | None
     type_labels: tuple[str, ...]
     mana_value: int | float | None
+    colors: tuple[str, ...] | None
+    color_identity: tuple[str, ...] | None
 
     @classmethod
     def from_entry(
@@ -89,7 +126,9 @@ class WorkspaceViewEntry:
         entry: DeckEntry,
         lookup_result: CardFactLookupResult | None = None,
     ) -> "WorkspaceViewEntry":
-        fact_status, type_line, type_labels, mana_value = _facts_from_lookup_result(lookup_result)
+        fact_status, type_line, type_labels, mana_value, colors, color_identity = (
+            _facts_from_lookup_result(lookup_result)
+        )
         return cls(
             entry_id=entry.entry_id,
             zone=entry.zone,
@@ -108,6 +147,8 @@ class WorkspaceViewEntry:
             type_line=type_line,
             type_labels=type_labels,
             mana_value=mana_value,
+            colors=colors,
+            color_identity=color_identity,
         )
 
     @property
@@ -133,6 +174,8 @@ class WorkspaceViewEntry:
             "type_line": self.type_line,
             "type_labels": list(self.type_labels),
             "mana_value": self.mana_value,
+            "colors": None if self.colors is None else list(self.colors),
+            "color_identity": None if self.color_identity is None else list(self.color_identity),
         }
 
 
@@ -271,6 +314,26 @@ def _build_groups(
             )
             for label in labels
         )
+    if group_mode == GROUP_COLOR:
+        labels = _color_group_labels(entries)
+        return tuple(
+            _make_group(
+                _group_id(label),
+                label,
+                tuple(entry for entry in entries if label in _entry_color_group_labels(entry)),
+            )
+            for label in labels
+        )
+    if group_mode == GROUP_COLOR_IDENTITY:
+        labels = _color_identity_group_labels(entries)
+        return tuple(
+            _make_group(
+                _group_id(label),
+                label,
+                tuple(entry for entry in entries if label == _entry_color_identity_group_label(entry)),
+            )
+            for label in labels
+        )
     raise WorkspaceViewError(f"Unsupported group mode: {group_mode}.")
 
 
@@ -311,6 +374,20 @@ def _mana_value_group_labels(entries: tuple[WorkspaceViewEntry, ...]) -> tuple[s
     return tuple(sorted(labels, key=_mana_value_label_sort_key))
 
 
+def _color_group_labels(entries: tuple[WorkspaceViewEntry, ...]) -> tuple[str, ...]:
+    labels = {
+        label
+        for entry in entries
+        for label in _entry_color_group_labels(entry)
+    }
+    return tuple(sorted(labels, key=_color_label_sort_key))
+
+
+def _color_identity_group_labels(entries: tuple[WorkspaceViewEntry, ...]) -> tuple[str, ...]:
+    labels = {_entry_color_identity_group_label(entry) for entry in entries}
+    return tuple(sorted(labels, key=_color_identity_label_sort_key))
+
+
 def _sort_key(entry: WorkspaceViewEntry, sort_mode: str) -> tuple[Any, ...]:
     alphabet_key = (_normalize_text(entry.card_name), entry.entry_id)
     if sort_mode == SORT_ALPHABET:
@@ -328,6 +405,12 @@ def _sort_key(entry: WorkspaceViewEntry, sort_mode: str) -> tuple[Any, ...]:
     if sort_mode == SORT_MANA_VALUE:
         label = _entry_mana_value_group_label(entry)
         return (*_mana_value_label_sort_key(label), *alphabet_key)
+    if sort_mode == SORT_COLOR:
+        label = _entry_color_group_labels(entry)[0]
+        return (*_color_label_sort_key(label), *alphabet_key)
+    if sort_mode == SORT_COLOR_IDENTITY:
+        label = _entry_color_identity_group_label(entry)
+        return (*_color_identity_label_sort_key(label), *alphabet_key)
     raise WorkspaceViewError(f"Unsupported sort mode: {sort_mode}.")
 
 
@@ -372,13 +455,20 @@ def _require_card_facts_if_needed(
     sort_mode: str,
     card_fact_lookup_report: CardFactLookupReport | None,
 ) -> None:
-    needs_card_facts = group_mode in {GROUP_TYPE, GROUP_MANA_VALUE} or sort_mode in {
+    needs_card_facts = group_mode in {
+        GROUP_TYPE,
+        GROUP_MANA_VALUE,
+        GROUP_COLOR,
+        GROUP_COLOR_IDENTITY,
+    } or sort_mode in {
         SORT_TYPE,
         SORT_MANA_VALUE,
+        SORT_COLOR,
+        SORT_COLOR_IDENTITY,
     }
     if needs_card_facts and card_fact_lookup_report is None:
         raise WorkspaceViewError(
-            "type and mana_value projections require an explicit card_fact_lookup_report."
+            "type, mana_value, color, and color_identity projections require an explicit card_fact_lookup_report."
         )
 
 
@@ -458,26 +548,35 @@ def _card_fact_lookup_summary(
 
 def _facts_from_lookup_result(
     lookup_result: CardFactLookupResult | None,
-) -> tuple[str, str | None, tuple[str, ...], int | float | None]:
+) -> tuple[
+    str,
+    str | None,
+    tuple[str, ...],
+    int | float | None,
+    tuple[str, ...] | None,
+    tuple[str, ...] | None,
+]:
     if lookup_result is None:
-        return NOT_REQUESTED, None, (), None
+        return NOT_REQUESTED, None, (), None, None, None
     if not lookup_result.is_found:
-        return lookup_result.status, None, (), None
+        return lookup_result.status, None, (), None, None, None
 
     record = lookup_result.record
     if record is None:
-        return lookup_result.status, None, (), None
+        return lookup_result.status, None, (), None, None, None
 
     try:
         facts = card_record_to_role_facts(record)
     except CardFactsError:
-        return lookup_result.status, None, (), None
+        return lookup_result.status, None, (), None, _colors_from_record(record, "colors"), _colors_from_record(record, "color_identity")
 
     return (
         lookup_result.status,
         facts.type_line or None,
         _type_labels_from_type_line(facts.type_line),
         facts.mana_value,
+        _colors_from_record(record, "colors"),
+        _colors_from_record(record, "color_identity"),
     )
 
 
@@ -499,6 +598,34 @@ def _entry_mana_value_group_label(entry: WorkspaceViewEntry) -> str:
     if entry.card_fact_status == FOUND and entry.mana_value is not None:
         return f"Mana Value {_format_mana_value(entry.mana_value)}"
     return UNKNOWN_MANA_VALUE
+
+
+def _entry_color_group_labels(entry: WorkspaceViewEntry) -> tuple[str, ...]:
+    if entry.card_fact_status == MISSING:
+        return (MISSING_CARD_FACTS,)
+    if entry.card_fact_status == AMBIGUOUS:
+        return (AMBIGUOUS_CARD_FACTS,)
+    if entry.card_fact_status == FOUND:
+        if entry.colors is None:
+            return (UNKNOWN_COLOR,)
+        if not entry.colors:
+            return (COLORLESS,)
+        return tuple(COLOR_LABELS[color] for color in entry.colors)
+    return (UNKNOWN_COLOR,)
+
+
+def _entry_color_identity_group_label(entry: WorkspaceViewEntry) -> str:
+    if entry.card_fact_status == MISSING:
+        return MISSING_CARD_FACTS
+    if entry.card_fact_status == AMBIGUOUS:
+        return AMBIGUOUS_CARD_FACTS
+    if entry.card_fact_status == FOUND:
+        if entry.color_identity is None:
+            return UNKNOWN_COLOR_IDENTITY
+        if not entry.color_identity:
+            return COLORLESS
+        return "".join(entry.color_identity)
+    return UNKNOWN_COLOR_IDENTITY
 
 
 def _type_labels_from_type_line(type_line: str) -> tuple[str, ...]:
@@ -542,3 +669,42 @@ def _format_mana_value(value: int | float) -> str:
     if value.is_integer():
         return str(int(value))
     return str(value)
+
+
+def _colors_from_record(record: dict[str, Any], field_name: str) -> tuple[str, ...] | None:
+    if field_name not in record:
+        return None
+    values = record.get(field_name)
+    if not isinstance(values, (list, tuple)):
+        return None
+
+    colors: list[str] = []
+    for value in values:
+        if not isinstance(value, str):
+            return None
+        color = value.strip().upper()
+        if color not in COLOR_ORDER:
+            return None
+        if color not in colors:
+            colors.append(color)
+    return tuple(sorted(colors, key=COLOR_ORDER.__getitem__))
+
+
+def _color_label_sort_key(label: str) -> tuple[int, str]:
+    reverse_lookup = {name: symbol for symbol, name in COLOR_LABELS.items()}
+    symbol = reverse_lookup.get(label)
+    if symbol is not None:
+        return (COLOR_ORDER[symbol], label)
+    return (FACT_STATUS_ORDER.get(label, 100), _normalize_text(label))
+
+
+def _color_identity_label_sort_key(label: str) -> tuple[int, tuple[int, ...], str]:
+    if label == COLORLESS:
+        return (0, (), label)
+    if all(symbol in COLOR_ORDER for symbol in label):
+        return (
+            1,
+            tuple(COLOR_ORDER[symbol] for symbol in label),
+            label,
+        )
+    return (FACT_STATUS_ORDER.get(label, 100), (), _normalize_text(label))
