@@ -70,11 +70,13 @@ Deferred beyond this slice:
 - [x] Export emits clean `1x Card Name` text.
 - [x] Export falls back to `input_name` for unresolved cards.
 - [x] Successful native saves mark workspaces clean.
+- [x] `workspace-import` CLI writes native `.mtgwdeck.json` files from plain text.
+- [x] `workspace-export` CLI writes plain text decklists from native workspaces.
 - [x] No UI code, frontend dependency changes, live APIs, reports, or recommendation logic were added for this slice.
 
 Deferred beyond this slice:
 
-- Minimal Deck Workspace CLI commands.
+- Deck Workspace Mutations CLI commands.
 - Full external deckbuilder format support.
 - Perfect reconstruction of original comments or every source header.
 - Full Commander legality validation.

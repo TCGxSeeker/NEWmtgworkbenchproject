@@ -341,3 +341,9 @@
   - Alternatives considered: starting deck-level role counting, adding UI, or continuing only with internal report modules.
   - Risk: The command may look report-like while still intentionally omitting strategic analysis, so CLI help and docs must preserve the factual-only boundary.
   - Status: Accepted for Deck Inspection CLI v0.
+
+- Decision: Expose native workspace import/export through file-based CLI commands.
+  - Reason: Plain text is a boundary format and `.mtgwdeck.json` is the saved workspace source of truth, so a tiny local CLI bridge helps move deck files without starting UI work.
+  - Alternatives considered: adding app UI import/export, expanding to external deckbuilder formats, or leaving import/export helpers internal only.
+  - Risk: The commands intentionally do not preserve every original comment/header from source text, so richer format preservation remains a future explicit slice.
+  - Status: Accepted for Native Workspace Import/Export CLI v0.

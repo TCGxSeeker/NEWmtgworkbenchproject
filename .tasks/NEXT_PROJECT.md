@@ -4,26 +4,26 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Branch: `master`
-- Current implemented checkpoint: Deck Inspection CLI v0
-- Current full-suite baseline: `python -m unittest discover -s tests` passes with 303 tests
+- Current implemented checkpoint: Native Workspace Import/Export CLI v0
+- Current full-suite baseline: `python -m unittest discover -s tests` passes with 308 tests
 - Current product center remains the deckbuilder foundation and deterministic local analysis pipeline
 
 ## Current Catchup
 
-Steps 1-6 are complete, origin/master was caught up through Step 6, and Deck Inspection CLI v0 is implemented locally. No active numbered catchup repair remains after Step 6.
+Steps 1-6 are complete, Deck Inspection CLI v0 is committed and pushed, and Native Workspace Import/Export CLI v0 is implemented and verified. No active numbered catchup repair remains after Step 6.
 
 ## Next Recommended Slice
 
-Native Workspace Import/Export CLI v0.
+Deck Workspace Mutation CLI v0.
 
-Goal: expose existing native workspace import/export helpers through tiny CLI commands so deck files can move between plain text and `.mtgwdeck.json` without app UI.
+Goal: expose a tiny, safe subset of existing workspace mutation helpers through CLI commands for local `.mtgwdeck.json` files without app UI.
 
 Expected scope:
 
 1. Update `docs/codex/IMPLEMENTATION_SPEC.md` before coding.
-2. Inspect `src/mtg_workbench/deckbuilder/import_export.py`.
-3. Add minimal CLI commands only if they wrap existing import/export behavior.
-4. Add tests against tiny fixtures.
+2. Inspect `src/mtg_workbench/deckbuilder/mutations.py`.
+3. Start with minimal add/remove/quantity helpers only if they wrap existing behavior.
+4. Add tests against tiny temporary workspace files.
 5. Do not add UI, strategic analysis, recommendations, live APIs, or new dependencies.
 
 ## Boundaries

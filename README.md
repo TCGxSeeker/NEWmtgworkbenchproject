@@ -4,11 +4,11 @@ Offline-first Commander deckbuilding workbench for importing decklists, normaliz
 
 ## Current Status
 
-The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, native `.mtgwdeck.json` workspace support, plain text import/export, deterministic role evidence, local card fact lookup, deck skeleton and structural warning reports, a bounded deck inspection envelope with CLI access, typed card relationship primitives, factual behavioral profiles, bounded behavioral atom extraction, deterministic relationship edge derivation, factual relationship reports, and stable end-to-end inspection and relationship smoke fixtures.
+The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, native `.mtgwdeck.json` workspace support, plain text import/export with CLI access, deterministic role evidence, local card fact lookup, deck skeleton and structural warning reports, a bounded deck inspection envelope with CLI access, typed card relationship primitives, factual behavioral profiles, bounded behavioral atom extraction, deterministic relationship edge derivation, factual relationship reports, and stable end-to-end inspection and relationship smoke fixtures.
 
 No finished deckbuilder UI, recommendation engine, scoring rubric, structural audit engine, or full deck report exists yet.
 
-Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 303 tests after Deck Inspection CLI v0.
+Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 308 tests after Native Workspace Import/Export CLI v0.
 
 ## Basic Commands
 
@@ -24,6 +24,13 @@ Run a factual deck inspection report from a native workspace:
 
 ```powershell
 python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json
+```
+
+Import and export native workspaces:
+
+```powershell
+python -m mtg_workbench.cli workspace-import tests/fixtures/deckbuilder/commander_import.txt --cards tests/fixtures/cards/tiny_cards.json --output deck.mtgwdeck.json
+python -m mtg_workbench.cli workspace-export deck.mtgwdeck.json --output decklist.txt
 ```
 
 Run the frontend scaffold checks:
@@ -58,4 +65,4 @@ Pop-Location
 
 ## Implementation Boundary
 
-Deckbuilder Foundation implementation includes the native workspace model, in-memory mutation helpers, plain text import/export, role-rule loading, local card fact lookup, card facts adaptation, card-level role evidence pipelines, structural deck reports, mechanical warnings, a factual deck inspection envelope and CLI command, typed relationship primitives, bounded behavior extraction, deterministic pairwise edge derivation, factual relationship reporting, and stable smoke fixtures. Do not add app UI, new frontend dependencies, full deck analysis, recommendations, scoring logic, strategic quality judgments, live APIs, or visual components until their own implementation slice is approved.
+Deckbuilder Foundation implementation includes the native workspace model, in-memory mutation helpers, plain text import/export and CLI commands, role-rule loading, local card fact lookup, card facts adaptation, card-level role evidence pipelines, structural deck reports, mechanical warnings, a factual deck inspection envelope and CLI command, typed relationship primitives, bounded behavior extraction, deterministic pairwise edge derivation, factual relationship reporting, and stable smoke fixtures. Do not add app UI, new frontend dependencies, full deck analysis, recommendations, scoring logic, strategic quality judgments, live APIs, or visual components until their own implementation slice is approved.

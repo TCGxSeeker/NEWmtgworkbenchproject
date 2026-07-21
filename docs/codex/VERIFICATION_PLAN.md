@@ -14,17 +14,20 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline after Deck Inspection CLI v0:
+Latest repository-wide baseline after Native Workspace Import/Export CLI v0:
 
 - Repository root: `G:/Documents/New MTG project`
-- `python -m unittest discover -s tests`: passed after Deck Inspection CLI v0, 303 tests
-- `python -m unittest tests.test_cli_inspect_deck`: passed, 5 tests
+- `python -m unittest discover -s tests`: passed after Native Workspace Import/Export CLI v0, 308 tests
+- `python -m unittest tests.test_cli_workspace_import_export`: passed, 5 tests
 - `python -m py_compile src/mtg_workbench/cli/main.py`: passed
+- `python -m mtg_workbench.cli workspace-import tests/fixtures/deckbuilder/commander_import.txt --cards tests/fixtures/cards/tiny_cards.json --output <temp>/cli-import.mtgwdeck.json`: passed
+- `python -m mtg_workbench.cli workspace-export <temp>/cli-import.mtgwdeck.json --output <temp>/cli-export.txt`: passed
+- `python -m unittest tests.test_cli_inspect_deck`: passed, 5 tests
 - `python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json`: passed
 - `python -m unittest tests.test_relationship_pair_inspection tests.test_card_record_pair_inspection`: passed, 21 tests
 - `python -m unittest tests.test_scryfall_indexer`: passed, 5 tests
 - `python -m py_compile src/mtg_workbench/scryfall/indexer.py`: passed
-- `git diff --check`: passed after Deck Inspection CLI v0
+- `git diff --check`: passed after Native Workspace Import/Export CLI v0
 - `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report`: passed, 85 tests
 - `python -m py_compile src/mtg_workbench/deckbuilder/mutations.py src/mtg_workbench/cards/catalog.py src/mtg_workbench/deckbuilder/card_fact_lookup.py src/mtg_workbench/deckbuilder/deck_inspection_report.py`: passed
 - `python -m unittest tests.test_relationship_input_contract_hardening tests.test_relationship_primitives tests.test_card_behavioral_profile tests.test_behavioral_atom_extraction`: passed, 42 tests
@@ -90,6 +93,14 @@ Focused deck inspection CLI checks:
 ```powershell
 python -m unittest tests.test_cli_inspect_deck
 python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json
+```
+
+Focused native workspace import/export CLI checks:
+
+```powershell
+python -m unittest tests.test_cli_workspace_import_export
+python -m mtg_workbench.cli workspace-import tests/fixtures/deckbuilder/commander_import.txt --cards tests/fixtures/cards/tiny_cards.json --output <temp>/cli-import.mtgwdeck.json
+python -m mtg_workbench.cli workspace-export <temp>/cli-import.mtgwdeck.json --output <temp>/cli-export.txt
 ```
 
 Known remaining audit repair queue:

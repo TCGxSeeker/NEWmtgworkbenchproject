@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 303 tests after Deck Inspection CLI v0.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 308 tests after Native Workspace Import/Export CLI v0.
 
 ## Key Decisions Before Building
 
@@ -296,6 +296,14 @@ Status: implemented for plain text import/export; no UI code, frontend dependenc
 Implement local plain text conversion for native deck workspaces without UI code, frontend dependencies, reports, recommendations, online dependencies, live APIs, telemetry, or full legality validation. Definition of done: `src/mtg_workbench/deckbuilder/import_export.py` can import plain text decklists into `DeckWorkspace`, export `DeckWorkspace` objects to clean plain text, preserve quantities, zones, unresolved cards, conservative categories, and native save/load behavior, and tests prove import, export, save/load/export, unresolved fallback, and no-network behavior.
 
 Plain text remains an import/export boundary format. `.mtgwdeck.json` remains the saved workspace source of truth.
+
+### Phase Product-5A: Native Workspace Import/Export CLI v0
+
+Status: implemented and verified.
+
+Expose the existing plain text import/export helpers through minimal local CLI commands. Definition of done: `python -m mtg_workbench.cli workspace-import <decklist.txt> --output <deck.mtgwdeck.json>` writes a native workspace file, `python -m mtg_workbench.cli workspace-export <deck.mtgwdeck.json> --output <decklist.txt>` writes a plain text decklist, both commands emit stable JSON summaries, tests cover tiny fixtures, and native workspace files remain the source of truth while plain text remains a boundary format.
+
+Native Workspace Import/Export CLI v0 must not add UI, frontend dependencies, reports beyond command summaries, strategic analysis, deck-level role totals, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, or new dependencies.
 
 ### Phase Product-6: Category Taxonomy v0
 
