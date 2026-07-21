@@ -11,6 +11,29 @@
 - Move to category.
 - Remove card.
 
+## Open Details
+
+The first details surface should be factual and local-data-only. It should
+open from an explicitly selected deck row or search result and preserve the
+current deck context.
+
+V0 details may show:
+
+- card name
+- type line
+- oracle text if locally available
+- mana value
+- color identity
+- current zone
+- quantity
+- categories
+- tags and notes
+
+V0 details must not show live price, legality claims, EDHREC rank, salt score,
+printing marketplace data, external links, recommendations, role judgment, or
+power-level commentary unless a later slice provides verified local data and a
+specific UI decision.
+
 ## Future Actions
 
 - Pin card.

@@ -443,3 +443,9 @@
   - Alternatives considered: making stats a top-level dashboard, hiding stats entirely, or adding optimizer controls immediately.
   - Risk: Stats can become visually noisy unless placement and progressive disclosure stay deliberate.
   - Status: Accepted as product-reference guidance.
+
+- Decision: Scope Card Details Surface v0 to local factual fields.
+  - Reason: The reference screenshots show rich details, tags, prices, legalities, printings, and links, but many of those fields require online services, local snapshots, or separate policy decisions.
+  - Alternatives considered: copying the full rich details surface now, ignoring card details, or mixing recommendation/debug fields into the first details view.
+  - Risk: The first details slice may feel plain until local images, oracle tags, legality, and printing data are wired.
+  - Status: Accepted as next-slice guidance.

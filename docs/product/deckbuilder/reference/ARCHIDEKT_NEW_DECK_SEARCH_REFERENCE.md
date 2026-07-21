@@ -74,6 +74,7 @@ Use these references to guide:
 - Card-image result grid design.
 - In-result quantity feedback.
 - Deck stats placement and probability tool planning.
+- Card-details surface planning.
 
 Keep MTG Workbench local-first, deck-centered, and calmer than the reference
 screens. The deck view remains the product center; search is a supporting
@@ -90,6 +91,38 @@ workspace.
   quantity, grouping basis, and cards drawn.
 - Future chart clicks may focus cards, but this should be reversible and tested.
 
+## Card Details Reference Cues
+
+- A selected card can open a focused overlay or drawer while the deck remains
+  dimmed/contextually visible behind it.
+- The top of the details surface should make the selected card obvious through
+  name, image or image placeholder, and concise tabs.
+- Useful detail tabs include:
+  - card options
+  - card info
+  - oracle tags
+  - more options
+- V0 should show factual local fields only:
+  - name
+  - type line
+  - oracle text if locally available
+  - mana value
+  - color identity
+  - current zone
+  - quantity
+  - categories
+  - tags/notes when present
+- Quantity controls, category assignment, move-to-maybeboard, and more/details
+  actions are useful, but should be introduced only when the corresponding
+  mutation behavior is wired safely.
+- Printing choice, foil/nonfoil, card links, legality badges, price, EDHREC
+  rank, salt score, artist, collector number, and external card links are
+  future fields. They require local data support, snapshot timestamps, or an
+  explicit external-link decision before they appear in MTG Workbench.
+- Oracle tags are useful for future explanation/search/filtering, but should
+  be shown only when local tag data is available and clearly separated from
+  deck-specific roles.
+
 ## Do Not Carry Forward
 
 - Do not copy private/unlisted/theorycrafted hosted visibility controls.
@@ -101,3 +134,6 @@ workspace.
 - Do not make card search the main product surface.
 - Do not add optimize buttons until local rules, risks, and human validation
   zones are explicitly defined.
+- Do not show live price, legality, EDHREC rank, salt score, printing, or
+  external-link claims without verified local data or a separate approved
+  external-link policy.

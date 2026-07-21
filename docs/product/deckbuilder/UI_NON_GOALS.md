@@ -15,6 +15,7 @@
 - Do not copy hosted deck visibility or social/profile states from external deckbuilder references into the local-first v0 product.
 - Do not add ad slots, sponsored panels, or external recommendation tabs as default product surfaces.
 - Do not add optimizer-style controls before local deterministic rules and human validation zones are defined.
+- Do not show live price, legality, rank, salt-score, printing, or external-link claims in card details without verified local data or a separate approved external-link policy.
 
 ## Preferred Direction
 
@@ -32,5 +33,6 @@
 - Future dark UI passes may borrow the feel of polished panels, soft borders, smooth buttons, and calm status banners from approved visual references without cloning them.
 - Search/add can use focused overlays or expanded panels, but it should remain a supporting workflow around the deck workspace.
 - Stats and probability tools may live below the deck or in a tab, but they should support deck understanding instead of becoming the main dashboard.
+- Card details should help the user understand the selected card without turning into a marketplace, legality oracle, recommendation panel, or debug report.
 
 The user should feel guided through deck understanding, not buried under widgets.

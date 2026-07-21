@@ -180,6 +180,13 @@ Known files:
   value, mana curve, mana curve by color, and draw probability controls. Do not
   add optimizer buttons until local deterministic rules and human validation
   zones are defined.
+- Archidekt card-details screenshots captured as next-slice guidance:
+  details may use a focused overlay/drawer with card image or placeholder,
+  tabs such as card options/card info/oracle tags/more options, and factual
+  fields. For v0, show only local factual fields already available. Defer live
+  price, legality, EDHREC rank, salt score, printing marketplace data, external
+  links, and oracle tags unless backed by verified local data and an explicit
+  UI decision.
 
 ## Current Readiness Snapshot
 

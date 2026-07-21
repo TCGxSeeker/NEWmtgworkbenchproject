@@ -90,6 +90,7 @@
 - When the user provides side-project screenshots for visual inspiration, capture only transferable visual/interaction cues. Do not store, reuse, or design around unrelated non-MTG domain content, card names, deck names, file paths, APIs, or service-specific workflows.
 - When using Archidekt screenshots as reference, extract deckbuilder pathing and interaction cues only. Do not copy hosted visibility states, account/social features, ads, external recommendation tabs, price-source behavior, or exact layout density.
 - Deck stats and probability tools are expected endpoint features, but they should live below the main deck workspace, in a tab, or in an optional pinned panel. Do not let stats become the default top-level dashboard or add optimizer controls before local rules and human validation zones exist.
+- Card details may eventually include images, oracle text, oracle tags, printing choice, legality, and pricing-style fields, but v0 should show only factual local fields already available. Do not show live price, legality, rank, salt score, printing marketplace data, or external card links without verified local data or an explicit policy.
 
 ## Capture Format
 
