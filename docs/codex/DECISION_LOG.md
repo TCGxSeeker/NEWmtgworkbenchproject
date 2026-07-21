@@ -461,3 +461,9 @@
   - Alternatives considered: wiring the full backend inspection envelope into the frontend now, adding broader ratio checks, or waiting for saved-workspace file loading.
   - Risk: V0 warns from fixture/current UI state only, so it is not a full legality engine or complete deck audit.
   - Status: Accepted for Mechanical Deck Validation Surface v0.
+
+- Decision: Extract pure deckbuilder UI helper logic from `App.tsx`.
+  - Reason: The visible deckbuilder screen had accumulated grouping, filtering, search, details, add-entry, formatting, and validation helpers in the render file, making the next save/load or backend-wiring slice harder to review.
+  - Alternatives considered: leaving the helpers inline until UI behavior grows further, or introducing a broader frontend architecture split.
+  - Risk: This is a structural cleanup only; future behavior still needs its own explicit implementation slices and verification.
+  - Status: Accepted for Deckbuilder UI Logic Extraction v0.

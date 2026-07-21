@@ -416,3 +416,20 @@ Deferred beyond this slice:
 - Broader structural audits such as land/ramp/draw/interaction ratios.
 - Full legality enforcement.
 - User-facing validation copy polish after human visual review.
+
+## Deckbuilder UI Logic Extraction V0
+
+- [x] Pure grouping helper logic is outside `App.tsx`.
+- [x] Pure current-deck filter helper logic is outside `App.tsx`.
+- [x] Pure local search matching helper logic is outside `App.tsx`.
+- [x] Pure add-entry projection helper logic is outside `App.tsx`.
+- [x] Pure card-details mapping helper logic is outside `App.tsx`.
+- [x] Pure mechanical validation helper logic is outside `App.tsx`.
+- [x] `App.tsx` remains responsible for rendering and state orchestration.
+- [x] No visible behavior, new UI capability, persistence, backend wiring, or new dependency was added.
+
+Deferred beyond this slice:
+
+- Dedicated frontend unit tests for helper functions.
+- Splitting React components into smaller files.
+- Wiring helpers to persisted native workspace files or backend report payloads.

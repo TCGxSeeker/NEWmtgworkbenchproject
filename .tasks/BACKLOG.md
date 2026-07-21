@@ -21,6 +21,7 @@
 - Find And Add Cards v0 is implemented and verified.
 - Card Details Surface v0 is implemented and verified.
 - Mechanical Deck Validation Surface v0 is implemented and verified.
+- Deckbuilder UI Logic Extraction v0 is implemented and verified.
 
 ## Completed Catchup Repairs
 

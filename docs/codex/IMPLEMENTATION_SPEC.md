@@ -452,6 +452,23 @@ mechanical checks, recommendations, scoring, power-level claims, commander
 philosophy checks, role counts, package detection, price logic, legality claims,
 card-quality judgments, or generated build output.
 
+### Phase Product-4O: Deckbuilder UI Logic Extraction v0
+
+Status: implemented and verified.
+
+Move pure deckbuilder UI helper logic out of the main React component without
+changing visible behavior. Definition of done: grouping, filtering, search
+matching, add-entry projection, card-details mapping, formatting, and mechanical
+validation helpers live in a small TypeScript module; `App.tsx` remains focused
+on rendering and state orchestration; and the current deckbuilder UI behaves the
+same under build/lint verification.
+
+This slice must not add new UI capabilities, frontend dependencies, backend
+persistence, live APIs, telemetry, hosted services, AI/LLM calls, deck analysis,
+recommendations, scoring, power-level claims, commander philosophy checks, role
+counts, package detection, price logic, legality claims, card-quality judgments,
+or generated build output.
+
 ### Phase Product-5: Deck Workspace Import/Export v0
 
 Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.

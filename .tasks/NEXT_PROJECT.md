@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Branch: `master`
-- Current implemented checkpoint: Mechanical Deck Validation Surface v0
+- Current implemented checkpoint: Deckbuilder UI Logic Extraction v0
 - Current full-suite baseline: `python -m unittest discover -s tests` passes with 344 tests
 - Current product center remains the deckbuilder foundation. Canonical framing:
   this is a strong backend foundation with CLI-verifiable contracts, not generic
@@ -12,7 +12,7 @@
 
 ## Current Catchup
 
-Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, Workspace View CLI v0, Card-Fact-Backed Workspace Projection v0, Color Identity Workspace Projection v0, Workspace View Fixture Smoke v0, Workspace Projection Contract Docs v0, See The Deck v0, See The Deck v0 Visual Review Checkpoint, Find And Add Cards v0, Card Details Surface v0, and Mechanical Deck Validation Surface v0 are implemented and verified.
+Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, Workspace View CLI v0, Card-Fact-Backed Workspace Projection v0, Color Identity Workspace Projection v0, Workspace View Fixture Smoke v0, Workspace Projection Contract Docs v0, See The Deck v0, See The Deck v0 Visual Review Checkpoint, Find And Add Cards v0, Card Details Surface v0, Mechanical Deck Validation Surface v0, and Deckbuilder UI Logic Extraction v0 are implemented and verified.
 
 ## Next Recommended Slice
 

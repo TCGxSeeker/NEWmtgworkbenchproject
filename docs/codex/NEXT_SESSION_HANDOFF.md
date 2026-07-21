@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: Mechanical Deck Validation Surface v0
+- Current implemented checkpoint: Deckbuilder UI Logic Extraction v0
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
@@ -82,6 +82,7 @@
 - Find And Add Cards v0
 - Card Details Surface v0
 - Mechanical Deck Validation Surface v0
+- Deckbuilder UI Logic Extraction v0
 
 ## Audit Status
 
@@ -174,6 +175,10 @@ Known files:
 - Mechanical Deck Validation Surface v0 adds a compact sidebar check from
   current UI deck state only: commander presence, Commander active count versus
   100, unresolved entries, and duplicate non-basic active cards.
+- Deckbuilder UI Logic Extraction v0 moves pure UI helpers into
+  `apps/deckbuilder-ui/src/deckUiLogic.ts` without adding visible behavior. This
+  keeps `App.tsx` focused on rendering and state orchestration before save/load
+  or backend validation wiring.
 - Human pass after Find And Add Cards v0: function is highly responsive, and
   the add-card workflow works well as its own collapsible window/panel. Visual
   style is not approved as final; treat it as rough test-flight styling that
@@ -206,7 +211,7 @@ Known files:
 ## Current Readiness Snapshot
 
 - Deckbuilder acceptance checklist checkboxes: all current items complete after
-  Mechanical Deck Validation Surface v0.
+  Deckbuilder UI Logic Extraction v0.
 - Native workspace model, editing, import/export, category metadata, annotation,
   and view-projection backend are the most complete deckbuilder areas.
 - Finished app UI, recommendation logic, scoring, commander analysis, and
@@ -219,7 +224,7 @@ Known files:
 
 ## Next Refresh Notes
 
-- Safe stopping point: Mechanical Deck Validation Surface v0 is implemented and verified.
+- Safe stopping point: Deckbuilder UI Logic Extraction v0 is implemented and verified.
 - Human validation note: preserve the collapsible add-card panel concept, but
   do not preserve the current rough visual treatment as final direction.
 - Human validation note: Card Details Surface v0 is a functional factual panel,
