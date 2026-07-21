@@ -6,7 +6,9 @@
 - Branch: `master`
 - Current implemented checkpoint: Workspace View Fixture Smoke v0
 - Current full-suite baseline: `python -m unittest discover -s tests` passes with 344 tests
-- Current product center remains the deckbuilder foundation and deterministic local analysis pipeline
+- Current product center remains the deckbuilder foundation. Canonical framing:
+  this is a strong backend foundation with CLI-verifiable contracts, not generic
+  deckbuilder parity as a user-facing product yet.
 
 ## Current Catchup
 
@@ -17,6 +19,9 @@ Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export C
 Workspace Projection Contract Docs v0.
 
 Goal: document the `deck_workspace_view_projection.v0` payload as a consumer-facing contract before future UI or syntax-filter work depends on it.
+
+Context: this is groundwork for the first visible-deck milestone, not an
+analysis or recommendation slice.
 
 Expected scope:
 
@@ -35,7 +40,20 @@ Expected scope:
 - Do not add recommendations, candidate search, add/cut scoring, UI, live APIs, telemetry, hosted services, or AI/LLM calls.
 - Do not make strategic quality judgments.
 - Do not guess when card facts are unavailable.
+- Do not describe planned/contracted UI capabilities as implemented parity.
+- Do not treat safe workspace deletion as complete until a tested helper or command exists.
 
 ## Human Checkpoint
 
 Deck Role Summary v0 still requires explicit approval because it starts deck-level role counting.
+
+## Product North Star
+
+1. See the deck.
+2. Find and add cards.
+3. Understand a card.
+4. Validate the deck.
+5. Edit safely in bulk.
+6. Inspect useful statistics.
+7. Manage printings.
+8. Recover earlier versions.

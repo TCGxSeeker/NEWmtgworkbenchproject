@@ -10,6 +10,10 @@ No finished deckbuilder UI, recommendation engine, scoring rubric, structural au
 
 Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 344 tests after Workspace View Fixture Smoke v0.
 
+Framing: this repository has a strong deckbuilder backend foundation with
+CLI-verifiable contracts. It does not yet have generic deckbuilder parity as a
+user-facing product.
+
 ## Basic Commands
 
 Run Python tests from the repo root:

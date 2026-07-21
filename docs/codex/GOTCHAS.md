@@ -81,6 +81,11 @@
 - Do not treat frontend tooling scaffold as product implementation. A Vite/React shell is infrastructure until deckbuilder contracts and UI requirements are ready.
 - Do not install paid UI kits, account-gated services, telemetry tools, or desktop packaging frameworks without an explicit human checkpoint.
 - Do not treat "Delete Deck" as deleting card data. In the future UI, deleting a deck should remove/close/delete only that deck's native `.mtgwdeck.json` workspace and remove its cards from the current deck view; it must never delete cards from the local Scryfall/card database, card snapshots, shared indexes, owned-card data, source fixtures, or other decks.
+- Do not surface local fact coverage, missing-card facts, ambiguous-card facts, or unresolved-card plumbing as standard deckbuilder UI data. Treat those as background validation or advanced/debug review unless the user explicitly opens a validation/details view; normal screens should emphasize generic deckbuilder actions and useful deck contents.
+- Do not describe MTG Workbench as having generic deckbuilder parity yet. The accurate status is a strong deckbuilder backend foundation with CLI-verifiable contracts, while the user-facing deckbuilder product still needs visible card presentation, search/add workflow, card details, validation, bulk safety, statistics, printing management, and version recovery.
+- Do not count planned/contracted UI features as implemented deckbuilder functionality. Mark them as planned until there is working product behavior, even when backend data models or documentation already exist.
+- Do not treat safe workspace deletion as implemented until a dedicated helper or command exists and has tests. Current delete behavior is doctrine and UI intent, not completed functionality.
+- Keep recommendation commentary off the near-term deckbuilder parity path unless the user explicitly asks for it. The current parity sequence is about seeing the deck, finding/adding cards, understanding cards, validating, editing safely, inspecting stats, managing printings, and recovering versions.
 
 ## Capture Format
 

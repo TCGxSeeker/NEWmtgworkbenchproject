@@ -4,12 +4,12 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: color identity workspace projection bundle
+- Current implemented checkpoint: Workspace View Fixture Smoke v0
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
 - Step 6 visual compare direction docs are complete
-- Current verification: `python -m unittest discover -s tests` passed with 343 tests
+- Current verification: `python -m unittest discover -s tests` passed with 344 tests
 - Current focused deck workspace view projection verification: `python -m unittest tests.test_deckbuilder_workspace_view` passed with 14 tests
 - Current focused workspace view CLI verification: `python -m unittest tests.test_cli_workspace_view` passed with 7 tests
 - Current focused workspace category/annotation CLI verification: `python -m unittest tests.test_cli_workspace_category_metadata` passed with 5 tests
@@ -33,7 +33,6 @@
 - Deck Workspace Model v0
 - Deck Workspace Mutations v0
 - Deck Workspace Import/Export v0
-- Workspace visibility-delete behavior
 - Category Taxonomy v0
 - Category Taxonomy Loader/Normalizer v0
 - Deck Entry Category Metadata v0
@@ -156,18 +155,29 @@ Known files:
   and view-projection backend are the most complete deckbuilder areas.
 - Finished app UI, recommendation logic, scoring, commander analysis, and
   strategic deck reports remain intentionally early or deferred.
+- Canonical framing: MTG Workbench has a strong deckbuilder backend foundation
+  with CLI-verifiable contracts. It does not yet have generic deckbuilder parity
+  as a user-facing product.
+- Safe workspace deletion is doctrine/planned behavior, not completed
+  functionality, until a dedicated helper or command exists with tests.
 
 ## Next Refresh Notes
 
 - Safe stopping point: Workspace View Fixture Smoke v0 is implemented and verified.
-- Next low-risk planning slice: Workspace Projection Contract Docs v0.
-- Suggested next scope: document `deck_workspace_view_projection.v0` fields,
-  grouping semantics, fact status buckets, deferred fields, and the smoke fixture
-  as the executable contract example before UI consumes projection output.
+- Next low-risk planning slice: Workspace Projection Contract Docs v0, unless
+  the user chooses to pivot directly to the first visible-deck milestone.
+- Suggested projection-doc scope: document `deck_workspace_view_projection.v0`
+  fields, grouping semantics, fact status buckets, deferred fields, and the smoke
+  fixture as the executable contract example before UI consumes projection output.
+- Product north-star sequence: see the deck, find and add cards, understand a
+  card, validate the deck, edit safely in bulk, inspect useful statistics, manage
+  printings, and recover earlier versions.
 - Deck Role Summary v0 still requires explicit approval because it starts
   deck-level role counting.
 - Do not start recommendations, scoring, commander analysis, package detection,
   app UI, or deck-level strategic judgment without a fresh handoff.
+- Do not route near-term deckbuilder parity work through recommendation
+  commentary unless the user explicitly asks for it.
 
 ## Core Constraints
 
