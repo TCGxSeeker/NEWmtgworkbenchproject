@@ -437,3 +437,9 @@
   - Alternatives considered: cloning the interface, ignoring the reference, or importing hosted/account/advertising behavior into the local app.
   - Risk: The reference is visually dense in places, so MTG Workbench must keep search/add secondary to the deck workspace and calmer than the source.
   - Status: Accepted as product-reference guidance.
+
+- Decision: Treat deck stats and probability tools as endpoint features, not default dashboard clutter.
+  - Reason: The reference screenshot confirms stats are expected, but the user is comfortable with them living below the deck on scroll or in their own tab.
+  - Alternatives considered: making stats a top-level dashboard, hiding stats entirely, or adding optimizer controls immediately.
+  - Risk: Stats can become visually noisy unless placement and progressive disclosure stay deliberate.
+  - Status: Accepted as product-reference guidance.

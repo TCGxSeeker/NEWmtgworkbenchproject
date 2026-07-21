@@ -73,10 +73,22 @@ Use these references to guide:
 - Collapsed advanced controls.
 - Card-image result grid design.
 - In-result quantity feedback.
+- Deck stats placement and probability tool planning.
 
 Keep MTG Workbench local-first, deck-centered, and calmer than the reference
 screens. The deck view remains the product center; search is a supporting
 workspace.
+
+## Deck Stats Reference Cues
+
+- Deck stats can live below the main deck workspace or inside a dedicated tab
+  rather than competing with the primary card workspace.
+- Color cost and color production should be visually separated.
+- Average mana value, total mana value, and mana curve should be easy to scan.
+- Mana curve by color can appear as an expanded section.
+- Probability tools can sit below stats with clear controls for draw mode,
+  quantity, grouping basis, and cards drawn.
+- Future chart clicks may focus cards, but this should be reversible and tested.
 
 ## Do Not Carry Forward
 
@@ -87,3 +99,5 @@ workspace.
   from these screenshots.
 - Do not surface recommendation helpers before their own approved slice.
 - Do not make card search the main product surface.
+- Do not add optimize buttons until local rules, risks, and human validation
+  zones are explicitly defined.

@@ -31,7 +31,9 @@ Screenshots from Archidekt/Deckcheck-style tools are product inspiration only. E
      permanent workspace panels.
 
 7. Deck stats and probability tools.
-   - Surface color, curve, mana value, and draw probability information only when useful.
+   - Surface color, curve, mana value, and draw probability information only
+     when useful, likely below the main deck workspace or in a dedicated tab.
+   - Keep stats as deck-understanding support rather than a default dashboard.
 
 8. Save/load/import/export workflows.
    - Preserve local-first deck storage, plain text import/export, and stable machine-readable state.

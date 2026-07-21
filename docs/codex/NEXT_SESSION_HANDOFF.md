@@ -174,6 +174,12 @@ Known files:
   and immediate added-card quantity feedback. Do not copy hosted visibility
   states, ads, account/profile features, online integrations, recommendation
   tabs, price-source behavior, or exact layout density.
+- Archidekt deck-stats screenshot captured as endpoint-feature guidance:
+  stats/probability tools may live below the deck, in a tab, or in an optional
+  pinned panel; they should cover color cost/production, average and total mana
+  value, mana curve, mana curve by color, and draw probability controls. Do not
+  add optimizer buttons until local deterministic rules and human validation
+  zones are defined.
 
 ## Current Readiness Snapshot
 
