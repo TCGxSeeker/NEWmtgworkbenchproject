@@ -144,14 +144,26 @@ Known files:
 - Color Identity Workspace Projection v0 adds factual `color` and
   `color_identity` grouping/sorting when explicit local card facts are supplied.
   Colorless, missing, and ambiguous data remain distinct.
+- Workspace View Fixture Smoke v0 locks one exact expected-output fixture for
+  `workspace-view` through the real CLI, local card records, color-identity
+  grouping, mana-value sorting, deterministic reruns, and no workspace mutation.
+
+## Current Readiness Snapshot
+
+- Deckbuilder acceptance checklist checkboxes: all current items complete after
+  Workspace View Fixture Smoke v0.
+- Native workspace model, editing, import/export, category metadata, annotation,
+  and view-projection backend are the most complete deckbuilder areas.
+- Finished app UI, recommendation logic, scoring, commander analysis, and
+  strategic deck reports remain intentionally early or deferred.
 
 ## Next Refresh Notes
 
-- Safe stopping point: color identity workspace projection bundle is implemented and verified.
-- Next low-risk mechanical slice: Workspace View Fixture Smoke v0.
-- Suggested next scope: create a tiny exact expected-output fixture for
-  fact-backed `workspace-view` and verify repeat-run determinism plus no
-  workspace mutation.
+- Safe stopping point: Workspace View Fixture Smoke v0 is implemented and verified.
+- Next low-risk planning slice: Workspace Projection Contract Docs v0.
+- Suggested next scope: document `deck_workspace_view_projection.v0` fields,
+  grouping semantics, fact status buckets, deferred fields, and the smoke fixture
+  as the executable contract example before UI consumes projection output.
 - Deck Role Summary v0 still requires explicit approval because it starts
   deck-level role counting.
 - Do not start recommendations, scoring, commander analysis, package detection,

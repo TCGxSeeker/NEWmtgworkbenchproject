@@ -4,28 +4,27 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Branch: `master`
-- Current implemented checkpoint: color identity workspace projection bundle
-- Current full-suite baseline: `python -m unittest discover -s tests` passes with 343 tests
+- Current implemented checkpoint: Workspace View Fixture Smoke v0
+- Current full-suite baseline: `python -m unittest discover -s tests` passes with 344 tests
 - Current product center remains the deckbuilder foundation and deterministic local analysis pipeline
 
 ## Current Catchup
 
-Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, Workspace View CLI v0, Card-Fact-Backed Workspace Projection v0, and Color Identity Workspace Projection v0 are implemented and verified.
+Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, Workspace View CLI v0, Card-Fact-Backed Workspace Projection v0, Color Identity Workspace Projection v0, and Workspace View Fixture Smoke v0 are implemented and verified.
 
 ## Next Recommended Slice
 
-Workspace View Fixture Smoke v0.
+Workspace Projection Contract Docs v0.
 
-Goal: create a tiny deterministic expected-output fixture for `workspace-view` so future grouping/sorting/filtering changes are caught intentionally before UI work.
+Goal: document the `deck_workspace_view_projection.v0` payload as a consumer-facing contract before future UI or syntax-filter work depends on it.
 
 Expected scope:
 
-1. Update `docs/codex/IMPLEMENTATION_SPEC.md` before coding.
-2. Reuse or create tiny workspace/card-record fixtures under `tests/fixtures/deckbuilder/`.
-3. Generate one stable expected JSON fixture for fact-backed `workspace-view`.
-4. Add a test that compares the exact projection payload to the expected fixture.
-5. Prove repeat-run determinism and no workspace mutation.
-6. Do not add UI, strategic analysis, recommendations, live APIs, deck-level role totals, syntax filtering, price logic, or new dependencies.
+1. Update `docs/codex/IMPLEMENTATION_SPEC.md` before editing.
+2. Create or update a concise product/rules contract doc for workspace-view projection output.
+3. Describe group totals, multi-membership groups, fact status buckets, and current deferred fields.
+4. Reference the exact smoke fixture as the current executable contract example.
+5. Do not add UI, strategic analysis, recommendations, live APIs, deck-level role totals, syntax filtering, price logic, or new dependencies.
 
 ## Boundaries
 

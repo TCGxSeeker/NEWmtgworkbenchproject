@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 343 tests after Color Identity Workspace Projection v0.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 344 tests after Workspace View Fixture Smoke v0.
 
 ## Key Decisions Before Building
 
@@ -352,6 +352,14 @@ Expand read-only workspace projection with factual color and color-identity grou
 V0 behavior: `color` grouping may place a multicolor card into multiple color groups. `color_identity` grouping uses the exact WUBRG-ordered identity combination as one group, such as `UG`, so identity filtering remains comparable for future Commander work.
 
 Color Identity Workspace Projection v0 must not add UI, frontend dependencies, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, syntax filtering, price logic, or new dependencies.
+
+### Phase Product-4H: Workspace View Fixture Smoke v0
+
+Status: implemented and verified.
+
+Freeze one tiny end-to-end `workspace-view` contract before projection behavior grows again. Definition of done: a native workspace fixture, local card-record fixture, exact expected JSON fixture, and smoke test prove fact-backed color-identity grouping and mana-value sorting through the CLI; repeated runs produce identical JSON; the source workspace file is not mutated; missing and ambiguous facts stay visible; and the payload contains no strategic analysis or recommendation fields.
+
+Workspace View Fixture Smoke v0 must not add UI, frontend dependencies, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, syntax filtering, price logic, or new dependencies.
 
 ### Phase Product-5: Deck Workspace Import/Export v0
 

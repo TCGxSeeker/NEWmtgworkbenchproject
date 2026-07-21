@@ -389,3 +389,9 @@
   - Alternatives considered: deriving color from saved categories, treating missing color fields as colorless, or waiting until UI implementation.
   - Risk: Multicolor `color` grouping duplicates entries across visible groups by design, so consumers must use grouped totals consciously.
   - Status: Accepted for Color Identity Workspace Projection v0.
+
+- Decision: Lock one end-to-end workspace-view projection with an exact expected JSON fixture.
+  - Reason: The future deckbuilder UI will consume projection output, so grouping, sorting, missing facts, ambiguity, and stable ordering should have fixture-level contract coverage before more modes are added.
+  - Alternatives considered: relying only on focused unit tests, waiting until UI implementation, or snapshotting a large real deck.
+  - Risk: The fixture protects one representative projection, not every future view mode; broader contracts still need their own explicit slices.
+  - Status: Accepted for Workspace View Fixture Smoke v0.

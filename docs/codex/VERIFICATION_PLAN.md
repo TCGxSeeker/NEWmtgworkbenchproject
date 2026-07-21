@@ -14,10 +14,12 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline after Color Identity Workspace Projection v0:
+Latest repository-wide baseline after Workspace View Fixture Smoke v0:
 
 - Repository root: `G:/Documents/New MTG project`
-- `python -m unittest discover -s tests`: passed after Color Identity Workspace Projection v0, 343 tests
+- `python -m unittest discover -s tests`: passed after Workspace View Fixture Smoke v0, 344 tests
+- `python -m unittest tests.test_deckbuilder_workspace_view_smoke`: passed, 1 test
+- `python -m mtg_workbench.cli workspace-view tests/fixtures/deckbuilder/workspace_view_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/workspace_view_smoke_card_records.json --group-by color-identity --sort-by mana-value`: passed through exact expected-output fixture coverage
 - `python -m unittest tests.test_cli_workspace_view`: passed, 7 tests
 - `python -m mtg_workbench.cli workspace-view <temp>/deck.mtgwdeck.json --card-records <temp>/records.json --group-by type --sort-by mana-value`: passed in focused tests and CLI smoke
 - `python -m mtg_workbench.cli workspace-view <temp>/deck.mtgwdeck.json --card-records <temp>/records.json --group-by color-identity --sort-by color-identity`: passed in focused tests

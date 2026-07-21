@@ -132,3 +132,5 @@ Projection output is a view model, not deck analysis. It does not look up card f
 Card-Fact-Backed Workspace Projection v0 can add factual `type` and `mana_value` grouping/sorting when a caller supplies an explicit local `CardFactLookupReport`. Missing and ambiguous fact lookups remain visible as status buckets. Projection still does not infer missing facts, analyze deck quality, count roles, or mutate saved workspace data.
 
 Color Identity Workspace Projection v0 adds factual `color` and `color_identity` grouping/sorting from found local card facts. `color` may group one entry under multiple colors; `color_identity` uses one WUBRG-ordered identity label. Missing, ambiguous, and malformed facts remain visible rather than inferred.
+
+Workspace View Fixture Smoke v0 locks one exact CLI projection fixture for fact-backed color-identity grouping and mana-value sorting. Future projection changes should update that expected fixture intentionally rather than drifting accidentally.

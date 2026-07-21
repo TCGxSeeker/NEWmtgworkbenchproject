@@ -72,3 +72,5 @@ Color Identity Workspace Projection v0 adds factual color projection modes when 
 - Missing and ambiguous facts remain visible as explicit status buckets.
 
 Price, rarity, printing, and syntax-backed filtering require later local data adapters or the syntax engine and are deferred.
+
+Workspace View Fixture Smoke v0 keeps an exact expected JSON fixture for one fact-backed `workspace-view` run so future changes to grouping, sorting, missing facts, ambiguous facts, or stable output order are reviewed intentionally.

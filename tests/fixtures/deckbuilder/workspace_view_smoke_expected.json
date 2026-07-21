@@ -1,0 +1,199 @@
+{
+  "card_fact_lookup": {
+    "ambiguous_count": 1,
+    "found_count": 3,
+    "missing_count": 1,
+    "status": "checked"
+  },
+  "deck_id": "workspace-view-smoke-v0",
+  "deck_name": "Workspace View Smoke Deck",
+  "filter_text": null,
+  "group_by": "color_identity",
+  "grouped_entry_count": 5,
+  "grouped_quantity_total": 6,
+  "groups": [
+    {
+      "entries": [
+        {
+          "card_fact_status": "found",
+          "card_name": "View Smoke Rock",
+          "categories": [
+            "Ramp"
+          ],
+          "color_identity": [],
+          "colors": [],
+          "display_name": "View Smoke Rock",
+          "entry_id": "entry-view-smoke-rock",
+          "generic_category_hint": "Ramp",
+          "imported_category": "Ramp",
+          "input_name": "View Smoke Rock",
+          "is_unresolved": false,
+          "mana_value": 2,
+          "normalized_category": "Ramp",
+          "quantity": 2,
+          "secondary_tags": [
+            "mana"
+          ],
+          "tags": [
+            "fast"
+          ],
+          "type_labels": [
+            "Artifact"
+          ],
+          "type_line": "Artifact",
+          "zone": "mainboard"
+        }
+      ],
+      "entry_count": 1,
+      "group_id": "colorless",
+      "label": "Colorless",
+      "quantity_total": 2
+    },
+    {
+      "entries": [
+        {
+          "card_fact_status": "found",
+          "card_name": "View Smoke Draw",
+          "categories": [
+            "Draw",
+            "Selection"
+          ],
+          "color_identity": [
+            "U"
+          ],
+          "colors": [
+            "U"
+          ],
+          "display_name": "View Smoke Draw",
+          "entry_id": "entry-view-smoke-draw",
+          "generic_category_hint": "Selection",
+          "imported_category": "Card Draw",
+          "input_name": "View Smoke Draw",
+          "is_unresolved": false,
+          "mana_value": 1,
+          "normalized_category": "Draw",
+          "quantity": 1,
+          "secondary_tags": [
+            "setup"
+          ],
+          "tags": [
+            "card-flow"
+          ],
+          "type_labels": [
+            "Sorcery"
+          ],
+          "type_line": "Sorcery",
+          "zone": "mainboard"
+        }
+      ],
+      "entry_count": 1,
+      "group_id": "u",
+      "label": "U",
+      "quantity_total": 1
+    },
+    {
+      "entries": [
+        {
+          "card_fact_status": "found",
+          "card_name": "View Smoke Commander",
+          "categories": [
+            "Commander"
+          ],
+          "color_identity": [
+            "U",
+            "G"
+          ],
+          "colors": [
+            "G"
+          ],
+          "display_name": "View Smoke Commander",
+          "entry_id": "entry-view-smoke-commander",
+          "generic_category_hint": "Commander",
+          "imported_category": "Commander",
+          "input_name": "View Smoke Commander",
+          "is_unresolved": false,
+          "mana_value": 3,
+          "normalized_category": "Commander",
+          "quantity": 1,
+          "secondary_tags": [],
+          "tags": [
+            "fixture"
+          ],
+          "type_labels": [
+            "Creature"
+          ],
+          "type_line": "Legendary Creature - Human Wizard",
+          "zone": "commander"
+        }
+      ],
+      "entry_count": 1,
+      "group_id": "ug",
+      "label": "UG",
+      "quantity_total": 1
+    },
+    {
+      "entries": [
+        {
+          "card_fact_status": "missing",
+          "card_name": "Missing Mystery",
+          "categories": [
+            "Maybe"
+          ],
+          "color_identity": null,
+          "colors": null,
+          "display_name": null,
+          "entry_id": "entry-view-smoke-missing",
+          "generic_category_hint": null,
+          "imported_category": "Maybe",
+          "input_name": "Missing Mystery",
+          "is_unresolved": true,
+          "mana_value": null,
+          "normalized_category": null,
+          "quantity": 1,
+          "secondary_tags": [],
+          "tags": [],
+          "type_labels": [],
+          "type_line": null,
+          "zone": "maybeboard"
+        }
+      ],
+      "entry_count": 1,
+      "group_id": "missing_card_facts",
+      "label": "Missing Card Facts",
+      "quantity_total": 1
+    },
+    {
+      "entries": [
+        {
+          "card_fact_status": "ambiguous",
+          "card_name": "Shared Alias",
+          "categories": [],
+          "color_identity": null,
+          "colors": null,
+          "display_name": "Shared Alias",
+          "entry_id": "entry-view-smoke-ambiguous",
+          "generic_category_hint": null,
+          "imported_category": null,
+          "input_name": "Shared Alias",
+          "is_unresolved": false,
+          "mana_value": null,
+          "normalized_category": null,
+          "quantity": 1,
+          "secondary_tags": [],
+          "tags": [],
+          "type_labels": [],
+          "type_line": null,
+          "zone": "mainboard"
+        }
+      ],
+      "entry_count": 1,
+      "group_id": "ambiguous_card_facts",
+      "label": "Ambiguous Card Facts",
+      "quantity_total": 1
+    }
+  ],
+  "schema_version": "deck_workspace_view_projection.v0",
+  "sort_by": "mana_value",
+  "visible_entry_count": 5,
+  "visible_quantity_total": 6
+}

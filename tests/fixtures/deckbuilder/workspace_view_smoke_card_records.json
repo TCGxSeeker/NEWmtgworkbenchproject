@@ -1,0 +1,75 @@
+{
+  "View Smoke Commander": {
+    "name": "View Smoke Commander",
+    "oracle_id": "oracle-view-smoke-commander",
+    "oracle_text": "Whenever you cast your second spell each turn, scry 1.",
+    "type_line": "Legendary Creature - Human Wizard",
+    "keywords": [],
+    "mana_value": 3,
+    "colors": [
+      "G"
+    ],
+    "color_identity": [
+      "G",
+      "U"
+    ]
+  },
+  "View Smoke Rock": {
+    "name": "View Smoke Rock",
+    "oracle_id": "oracle-view-smoke-rock",
+    "oracle_text": "Tap: Add one mana of any color.",
+    "type_line": "Artifact",
+    "keywords": [],
+    "mana_value": 2,
+    "colors": [],
+    "color_identity": []
+  },
+  "View Smoke Draw": {
+    "name": "View Smoke Draw",
+    "oracle_id": "oracle-view-smoke-draw",
+    "oracle_text": "Draw two cards.",
+    "type_line": "Sorcery",
+    "keywords": [],
+    "mana_value": 1,
+    "colors": [
+      "U"
+    ],
+    "color_identity": [
+      "U"
+    ]
+  },
+  "First Alias Card": {
+    "name": "First Alias Card",
+    "oracle_id": "oracle-first-alias-card",
+    "aliases": [
+      "Shared Alias"
+    ],
+    "oracle_text": "Tap: Add G.",
+    "type_line": "Artifact",
+    "keywords": [],
+    "mana_value": 4,
+    "colors": [
+      "G"
+    ],
+    "color_identity": [
+      "G"
+    ]
+  },
+  "Second Alias Card": {
+    "name": "Second Alias Card",
+    "oracle_id": "oracle-second-alias-card",
+    "aliases": [
+      "Shared Alias"
+    ],
+    "oracle_text": "Draw a card.",
+    "type_line": "Creature",
+    "keywords": [],
+    "mana_value": 4,
+    "colors": [
+      "U"
+    ],
+    "color_identity": [
+      "U"
+    ]
+  }
+}

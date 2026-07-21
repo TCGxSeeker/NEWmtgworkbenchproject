@@ -1,0 +1,156 @@
+{
+  "commanders": [
+    {
+      "categories": [
+        "Commander"
+      ],
+      "category_origin": "user",
+      "date_added": "2026-07-20T00:00:00Z",
+      "deck_specific_primary_role": null,
+      "display_name": "View Smoke Commander",
+      "entry_id": "entry-view-smoke-commander",
+      "foil": false,
+      "generic_category_hint": "Commander",
+      "imported_category": "Commander",
+      "input_name": "View Smoke Commander",
+      "is_unresolved": false,
+      "normalized_category": "Commander",
+      "notes": "Fixture commander entry.",
+      "oracle_id": "oracle-view-smoke-commander",
+      "pinned": true,
+      "quantity": 1,
+      "secondary_tags": [],
+      "selected_printing_id": null,
+      "tags": [
+        "fixture"
+      ],
+      "zone": "commander"
+    }
+  ],
+  "created_at": "2026-07-20T00:00:00Z",
+  "deck_id": "workspace-view-smoke-v0",
+  "format": "commander",
+  "mainboard": [
+    {
+      "categories": [
+        "Ramp"
+      ],
+      "category_origin": "user",
+      "date_added": "2026-07-20T00:00:00Z",
+      "deck_specific_primary_role": null,
+      "display_name": "View Smoke Rock",
+      "entry_id": "entry-view-smoke-rock",
+      "foil": false,
+      "generic_category_hint": "Ramp",
+      "imported_category": "Ramp",
+      "input_name": "View Smoke Rock",
+      "is_unresolved": false,
+      "normalized_category": "Ramp",
+      "notes": "Fixture artifact entry.",
+      "oracle_id": "oracle-view-smoke-rock",
+      "pinned": false,
+      "quantity": 2,
+      "secondary_tags": [
+        "mana"
+      ],
+      "selected_printing_id": null,
+      "tags": [
+        "fast"
+      ],
+      "zone": "mainboard"
+    },
+    {
+      "categories": [
+        "Draw",
+        "Selection"
+      ],
+      "category_origin": "normalized",
+      "date_added": "2026-07-20T00:00:00Z",
+      "deck_specific_primary_role": null,
+      "display_name": "View Smoke Draw",
+      "entry_id": "entry-view-smoke-draw",
+      "foil": false,
+      "generic_category_hint": "Selection",
+      "imported_category": "Card Draw",
+      "input_name": "View Smoke Draw",
+      "is_unresolved": false,
+      "normalized_category": "Draw",
+      "notes": "Fixture draw entry.",
+      "oracle_id": "oracle-view-smoke-draw",
+      "pinned": false,
+      "quantity": 1,
+      "secondary_tags": [
+        "setup"
+      ],
+      "selected_printing_id": null,
+      "tags": [
+        "card-flow"
+      ],
+      "zone": "mainboard"
+    },
+    {
+      "categories": [],
+      "category_origin": null,
+      "date_added": "2026-07-20T00:00:00Z",
+      "deck_specific_primary_role": null,
+      "display_name": "Shared Alias",
+      "entry_id": "entry-view-smoke-ambiguous",
+      "foil": false,
+      "generic_category_hint": null,
+      "imported_category": null,
+      "input_name": "Shared Alias",
+      "is_unresolved": false,
+      "normalized_category": null,
+      "notes": "Fixture ambiguous lookup entry.",
+      "oracle_id": null,
+      "pinned": false,
+      "quantity": 1,
+      "secondary_tags": [],
+      "selected_printing_id": null,
+      "tags": [],
+      "zone": "mainboard"
+    }
+  ],
+  "maybeboard": [
+    {
+      "categories": [
+        "Maybe"
+      ],
+      "category_origin": "imported",
+      "date_added": "2026-07-20T00:00:00Z",
+      "deck_specific_primary_role": null,
+      "display_name": null,
+      "entry_id": "entry-view-smoke-missing",
+      "foil": false,
+      "generic_category_hint": null,
+      "imported_category": "Maybe",
+      "input_name": "Missing Mystery",
+      "is_unresolved": true,
+      "normalized_category": null,
+      "notes": "Fixture missing lookup entry.",
+      "oracle_id": null,
+      "pinned": false,
+      "quantity": 1,
+      "secondary_tags": [],
+      "selected_printing_id": null,
+      "tags": [],
+      "zone": "maybeboard"
+    }
+  ],
+  "metadata": {
+    "fixture": "workspace-view-smoke-v0",
+    "source_path": "tests/fixtures/deckbuilder/workspace_view_smoke_workspace.mtgwdeck.json"
+  },
+  "name": "Workspace View Smoke Deck",
+  "notes": "End-to-end workspace-view projection fixture.",
+  "saved_state": {
+    "is_dirty": false,
+    "last_saved_at": "2026-07-20T00:00:00Z"
+  },
+  "schema_version": 1,
+  "tags": [
+    "fixture",
+    "workspace-view"
+  ],
+  "updated_at": "2026-07-20T00:00:00Z"
+}

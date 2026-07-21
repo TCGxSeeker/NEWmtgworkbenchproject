@@ -279,3 +279,21 @@ Deferred beyond this slice:
 - Price, rarity, edition, and printing projection modes.
 - Syntax-backed current-deck filtering.
 - Deck-level role totals or strategic reports.
+
+## Workspace View Fixture Smoke V0
+
+- [x] Tiny native workspace fixture exists for `workspace-view`.
+- [x] Tiny local card-record fixture exists for fact-backed projection.
+- [x] Exact expected JSON fixture exists.
+- [x] Smoke test exercises the real CLI command.
+- [x] Repeated CLI output is deterministic.
+- [x] Source workspace file is not mutated.
+- [x] Missing and ambiguous card facts remain visible.
+- [x] Forbidden strategic/recommendation fields are absent from the projection payload.
+
+Deferred beyond this slice:
+
+- Projection contract documentation for future UI consumers.
+- Syntax-backed current-deck filtering.
+- Price, rarity, edition, and printing projection modes.
+- Deck-level role totals or strategic reports.
