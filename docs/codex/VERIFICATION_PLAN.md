@@ -14,14 +14,16 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline around Step 4 catchup repairs:
+Latest repository-wide baseline around Step 5 catchup repairs:
 
 - Repository root: `G:/Documents/New MTG project`
-- Current head: `5c45b2c Define visual card pair comparison`
-- `python -m unittest discover -s tests`: passed after Step 4 workspace/card lookup repairs, 296 tests
+- Current head: `df46b33 Repair catchup foundation contracts`
+- `python -m unittest discover -s tests`: passed after Step 5 Scryfall index repairs, 298 tests
+- `python -m unittest tests.test_scryfall_indexer`: passed, 5 tests
+- `python -m py_compile src/mtg_workbench/scryfall/indexer.py`: passed
+- `git diff --check`: passed after Step 5 Scryfall index repairs
 - `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report`: passed, 85 tests
 - `python -m py_compile src/mtg_workbench/deckbuilder/mutations.py src/mtg_workbench/cards/catalog.py src/mtg_workbench/deckbuilder/card_fact_lookup.py src/mtg_workbench/deckbuilder/deck_inspection_report.py`: passed
-- `git diff --check`: passed after Step 4 workspace/card lookup repairs
 - `python -m unittest tests.test_relationship_input_contract_hardening tests.test_relationship_primitives tests.test_card_behavioral_profile tests.test_behavioral_atom_extraction`: passed, 42 tests
 - `python -m py_compile src/mtg_workbench/deckbuilder/relationship_primitives.py src/mtg_workbench/deckbuilder/card_behavioral_profile.py src/mtg_workbench/deckbuilder/behavioral_atom_extraction.py`: passed
 - `python -m unittest tests.test_relationship_pipeline_fixture_smoke`: passed, 7 tests
@@ -82,8 +84,7 @@ python -m unittest tests.test_scryfall_indexer
 
 Known remaining audit repair queue:
 
-1. Scryfall index portability and rebuild atomicity.
-2. Visual comparison source-target direction decision.
+1. Visual comparison source-target direction decision.
 
 ## Future Test Categories
 

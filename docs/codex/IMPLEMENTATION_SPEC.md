@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 296 tests in the current working tree at `5c45b2c Define visual card pair comparison`. See `docs/codex/NEXT_SESSION_HANDOFF.md` for the active catchup repair queue after the post-July-12 audit.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 298 tests in the current working tree at `df46b33 Repair catchup foundation contracts`. See `docs/codex/NEXT_SESSION_HANDOFF.md` for the active catchup repair queue after the post-July-12 audit.
 
 ## Key Decisions Before Building
 
@@ -926,11 +926,11 @@ Completed:
 - Step 2: Relationship Smoke Repair v0.
 - Step 3: Relationship Contract Hardening Patch.
 - Step 4: Workspace/Card Lookup Integrity Patch.
+- Step 5: Scryfall Index Portability and Atomicity Patch.
 
 Remaining:
 
-1. Scryfall Index Portability and Atomicity Patch: make moved-repo path resolution robust and protect database/manifest consistency on failed rebuilds.
-2. Visual Compare Direction Decision: document how a future `Inspect interaction` action chooses source and target direction.
+1. Visual Compare Direction Decision: document how a future `Inspect interaction` action chooses source and target direction.
 
 ## Verification Plan
 

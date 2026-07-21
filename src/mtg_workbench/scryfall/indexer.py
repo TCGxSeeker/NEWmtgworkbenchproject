@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import gzip
 import json
 from pathlib import Path
+import shutil
 import sqlite3
 from typing import Any, Iterable, Iterator
 
@@ -57,7 +58,12 @@ def build_scryfall_index(raw_dir: str | Path, output_path: str | Path) -> IndexB
     manifest = _read_json(manifest_path)
     output.parent.mkdir(parents=True, exist_ok=True)
     temp_output = output.with_name(f"{output.name}.tmp")
+    index_manifest_path = output.parent / "index_manifest.json"
+    temp_index_manifest_path = index_manifest_path.with_name(
+        f"{index_manifest_path.name}.tmp"
+    )
     _remove_sqlite_file(temp_output)
+    _remove_file(temp_index_manifest_path)
 
     counts = _empty_counts()
     tag_text_by_oracle_id: dict[str, set[str]] = defaultdict(set)
@@ -93,19 +99,24 @@ def build_scryfall_index(raw_dir: str | Path, output_path: str | Path) -> IndexB
         finally:
             conn.close()
 
-        temp_output.replace(output)
+        _write_index_manifest(
+            temp_index_manifest_path,
+            output,
+            manifest_path,
+            manifest,
+            counts,
+            fts_available,
+        )
+        _replace_index_outputs(
+            output,
+            temp_output,
+            index_manifest_path,
+            temp_index_manifest_path,
+        )
     except Exception:
         _remove_sqlite_file(temp_output)
+        _remove_file(temp_index_manifest_path)
         raise
-    index_manifest_path = output.parent / "index_manifest.json"
-    _write_index_manifest(
-        index_manifest_path,
-        output,
-        manifest_path,
-        manifest,
-        counts,
-        fts_available,
-    )
 
     return IndexBuildResult(
         output_path=str(output),
@@ -741,23 +752,41 @@ def _source_paths(raw_root: Path, manifest: dict[str, Any], source_type: str) ->
 
 
 def _resolve_local_path(raw_root: Path, entry: dict[str, Any]) -> Path:
-    local_path = Path(_text(entry.get("local_path")))
-    candidates = []
+    local_path_text = _text(entry.get("local_path")).strip()
+    source_type = _text(entry.get("type")).strip()
+    local_path = Path(local_path_text)
+    candidates: list[Path] = []
+
     if local_path.is_absolute():
-        candidates.append(local_path)
+        candidates.extend(
+            [
+                local_path,
+                raw_root / source_type / local_path.name,
+                raw_root / local_path.name,
+            ]
+        )
     else:
         candidates.extend(
             [
-                Path.cwd() / local_path,
                 raw_root / local_path,
                 raw_root / _text(entry.get("type")) / local_path.name,
+                Path.cwd() / local_path,
             ]
         )
 
+    unique_candidates: list[Path] = []
+    seen: set[str] = set()
     for candidate in candidates:
+        candidate_key = str(candidate)
+        if candidate_key in seen:
+            continue
+        seen.add(candidate_key)
+        unique_candidates.append(candidate)
+
+    for candidate in unique_candidates:
         if candidate.exists():
             return candidate
-    return candidates[-1]
+    return unique_candidates[-1]
 
 
 def _iter_json_records(path: Path) -> Iterator[dict[str, Any]]:
@@ -833,6 +862,107 @@ def _write_index_manifest(
     with path.open("w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2, sort_keys=True)
         handle.write("\n")
+
+
+def _replace_index_outputs(
+    output_path: Path,
+    temp_output_path: Path,
+    manifest_path: Path,
+    temp_manifest_path: Path,
+) -> None:
+    output_backup_path = output_path.with_name(f"{output_path.name}.bak")
+    manifest_backup_path = manifest_path.with_name(f"{manifest_path.name}.bak")
+    _remove_sqlite_file(output_backup_path)
+    _remove_file(manifest_backup_path)
+
+    output_had_backup = False
+    manifest_had_backup = False
+
+    try:
+        output_had_backup = _copy_sqlite_file_if_exists(
+            output_path,
+            output_backup_path,
+        )
+        manifest_had_backup = _copy_file_if_exists(
+            manifest_path,
+            manifest_backup_path,
+        )
+        _replace_path(temp_output_path, output_path)
+        _replace_path(temp_manifest_path, manifest_path)
+    except Exception:
+        _restore_sqlite_file(
+            output_path,
+            output_backup_path,
+            output_had_backup,
+        )
+        _restore_file(
+            manifest_path,
+            manifest_backup_path,
+            manifest_had_backup,
+        )
+        raise
+    finally:
+        _remove_sqlite_file(temp_output_path)
+        _remove_file(temp_manifest_path)
+        _remove_sqlite_file(output_backup_path)
+        _remove_file(manifest_backup_path)
+
+
+def _copy_sqlite_file_if_exists(source_path: Path, backup_path: Path) -> bool:
+    copied = False
+    for source, backup in _sqlite_file_pairs(source_path, backup_path):
+        if source.exists():
+            backup.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, backup)
+            copied = True
+    return copied
+
+
+def _copy_file_if_exists(source_path: Path, backup_path: Path) -> bool:
+    if not source_path.exists():
+        return False
+    backup_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source_path, backup_path)
+    return True
+
+
+def _restore_sqlite_file(
+    target_path: Path,
+    backup_path: Path,
+    had_backup: bool,
+) -> None:
+    _remove_sqlite_file(target_path)
+    if not had_backup:
+        return
+
+    for backup, target in _sqlite_file_pairs(backup_path, target_path):
+        if backup.exists():
+            _replace_path(backup, target)
+
+
+def _restore_file(
+    target_path: Path,
+    backup_path: Path,
+    had_backup: bool,
+) -> None:
+    _remove_file(target_path)
+    if had_backup and backup_path.exists():
+        _replace_path(backup_path, target_path)
+
+
+def _replace_path(source_path: Path, target_path: Path) -> None:
+    source_path.replace(target_path)
+
+
+def _sqlite_file_pairs(
+    first_path: Path,
+    second_path: Path,
+) -> tuple[tuple[Path, Path], ...]:
+    return (
+        (first_path, second_path),
+        (Path(f"{first_path}-wal"), Path(f"{second_path}-wal")),
+        (Path(f"{first_path}-shm"), Path(f"{second_path}-shm")),
+    )
 
 
 def _flush(
@@ -966,6 +1096,11 @@ def _remove_sqlite_file(path: Path) -> None:
     for candidate in (path, Path(f"{path}-wal"), Path(f"{path}-shm")):
         if candidate.exists():
             candidate.unlink()
+
+
+def _remove_file(path: Path) -> None:
+    if path.exists():
+        path.unlink()
 
 
 def _card_text(card: dict[str, Any], field: str) -> str:

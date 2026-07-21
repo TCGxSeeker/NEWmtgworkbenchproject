@@ -2,10 +2,7 @@
 
 ## Active Catchup Repair Queue
 
-1. Step 5: Scryfall Index Portability and Atomicity Patch.
-   - Make moved-repo local-path resolution robust for Scryfall manifests.
-   - Harden index rebuild atomicity so database and manifest cannot desynchronize after partial failure.
-2. Step 6: Visual Compare Direction Decision.
+1. Step 6: Visual Compare Direction Decision.
    - Decide how a future `Inspect interaction` UI action chooses source and target direction.
    - Keep automatic reverse-direction analysis out unless explicitly approved.
 
@@ -24,6 +21,10 @@
   - Rejected invalid supplied workspace entry IDs before entry creation.
   - Aligned no-Oracle card fact identity with `CardCatalog` by using normalized canonical card names before printing IDs.
   - Added independent expected-output assertions for inspection source unification.
+- Step 5: Scryfall Index Portability and Atomicity Patch.
+  - Added moved-repo fallback for stale Scryfall manifest `local_path` values.
+  - Preferred raw-root resolution before cwd fallback for relative paths.
+  - Wrote the next index manifest before replacing live outputs and restored prior DB/manifest on handled replacement failure.
 
 ## Near Term
 

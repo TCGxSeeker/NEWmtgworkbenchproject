@@ -323,3 +323,9 @@
   - Alternatives considered: using selected printing identity first, treating all no-Oracle duplicates as ambiguous, or requiring Oracle IDs before lookup can resolve a card.
   - Risk: Distinct real cards without Oracle IDs but sharing the same name cannot be separated until richer identity data is supplied; aliases across different no-Oracle names still remain ambiguous.
   - Status: Accepted for Workspace/Card Lookup Integrity Patch.
+
+- Decision: Treat Scryfall SQLite DB and index manifest replacement as one local rebuild checkpoint.
+  - Reason: A rebuilt database without its matching `index_manifest.json` can misrepresent snapshot provenance, especially after repository moves or partial failures.
+  - Alternatives considered: writing the manifest after replacing the DB, ignoring stale manifest risk, or requiring manual cleanup after failed rebuilds.
+  - Risk: Cross-file replacement cannot be crash-atomic at the filesystem level, but handled failures now roll back both files and remove temporary outputs.
+  - Status: Accepted for Scryfall Index Portability and Atomicity Patch.

@@ -4,14 +4,12 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current head: `5c45b2c Define visual card pair comparison`
+- Current head: `df46b33 Repair catchup foundation contracts`
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
-- Working tree before Step 1 repairs: clean
-- Step 1 docs/status repairs: applied in the working tree unless already committed
-- Step 2 relationship smoke repairs: applied in the working tree unless already committed
-- Step 3 relationship contract repairs: applied in the working tree unless already committed
-- Step 4 workspace/card lookup repairs: applied in the working tree unless already committed
-- Current verification: `python -m unittest discover -s tests` passed with 296 tests
+- Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
+- Step 5 Scryfall index repairs: applied in the working tree unless already committed
+- Current verification: `python -m unittest discover -s tests` passed with 298 tests
+- Current focused Scryfall index verification: `python -m unittest tests.test_scryfall_indexer` passed with 5 tests
 - Current focused workspace/card lookup verification: `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report` passed with 85 tests
 - Current focused contract verification: `python -m unittest tests.test_relationship_input_contract_hardening tests.test_relationship_primitives tests.test_card_behavioral_profile tests.test_behavioral_atom_extraction` passed with 42 tests
 - Current focused smoke verification: `python -m unittest tests.test_relationship_pipeline_fixture_smoke` passed with 7 tests
@@ -80,17 +78,11 @@ Tightened confidence-band validation so only exact integer band values are accep
 
 Rejected invalid supplied workspace entry IDs before entry creation, aligned no-Oracle lookup identity with `CardCatalog`, and added independent expected-output assertions for inspection source unification.
 
-## Active Catchup Repair Queue
-
 ### Step 5: Scryfall Index Portability and Atomicity Patch
 
-Harden local Scryfall index behavior after the repo move. Current audit concerns include cwd-dependent `local_path` resolution and a possible database/manifest desynchronization if manifest writing fails after database replacement.
+Added moved-repo fallback for stale Scryfall manifest source paths and hardened DB/manifest replacement so handled manifest replacement failures restore the previous local index state.
 
-Known files:
-
-- `src/mtg_workbench/scryfall/indexer.py`
-- `tests/test_scryfall_indexer.py`
-- `docs/codex/ATOMIC_LOCAL_PERSISTENCE_V0.md`
+## Active Catchup Repair Queue
 
 ### Step 6: Visual Compare Direction Decision
 

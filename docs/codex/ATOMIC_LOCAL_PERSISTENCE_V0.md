@@ -45,10 +45,25 @@ The index builder now:
 1. removes only stale temporary output
 2. leaves the live database untouched during construction
 3. builds and closes the complete temporary database
-4. replaces the live database only after the rebuild succeeds
-5. removes temporary output after a failure
+4. writes the next index manifest to a temporary sibling file
+5. backs up the previous database and manifest when they exist
+6. replaces the live database and manifest only after both next outputs exist
+7. restores the previous database and manifest when replacement fails
+8. removes temporary and backup files after success or failure
 
-A failed rebuild therefore preserves the existing index.
+A failed rebuild therefore preserves the existing index and index manifest during normal handled failures.
+
+## Moved-repository source paths
+
+Scryfall source manifests may contain `local_path` values from an older checkout location.
+
+The indexer now resolves source files by checking:
+
+1. the recorded path, when it still exists
+2. the current raw root plus the source type and recorded filename
+3. the current raw root plus the recorded filename
+
+For relative paths, raw-root locations are preferred before cwd-based fallback. This keeps local snapshot rebuilds portable after moving the repository.
 
 ## Non-goals
 
@@ -70,6 +85,8 @@ Added failure-path tests confirming:
 - failed workspace replacement preserves dirty state
 - failed workspace replacement removes temporary output
 - failed Scryfall rebuild preserves the existing index
+- failed Scryfall manifest replacement restores the previous index and manifest
 - failed Scryfall rebuild removes temporary output
+- stale absolute Scryfall source paths fall back to the current raw root
 
-The full test suite passes with 203 tests.
+Run the current full unit suite from the repository root after changing this persistence behavior.

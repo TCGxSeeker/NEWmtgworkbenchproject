@@ -5,9 +5,11 @@ import sqlite3
 import tempfile
 from contextlib import redirect_stdout
 import unittest
+from unittest.mock import patch
 
 from mtg_workbench.cards.catalog import normalize_lookup_key
 from mtg_workbench.cli.main import main
+from mtg_workbench.scryfall import indexer as scryfall_indexer
 from mtg_workbench.scryfall.indexer import build_scryfall_index
 
 
@@ -104,6 +106,106 @@ class ScryfallIndexerTests(unittest.TestCase):
             )
             self.assertFalse(
                 output_path.with_name(f"{output_path.name}.tmp").exists()
+            )
+
+    def test_stale_absolute_manifest_paths_fall_back_to_raw_root_files(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            raw_dir = Path(temp_dir) / "raw" / "scryfall"
+            output_path = Path(temp_dir) / "processed" / "scryfall" / "cards.sqlite"
+            _write_snapshot(raw_dir)
+
+            manifest_path = raw_dir / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            stale_root = Path("C:/old/mtg-workbench/data/raw/scryfall")
+            for entry in manifest["entries"]:
+                original_path = Path(entry["local_path"])
+                entry["local_path"] = str(
+                    stale_root
+                    / entry["type"]
+                    / original_path.name
+                )
+            manifest_path.write_text(
+                json.dumps(manifest, indent=2, sort_keys=True),
+                encoding="utf-8",
+            )
+
+            result = build_scryfall_index(raw_dir, output_path)
+
+            self.assertTrue(output_path.exists())
+            self.assertEqual(result.counts["oracle_cards"], 1)
+            self.assertEqual(result.counts["prints"], 2)
+
+    def test_manifest_replace_failure_preserves_existing_index_and_manifest(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            raw_dir = Path(temp_dir) / "raw" / "scryfall"
+            output_path = Path(temp_dir) / "processed" / "scryfall" / "cards.sqlite"
+            index_manifest_path = output_path.parent / "index_manifest.json"
+            _write_snapshot(raw_dir)
+
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_bytes(b"known-good-index")
+            index_manifest_path.write_text(
+                json.dumps(
+                    {
+                        "object": "known-good-index-manifest",
+                        "schema_version": 999,
+                    },
+                    indent=2,
+                    sort_keys=True,
+                ),
+                encoding="utf-8",
+            )
+            original_manifest = index_manifest_path.read_text(
+                encoding="utf-8"
+            )
+
+            original_replace = scryfall_indexer._replace_path
+
+            def fail_manifest_replace(
+                source_path: Path,
+                target_path: Path,
+            ) -> None:
+                if (
+                    source_path.name == "index_manifest.json.tmp"
+                    and target_path.name == "index_manifest.json"
+                ):
+                    raise OSError("manifest replace failed")
+                original_replace(source_path, target_path)
+
+            with patch(
+                "mtg_workbench.scryfall.indexer._replace_path",
+                side_effect=fail_manifest_replace,
+            ):
+                with self.assertRaisesRegex(
+                    OSError,
+                    "manifest replace failed",
+                ):
+                    build_scryfall_index(raw_dir, output_path)
+
+            self.assertEqual(output_path.read_bytes(), b"known-good-index")
+            self.assertEqual(
+                index_manifest_path.read_text(encoding="utf-8"),
+                original_manifest,
+            )
+            self.assertFalse(
+                output_path.with_name(f"{output_path.name}.tmp").exists()
+            )
+            self.assertFalse(
+                output_path.with_name(f"{output_path.name}.bak").exists()
+            )
+            self.assertFalse(
+                index_manifest_path.with_name(
+                    f"{index_manifest_path.name}.tmp"
+                ).exists()
+            )
+            self.assertFalse(
+                index_manifest_path.with_name(
+                    f"{index_manifest_path.name}.bak"
+                ).exists()
             )
 
 
