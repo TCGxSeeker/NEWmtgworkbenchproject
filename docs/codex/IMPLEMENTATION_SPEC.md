@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 317 tests after Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, and Deck Inspection CLI polish.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 322 tests after Category Metadata Mutation CLI v0 and Entry Annotation CLI v0.
 
 ## Key Decisions Before Building
 
@@ -296,6 +296,24 @@ Status: implemented and verified.
 Expose a small safe subset of existing workspace mutation helpers through local file-based CLI commands. Definition of done: commands can add a card, remove an entry, increase quantity, decrease quantity, move an entry between commander/mainboard/maybeboard, and set commander for native `.mtgwdeck.json` files; each command requires an explicit `--output`, writes a native workspace, emits a stable JSON summary, and has focused tests against tiny temporary workspaces.
 
 Deck Workspace Mutation CLI v0 must not add UI, frontend dependencies, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, or new dependencies.
+
+### Phase Product-4B: Category Metadata Mutation CLI v0
+
+Status: implemented and verified.
+
+Expose explicit file-based CLI wrappers for the existing category metadata helpers. Definition of done: commands can set or clear imported category, normalized category, generic category hint, category origin, secondary tags, and all category metadata for entries in native `.mtgwdeck.json` files; each command requires an explicit `--output`, preserves the grouping `categories` field unless a future grouping command is used, emits stable JSON summaries, and has focused tests against tiny temporary workspaces.
+
+This slice does not expose deck-specific primary-role assignment. That field represents future deck-context truth and should remain out of the broad mechanical CLI until a dedicated human-approved role-editing slice exists.
+
+Category Metadata Mutation CLI v0 must not add UI, frontend dependencies, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, or new dependencies.
+
+### Phase Product-4C: Entry Annotation CLI v0
+
+Status: implemented and verified.
+
+Expose explicit file-based CLI wrappers for existing entry note and tag helpers. Definition of done: commands can set or clear entry notes, replace tags, add tags, and remove tags for entries in native `.mtgwdeck.json` files; each command requires an explicit `--output`, emits stable JSON summaries, preserves zones and quantities, and has focused tests.
+
+Entry Annotation CLI v0 must not add UI, frontend dependencies, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, or new dependencies.
 
 ### Phase Product-5: Deck Workspace Import/Export v0
 

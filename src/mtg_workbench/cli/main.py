@@ -14,14 +14,26 @@ from mtg_workbench.deckbuilder.import_export import (
     import_plain_text_decklist,
 )
 from mtg_workbench.deckbuilder.mutations import (
+    WorkspaceMutationError,
     add_entry,
+    add_secondary_tag,
+    clear_category_metadata,
     decrease_quantity,
     find_entry,
     increase_quantity,
     move_zone,
+    remove_secondary_tag,
     remove_entry,
+    replace_secondary_tags,
+    set_category_origin,
     set_commander,
+    set_generic_category_hint,
+    set_imported_category,
+    set_normalized_category,
+    update_notes,
+    update_tags,
 )
+from mtg_workbench.deckbuilder.models import VALID_CATEGORY_ORIGINS
 from mtg_workbench.deckbuilder.role_rules import load_role_rules
 from mtg_workbench.deckbuilder.serialization import (
     is_native_workspace_path,
@@ -192,6 +204,96 @@ def main(argv: list[str] | None = None) -> int:
     workspace_commander_parser.add_argument("entry_id")
     workspace_commander_parser.add_argument("--output", required=True, type=Path)
 
+    workspace_imported_category_parser = subparsers.add_parser(
+        "workspace-set-imported-category",
+        help="Set or clear imported category metadata for a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_imported_category_parser)
+    _add_value_or_clear_arguments(workspace_imported_category_parser, "Imported category value.")
+
+    workspace_normalized_category_parser = subparsers.add_parser(
+        "workspace-set-normalized-category",
+        help="Set or clear normalized category metadata for a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_normalized_category_parser)
+    _add_value_or_clear_arguments(workspace_normalized_category_parser, "Normalized category value.")
+    workspace_normalized_category_parser.add_argument(
+        "--category-taxonomy",
+        type=Path,
+        help="Optional local category taxonomy YAML for canonical-value validation.",
+    )
+
+    workspace_generic_category_parser = subparsers.add_parser(
+        "workspace-set-generic-category-hint",
+        help="Set or clear generic category hint metadata for a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_generic_category_parser)
+    _add_value_or_clear_arguments(workspace_generic_category_parser, "Generic category hint value.")
+
+    workspace_category_origin_parser = subparsers.add_parser(
+        "workspace-set-category-origin",
+        help="Set or clear category origin metadata for a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_category_origin_parser)
+    category_origin_group = workspace_category_origin_parser.add_mutually_exclusive_group(required=True)
+    category_origin_group.add_argument("--value", choices=sorted(VALID_CATEGORY_ORIGINS))
+    category_origin_group.add_argument("--clear", action="store_true", help="Clear this field.")
+
+    workspace_secondary_add_parser = subparsers.add_parser(
+        "workspace-add-secondary-tag",
+        help="Add secondary category tag metadata to a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_secondary_add_parser)
+    workspace_secondary_add_parser.add_argument("--tag", required=True)
+
+    workspace_secondary_remove_parser = subparsers.add_parser(
+        "workspace-remove-secondary-tag",
+        help="Remove secondary category tag metadata from a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_secondary_remove_parser)
+    workspace_secondary_remove_parser.add_argument("--tag", required=True)
+
+    workspace_secondary_replace_parser = subparsers.add_parser(
+        "workspace-replace-secondary-tags",
+        help="Replace secondary category tag metadata for a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_secondary_replace_parser)
+    workspace_secondary_replace_parser.add_argument("--tag", action="append", default=[])
+
+    workspace_category_clear_parser = subparsers.add_parser(
+        "workspace-clear-category-metadata",
+        help="Clear category metadata while preserving grouping categories.",
+    )
+    _add_workspace_entry_output_arguments(workspace_category_clear_parser)
+
+    workspace_notes_parser = subparsers.add_parser(
+        "workspace-set-notes",
+        help="Set or clear notes for a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_notes_parser)
+    _add_value_or_clear_arguments(workspace_notes_parser, "Entry notes value.")
+
+    workspace_tags_replace_parser = subparsers.add_parser(
+        "workspace-set-tags",
+        help="Replace entry tags for a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_tags_replace_parser)
+    workspace_tags_replace_parser.add_argument("--tag", action="append", default=[])
+
+    workspace_tags_add_parser = subparsers.add_parser(
+        "workspace-add-tag",
+        help="Add one or more tags to a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_tags_add_parser)
+    workspace_tags_add_parser.add_argument("--tag", action="append", required=True)
+
+    workspace_tags_remove_parser = subparsers.add_parser(
+        "workspace-remove-tag",
+        help="Remove one or more tags from a workspace entry.",
+    )
+    _add_workspace_entry_output_arguments(workspace_tags_remove_parser)
+    workspace_tags_remove_parser.add_argument("--tag", action="append", required=True)
+
     args = parser.parse_args(argv)
     if args.command == "parse":
         return _parse_command(args.decklist_path, args.cards)
@@ -266,6 +368,90 @@ def main(argv: list[str] | None = None) -> int:
         return _workspace_set_commander_command(
             args.workspace_path,
             args.entry_id,
+            output_path=args.output,
+        )
+    if args.command == "workspace-set-imported-category":
+        return _workspace_set_imported_category_command(
+            args.workspace_path,
+            args.entry_id,
+            value=_value_or_none(args),
+            output_path=args.output,
+        )
+    if args.command == "workspace-set-normalized-category":
+        return _workspace_set_normalized_category_command(
+            args.workspace_path,
+            args.entry_id,
+            value=_value_or_none(args),
+            output_path=args.output,
+            category_taxonomy_path=args.category_taxonomy,
+        )
+    if args.command == "workspace-set-generic-category-hint":
+        return _workspace_set_generic_category_hint_command(
+            args.workspace_path,
+            args.entry_id,
+            value=_value_or_none(args),
+            output_path=args.output,
+        )
+    if args.command == "workspace-set-category-origin":
+        return _workspace_set_category_origin_command(
+            args.workspace_path,
+            args.entry_id,
+            value=_value_or_none(args),
+            output_path=args.output,
+        )
+    if args.command == "workspace-add-secondary-tag":
+        return _workspace_add_secondary_tag_command(
+            args.workspace_path,
+            args.entry_id,
+            tag=args.tag,
+            output_path=args.output,
+        )
+    if args.command == "workspace-remove-secondary-tag":
+        return _workspace_remove_secondary_tag_command(
+            args.workspace_path,
+            args.entry_id,
+            tag=args.tag,
+            output_path=args.output,
+        )
+    if args.command == "workspace-replace-secondary-tags":
+        return _workspace_replace_secondary_tags_command(
+            args.workspace_path,
+            args.entry_id,
+            tags=args.tag,
+            output_path=args.output,
+        )
+    if args.command == "workspace-clear-category-metadata":
+        return _workspace_clear_category_metadata_command(
+            args.workspace_path,
+            args.entry_id,
+            output_path=args.output,
+        )
+    if args.command == "workspace-set-notes":
+        return _workspace_set_notes_command(
+            args.workspace_path,
+            args.entry_id,
+            notes=_value_or_none(args),
+            output_path=args.output,
+        )
+    if args.command == "workspace-set-tags":
+        return _workspace_set_tags_command(
+            args.workspace_path,
+            args.entry_id,
+            tags=args.tag,
+            output_path=args.output,
+        )
+    if args.command == "workspace-add-tag":
+        return _workspace_add_tags_command(
+            args.workspace_path,
+            args.entry_id,
+            tags=args.tag,
+            output_path=args.output,
+        )
+    if args.command == "workspace-remove-tag":
+        return _workspace_remove_tags_command(
+            args.workspace_path,
+            args.entry_id,
+            tags=args.tag,
             output_path=args.output,
         )
     return 2
@@ -564,6 +750,297 @@ def _workspace_set_commander_command(
     )
 
 
+def _workspace_set_imported_category_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    value: str | None,
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        set_imported_category(workspace, entry_id, value)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-set-imported-category",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_set_normalized_category_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    value: str | None,
+    output_path: Path,
+    category_taxonomy_path: Path | None,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+    if category_taxonomy_path is not None and not _require_existing_file(
+        category_taxonomy_path,
+        "--category-taxonomy",
+    ):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    category_taxonomy = (
+        load_category_taxonomy(category_taxonomy_path)
+        if category_taxonomy_path is not None
+        else None
+    )
+    try:
+        set_normalized_category(
+            workspace,
+            entry_id,
+            value,
+            category_taxonomy=category_taxonomy,
+        )
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-set-normalized-category",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_set_generic_category_hint_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    value: str | None,
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        set_generic_category_hint(workspace, entry_id, value)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-set-generic-category-hint",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_set_category_origin_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    value: str | None,
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        set_category_origin(workspace, entry_id, value)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-set-category-origin",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_add_secondary_tag_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    tag: str,
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        add_secondary_tag(workspace, entry_id, tag)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-add-secondary-tag",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_remove_secondary_tag_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    tag: str,
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        remove_secondary_tag(workspace, entry_id, tag)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-remove-secondary-tag",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_replace_secondary_tags_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    tags: list[str],
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        replace_secondary_tags(workspace, entry_id, tags)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-replace-secondary-tags",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_clear_category_metadata_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        clear_category_metadata(workspace, entry_id)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-clear-category-metadata",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_set_notes_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    notes: str | None,
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        update_notes(workspace, entry_id, notes)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-set-notes",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_set_tags_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    tags: list[str],
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        update_tags(workspace, entry_id, tags=tags)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-set-tags",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_add_tags_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    tags: list[str],
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        update_tags(workspace, entry_id, add=tags)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-add-tag",
+        changed_entry_id=entry_id,
+    )
+
+
+def _workspace_remove_tags_command(
+    workspace_path: Path,
+    entry_id: str,
+    *,
+    tags: list[str],
+    output_path: Path,
+) -> int:
+    if not _require_workspace_io_paths(workspace_path, output_path):
+        return 2
+
+    workspace = load_workspace(workspace_path)
+    try:
+        update_tags(workspace, entry_id, remove=tags)
+    except WorkspaceMutationError as error:
+        return _print_error(str(error))
+    return _save_mutated_workspace(
+        workspace,
+        output_path=output_path,
+        command="workspace-remove-tag",
+        changed_entry_id=entry_id,
+    )
+
+
 def _save_mutated_workspace(
     workspace,
     *,
@@ -612,11 +1089,20 @@ def _entry_summary(workspace, entry_id: str) -> dict[str, Any]:
     if entry is None:
         return {"entry_id": entry_id, "status": "removed"}
     return {
+        "categories": list(entry.categories),
+        "category_origin": entry.category_origin,
+        "deck_specific_primary_role": entry.deck_specific_primary_role,
         "display_name": entry.display_name,
         "entry_id": entry.entry_id,
+        "generic_category_hint": entry.generic_category_hint,
+        "imported_category": entry.imported_category,
         "input_name": entry.input_name,
         "is_unresolved": entry.is_unresolved,
+        "normalized_category": entry.normalized_category,
+        "notes": entry.notes,
         "quantity": entry.quantity,
+        "secondary_tags": list(entry.secondary_tags),
+        "tags": list(entry.tags),
         "zone": entry.zone,
     }
 
@@ -675,6 +1161,29 @@ def _require_native_workspace_path(path: Path, label: str) -> bool:
         return True
     print(f"error: {label} must end with .mtgwdeck.json.", file=sys.stderr)
     return False
+
+
+def _add_workspace_entry_output_arguments(command_parser: argparse.ArgumentParser) -> None:
+    command_parser.add_argument("workspace_path", type=Path)
+    command_parser.add_argument("entry_id")
+    command_parser.add_argument("--output", required=True, type=Path)
+
+
+def _add_value_or_clear_arguments(command_parser: argparse.ArgumentParser, value_help: str) -> None:
+    group = command_parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--value", default=None, help=value_help)
+    group.add_argument("--clear", action="store_true", help="Clear this field.")
+
+
+def _value_or_none(args) -> str | None:
+    if getattr(args, "clear", False):
+        return None
+    return args.value
+
+
+def _print_error(message: str) -> int:
+    print(f"error: {message}", file=sys.stderr)
+    return 2
 
 
 def _load_json(path: Path) -> Any:

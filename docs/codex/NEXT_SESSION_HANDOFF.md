@@ -4,12 +4,13 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: CLI completion bundle
+- Current implemented checkpoint: category metadata and entry annotation CLI bundle
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
 - Step 6 visual compare direction docs are complete
-- Current verification: `python -m unittest discover -s tests` passed with 317 tests
+- Current verification: `python -m unittest discover -s tests` passed with 322 tests
+- Current focused workspace category/annotation CLI verification: `python -m unittest tests.test_cli_workspace_category_metadata` passed with 5 tests
 - Current focused Deck Workspace Mutation CLI verification: `python -m unittest tests.test_cli_workspace_mutations` passed with 6 tests
 - Current Deck Workspace Mutation CLI smoke: `workspace-add-card` added `Alias Helper` to a temporary native workspace with local card catalog resolution
 - Current focused Native Workspace Import/Export CLI verification: `python -m unittest tests.test_cli_workspace_import_export` passed with 5 tests
@@ -67,6 +68,8 @@
 - Deck Workspace Mutation CLI v0
 - Deckbuilder Acceptance Checklist Cleanup
 - Deck Inspection CLI Polish v0
+- Category Metadata Mutation CLI v0
+- Entry Annotation CLI v0
 
 ## Audit Status
 
@@ -121,12 +124,18 @@ Known files:
   remove, quantity, zone move, and set commander.
 - Deck Inspection CLI Polish v0 adds `--summary-only` and clear missing-file
   errors.
+- Category Metadata Mutation CLI v0 exposes safe copy-out commands for imported
+  category, normalized category, generic category hint, category origin,
+  secondary tags, and clearing category metadata.
+- Entry Annotation CLI v0 exposes safe copy-out commands for notes and tags.
 
 ## Next Refresh Notes
 
-- Safe stopping point: CLI completion bundle is implemented and verified.
-- Next low-risk mechanical slice: Category Metadata Mutation CLI v0, if CLI
-  editing should cover imported/normalized category metadata.
+- Safe stopping point: category metadata and entry annotation CLI bundle is implemented and verified.
+- Next low-risk mechanical slice: Deck Workspace View Projection v0.
+- Suggested next scope: read-only grouping, sorting, and current-deck filtering
+  projections over existing native workspace fields, without UI or strategic
+  analysis.
 - Deck Role Summary v0 still requires explicit approval because it starts
   deck-level role counting.
 - Do not start recommendations, scoring, commander analysis, package detection,

@@ -18,7 +18,6 @@ Resolved for Deck Workspace Mutations v0:
 
 ## Blocking Before The Next Deckbuilder Slice
 
-- Should the next slice expose workspace import/export and mutations through minimal CLI commands?
 - Should category creation, rename, and reorder get their own helper layer before UI work?
 - Should entry IDs remain UUID strings forever or gain a project-specific prefix for easier debugging?
 
@@ -28,6 +27,13 @@ Resolved for Deck Workspace Import/Export v0:
 - Native `.mtgwdeck.json` remains the saved workspace format.
 - Successful `save_workspace` marks workspaces clean.
 - `Sideboard` imports to maybeboard in v0.
+
+Resolved for workspace CLI access:
+
+- Native workspace import/export commands exist.
+- Basic workspace mutation commands exist.
+- Category metadata mutation commands exist.
+- Entry notes and tags can be edited through explicit copy-out CLI commands.
 
 ## Blocking Before Deck Analysis
 

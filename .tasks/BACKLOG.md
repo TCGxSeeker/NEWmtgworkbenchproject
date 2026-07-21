@@ -8,6 +8,8 @@
 - Deck Workspace Mutation CLI v0 is implemented and verified.
 - Deck Inspection CLI Polish v0 is implemented and verified.
 - Deckbuilder Acceptance Checklist cleanup is complete.
+- Category Metadata Mutation CLI v0 is implemented and verified.
+- Entry Annotation CLI v0 is implemented and verified.
 
 ## Completed Catchup Repairs
 
@@ -35,7 +37,7 @@
 
 ## Near Term
 
-- Category Metadata Mutation CLI v0.
+- Deck Workspace View Projection v0.
 - Keep deck inspection reports factual and deterministic.
 - Keep unsupported Scryfall syntax explicit instead of guessed.
 - Decide when Deck Role Summary v0 is safe to start, because it introduces deck-level role counting.
@@ -45,6 +47,7 @@
 
 - Expand local Scryfall syntax only when explicitly prioritized.
 - Add Commander Profile v0.
+- Add category creation, rename, and reorder helpers after view projections are stable.
 - Add Card Seat / Role Report v0 after deck-level role-counting approval.
 - Add Recommendation Explanation v0 after factual reports and role/context boundaries stabilize.
 - Build deeper deterministic structural audit passes.

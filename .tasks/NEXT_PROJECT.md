@@ -4,27 +4,29 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Branch: `master`
-- Current implemented checkpoint: CLI completion bundle
-- Current full-suite baseline: `python -m unittest discover -s tests` passes with 317 tests
+- Current implemented checkpoint: category metadata and entry annotation CLI bundle
+- Current full-suite baseline: `python -m unittest discover -s tests` passes with 322 tests
 - Current product center remains the deckbuilder foundation and deterministic local analysis pipeline
 
 ## Current Catchup
 
-Steps 1-6 are complete. Deck Inspection CLI v0 and Native Workspace Import/Export CLI v0 are committed and pushed. Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, and Deck Inspection CLI polish are implemented and verified in the current work.
+Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, and Entry Annotation CLI v0 are implemented and verified.
 
 ## Next Recommended Slice
 
-Category Metadata Mutation CLI v0.
+Deck Workspace View Projection v0.
 
-Goal: optionally expose existing category metadata mutation helpers through tiny copy-out CLI commands for local `.mtgwdeck.json` files without app UI.
+Goal: create a read-only projection layer that prepares native workspace entries for future deckbuilder grouping, sorting, and current-deck filtering without app UI.
 
 Expected scope:
 
 1. Update `docs/codex/IMPLEMENTATION_SPEC.md` before coding.
-2. Inspect category metadata helpers in `src/mtg_workbench/deckbuilder/mutations.py`.
-3. Start with imported category, normalized category, generic category hint, and secondary tags only if they wrap existing behavior.
-4. Add tests against tiny temporary workspace files.
-5. Do not add UI, strategic analysis, recommendations, live APIs, or new dependencies.
+2. Inspect deckbuilder view-mode/group/sort/filter docs.
+3. Add a small read-only module that groups by existing workspace fields such as zone, category, and full deck.
+4. Add deterministic sorting by alphabet, quantity, and current category fields where data already exists.
+5. Add simple current-deck text filtering over entry names and tags only.
+6. Add tests against tiny in-memory workspaces.
+7. Do not add UI, strategic analysis, recommendations, live APIs, deck-level role totals, or new dependencies.
 
 ## Boundaries
 

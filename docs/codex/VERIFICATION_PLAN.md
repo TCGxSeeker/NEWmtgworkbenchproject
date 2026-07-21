@@ -14,10 +14,13 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline after the CLI completion bundle:
+Latest repository-wide baseline after Category Metadata Mutation CLI v0 and Entry Annotation CLI v0:
 
 - Repository root: `G:/Documents/New MTG project`
-- `python -m unittest discover -s tests`: passed after Deck Workspace Mutation CLI v0, checklist cleanup, and Deck Inspection CLI polish, 317 tests
+- `python -m unittest discover -s tests`: passed after Category Metadata Mutation CLI v0 and Entry Annotation CLI v0, 322 tests
+- `python -m unittest tests.test_cli_workspace_category_metadata`: passed, 5 tests
+- `python -m mtg_workbench.cli workspace-set-normalized-category <temp>/input.mtgwdeck.json <entry-id> --value Draw --category-taxonomy data/fixtures/categories/category_taxonomy.example.yaml --output <temp>/output.mtgwdeck.json`: passed in focused tests and CLI smoke
+- `python -m mtg_workbench.cli workspace-set-notes <temp>/output.mtgwdeck.json <entry-id> --value "Needs review" --output <temp>/notes.mtgwdeck.json`: passed in focused tests and CLI smoke
 - `python -m unittest tests.test_cli_workspace_mutations`: passed, 6 tests
 - `python -m mtg_workbench.cli workspace-add-card <temp>/mutation-input.mtgwdeck.json "Alias Helper" --cards tests/fixtures/cards/tiny_cards.json --entry-id smoke-add --quantity 2 --output <temp>/mutation-output.mtgwdeck.json`: passed
 - `python -m unittest tests.test_cli_workspace_import_export`: passed, 5 tests
@@ -30,7 +33,7 @@ Latest repository-wide baseline after the CLI completion bundle:
 - `python -m unittest tests.test_relationship_pair_inspection tests.test_card_record_pair_inspection`: passed, 21 tests
 - `python -m unittest tests.test_scryfall_indexer`: passed, 5 tests
 - `python -m py_compile src/mtg_workbench/scryfall/indexer.py`: passed
-- `git diff --check`: passed after Native Workspace Import/Export CLI v0
+- `git diff --check`: passed after Category Metadata Mutation CLI v0 and Entry Annotation CLI v0; Git reported expected README line-ending normalization warning
 - `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report`: passed, 85 tests
 - `python -m py_compile src/mtg_workbench/deckbuilder/mutations.py src/mtg_workbench/cards/catalog.py src/mtg_workbench/deckbuilder/card_fact_lookup.py src/mtg_workbench/deckbuilder/deck_inspection_report.py`: passed
 - `python -m unittest tests.test_relationship_input_contract_hardening tests.test_relationship_primitives tests.test_card_behavioral_profile tests.test_behavioral_atom_extraction`: passed, 42 tests
@@ -112,6 +115,14 @@ Focused workspace mutation CLI checks:
 ```powershell
 python -m unittest tests.test_cli_workspace_mutations
 python -m mtg_workbench.cli workspace-add-card <temp>/mutation-input.mtgwdeck.json "Alias Helper" --cards tests/fixtures/cards/tiny_cards.json --entry-id smoke-add --quantity 2 --output <temp>/mutation-output.mtgwdeck.json
+```
+
+Focused workspace category and annotation CLI checks:
+
+```powershell
+python -m unittest tests.test_cli_workspace_category_metadata
+python -m mtg_workbench.cli workspace-set-normalized-category <temp>/input.mtgwdeck.json <entry-id> --value Draw --category-taxonomy data/fixtures/categories/category_taxonomy.example.yaml --output <temp>/output.mtgwdeck.json
+python -m mtg_workbench.cli workspace-set-notes <temp>/output.mtgwdeck.json <entry-id> --value "Needs review" --output <temp>/notes.mtgwdeck.json
 ```
 
 Known remaining audit repair queue:

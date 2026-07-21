@@ -60,7 +60,7 @@
 Deferred beyond this slice:
 
 - Full Commander legality validation.
-- Broader category metadata mutation CLI commands.
+- Deck-specific role editing CLI.
 - Bulk edit and multi-select mutation commands.
 - UI mutation controls.
 
@@ -167,3 +167,40 @@ Deferred beyond this slice:
 - Primary-role enforcement.
 - Role-counting engine.
 - Strategic category/role recommendations.
+
+## Category Metadata Mutation CLI V0
+
+- [x] Imported category metadata can be set or cleared from the CLI.
+- [x] Normalized category metadata can be set or cleared from the CLI.
+- [x] Normalized category metadata can be validated with a supplied local taxonomy.
+- [x] Generic category hint metadata can be set or cleared from the CLI.
+- [x] Category origin metadata can be set or cleared from the CLI.
+- [x] Secondary tags can be added, removed, replaced, and cleared from the CLI.
+- [x] All category metadata can be cleared while preserving `categories`.
+- [x] Category metadata CLI commands require explicit `--output` paths.
+- [x] Category metadata CLI output includes stable entry summaries.
+- [x] Deck-specific primary-role assignment remains intentionally unexposed.
+- [x] No UI code, frontend dependency changes, recommendations, role counting, auto-categorization, live APIs, or large datasets were added.
+
+Deferred beyond this slice:
+
+- Deck-specific role editing CLI.
+- UI controls for category metadata.
+- Primary-role enforcement.
+- Role-counting engine.
+- Strategic category/role recommendations.
+
+## Entry Annotation CLI V0
+
+- [x] Entry notes can be set or cleared from the CLI.
+- [x] Entry tags can be replaced from the CLI.
+- [x] Entry tags can be added from the CLI.
+- [x] Entry tags can be removed from the CLI.
+- [x] Annotation CLI commands require explicit `--output` paths.
+- [x] Annotation CLI output includes stable entry summaries.
+- [x] No UI code, frontend dependency changes, analysis, recommendations, live APIs, or large datasets were added.
+
+Deferred beyond this slice:
+
+- Bulk edit and multi-select annotation commands.
+- UI controls for notes and tags.

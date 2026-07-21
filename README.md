@@ -4,11 +4,11 @@ Offline-first Commander deckbuilding workbench for importing decklists, normaliz
 
 ## Current Status
 
-The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, native `.mtgwdeck.json` workspace support, plain text import/export with CLI access, workspace mutation CLI access, deterministic role evidence, local card fact lookup, deck skeleton and structural warning reports, a bounded deck inspection envelope with CLI access, typed card relationship primitives, factual behavioral profiles, bounded behavioral atom extraction, deterministic relationship edge derivation, factual relationship reports, and stable end-to-end inspection and relationship smoke fixtures.
+The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, native `.mtgwdeck.json` workspace support, plain text import/export with CLI access, workspace mutation/category/annotation CLI access, deterministic role evidence, local card fact lookup, deck skeleton and structural warning reports, a bounded deck inspection envelope with CLI access, typed card relationship primitives, factual behavioral profiles, bounded behavioral atom extraction, deterministic relationship edge derivation, factual relationship reports, and stable end-to-end inspection and relationship smoke fixtures.
 
 No finished deckbuilder UI, recommendation engine, scoring rubric, structural audit engine, or full deck report exists yet.
 
-Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 317 tests after Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, and Deck Inspection CLI polish.
+Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 322 tests after Category Metadata Mutation CLI v0 and Entry Annotation CLI v0.
 
 ## Basic Commands
 
@@ -33,6 +33,8 @@ Import and export native workspaces:
 python -m mtg_workbench.cli workspace-import tests/fixtures/deckbuilder/commander_import.txt --cards tests/fixtures/cards/tiny_cards.json --output deck.mtgwdeck.json
 python -m mtg_workbench.cli workspace-export deck.mtgwdeck.json --output decklist.txt
 python -m mtg_workbench.cli workspace-add-card deck.mtgwdeck.json "Arcane Helper" --cards tests/fixtures/cards/tiny_cards.json --output deck-edited.mtgwdeck.json
+python -m mtg_workbench.cli workspace-set-normalized-category deck-edited.mtgwdeck.json <entry-id> --value Draw --category-taxonomy data/fixtures/categories/category_taxonomy.example.yaml --output deck-categorized.mtgwdeck.json
+python -m mtg_workbench.cli workspace-set-notes deck-categorized.mtgwdeck.json <entry-id> --value "Needs review" --output deck-noted.mtgwdeck.json
 ```
 
 Run the frontend scaffold checks:
@@ -67,4 +69,4 @@ Pop-Location
 
 ## Implementation Boundary
 
-Deckbuilder Foundation implementation includes the native workspace model, in-memory mutation helpers and CLI commands, plain text import/export and CLI commands, role-rule loading, local card fact lookup, card facts adaptation, card-level role evidence pipelines, structural deck reports, mechanical warnings, a factual deck inspection envelope and CLI command, typed relationship primitives, bounded behavior extraction, deterministic pairwise edge derivation, factual relationship reporting, and stable smoke fixtures. Do not add app UI, new frontend dependencies, full deck analysis, recommendations, scoring logic, strategic quality judgments, live APIs, or visual components until their own implementation slice is approved.
+Deckbuilder Foundation implementation includes the native workspace model, in-memory mutation helpers and CLI commands, category metadata and annotation CLI commands, plain text import/export and CLI commands, role-rule loading, local card fact lookup, card facts adaptation, card-level role evidence pipelines, structural deck reports, mechanical warnings, a factual deck inspection envelope and CLI command, typed relationship primitives, bounded behavior extraction, deterministic pairwise edge derivation, factual relationship reporting, and stable smoke fixtures. Do not add app UI, new frontend dependencies, full deck analysis, recommendations, scoring logic, strategic quality judgments, live APIs, or visual components until their own implementation slice is approved.

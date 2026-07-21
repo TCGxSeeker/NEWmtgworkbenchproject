@@ -359,3 +359,9 @@
   - Alternatives considered: changing the default inspect output, adding prose output, or exposing debug fields by default.
   - Risk: Summary-only output may need additional fields later, but it keeps raw report details behind an explicit full-output path.
   - Status: Accepted for Deck Inspection CLI Polish v0.
+
+- Decision: Expose category metadata and entry annotation edits through explicit copy-out CLI commands.
+  - Reason: The deckbuilder workspace already has safe in-memory helpers for imported/normalized category metadata, secondary tags, notes, and tags, and file-based commands make those saved workspace edits testable before UI work.
+  - Alternatives considered: waiting for app UI controls, adding one broad generic mutation command, or exposing deck-specific primary-role assignment now.
+  - Risk: The command list is intentionally mechanical and may later consolidate behind UI actions, but the explicit CLI surface avoids hidden strategic role changes.
+  - Status: Accepted for Category Metadata Mutation CLI v0 and Entry Annotation CLI v0.
