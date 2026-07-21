@@ -4,27 +4,27 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Branch: `master`
-- Current head: `df46b33 Repair catchup foundation contracts`
+- Last committed repair checkpoint before Step 6: `7f67e40 Harden Scryfall index persistence`
 - Current full-suite baseline: `python -m unittest discover -s tests` passes with 298 tests
 - Current product center remains the deckbuilder foundation and deterministic local analysis pipeline
 
 ## Current Catchup
 
-Steps 1-4 are committed. Step 5 is complete in the current working tree unless already committed. The next catchup repair should clarify visual compare source-target direction before new feature work.
+Steps 1-5 are committed. Step 6 visual compare direction docs are complete. No active numbered catchup repair remains after Step 6.
 
 ## Next Recommended Slice
 
-Step 6: Visual Compare Direction Decision.
+Readiness Checkpoint After Catchup Repairs.
 
-Goal: clarify how a future `Inspect interaction` action chooses source and target direction. Current code inspects source-to-target only, and tests correctly lock that reverse direction is not automatic.
+Goal: review the completed catchup repair queue, commit Step 6, and choose the next bounded implementation slice only after confirming the foundation remains aligned.
 
 Expected scope:
 
-1. Inspect `docs/product/deckbuilder/VISUAL_CARD_PAIR_COMPARE_V0.md`.
-2. Inspect relationship and card-record pair inspection tests for current directionality.
-3. Document whether UI chooses source first, prompts for direction, or offers explicit reverse inspection later.
-4. Keep automatic reverse-direction analysis out unless explicitly approved.
-5. Do not implement UI code.
+1. Confirm Step 6 docs are committed.
+2. Run `python -m unittest discover -s tests`.
+3. Run `git diff --check`.
+4. Review whether the next slice should be documentation, CLI/report output, or another bounded backend foundation.
+5. Do not start app UI code without a fresh implementation handoff.
 
 ## Boundaries
 

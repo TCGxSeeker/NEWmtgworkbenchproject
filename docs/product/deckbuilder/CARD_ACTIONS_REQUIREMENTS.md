@@ -46,6 +46,10 @@ The baseline comparison surface must not automatically show:
 A future explicit `Inspect interaction` control may reveal factual
 relationship evidence through progressive disclosure.
 
+If interaction inspection is added, it must be directional. The card that
+started the comparison is the default source, the second selected card is the
+default target, and reverse inspection must be a separate explicit action.
+
 ## Interaction Notes
 
 - Keep frequent actions close to the card row or card tile.

@@ -71,6 +71,25 @@ A later explicit control may be labeled:
 That action may request the factual card-relationship report. It must remain
 user-initiated and collapsed by default.
 
+## Interaction Inspection Direction
+
+Baseline visual comparison has no source or target direction. It only places
+two selected cards beside each other.
+
+If a later `Inspect interaction` control is used, the inspection is
+directional:
+
+- the card that started `Compare card with...` is the default source
+- the second selected card is the default target
+- the UI must label the direction clearly, such as `source -> target`
+- reverse inspection must require an explicit user action
+- reverse results must be requested and displayed separately
+- no automatic reverse-direction analysis should run in the baseline flow
+
+Replacing either side should preserve a clear source-target label when
+inspection is open. Closing comparison should discard the inspection state
+with the rest of the transient comparison state.
+
 ## Explicit Non-Goals
 
 Visual Card Pair Compare v0 does not automatically:

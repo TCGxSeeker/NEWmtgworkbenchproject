@@ -14,14 +14,15 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline around Step 5 catchup repairs:
+Latest repository-wide baseline after Step 6 catchup repairs:
 
 - Repository root: `G:/Documents/New MTG project`
-- Current head: `df46b33 Repair catchup foundation contracts`
-- `python -m unittest discover -s tests`: passed after Step 5 Scryfall index repairs, 298 tests
+- Last committed repair checkpoint before Step 6: `7f67e40 Harden Scryfall index persistence`
+- `python -m unittest discover -s tests`: passed after Step 6 visual compare direction docs, 298 tests
+- `python -m unittest tests.test_relationship_pair_inspection tests.test_card_record_pair_inspection`: passed, 21 tests
 - `python -m unittest tests.test_scryfall_indexer`: passed, 5 tests
 - `python -m py_compile src/mtg_workbench/scryfall/indexer.py`: passed
-- `git diff --check`: passed after Step 5 Scryfall index repairs
+- `git diff --check`: passed after Step 6 visual compare direction docs
 - `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report`: passed, 85 tests
 - `python -m py_compile src/mtg_workbench/deckbuilder/mutations.py src/mtg_workbench/cards/catalog.py src/mtg_workbench/deckbuilder/card_fact_lookup.py src/mtg_workbench/deckbuilder/deck_inspection_report.py`: passed
 - `python -m unittest tests.test_relationship_input_contract_hardening tests.test_relationship_primitives tests.test_card_behavioral_profile tests.test_behavioral_atom_extraction`: passed, 42 tests
@@ -84,7 +85,8 @@ python -m unittest tests.test_scryfall_indexer
 
 Known remaining audit repair queue:
 
-1. Visual comparison source-target direction decision.
+- No active numbered catchup repair remains after Step 6. Do a deliberate
+  readiness checkpoint before starting the next implementation slice.
 
 ## Future Test Categories
 

@@ -8,7 +8,7 @@ The project has operating docs, source fixtures, parser/normalizer code, local S
 
 No finished deckbuilder UI, recommendation engine, scoring rubric, structural audit engine, or full deck report exists yet.
 
-Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 298 tests in the current working tree at `df46b33 Repair catchup foundation contracts`. See `docs/codex/NEXT_SESSION_HANDOFF.md` for the active catchup repair queue.
+Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 298 tests after the Step 6 visual compare direction documentation update. The last committed repair checkpoint before Step 6 was `7f67e40 Harden Scryfall index persistence`; see `docs/codex/NEXT_SESSION_HANDOFF.md` for the active handoff.
 
 ## Basic Commands
 

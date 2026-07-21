@@ -100,6 +100,11 @@ A later explicit `Inspect interaction` action may consume the factual
 relationship subsystem, but that behavior is not part of baseline visual
 comparison.
 
+When interaction inspection is available, the first selected card is the
+default source and the second selected card is the default target. Reverse
+inspection is not automatic; it must be requested by an explicit reverse or
+direction-switch action.
+
 ## Import And Export
 
 Import should support plain text decklists first. Export should preserve quantity and card name in a simple decklist format before richer export targets are considered.

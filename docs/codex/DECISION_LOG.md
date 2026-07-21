@@ -329,3 +329,9 @@
   - Alternatives considered: writing the manifest after replacing the DB, ignoring stale manifest risk, or requiring manual cleanup after failed rebuilds.
   - Risk: Cross-file replacement cannot be crash-atomic at the filesystem level, but handled failures now roll back both files and remove temporary outputs.
   - Status: Accepted for Scryfall Index Portability and Atomicity Patch.
+
+- Decision: Keep visual card comparison direction-free, and make optional relationship inspection explicitly source-to-target.
+  - Reason: The pair-inspection implementation derives one directional relationship at a time, and tests lock that reverse direction is not automatic.
+  - Alternatives considered: automatically inspecting both directions, prompting for direction before visual comparison, or showing relationship evidence by default.
+  - Risk: Users may need a clear affordance to inspect the reverse direction later, but the baseline compare flow remains calm and analysis-free.
+  - Status: Accepted for Visual Compare Direction Decision.

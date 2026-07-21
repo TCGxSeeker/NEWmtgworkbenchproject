@@ -2,9 +2,8 @@
 
 ## Active Catchup Repair Queue
 
-1. Step 6: Visual Compare Direction Decision.
-   - Decide how a future `Inspect interaction` UI action chooses source and target direction.
-   - Keep automatic reverse-direction analysis out unless explicitly approved.
+- No active numbered catchup repair remains after Step 6.
+- Do a readiness checkpoint before starting the next implementation slice.
 
 ## Completed Catchup Repairs
 
@@ -25,6 +24,10 @@
   - Added moved-repo fallback for stale Scryfall manifest `local_path` values.
   - Preferred raw-root resolution before cwd fallback for relative paths.
   - Wrote the next index manifest before replacing live outputs and restored prior DB/manifest on handled replacement failure.
+- Step 6: Visual Compare Direction Decision.
+  - Kept baseline card comparison visual and direction-free.
+  - Defined optional `Inspect interaction` as explicit source-to-target inspection.
+  - Required reverse inspection to be a separate user action, not automatic.
 
 ## Near Term
 

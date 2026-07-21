@@ -4,11 +4,13 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current head: `df46b33 Repair catchup foundation contracts`
+- Last committed repair checkpoint before Step 6: `7f67e40 Harden Scryfall index persistence`
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
-- Step 5 Scryfall index repairs: applied in the working tree unless already committed
+- Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
+- Step 6 visual compare direction docs are complete
 - Current verification: `python -m unittest discover -s tests` passed with 298 tests
+- Current focused pair-inspection verification: `python -m unittest tests.test_relationship_pair_inspection tests.test_card_record_pair_inspection` passed with 21 tests
 - Current focused Scryfall index verification: `python -m unittest tests.test_scryfall_indexer` passed with 5 tests
 - Current focused workspace/card lookup verification: `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report` passed with 85 tests
 - Current focused contract verification: `python -m unittest tests.test_relationship_input_contract_hardening tests.test_relationship_primitives tests.test_card_behavioral_profile tests.test_behavioral_atom_extraction` passed with 42 tests
@@ -82,11 +84,9 @@ Rejected invalid supplied workspace entry IDs before entry creation, aligned no-
 
 Added moved-repo fallback for stale Scryfall manifest source paths and hardened DB/manifest replacement so handled manifest replacement failures restore the previous local index state.
 
-## Active Catchup Repair Queue
-
 ### Step 6: Visual Compare Direction Decision
 
-Clarify how a future `Inspect interaction` UI action chooses source and target direction. Current code inspects source-to-target only, and tests correctly lock that reverse direction is not automatic.
+Clarified how a future `Inspect interaction` UI action chooses source and target direction. Baseline visual comparison remains direction-free and analysis-free. Optional relationship inspection uses the card that started comparison as the default source and the second selected card as the default target. Reverse inspection is not automatic and must be requested explicitly.
 
 Known files:
 
@@ -95,6 +95,12 @@ Known files:
 - `src/mtg_workbench/deckbuilder/card_record_pair_inspection.py`
 - `tests/test_relationship_pair_inspection.py`
 - `tests/test_card_record_pair_inspection.py`
+
+## Active Catchup Repair Queue
+
+- No active numbered catchup repair remains after Step 6.
+- Before starting new feature work, do a deliberate readiness checkpoint and
+  choose the next bounded slice.
 
 ## Core Constraints
 
