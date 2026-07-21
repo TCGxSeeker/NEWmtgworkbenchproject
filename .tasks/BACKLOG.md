@@ -19,6 +19,7 @@
 - See The Deck v0 is implemented and verified.
 - See The Deck v0 Visual Review Checkpoint is implemented and verified.
 - Find And Add Cards v0 is implemented and verified.
+- Card Details Surface v0 is implemented and verified.
 
 ## Completed Catchup Repairs
 
@@ -46,7 +47,8 @@
 
 ## Near Term
 
-- Card Details Surface v0.
+- Card Details Surface v0 human review checkpoint.
+- Deck Validation v0 after the details surface receives a visual pass.
 - Keep deck inspection reports factual and deterministic.
 - Keep unsupported Scryfall syntax explicit instead of guessed.
 - Decide when Deck Role Summary v0 is safe to start, because it introduces deck-level role counting.
@@ -72,5 +74,5 @@
 - Recommendations.
 - Candidate search.
 - Add/cut scoring.
-- App UI.
+- Broad unapproved app UI.
 - Live APIs or hosted dependencies.

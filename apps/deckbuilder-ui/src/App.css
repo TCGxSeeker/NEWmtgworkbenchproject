@@ -7,6 +7,7 @@
 .deck-header,
 .workspace-bar,
 .add-card-panel,
+.card-details-panel,
 .deck-workspace,
 .deck-sidebar {
   border: 1px solid var(--border);
@@ -53,6 +54,7 @@
 .deck-heading h1,
 .workspace-title h2,
 .add-card-header h2,
+.card-details-header h2,
 .deck-sidebar h2 {
   margin: 0;
   color: var(--text-strong);
@@ -68,6 +70,7 @@
 
 .workspace-title h2,
 .add-card-header h2,
+.card-details-header h2,
 .deck-sidebar h2 {
   font-size: 20px;
   line-height: 1.2;
@@ -176,6 +179,8 @@
 .add-card-toggle:focus-visible,
 .add-zone-toggle button:focus-visible,
 .result-add:focus-visible,
+.details-trigger:focus-visible,
+.details-close:focus-visible,
 .group-heading:focus-visible,
 .deck-filter input:focus-visible,
 .card-search-field input:focus-visible {
@@ -349,6 +354,43 @@
   white-space: nowrap;
 }
 
+.search-result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: end;
+}
+
+.details-trigger,
+.details-close {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 0 10px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.details-trigger:hover,
+.details-close:hover {
+  color: var(--text-strong);
+  border-color: rgba(117, 211, 194, 0.34);
+  background: rgba(117, 211, 194, 0.08);
+}
+
+.details-trigger.compact {
+  min-height: 30px;
+  font-size: 12px;
+}
+
 .search-empty {
   display: flex;
   align-items: center;
@@ -363,6 +405,80 @@
 
 .search-empty p {
   margin: 0;
+}
+
+.card-details-panel {
+  display: grid;
+  gap: 16px;
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.card-details-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.details-close {
+  flex: 0 0 auto;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.details-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(9, 11, 14, 0.35);
+}
+
+.details-field dt,
+.details-field dd {
+  margin: 0;
+}
+
+.details-field dt {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.details-field dd {
+  min-width: 0;
+  color: var(--text-strong);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.details-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.details-pills span {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  border: 1px solid rgba(157, 127, 203, 0.42);
+  border-radius: 7px;
+  padding: 0 8px;
+  color: var(--plum);
+  background: rgba(157, 127, 203, 0.12);
+  font-size: 12px;
+  line-height: 1;
 }
 
 .workspace-layout {
@@ -440,7 +556,7 @@
 
 .deck-row {
   display: grid;
-  grid-template-columns: 44px minmax(170px, 1fr) minmax(120px, auto) 54px 104px;
+  grid-template-columns: 44px minmax(170px, 1fr) minmax(120px, auto) 54px 104px auto;
   gap: 12px;
   align-items: center;
   min-height: 58px;
@@ -523,7 +639,7 @@
 
 table {
   width: 100%;
-  min-width: 720px;
+  min-width: 820px;
   border-collapse: collapse;
 }
 
@@ -635,8 +751,13 @@ tbody tr:last-child td {
     justify-content: start;
   }
 
-  .result-add {
+  .result-add,
+  .search-result-actions {
     justify-self: start;
+  }
+
+  .details-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -684,7 +805,9 @@ tbody tr:last-child td {
   .add-card-toggle,
   .add-card-header,
   .add-zone-toggle,
-  .result-add {
+  .result-add,
+  .search-result-actions,
+  .details-close {
     width: 100%;
   }
 
@@ -703,12 +826,22 @@ tbody tr:last-child td {
     flex-direction: column;
   }
 
+  .card-details-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
   .deck-row {
     grid-template-columns: 38px minmax(0, 1fr) 44px;
   }
 
   .category-pills,
-  .zone-pill {
+  .zone-pill,
+  .deck-row .details-trigger {
     grid-column: 2 / -1;
     justify-self: start;
     max-width: 100%;

@@ -830,3 +830,22 @@ python C:/Users/StDeL/.codex/skills/.system/skill-creator/scripts/quick_validate
 python C:/Users/StDeL/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/verification-gate
 python C:/Users/StDeL/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/gotcha-capture
 ```
+
+## Deckbuilder UI Checks
+
+After changing `apps/deckbuilder-ui/`:
+
+```powershell
+Push-Location apps/deckbuilder-ui
+& 'C:\Program Files\nodejs\npm.cmd' run build
+& 'C:\Program Files\nodejs\npm.cmd' run lint
+Pop-Location
+python -m unittest discover -s tests
+git diff --check
+```
+
+Expected behavior for Card Details Surface v0: explicitly selected deck rows,
+table rows, and search results can open a dismissible factual details panel;
+the panel preserves deck/search context; it shows only local fixture-backed
+fields; and it does not add live APIs, price, legality, rank, salt,
+marketplace, oracle-tag, recommendation, scoring, or role-judgment behavior.

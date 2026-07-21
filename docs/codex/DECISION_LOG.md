@@ -449,3 +449,9 @@
   - Alternatives considered: copying the full rich details surface now, ignoring card details, or mixing recommendation/debug fields into the first details view.
   - Risk: The first details slice may feel plain until local images, oracle tags, legality, and printing data are wired.
   - Status: Accepted as next-slice guidance.
+
+- Decision: Implement Card Details Surface v0 as a factual local panel.
+  - Reason: The deckbuilder's next north-star step is understanding a card, and the current UI already has explicit deck rows, table rows, and search results that can open factual details without adding strategic claims.
+  - Alternatives considered: copying the richer Archidekt modal, adding card images immediately, or waiting until the local Scryfall index is wired into the frontend.
+  - Risk: The panel is intentionally plain and fixture-limited until local oracle text, images, printings, and richer local facts are separately approved and wired.
+  - Status: Accepted for Card Details Surface v0.

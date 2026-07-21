@@ -376,5 +376,23 @@ Deferred beyond this slice:
 - Loading user-selected workspace files into the app.
 - Wiring global search to the local Scryfall SQLite index.
 - Syntax-backed global search UI.
-- Card details surface.
 - Validation warnings for added cards.
+
+## Card Details Surface V0
+
+- [x] Deck rows can open a factual card details panel.
+- [x] Table rows can open the same factual card details panel.
+- [x] Search results can open details without adding the card.
+- [x] Details preserve the current deck, filter, and add-card context.
+- [x] Details show only local fields already present in visible fixture data.
+- [x] Details can be closed without mutating deck state.
+- [x] No live price, legality claims, EDHREC rank, salt score, marketplace links, oracle tags, recommendations, scoring, role judgment, or card images were added.
+- [x] No new frontend dependencies were added.
+
+Deferred beyond this slice:
+
+- Card images.
+- Oracle text and oracle tags from local indexed data.
+- Printing selector and foil state UI.
+- Legality, price, rank, and salt fields backed by approved local data.
+- Rich visual treatment beyond the functional v0 panel.

@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: Find And Add Cards v0
+- Current implemented checkpoint: Card Details Surface v0
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
@@ -75,6 +75,12 @@
 - Workspace View CLI v0
 - Card-Fact-Backed Workspace Projection v0
 - Color Identity Workspace Projection v0
+- Workspace View Fixture Smoke v0
+- Workspace Projection Contract Docs v0
+- See The Deck v0
+- See The Deck v0 Visual Review Checkpoint
+- Find And Add Cards v0
+- Card Details Surface v0
 
 ## Audit Status
 
@@ -159,6 +165,11 @@ Known files:
   card-search fixture, mainboard/maybeboard add target, explicit add action,
   quantity incrementing for same-card/same-zone entries, visible unsaved state,
   and separate current-deck filtering versus global card search.
+- Card Details Surface v0 adds explicit details actions on deck rows, table
+  rows, and search results. The panel shows only local factual fields already
+  present in the fixture data and does not add live price, legality, rank, salt,
+  printing, marketplace, oracle-tag, recommendation, scoring, role-judgment, or
+  card-image behavior.
 - Human pass after Find And Add Cards v0: function is highly responsive, and
   the add-card workflow works well as its own collapsible window/panel. Visual
   style is not approved as final; treat it as rough test-flight styling that
@@ -191,7 +202,7 @@ Known files:
 ## Current Readiness Snapshot
 
 - Deckbuilder acceptance checklist checkboxes: all current items complete after
-  Find And Add Cards v0.
+  Card Details Surface v0.
 - Native workspace model, editing, import/export, category metadata, annotation,
   and view-projection backend are the most complete deckbuilder areas.
 - Finished app UI, recommendation logic, scoring, commander analysis, and
@@ -204,18 +215,22 @@ Known files:
 
 ## Next Refresh Notes
 
-- Safe stopping point: Find And Add Cards v0 is implemented and verified.
+- Safe stopping point: Card Details Surface v0 is implemented and verified.
 - Human validation note: preserve the collapsible add-card panel concept, but
   do not preserve the current rough visual treatment as final direction.
+- Human validation note: Card Details Surface v0 is a functional factual panel,
+  not final visual treatment. Review it before expanding details into richer
+  images, printings, oracle text, or tabs.
 - Visual reference note: `docs/product/deckbuilder/reference/VISUAL_REFERENCE_NOTES.md`
   captures approved style cues only; it is not a clone target or domain source.
 - Archidekt pathing reference:
   `docs/product/deckbuilder/reference/ARCHIDEKT_NEW_DECK_SEARCH_REFERENCE.md`
   captures capability and interaction cues only.
-- Next recommended slice: Card Details Surface v0.
-- Suggested scope: define the implementation spec, then add the smallest
-  selected-card details surface using only factual fields already present in
-  visible deck entries or tiny local search fixture data.
+- Next recommended slice: Card Details Surface v0 Human Review Checkpoint, then
+  Deck Validation v0.
+- Suggested scope: visually review the details panel in-browser, make only small
+  taste-reviewable polish if needed, then define the first factual/mechanical
+  validation slice.
 - Product north-star sequence: see the deck, find and add cards, understand a
   card, validate the deck, edit safely in bulk, inspect useful statistics, manage
   printings, and recover earlier versions.
@@ -262,7 +277,7 @@ Future output schemas should separate machine-readable evidence, concise user-fa
 - Synergy scoring.
 - Deck-level role totals.
 - All-pairs relationship comparison.
-- App UI.
+- Broad unapproved app UI.
 - Frontend dependencies.
 - Online services or live API calls.
 - Full Scryfall auto-categorization.

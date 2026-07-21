@@ -5,6 +5,7 @@ import {
   ChevronRight,
   CircleAlert,
   Filter,
+  Info,
   Layers,
   Plus,
   Search,
@@ -26,6 +27,20 @@ import {
 type ViewMode = 'grouped' | 'table'
 type DeckZone = WorkspaceViewEntry['zone']
 type AddZone = Extract<DeckZone, 'mainboard' | 'maybeboard'>
+type CardDetailsSource = 'deck' | 'search'
+
+type CardDetails = {
+  source: CardDetailsSource
+  card_name: string
+  type_line: string
+  mana_value: number | null
+  color_identity: string[]
+  zone: DeckZone | null
+  quantity: number | null
+  categories: string[]
+  tags: string[]
+  notes: string | null
+}
 
 const ACTIVE_ZONES = new Set<DeckZone>(['commander', 'mainboard'])
 const ADD_ZONES: AddZone[] = ['mainboard', 'maybeboard']
@@ -60,6 +75,7 @@ function App() {
   const [addZone, setAddZone] = useState<AddZone>('mainboard')
   const [hasLocalEdits, setHasLocalEdits] = useState(false)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
+  const [selectedCardDetails, setSelectedCardDetails] = useState<CardDetails | null>(null)
 
   const allGroups = useMemo(() => buildGroups(deckEntries), [deckEntries])
   const visibleEntries = useMemo(
@@ -251,8 +267,16 @@ function App() {
             query={cardSearchText}
             results={searchResults}
             onAdd={addCandidateToDeck}
+            onOpenDetails={setSelectedCardDetails}
           />
         </section>
+      )}
+
+      {selectedCardDetails && (
+        <CardDetailsPanel
+          details={selectedCardDetails}
+          onClose={() => setSelectedCardDetails(null)}
+        />
       )}
 
       <section className="workspace-layout">
@@ -273,9 +297,13 @@ function App() {
               groups={visibleGroups}
               collapsedGroups={collapsedGroups}
               onToggleGroup={toggleGroup}
+              onOpenDetails={setSelectedCardDetails}
             />
           ) : (
-            <DeckTable entries={visibleEntries} />
+            <DeckTable
+              entries={visibleEntries}
+              onOpenDetails={setSelectedCardDetails}
+            />
           )}
         </section>
 
@@ -318,12 +346,14 @@ function SearchResults({
   query,
   results,
   onAdd,
+  onOpenDetails,
 }: {
   addZone: AddZone
   deckEntries: WorkspaceViewEntry[]
   query: string
   results: CardSearchCandidate[]
   onAdd: (candidate: CardSearchCandidate) => void
+  onOpenDetails: (details: CardDetails) => void
 }) {
   if (!normalizeText(query)) {
     return null
@@ -353,14 +383,24 @@ function SearchResults({
               <span>{formatColors(candidate.color_identity)}</span>
               {quantityInDeck > 0 && <span>{quantityInDeck} in deck</span>}
             </div>
-            <button
-              type="button"
-              className="result-add"
-              onClick={() => onAdd(candidate)}
-            >
-              <Plus size={15} aria-hidden="true" />
-              Add to {zoneLabel(addZone)}
-            </button>
+            <div className="search-result-actions">
+              <button
+                type="button"
+                className="details-trigger"
+                onClick={() => onOpenDetails(candidateToDetails(candidate, quantityInDeck))}
+              >
+                <Info size={15} aria-hidden="true" />
+                Details
+              </button>
+              <button
+                type="button"
+                className="result-add"
+                onClick={() => onAdd(candidate)}
+              >
+                <Plus size={15} aria-hidden="true" />
+                Add to {zoneLabel(addZone)}
+              </button>
+            </div>
           </article>
         )
       })}
@@ -372,10 +412,12 @@ function GroupedDeck({
   groups,
   collapsedGroups,
   onToggleGroup,
+  onOpenDetails,
 }: {
   groups: WorkspaceViewGroup[]
   collapsedGroups: Set<string>
   onToggleGroup: (groupId: string) => void
+  onOpenDetails: (details: CardDetails) => void
 }) {
   if (groups.length === 0) {
     return <EmptyState />
@@ -409,7 +451,11 @@ function GroupedDeck({
             {!isCollapsed && (
               <div className="card-rows">
                 {group.entries.map((entry) => (
-                  <DeckRow entry={entry} key={entry.entry_id} />
+                  <DeckRow
+                    entry={entry}
+                    key={entry.entry_id}
+                    onOpenDetails={onOpenDetails}
+                  />
                 ))}
               </div>
             )}
@@ -420,7 +466,13 @@ function GroupedDeck({
   )
 }
 
-function DeckTable({ entries }: { entries: WorkspaceViewEntry[] }) {
+function DeckTable({
+  entries,
+  onOpenDetails,
+}: {
+  entries: WorkspaceViewEntry[]
+  onOpenDetails: (details: CardDetails) => void
+}) {
   if (entries.length === 0) {
     return <EmptyState />
   }
@@ -436,6 +488,7 @@ function DeckTable({ entries }: { entries: WorkspaceViewEntry[] }) {
             <th>Mana</th>
             <th>Type</th>
             <th>Zone</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>
@@ -447,6 +500,16 @@ function DeckTable({ entries }: { entries: WorkspaceViewEntry[] }) {
               <td>{formatManaValue(entry.mana_value)}</td>
               <td>{entry.type_labels.join(', ') || 'Card'}</td>
               <td>{zoneLabel(entry.zone)}</td>
+              <td>
+                <button
+                  type="button"
+                  className="details-trigger compact"
+                  onClick={() => onOpenDetails(entryToDetails(entry))}
+                >
+                  <Info size={14} aria-hidden="true" />
+                  Details
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -455,7 +518,13 @@ function DeckTable({ entries }: { entries: WorkspaceViewEntry[] }) {
   )
 }
 
-function DeckRow({ entry }: { entry: WorkspaceViewEntry }) {
+function DeckRow({
+  entry,
+  onOpenDetails,
+}: {
+  entry: WorkspaceViewEntry
+  onOpenDetails: (details: CardDetails) => void
+}) {
   return (
     <article className="deck-row">
       <div className="quantity" aria-label={`${entry.quantity} copies`}>
@@ -474,7 +543,84 @@ function DeckRow({ entry }: { entry: WorkspaceViewEntry }) {
         {formatManaValue(entry.mana_value)}
       </div>
       <div className="zone-pill">{zoneLabel(entry.zone)}</div>
+      <button
+        type="button"
+        className="details-trigger"
+        onClick={() => onOpenDetails(entryToDetails(entry))}
+      >
+        <Info size={15} aria-hidden="true" />
+        Details
+      </button>
     </article>
+  )
+}
+
+function CardDetailsPanel({
+  details,
+  onClose,
+}: {
+  details: CardDetails
+  onClose: () => void
+}) {
+  const tagLabels = [...details.tags]
+
+  return (
+    <section className="card-details-panel" aria-label={`${details.card_name} details`}>
+      <div className="card-details-header">
+        <div>
+          <p className="eyebrow">{details.source === 'deck' ? 'Deck card' : 'Search result'}</p>
+          <h2>{details.card_name}</h2>
+        </div>
+        <button
+          type="button"
+          className="details-close"
+          onClick={onClose}
+          aria-label="Close card details"
+        >
+          <X size={16} aria-hidden="true" />
+          Close
+        </button>
+      </div>
+
+      <dl className="details-grid">
+        <DetailField label="Type" value={details.type_line || 'Card'} />
+        <DetailField label="Mana value" value={formatManaValue(details.mana_value)} />
+        <DetailField label="Color identity" value={formatColors(details.color_identity)} />
+        <DetailField label="Zone" value={details.zone ? zoneLabel(details.zone) : 'Not in deck'} />
+        <DetailField
+          label="Quantity"
+          value={details.quantity === null ? 'Not in deck' : `${details.quantity}`}
+        />
+        <DetailPills
+          label="Categories"
+          values={details.categories.length > 0 ? details.categories : ['Uncategorized']}
+        />
+        {tagLabels.length > 0 && <DetailPills label="Tags" values={tagLabels} />}
+        {details.notes && <DetailField label="Notes" value={details.notes} />}
+      </dl>
+    </section>
+  )
+}
+
+function DetailField({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="details-field">
+      <dt>{label}</dt>
+      <dd>{value}</dd>
+    </div>
+  )
+}
+
+function DetailPills({ label, values }: { label: string; values: string[] }) {
+  return (
+    <div className="details-field">
+      <dt>{label}</dt>
+      <dd className="details-pills">
+        {values.map((value) => (
+          <span key={value}>{value}</span>
+        ))}
+      </dd>
+    </div>
   )
 }
 
@@ -484,6 +630,39 @@ function EmptyState() {
       <p>No cards match the current filter.</p>
     </div>
   )
+}
+
+function entryToDetails(entry: WorkspaceViewEntry): CardDetails {
+  return {
+    source: 'deck',
+    card_name: entry.card_name,
+    type_line: entry.type_line ?? 'Card',
+    mana_value: entry.mana_value,
+    color_identity: entry.color_identity ?? [],
+    zone: entry.zone,
+    quantity: entry.quantity,
+    categories: entry.categories,
+    tags: [...entry.tags, ...entry.secondary_tags],
+    notes: null,
+  }
+}
+
+function candidateToDetails(
+  candidate: CardSearchCandidate,
+  quantityInDeck: number,
+): CardDetails {
+  return {
+    source: 'search',
+    card_name: candidate.card_name,
+    type_line: candidate.type_line,
+    mana_value: candidate.mana_value,
+    color_identity: candidate.color_identity,
+    zone: null,
+    quantity: quantityInDeck > 0 ? quantityInDeck : null,
+    categories: candidate.categories,
+    tags: candidate.tags,
+    notes: null,
+  }
 }
 
 function uniqueEntries(entries: WorkspaceViewEntry[]) {
@@ -653,8 +832,8 @@ function formatManaValue(value: number | null) {
   return Number.isInteger(value) ? `${value}` : value.toFixed(1)
 }
 
-function formatColors(colors: string[]) {
-  return colors.length === 0 ? 'Colorless' : colors.join('')
+function formatColors(colors: string[] | null | undefined) {
+  return !colors || colors.length === 0 ? 'Colorless' : colors.join('')
 }
 
 function zoneLabel(zone: string) {

@@ -415,6 +415,25 @@ recommendations, scoring, price logic, legality claims, broad Scryfall syntax
 coverage, import/export wiring, full mutation command wiring, or generated
 build output.
 
+### Phase Product-4M: Card Details Surface v0
+
+Status: implemented and verified.
+
+Add the smallest selected-card details surface to the existing fixture-backed
+deckbuilder screen. Definition of done: an explicitly selected deck row, table
+row, or search result can open a focused details panel; the panel preserves the
+current deck/search context; it shows only factual local fields already present
+in visible deck entries or tiny search fixture data; and it can be dismissed
+without changing deck state.
+
+V0 details may show card name, type line, mana value, color identity, current
+zone, quantity, categories, tags, and notes when locally available. This slice
+must not add frontend dependencies, backend persistence, live APIs, telemetry,
+hosted services, AI/LLM calls, deck analysis, recommendations, scoring, price
+logic, legality claims, EDHREC rank, salt score, marketplace links, oracle tags,
+printing management, card images, broad Scryfall syntax expansion, or generated
+build output.
+
 ### Phase Product-5: Deck Workspace Import/Export v0
 
 Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.
