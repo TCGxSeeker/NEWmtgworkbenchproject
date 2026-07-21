@@ -1,12 +1,13 @@
 # Deckbuilder UI Scaffold
 
-This folder is a free, isolated Vite + React + TypeScript scaffold for future MTG Workbench UI work.
+This folder is a free, isolated Vite + React + TypeScript app for MTG Workbench UI work.
 
 ## Status
 
-- Tooling only.
-- Not the finished deckbuilder UI.
-- Do not implement deckbuilder features here until the relevant contracts and specs are approved.
+- `See The Deck v0` is implemented as the first narrow visible deck screen.
+- It uses tiny local fixture data shaped like `deck_workspace_view_projection.v0`.
+- It is not the finished deckbuilder UI or generic deckbuilder parity.
+- Do not add more deckbuilder features here until the relevant contracts and specs are approved.
 
 ## Installed Free Tooling
 

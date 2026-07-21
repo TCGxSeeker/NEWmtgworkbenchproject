@@ -4,7 +4,7 @@
 
 Define the first main product surface before implementation. Deckbuilder Foundation v0 centers the editable deck workspace and treats search, stats, import/export, and card details as supporting surfaces.
 
-Current implementation status: native workspace model, in-memory mutation helpers, and plain text import/export helpers exist. App UI, visual components, reports, recommendations, scoring, live APIs, and full legality validation remain out of scope.
+Current implementation status: native workspace model, in-memory mutation helpers, plain text import/export helpers, workspace view projections, and the first narrow `See The Deck v0` frontend screen exist. Finished app UI, reports, recommendations, scoring, live APIs, and full legality validation remain out of scope.
 
 ## Scope
 
@@ -25,7 +25,7 @@ Foundation v0 plans:
 
 ## Non-Goals
 
-- No application UI code.
+- No broad application UI code beyond the approved `See The Deck v0` screen.
 - No new frontend dependencies.
 - No recommendation engine.
 - No scoring rubric.

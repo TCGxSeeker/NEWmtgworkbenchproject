@@ -4,9 +4,9 @@ Offline-first Commander deckbuilding workbench for importing decklists, normaliz
 
 ## Current Status
 
-The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, free frontend tooling, native `.mtgwdeck.json` workspace support, plain text import/export with CLI access, workspace mutation/category/annotation CLI access, read-only workspace view projections with local card-fact-backed type, mana-value, color, and color-identity support plus CLI access, deterministic role evidence, local card fact lookup, deck skeleton and structural warning reports, a bounded deck inspection envelope with CLI access, typed card relationship primitives, factual behavioral profiles, bounded behavioral atom extraction, deterministic relationship edge derivation, factual relationship reports, and stable end-to-end inspection, relationship, and workspace-view smoke fixtures.
+The project has operating docs, source fixtures, parser/normalizer code, local Scryfall snapshot/index/search infrastructure, Search-2 filters, a first narrow frontend deck screen, native `.mtgwdeck.json` workspace support, plain text import/export with CLI access, workspace mutation/category/annotation CLI access, read-only workspace view projections with local card-fact-backed type, mana-value, color, and color-identity support plus CLI access, deterministic role evidence, local card fact lookup, deck skeleton and structural warning reports, a bounded deck inspection envelope with CLI access, typed card relationship primitives, factual behavioral profiles, bounded behavioral atom extraction, deterministic relationship edge derivation, factual relationship reports, and stable end-to-end inspection, relationship, and workspace-view smoke fixtures.
 
-No finished deckbuilder UI, recommendation engine, scoring rubric, structural audit engine, or full deck report exists yet.
+No finished deckbuilder UI, recommendation engine, scoring rubric, structural audit engine, or full deck report exists yet. The current frontend is a fixture-backed `See The Deck v0` screen, not generic deckbuilder parity.
 
 Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 344 tests after Workspace Projection Contract Docs v0.
 

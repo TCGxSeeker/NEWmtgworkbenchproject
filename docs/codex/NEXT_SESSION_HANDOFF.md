@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: Workspace Projection Contract Docs v0
+- Current implemented checkpoint: See The Deck v0
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
@@ -149,6 +149,9 @@ Known files:
 - Workspace Projection Contract Docs v0 documents
   `deck_workspace_view_projection.v0` as the current consumer contract for
   future deckbuilder screens.
+- See The Deck v0 replaces the starter Vite screen with a fixture-backed deck
+  workspace that supports grouped/table views, current-deck filtering, and group
+  collapse without showing inactive workflow buttons or debug metrics.
 
 ## Current Readiness Snapshot
 
@@ -166,12 +169,11 @@ Known files:
 
 ## Next Refresh Notes
 
-- Safe stopping point: Workspace Projection Contract Docs v0 is implemented and
-  verified.
-- Next recommended slice: See The Deck v0.
-- Suggested scope: create the first narrow visible-deck milestone from the
-  documented projection contract, or write its implementation spec if the user
-  wants one more planning checkpoint first.
+- Safe stopping point: See The Deck v0 is implemented and verified.
+- Next recommended slice: See The Deck v0 Visual Review Checkpoint.
+- Suggested scope: review the first visible deck screen for readability,
+  spacing, visual feel, and avoidance of useless/debug data before adding
+  search/add workflows.
 - Product north-star sequence: see the deck, find and add cards, understand a
   card, validate the deck, edit safely in bulk, inspect useful statistics, manage
   printings, and recover earlier versions.

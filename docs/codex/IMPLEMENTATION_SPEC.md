@@ -369,6 +369,14 @@ Document `deck_workspace_view_projection.v0` as the current consumer contract fo
 
 This slice is documentation only. It must not add UI, frontend dependencies, code behavior, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, syntax filtering, price logic, or new dependencies.
 
+### Phase Product-4J: See The Deck v0
+
+Status: implemented and verified.
+
+Create the first visible deck screen from the existing frontend scaffold and the documented workspace projection contract. Definition of done: the app opens to one calm deck workspace; shows deck name, format, saved state, useful counts, grouped card rows, and a table alternative; supports local current-deck text filtering and group collapse/expand; uses only fixture-backed projection data; and keeps local fact coverage, recommendation content, scoring, legality claims, charts, inactive action buttons, and debug plumbing out of the default UI.
+
+This slice may update existing frontend scaffold files and add tiny local frontend fixture data. It must not add frontend dependencies, backend behavior, live APIs, telemetry, hosted services, AI/LLM calls, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, price logic, syntax filtering, import/export wiring, card mutation wiring, or generated build output.
+
 ### Phase Product-5: Deck Workspace Import/Export v0
 
 Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.

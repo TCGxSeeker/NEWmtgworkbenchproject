@@ -17,7 +17,9 @@ Expected root: `G:/Documents/New MTG project`.
 Latest repository-wide baseline after Workspace Projection Contract Docs v0:
 
 - Repository root: `G:/Documents/New MTG project`
-- `python -m unittest discover -s tests`: passed after Workspace Projection Contract Docs v0, 344 tests
+- `python -m unittest discover -s tests`: passed after See The Deck v0, 344 tests
+- `apps/deckbuilder-ui`: `npm run build` passed after See The Deck v0
+- `apps/deckbuilder-ui`: `npm run lint` passed after See The Deck v0
 - `python -m unittest tests.test_deckbuilder_workspace_view_smoke`: passed, 1 test
 - `python -m mtg_workbench.cli workspace-view tests/fixtures/deckbuilder/workspace_view_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/workspace_view_smoke_card_records.json --group-by color-identity --sort-by mana-value`: passed through exact expected-output fixture coverage
 - `docs/rules/WORKSPACE_VIEW_PROJECTION_CONTRACT.md`: reviewed against `src/mtg_workbench/deckbuilder/workspace_view.py` and the workspace-view smoke fixture

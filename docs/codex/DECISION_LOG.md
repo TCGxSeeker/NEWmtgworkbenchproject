@@ -401,3 +401,9 @@
   - Alternatives considered: letting future UI infer behavior from tests, documenting only after UI implementation, or treating projection JSON as a private implementation detail.
   - Risk: The contract may need a future version if syntax filters, price, rarity, printing, or sideboard fields are added.
   - Status: Accepted for Workspace Projection Contract Docs v0.
+
+- Decision: Implement `See The Deck v0` as a fixture-backed visible deck screen.
+  - Reason: The product needs to start moving from backend contracts toward a usable deckbuilder surface, but the first UI slice should only show data and controls that already work.
+  - Alternatives considered: adding import/add/export buttons immediately, starting with card-image grid view, or surfacing inspection/debug coverage in the default screen.
+  - Risk: The screen is not yet connected to user-selected deck files or backend mutation commands; human visual review is required before expanding workflows.
+  - Status: Accepted for See The Deck v0.

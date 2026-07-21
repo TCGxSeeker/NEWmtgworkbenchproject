@@ -4,6 +4,10 @@
 
 Plan the first deckbuilder screen as a calm, readable workspace for one open deck. This is layout and flow planning only, not visual polish or implementation.
 
+Implementation note: `See The Deck v0` now provides the first narrow visible
+screen using fixture-backed projection data. It is still not the finished main
+deckbuilder product.
+
 ## Primary Layout
 
 1. Deck header at the top.

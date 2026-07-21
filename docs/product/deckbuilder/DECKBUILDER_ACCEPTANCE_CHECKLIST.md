@@ -317,3 +317,26 @@ Deferred beyond this slice:
 - Global search/add workflow.
 - Card detail surface.
 - Full legality, statistics, printings, bulk edit, and version recovery behavior.
+
+## See The Deck V0
+
+- [x] Existing Vite starter screen is replaced with a deck workspace screen.
+- [x] Screen uses tiny local fixture data shaped like `deck_workspace_view_projection.v0`.
+- [x] Deck header shows deck name, format context, active quantity, maybeboard quantity, and saved state.
+- [x] Grouped view displays card rows by category.
+- [x] Table view displays the same entries in a compact table.
+- [x] Current-deck text filter works locally.
+- [x] Groups can be collapsed and expanded.
+- [x] Default UI does not surface local fact coverage as dashboard content.
+- [x] No inactive import, export, add-card, mutation, recommendation, scoring, price, legality, or debug controls are displayed.
+- [x] No new frontend dependencies were added.
+
+Deferred beyond this slice:
+
+- Human visual review and polish.
+- Opening user-selected deck files.
+- Global search/add workflow.
+- Card details surface.
+- Mutation controls.
+- Syntax-backed filtering.
+- Full legality, statistics, printings, bulk edit, and version recovery behavior.
