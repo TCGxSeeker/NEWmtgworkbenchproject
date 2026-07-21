@@ -333,10 +333,25 @@ Deferred beyond this slice:
 
 Deferred beyond this slice:
 
-- Human visual review and polish.
 - Opening user-selected deck files.
 - Global search/add workflow.
 - Card details surface.
 - Mutation controls.
 - Syntax-backed filtering.
 - Full legality, statistics, printings, bulk edit, and version recovery behavior.
+
+## See The Deck V0 Visual Review Checkpoint
+
+- [x] Desktop layout was reviewed from the local Vite app.
+- [x] Narrow layout was reviewed from the local Vite app.
+- [x] Narrow-screen deck title and status controls no longer visibly overflow.
+- [x] The grouped card workspace stays ahead of the secondary snapshot panel on stacked layouts.
+- [x] The default screen remains deck-centered and avoids inactive workflow buttons.
+- [x] Local fact coverage, missing/ambiguous fact plumbing, recommendations, scoring, price logic, legality claims, and debug data remain out of the default UI.
+
+Deferred beyond this checkpoint:
+
+- Human taste review beyond objective layout issues.
+- Opening user-selected deck files.
+- Global search/add workflow.
+- Card details surface.

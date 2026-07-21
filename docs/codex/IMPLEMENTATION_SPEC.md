@@ -377,6 +377,24 @@ Create the first visible deck screen from the existing frontend scaffold and the
 
 This slice may update existing frontend scaffold files and add tiny local frontend fixture data. It must not add frontend dependencies, backend behavior, live APIs, telemetry, hosted services, AI/LLM calls, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, price logic, syntax filtering, import/export wiring, card mutation wiring, or generated build output.
 
+### Phase Product-4K: See The Deck v0 Visual Review Checkpoint
+
+Status: implemented and verified.
+
+Review the first visible deck screen against the product's calm, readable,
+deck-centered UI direction before expanding into search/add workflows.
+Definition of done: desktop and narrow layouts render without obvious
+horizontal overflow; the card workspace remains the primary surface; no
+inactive controls, local fact/debug coverage, recommendation content, scoring,
+price logic, legality claims, or strategic analysis appear in the default UI;
+and any visual changes remain small enough for human review.
+
+This checkpoint may update existing frontend styling and current-status docs.
+It must not add frontend dependencies, app routing, backend behavior, live APIs,
+telemetry, hosted services, AI/LLM calls, deck analysis, deck-level role totals,
+recommendations, scoring, price logic, syntax filtering, import/export wiring,
+card mutation wiring, or generated build output.
+
 ### Phase Product-5: Deck Workspace Import/Export v0
 
 Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.

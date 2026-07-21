@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: See The Deck v0
+- Current implemented checkpoint: See The Deck v0 Visual Review Checkpoint
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
@@ -152,6 +152,9 @@ Known files:
 - See The Deck v0 replaces the starter Vite screen with a fixture-backed deck
   workspace that supports grouped/table views, current-deck filtering, and group
   collapse without showing inactive workflow buttons or debug metrics.
+- See The Deck v0 Visual Review Checkpoint corrected narrow-screen overflow,
+  kept the deck workspace ahead of the secondary snapshot panel on stacked
+  layouts, and preserved the no-debug/no-inactive-controls default UI.
 
 ## Current Readiness Snapshot
 
@@ -169,11 +172,11 @@ Known files:
 
 ## Next Refresh Notes
 
-- Safe stopping point: See The Deck v0 is implemented and verified.
-- Next recommended slice: See The Deck v0 Visual Review Checkpoint.
-- Suggested scope: review the first visible deck screen for readability,
-  spacing, visual feel, and avoidance of useless/debug data before adding
-  search/add workflows.
+- Safe stopping point: See The Deck v0 Visual Review Checkpoint is implemented and verified.
+- Next recommended slice: Find And Add Cards v0.
+- Suggested scope: define the implementation spec, then add the smallest
+  explicit local search/add workflow around the visible deck screen without
+  recommendations, scoring, live APIs, price logic, or broad syntax expansion.
 - Product north-star sequence: see the deck, find and add cards, understand a
   card, validate the deck, edit safely in bulk, inspect useful statistics, manage
   printings, and recover earlier versions.

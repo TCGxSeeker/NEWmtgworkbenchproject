@@ -14,12 +14,14 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline after Workspace Projection Contract Docs v0:
+Latest repository-wide baseline after See The Deck v0 Visual Review Checkpoint:
 
 - Repository root: `G:/Documents/New MTG project`
-- `python -m unittest discover -s tests`: passed after See The Deck v0, 344 tests
-- `apps/deckbuilder-ui`: `npm run build` passed after See The Deck v0
-- `apps/deckbuilder-ui`: `npm run lint` passed after See The Deck v0
+- `python -m unittest discover -s tests`: passed after See The Deck v0 Visual Review Checkpoint, 344 tests
+- `apps/deckbuilder-ui`: `& 'C:\Program Files\nodejs\npm.cmd' run build` passed after See The Deck v0 Visual Review Checkpoint
+- `apps/deckbuilder-ui`: `& 'C:\Program Files\nodejs\npm.cmd' run lint` passed after See The Deck v0 Visual Review Checkpoint
+- `git diff --check`: passed after See The Deck v0 Visual Review Checkpoint; Git reported the expected README line-ending normalization warning
+- Desktop and narrow Chrome headless screenshots were reviewed after See The Deck v0 Visual Review Checkpoint; narrow layout no longer visibly clips the deck title/status and keeps the card workspace ahead of the secondary snapshot panel.
 - `python -m unittest tests.test_deckbuilder_workspace_view_smoke`: passed, 1 test
 - `python -m mtg_workbench.cli workspace-view tests/fixtures/deckbuilder/workspace_view_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/workspace_view_smoke_card_records.json --group-by color-identity --sort-by mana-value`: passed through exact expected-output fixture coverage
 - `docs/rules/WORKSPACE_VIEW_PROJECTION_CONTRACT.md`: reviewed against `src/mtg_workbench/deckbuilder/workspace_view.py` and the workspace-view smoke fixture

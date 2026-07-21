@@ -58,8 +58,10 @@
 }
 
 .deck-heading h1 {
+  max-width: 100%;
   font-size: 30px;
   line-height: 1.12;
+  overflow-wrap: anywhere;
 }
 
 .workspace-title h2,
@@ -72,6 +74,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  max-width: 100%;
   margin-top: 12px;
 }
 
@@ -368,6 +371,7 @@ tbody tr:last-child td {
 .deck-sidebar {
   display: grid;
   gap: 18px;
+  min-width: 0;
   padding: 18px;
 }
 
@@ -399,6 +403,8 @@ tbody tr:last-child td {
 .fact-list dd {
   color: var(--text-strong);
   font-weight: 700;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .sidebar-note,
@@ -434,10 +440,6 @@ tbody tr:last-child td {
   .workspace-layout {
     grid-template-columns: 1fr;
   }
-
-  .deck-sidebar {
-    order: -1;
-  }
 }
 
 @media (max-width: 760px) {
@@ -447,6 +449,38 @@ tbody tr:last-child td {
 
   .deck-header {
     grid-template-columns: 1fr;
+  }
+
+  .deck-heading h1 {
+    font-size: 26px;
+  }
+
+  .deck-meta span,
+  .state-chips span {
+    min-height: 34px;
+    white-space: normal;
+    line-height: 1.2;
+  }
+
+  .view-toggle {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .view-toggle button {
+    flex: 1 1 0;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .deck-meta .saved-state {
+    flex-basis: 100%;
+    width: max-content;
+  }
+
+  .state-chips span {
+    flex: 1 1 130px;
   }
 
   .workspace-title {
@@ -461,6 +495,8 @@ tbody tr:last-child td {
   .category-pills,
   .zone-pill {
     grid-column: 2 / -1;
+    justify-self: start;
+    max-width: 100%;
     justify-content: start;
   }
 

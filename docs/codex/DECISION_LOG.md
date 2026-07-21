@@ -407,3 +407,9 @@
   - Alternatives considered: adding import/add/export buttons immediately, starting with card-image grid view, or surfacing inspection/debug coverage in the default screen.
   - Risk: The screen is not yet connected to user-selected deck files or backend mutation commands; human visual review is required before expanding workflows.
   - Status: Accepted for See The Deck v0.
+
+- Decision: Keep `See The Deck v0` deck-first on stacked layouts.
+  - Reason: Narrow visual review showed the header/status and secondary snapshot panel could crowd the first card workspace.
+  - Alternatives considered: leaving the secondary snapshot above the card list, hiding the snapshot entirely, or adding new drawer behavior.
+  - Risk: The snapshot panel still repeats some header counts until a real details/stats surface exists.
+  - Status: Accepted for See The Deck v0 Visual Review Checkpoint.

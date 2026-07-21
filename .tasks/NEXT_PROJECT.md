@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Branch: `master`
-- Current implemented checkpoint: See The Deck v0
+- Current implemented checkpoint: See The Deck v0 Visual Review Checkpoint
 - Current full-suite baseline: `python -m unittest discover -s tests` passes with 344 tests
 - Current product center remains the deckbuilder foundation. Canonical framing:
   this is a strong backend foundation with CLI-verifiable contracts, not generic
@@ -12,24 +12,25 @@
 
 ## Current Catchup
 
-Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, Workspace View CLI v0, Card-Fact-Backed Workspace Projection v0, Color Identity Workspace Projection v0, Workspace View Fixture Smoke v0, Workspace Projection Contract Docs v0, and See The Deck v0 are implemented and verified.
+Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, Workspace View CLI v0, Card-Fact-Backed Workspace Projection v0, Color Identity Workspace Projection v0, Workspace View Fixture Smoke v0, Workspace Projection Contract Docs v0, See The Deck v0, and the See The Deck v0 Visual Review Checkpoint are implemented and verified.
 
 ## Next Recommended Slice
 
-See The Deck v0 Visual Review Checkpoint.
+Find And Add Cards v0.
 
-Goal: review the first visible deck screen for readability, spacing, visual feel, and whether it avoids useless/debug data before adding search/add workflows.
+Goal: add the smallest explicit search/add workflow around the existing visible deck screen without recommendations, scoring, strategy, or broad syntax expansion.
 
-Context: `See The Deck v0` exists, but UI taste is a human validation zone.
+Context: `See The Deck v0` now renders a calm, fixture-backed deck view. The next product north-star step is finding and adding cards.
 
 Expected scope:
 
-1. Open the local dev server.
-2. Review desktop and narrow layouts.
-3. Confirm the screen feels calm, readable, and deck-centered.
-4. Confirm no inactive action buttons or debug metrics are displayed.
-5. Capture any requested visual changes before moving to `Find And Add Cards v0`.
-6. Do not add strategic analysis, recommendations, live APIs, deck-level role totals, price logic, or new dependencies.
+1. Define or refresh the implementation spec before coding.
+2. Use local fixture/index data only.
+3. Add a minimal card search entry point that returns deterministic local results.
+4. Add an explicit add-card path only for user-selected cards.
+5. Preserve native workspace mutation safety boundaries and copy-out behavior unless a UI-local temporary state is clearly isolated.
+6. Keep unsupported syntax clear instead of guessed.
+7. Do not add strategic analysis, recommendations, live APIs, deck-level role totals, price logic, or new dependencies.
 
 ## Boundaries
 
