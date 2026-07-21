@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 322 tests after Category Metadata Mutation CLI v0 and Entry Annotation CLI v0.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 330 tests after Deck Workspace View Projection v0.
 
 ## Key Decisions Before Building
 
@@ -314,6 +314,16 @@ Status: implemented and verified.
 Expose explicit file-based CLI wrappers for existing entry note and tag helpers. Definition of done: commands can set or clear entry notes, replace tags, add tags, and remove tags for entries in native `.mtgwdeck.json` files; each command requires an explicit `--output`, emits stable JSON summaries, preserves zones and quantities, and has focused tests.
 
 Entry Annotation CLI v0 must not add UI, frontend dependencies, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, or new dependencies.
+
+### Phase Product-4D: Deck Workspace View Projection v0
+
+Status: implemented and verified.
+
+Create a read-only projection layer that prepares existing native workspace entries for future deckbuilder grouping, sorting, and current-deck text filtering without app UI. Definition of done: a small module can project a `DeckWorkspace` into stable grouped output for `full_deck`, `zone`, and `category`; sort visible entries by `alphabet`, `quantity`, `category`, or `zone`; filter current deck entries by local workspace text fields; preserve unresolved entries; and leave the input workspace unchanged.
+
+Category grouping may use multiple category memberships when an entry has multiple `categories`; projection-level totals should remain explicit so callers do not mistake view grouping for deck analysis.
+
+Deck Workspace View Projection v0 must not add UI, frontend dependencies, card-fact lookup, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, or new dependencies.
 
 ### Phase Product-5: Deck Workspace Import/Export v0
 

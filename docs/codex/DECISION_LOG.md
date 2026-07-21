@@ -365,3 +365,9 @@
   - Alternatives considered: waiting for app UI controls, adding one broad generic mutation command, or exposing deck-specific primary-role assignment now.
   - Risk: The command list is intentionally mechanical and may later consolidate behind UI actions, but the explicit CLI surface avoids hidden strategic role changes.
   - Status: Accepted for Category Metadata Mutation CLI v0 and Entry Annotation CLI v0.
+
+- Decision: Add a read-only workspace view projection layer before UI implementation.
+  - Reason: The main deckbuilder screen will need grouped, sorted, and filtered entry data, and this behavior can be made deterministic without building visual components or starting analysis.
+  - Alternatives considered: waiting until React UI work, projecting directly inside future UI components, or expanding projection through card facts immediately.
+  - Risk: V0 only covers existing workspace fields, so type/mana/color/price projections need later card-fact-backed slices.
+  - Status: Accepted for Deck Workspace View Projection v0.

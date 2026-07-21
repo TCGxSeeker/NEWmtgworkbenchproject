@@ -14,10 +14,12 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline after Category Metadata Mutation CLI v0 and Entry Annotation CLI v0:
+Latest repository-wide baseline after Deck Workspace View Projection v0:
 
 - Repository root: `G:/Documents/New MTG project`
-- `python -m unittest discover -s tests`: passed after Category Metadata Mutation CLI v0 and Entry Annotation CLI v0, 322 tests
+- `python -m unittest discover -s tests`: passed after Deck Workspace View Projection v0, 330 tests
+- `python -m unittest tests.test_deckbuilder_workspace_view`: passed, 8 tests
+- `python -m py_compile src/mtg_workbench/deckbuilder/workspace_view.py src/mtg_workbench/deckbuilder/__init__.py`: passed
 - `python -m unittest tests.test_cli_workspace_category_metadata`: passed, 5 tests
 - `python -m mtg_workbench.cli workspace-set-normalized-category <temp>/input.mtgwdeck.json <entry-id> --value Draw --category-taxonomy data/fixtures/categories/category_taxonomy.example.yaml --output <temp>/output.mtgwdeck.json`: passed in focused tests and CLI smoke
 - `python -m mtg_workbench.cli workspace-set-notes <temp>/output.mtgwdeck.json <entry-id> --value "Needs review" --output <temp>/notes.mtgwdeck.json`: passed in focused tests and CLI smoke
@@ -123,6 +125,13 @@ Focused workspace category and annotation CLI checks:
 python -m unittest tests.test_cli_workspace_category_metadata
 python -m mtg_workbench.cli workspace-set-normalized-category <temp>/input.mtgwdeck.json <entry-id> --value Draw --category-taxonomy data/fixtures/categories/category_taxonomy.example.yaml --output <temp>/output.mtgwdeck.json
 python -m mtg_workbench.cli workspace-set-notes <temp>/output.mtgwdeck.json <entry-id> --value "Needs review" --output <temp>/notes.mtgwdeck.json
+```
+
+Focused deck workspace view projection checks:
+
+```powershell
+python -m py_compile src/mtg_workbench/deckbuilder/workspace_view.py src/mtg_workbench/deckbuilder/__init__.py
+python -m unittest tests.test_deckbuilder_workspace_view
 ```
 
 Known remaining audit repair queue:

@@ -101,6 +101,7 @@ The first model slice lives under `src/mtg_workbench/deckbuilder/`:
 - `mutations.py`: in-place workspace edit helpers that return the updated workspace.
 - `import_export.py`: plain text import/export conversion helpers.
 - `categories.py`: local category taxonomy loading and label normalization helpers.
+- `workspace_view.py`: read-only grouping, sorting, and current-deck text filter projections.
 
 ## Mutation Model
 
@@ -121,3 +122,9 @@ Unknown or unresolved entries must remain editable and must round-trip without l
 Plain text import/export is supported for practical movement in and out of the native workspace format. V0 accepts `1x Card Name`, `1 Card Name`, and bare `Card Name` lines, plus common commander/mainboard/maybeboard headers.
 
 Plain text exports are intentionally clean and minimal. They do not attempt to reconstruct comments, every original category header, or external deckbuilder-specific formatting.
+
+## View Projection Boundary
+
+Deck Workspace View Projection v0 prepares existing workspace entries for future deckbuilder screens without changing saved state. It supports `full_deck`, `zone`, and `category` grouping; `alphabet`, `quantity`, `category`, and `zone` sorting; current-deck text filtering over existing entry text fields; unresolved entries; and explicit grouped totals.
+
+Projection output is a view model, not deck analysis. It does not look up card facts, count deck roles, make recommendations, score cards, or mutate `.mtgwdeck.json` data.

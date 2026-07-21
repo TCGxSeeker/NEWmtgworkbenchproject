@@ -60,6 +60,8 @@ Deck Workspace Category Editing Helpers v0 allows intentional edits to imported 
 - Switch sort mode.
 - Preserve the same deck data across stacks, text, grid, and table views.
 
+Deck Workspace View Projection v0 implements the read-only data projection for grouping, sorting, and current-deck text filtering. It does not implement visual modes, UI controls, syntax filtering, card fact lookup, or deck analysis.
+
 ## Card Context Actions
 
 Card context actions should include:

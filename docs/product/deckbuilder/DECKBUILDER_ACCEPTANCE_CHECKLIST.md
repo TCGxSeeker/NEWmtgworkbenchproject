@@ -204,3 +204,21 @@ Deferred beyond this slice:
 
 - Bulk edit and multi-select annotation commands.
 - UI controls for notes and tags.
+
+## Deck Workspace View Projection V0
+
+- [x] Workspace entries can be projected without mutating the workspace.
+- [x] `full_deck`, `zone`, and `category` grouping are supported.
+- [x] `alphabet`, `quantity`, `category`, and `zone` sorting are supported.
+- [x] Current-deck text filtering uses existing saved entry text fields.
+- [x] Unresolved entries remain visible in projection output.
+- [x] Multi-category entries expose explicit grouped totals.
+- [x] Unsupported group, sort, and zone inputs raise clear errors.
+- [x] No UI code, frontend dependency changes, card fact lookup, deck analysis, role counting, recommendations, live APIs, or large datasets were added.
+
+Deferred beyond this slice:
+
+- Visual view modes such as stacks, grid, text, and table.
+- Syntax-backed current-deck filtering.
+- Type, mana value, color, color identity, price, rarity, and printing projections.
+- Category creation, rename, and reorder helpers.
