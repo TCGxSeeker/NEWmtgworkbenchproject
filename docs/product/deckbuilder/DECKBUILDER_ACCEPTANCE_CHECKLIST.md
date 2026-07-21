@@ -396,3 +396,23 @@ Deferred beyond this slice:
 - Printing selector and foil state UI.
 - Legality, price, rank, and salt fields backed by approved local data.
 - Rich visual treatment beyond the functional v0 panel.
+
+## Mechanical Deck Validation Surface V0
+
+- [x] Sidebar shows a compact mechanical validation panel.
+- [x] Commander presence is checked from current UI deck state.
+- [x] Commander active card count is checked against 100.
+- [x] Unresolved workspace entries are reported if present.
+- [x] Duplicate non-basic active cards are reported if quantity exceeds one.
+- [x] Basic lands are excluded from duplicate non-basic warnings.
+- [x] Validation updates after visible add-card actions.
+- [x] No recommendations, scoring, power-level claims, role counts, commander philosophy checks, price logic, legality claims, or card-quality judgments were added.
+- [x] No new frontend dependencies were added.
+
+Deferred beyond this slice:
+
+- Wiring to persisted native workspace files.
+- Wiring to the backend deck inspection report envelope.
+- Broader structural audits such as land/ramp/draw/interaction ratios.
+- Full legality enforcement.
+- User-facing validation copy polish after human visual review.

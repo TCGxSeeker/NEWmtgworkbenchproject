@@ -844,8 +844,9 @@ python -m unittest discover -s tests
 git diff --check
 ```
 
-Expected behavior for Card Details Surface v0: explicitly selected deck rows,
+Expected behavior for the current deckbuilder UI: explicitly selected deck rows,
 table rows, and search results can open a dismissible factual details panel;
 the panel preserves deck/search context; it shows only local fixture-backed
-fields; and it does not add live APIs, price, legality, rank, salt,
-marketplace, oracle-tag, recommendation, scoring, or role-judgment behavior.
+fields; the sidebar summarizes mechanical validation from current UI state; and
+the UI does not add live APIs, price, legality, rank, salt, marketplace,
+oracle-tag, recommendation, scoring, power-level, or role-judgment behavior.

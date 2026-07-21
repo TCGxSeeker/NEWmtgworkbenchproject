@@ -42,9 +42,17 @@ type CardDetails = {
   notes: string | null
 }
 
+type ValidationItem = {
+  id: string
+  status: 'pass' | 'warning'
+  label: string
+  detail: string
+}
+
 const ACTIVE_ZONES = new Set<DeckZone>(['commander', 'mainboard'])
 const ADD_ZONES: AddZone[] = ['mainboard', 'maybeboard']
 const MAX_SEARCH_RESULTS = 6
+const COMMANDER_ACTIVE_CARD_TARGET = 100
 const GROUP_ORDER = [
   'Commander',
   'Lands',
@@ -99,6 +107,10 @@ function App() {
   const searchResults = useMemo(
     () => searchLocalCards(cardSearchText),
     [cardSearchText],
+  )
+  const validationItems = useMemo(
+    () => buildMechanicalValidationItems(deckEntries),
+    [deckEntries],
   )
 
   const activeQuantity = deckEntries
@@ -334,6 +346,7 @@ function App() {
             <BookOpen size={17} aria-hidden="true" />
             <span>{commanderName} is set as commander.</span>
           </div>
+          <ValidationPanel items={validationItems} />
         </aside>
       </section>
     </main>
@@ -624,12 +637,132 @@ function DetailPills({ label, values }: { label: string; values: string[] }) {
   )
 }
 
+function ValidationPanel({ items }: { items: ValidationItem[] }) {
+  const warningCount = items.filter((item) => item.status === 'warning').length
+
+  return (
+    <section className="validation-panel" aria-label="Mechanical deck validation">
+      <div className="validation-heading">
+        <div>
+          <p className="eyebrow">Mechanical check</p>
+          <h3>{warningCount === 0 ? 'Ready shape' : `${warningCount} warning${warningCount === 1 ? '' : 's'}`}</h3>
+        </div>
+      </div>
+      <ul className="validation-list">
+        {items.map((item) => (
+          <li className={item.status} key={item.id}>
+            {item.status === 'pass' ? (
+              <CheckCircle2 size={16} aria-hidden="true" />
+            ) : (
+              <CircleAlert size={16} aria-hidden="true" />
+            )}
+            <span>
+              <strong>{item.label}</strong>
+              <small>{item.detail}</small>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
 function EmptyState() {
   return (
     <div className="empty-state">
       <p>No cards match the current filter.</p>
     </div>
   )
+}
+
+function buildMechanicalValidationItems(entries: WorkspaceViewEntry[]): ValidationItem[] {
+  const activeEntries = entries.filter((entry) => ACTIVE_ZONES.has(entry.zone))
+  const activeQuantity = activeEntries.reduce((total, entry) => total + entry.quantity, 0)
+  const commanderEntries = entries.filter((entry) => entry.zone === 'commander')
+  const unresolvedEntries = entries.filter((entry) => entry.is_unresolved)
+  const duplicateNonBasics = duplicateNonBasicNames(activeEntries)
+
+  return [
+    commanderEntries.length > 0
+      ? {
+          id: 'commander-present',
+          status: 'pass',
+          label: 'Commander set',
+          detail: commanderEntries.map((entry) => entry.card_name).join(', '),
+        }
+      : {
+          id: 'commander-present',
+          status: 'warning',
+          label: 'Commander missing',
+          detail: 'Set one commander before final deck review.',
+        },
+    activeQuantity === COMMANDER_ACTIVE_CARD_TARGET
+      ? {
+          id: 'active-count',
+          status: 'pass',
+          label: 'Commander size',
+          detail: `${activeQuantity} active cards.`,
+        }
+      : {
+          id: 'active-count',
+          status: 'warning',
+          label: 'Commander size',
+          detail: `${activeQuantity} active cards; target is ${COMMANDER_ACTIVE_CARD_TARGET}.`,
+        },
+    unresolvedEntries.length === 0
+      ? {
+          id: 'unresolved-cards',
+          status: 'pass',
+          label: 'Names resolved',
+          detail: 'No unresolved card entries in this workspace.',
+        }
+      : {
+          id: 'unresolved-cards',
+          status: 'warning',
+          label: 'Unresolved cards',
+          detail: `${unresolvedEntries.length} entry${unresolvedEntries.length === 1 ? '' : 'ies'} need name review.`,
+        },
+    duplicateNonBasics.length === 0
+      ? {
+          id: 'duplicate-non-basics',
+          status: 'pass',
+          label: 'Singleton check',
+          detail: 'No duplicate non-basic active cards.',
+        }
+      : {
+          id: 'duplicate-non-basics',
+          status: 'warning',
+          label: 'Duplicate non-basics',
+          detail: duplicateNonBasics.join(', '),
+        },
+  ]
+}
+
+function duplicateNonBasicNames(entries: WorkspaceViewEntry[]) {
+  const totalsByName = new Map<string, { displayName: string; quantity: number }>()
+
+  for (const entry of entries) {
+    if (isBasicLand(entry)) {
+      continue
+    }
+
+    const key = normalizeText(entry.card_name)
+    const existing = totalsByName.get(key)
+    totalsByName.set(key, {
+      displayName: existing?.displayName ?? entry.card_name,
+      quantity: (existing?.quantity ?? 0) + entry.quantity,
+    })
+  }
+
+  return Array.from(totalsByName.values())
+    .filter((entry) => entry.quantity > 1)
+    .map((entry) => `${entry.displayName} x${entry.quantity}`)
+    .sort((left, right) => left.localeCompare(right))
+}
+
+function isBasicLand(entry: WorkspaceViewEntry) {
+  const typeLine = normalizeText(entry.type_line ?? '')
+  return typeLine.includes('basic land')
 }
 
 function entryToDetails(entry: WorkspaceViewEntry): CardDetails {

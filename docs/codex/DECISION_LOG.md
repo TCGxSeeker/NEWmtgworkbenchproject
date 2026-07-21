@@ -455,3 +455,9 @@
   - Alternatives considered: copying the richer Archidekt modal, adding card images immediately, or waiting until the local Scryfall index is wired into the frontend.
   - Risk: The panel is intentionally plain and fixture-limited until local oracle text, images, printings, and richer local facts are separately approved and wired.
   - Status: Accepted for Card Details Surface v0.
+
+- Decision: Add a compact mechanical validation surface before richer analysis UI.
+  - Reason: The next product step after seeing, adding, and understanding cards is validating the deck, but the first visible validation should stay factual and limited to local UI state.
+  - Alternatives considered: wiring the full backend inspection envelope into the frontend now, adding broader ratio checks, or waiting for saved-workspace file loading.
+  - Risk: V0 warns from fixture/current UI state only, so it is not a full legality engine or complete deck audit.
+  - Status: Accepted for Mechanical Deck Validation Surface v0.

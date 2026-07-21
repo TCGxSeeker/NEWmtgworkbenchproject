@@ -673,6 +673,70 @@ tbody tr:last-child td {
   padding: 18px;
 }
 
+.validation-panel {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.validation-heading h3 {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.validation-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.validation-list li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(9, 11, 14, 0.35);
+}
+
+.validation-list li.pass svg {
+  color: var(--accent);
+}
+
+.validation-list li.warning {
+  border-color: rgba(217, 167, 95, 0.34);
+  background: rgba(217, 167, 95, 0.08);
+}
+
+.validation-list li.warning svg {
+  color: var(--gold);
+}
+
+.validation-list span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.validation-list strong {
+  color: var(--text-strong);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.validation-list small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
 .fact-list {
   display: grid;
   gap: 8px;

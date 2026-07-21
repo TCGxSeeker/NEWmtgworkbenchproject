@@ -434,6 +434,24 @@ logic, legality claims, EDHREC rank, salt score, marketplace links, oracle tags,
 printing management, card images, broad Scryfall syntax expansion, or generated
 build output.
 
+### Phase Product-4N: Mechanical Deck Validation Surface v0
+
+Status: implemented and verified.
+
+Add the smallest visible mechanical validation surface to the existing
+fixture-backed deckbuilder screen. Definition of done: the screen summarizes
+current Commander deck readiness from local UI state only; reports missing
+commander, active card count mismatch against 100, unresolved card entries, and
+duplicate non-basic active cards; updates after visible add-card actions; and
+keeps validation short enough to support the deck workspace rather than replace
+it.
+
+This slice must not add frontend dependencies, backend persistence, live APIs,
+telemetry, hosted services, AI/LLM calls, deck analysis beyond the listed
+mechanical checks, recommendations, scoring, power-level claims, commander
+philosophy checks, role counts, package detection, price logic, legality claims,
+card-quality judgments, or generated build output.
+
 ### Phase Product-5: Deck Workspace Import/Export v0
 
 Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.
