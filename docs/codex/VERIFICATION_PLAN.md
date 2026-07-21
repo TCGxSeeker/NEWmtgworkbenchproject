@@ -10,7 +10,28 @@ rg --files --hidden -g '!.git/**'
 git status --short
 ```
 
-Expected root: `C:/Users/StDeL/Documents/New MTG project`.
+Expected root: `G:/Documents/New MTG project`.
+
+## Current Verified Baseline
+
+Latest repository-wide baseline around Step 4 catchup repairs:
+
+- Repository root: `G:/Documents/New MTG project`
+- Current head: `5c45b2c Define visual card pair comparison`
+- `python -m unittest discover -s tests`: passed after Step 4 workspace/card lookup repairs, 296 tests
+- `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report`: passed, 85 tests
+- `python -m py_compile src/mtg_workbench/deckbuilder/mutations.py src/mtg_workbench/cards/catalog.py src/mtg_workbench/deckbuilder/card_fact_lookup.py src/mtg_workbench/deckbuilder/deck_inspection_report.py`: passed
+- `git diff --check`: passed after Step 4 workspace/card lookup repairs
+- `python -m unittest tests.test_relationship_input_contract_hardening tests.test_relationship_primitives tests.test_card_behavioral_profile tests.test_behavioral_atom_extraction`: passed, 42 tests
+- `python -m py_compile src/mtg_workbench/deckbuilder/relationship_primitives.py src/mtg_workbench/deckbuilder/card_behavioral_profile.py src/mtg_workbench/deckbuilder/behavioral_atom_extraction.py`: passed
+- `python -m unittest tests.test_relationship_pipeline_fixture_smoke`: passed, 7 tests
+- `python -m py_compile src/mtg_workbench/deckbuilder/relationship_pipeline_smoke.py`: passed
+- 71 tracked Python files compiled with `py_compile` before Step 1 repairs
+- CLI parse smokes passed for `tests/fixtures/decklists/plain_commander.txt` and `tests/fixtures/decklists/csv_commander.csv` before Step 1 repairs
+- Local Scryfall search smokes passed against the current local index before Step 1 repairs
+- Frontend scaffold checks passed before Step 1 repairs: `npm run build` and `npm run lint` under `apps/deckbuilder-ui`
+
+Historical phase sections below preserve the test counts from their original dated runs. Treat this section and `docs/codex/NEXT_SESSION_HANDOFF.md` as the current baseline.
 
 ## Verification Principles
 
@@ -29,6 +50,40 @@ python -m unittest discover -s tests
 ```
 
 The repository-root `mtg_workbench` import shim points submodule imports at `src/mtg_workbench`.
+
+## Current Catchup Repair Verification
+
+Use these checks while repairing the post-July-12 audit findings:
+
+```powershell
+python -m unittest discover -s tests
+git diff --check
+```
+
+Focused relationship checks:
+
+```powershell
+python -m unittest tests.test_relationship_primitives tests.test_card_behavioral_profile tests.test_behavioral_atom_extraction
+python -m unittest tests.test_relationship_edge_derivation tests.test_card_relationship_report tests.test_relationship_pair_inspection tests.test_card_record_pair_inspection tests.test_relationship_pipeline_fixture_smoke
+python -m unittest tests.test_relationship_input_contract_hardening
+```
+
+Focused workspace/card-source checks:
+
+```powershell
+python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report
+```
+
+Focused Scryfall index checks:
+
+```powershell
+python -m unittest tests.test_scryfall_indexer
+```
+
+Known remaining audit repair queue:
+
+1. Scryfall index portability and rebuild atomicity.
+2. Visual comparison source-target direction decision.
 
 ## Future Test Categories
 

@@ -44,7 +44,7 @@ def add_entry(
     clean_tags = _stable_unique(tags or [], "tags")
     clean_secondary_tags = _stable_unique(secondary_tags or [], "secondary_tags")
 
-    candidate_entry_id = entry_id or _new_unique_entry_id(workspace)
+    candidate_entry_id = _entry_id_or_new(workspace, entry_id)
 
     candidate = DeckEntry(
         entry_id=candidate_entry_id,
@@ -354,6 +354,16 @@ def _new_unique_entry_id(workspace: DeckWorkspace) -> str:
     while find_entry(workspace, candidate) is not None:
         candidate = str(uuid4())
     return candidate
+
+
+def _entry_id_or_new(
+    workspace: DeckWorkspace,
+    entry_id: str | None,
+) -> str:
+    if entry_id is None:
+        return _new_unique_entry_id(workspace)
+
+    return _require_non_empty_string(entry_id, "entry_id")
 
 def _find_merge_target(workspace: DeckWorkspace, candidate: DeckEntry) -> DeckEntry | None:
     for entry in _zone_entries(workspace, candidate.zone):

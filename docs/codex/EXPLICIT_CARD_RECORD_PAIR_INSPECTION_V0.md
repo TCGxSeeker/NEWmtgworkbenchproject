@@ -52,4 +52,4 @@ Focused tests cover extraction, successful inspection, strict directionality,
 unsupported empty reports, validation, identifier normalization, extraction
 errors, and input immutability.
 
-The full offline Python unit-test suite passes with 282 tests.
+At implementation time, the full offline Python unit-test suite passed with 282 tests. Use `docs/codex/NEXT_SESSION_HANDOFF.md` for the current live suite count.

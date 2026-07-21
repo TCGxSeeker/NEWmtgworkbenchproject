@@ -2,7 +2,7 @@
 
 ## Repository Isolation
 
-Treat `C:\Users\StDeL\Documents\New MTG project` as the only workspace. Before editing, verify the root with `git rev-parse --show-toplevel` and keep changes inside that path. Do not copy files, config, dependencies, generated output, or `.env` values from sibling projects unless explicitly requested. This repository uses the configured GitHub remote as its shared source of truth. Verify the current remote with `git remote -v` before changing remote configuration or pushing to a different destination.
+Treat `G:\Documents\New MTG project` as the only workspace. Before editing, verify the root with `git rev-parse --show-toplevel` and keep changes inside that path. Do not copy files, config, dependencies, generated output, or `.env` values from sibling projects unless explicitly requested. This repository uses the configured GitHub remote as its shared source of truth. Verify the current remote with `git remote -v` before changing remote configuration or pushing to a different destination.
 
 ## Codex Project Instructions
 
@@ -125,12 +125,16 @@ Use this repository-specific structure for Codex planning, task tracking, and lo
 
 ```text
 AGENTS.md
-apps/deckbuilder-ui/  Free Vite + React + TypeScript UI scaffold
-docs/codex/      Project brief, specs, verification, decisions, gotchas
-.tasks/          Immediate next work and backlog
-.agents/skills/  Project-local Codex skills
-src/             Python package for CLI, parsing, card data, and search
-tests/           Python unit tests and fixtures
+apps/deckbuilder-ui/   Free Vite + React + TypeScript UI scaffold
+data/                 Tiny tracked fixtures plus ignored local snapshots/indexes
+docs/codex/           Project brief, specs, verification, decisions, gotchas
+docs/product/         Product, algorithm, and deckbuilder planning
+docs/rules/           Data contracts and deterministic rule documentation
+.tasks/               Immediate next work and backlog
+.agents/skills/       Project-local Codex skills
+mtg_workbench/        Root import shim for src package tests
+src/                  Python package for CLI, parsing, card data, search, reports
+tests/                Python unit tests and fixtures
 ```
 
 Avoid committing build output, dependency folders, caches, or editor artifacts.
@@ -140,11 +144,10 @@ Avoid committing build output, dependency folders, caches, or editor artifacts.
 Use these checks from the repository root unless noted:
 
 ```powershell
-$env:PYTHONPATH = 'src'
 python -m unittest discover -s tests
 ```
 
-Runs the Python parser, normalizer, Scryfall indexing/search, and fixture tests.
+Runs the Python parser, normalizer, Scryfall indexing/search, workspace, report, and relationship tests. The root `mtg_workbench` import shim means `PYTHONPATH` is not required for the standard suite.
 
 ```powershell
 $env:Path = 'C:\Program Files\nodejs;' + $env:Path

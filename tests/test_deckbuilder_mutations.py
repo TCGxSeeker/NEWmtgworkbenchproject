@@ -159,6 +159,50 @@ class DeckbuilderMutationTests(unittest.TestCase):
 
         self.assertEqual(workspace.mainboard[0].entry_id, "supplied-entry")
 
+    def test_supplied_entry_id_is_trimmed(self) -> None:
+        workspace = _workspace()
+
+        add_entry(
+            workspace,
+            "Trimmed Id Card",
+            entry_id="  supplied-entry  ",
+            updated_at=STAMP_ONE,
+        )
+
+        self.assertEqual(workspace.mainboard[0].entry_id, "supplied-entry")
+
+    def test_add_entry_rejects_non_string_supplied_entry_id(self) -> None:
+        workspace = _workspace()
+
+        with self.assertRaisesRegex(
+            WorkspaceMutationError,
+            "entry_id must be a non-empty string",
+        ):
+            add_entry(
+                workspace,
+                "Invalid Id Card",
+                entry_id=123,
+                updated_at=STAMP_ONE,
+            )
+
+        self.assertEqual(workspace.mainboard, [])
+
+    def test_add_entry_rejects_blank_supplied_entry_id(self) -> None:
+        workspace = _workspace()
+
+        with self.assertRaisesRegex(
+            WorkspaceMutationError,
+            "entry_id must be a non-empty string",
+        ):
+            add_entry(
+                workspace,
+                "Blank Id Card",
+                entry_id="   ",
+                updated_at=STAMP_ONE,
+            )
+
+        self.assertEqual(workspace.mainboard, [])
+
     def test_remove_entry_by_entry_id(self) -> None:
         workspace = _workspace()
         add_entry(workspace, "Remove Me", entry_id="remove-me", updated_at=STAMP_ONE)

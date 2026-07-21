@@ -25,6 +25,10 @@ The v0 extractor recognizes:
   - cost: `artifact`
   - emitted event: `permanent_sacrificed`
 
+- `Sacrifice a Treasure:`
+  - cost: `treasure`
+  - emitted event: `permanent_sacrificed`
+
 - `Whenever you cast a noncreature spell`
   - observed event: `noncreature_spell_cast`
 
@@ -60,15 +64,16 @@ This slice does not add:
 
 ## Verification
 
-Added eight focused tests covering:
+Focused tests cover:
 
 - Treasure output extraction
 - discard cost and event extraction
 - artifact sacrifice cost and event extraction
+- Treasure sacrifice cost and event extraction
 - noncreature-spell observation
 - multiple supported phrases
 - unsupported wording refusal
 - missing Oracle text
 - case-insensitive matching with preserved evidence
 
-The full test suite passes with 227 tests.
+Run the current full unit suite from the repository root after changing this extractor.

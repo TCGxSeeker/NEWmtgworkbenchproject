@@ -76,17 +76,18 @@ class RelationshipPipelineFixtureSmokeTests(unittest.TestCase):
         source = json.loads(INPUT_FIXTURE.read_text(encoding="utf-8-sig"))
 
         report = build_relationship_pipeline_smoke_report(source)
-        edges = report["machine_evidence"]["edges"]
+        edge_pairs = _edge_pairs(report)
+        declared_pairs = {
+            (
+                pair["source_entry_id"],
+                pair["target_entry_id"],
+            )
+            for pair in source["pairs"]
+        }
 
-        self.assertEqual(len(edges), 2)
+        self.assertLessEqual(edge_pairs, declared_pairs)
         self.assertEqual(
-            {
-                (
-                    edge["source_entry_id"],
-                    edge["target_entry_id"],
-                )
-                for edge in edges
-            },
+            edge_pairs,
             {
                 (
                     "treasure-maker-entry",
@@ -95,6 +96,27 @@ class RelationshipPipelineFixtureSmokeTests(unittest.TestCase):
                 (
                     "discard-outlet-entry",
                     "discard-listener-entry",
+                ),
+            },
+        )
+
+    def test_pipeline_does_not_add_undeclared_event_pairs(self) -> None:
+        source = json.loads(INPUT_FIXTURE.read_text(encoding="utf-8-sig"))
+        modified = copy.deepcopy(source)
+        modified["pairs"] = [
+            pair
+            for pair in modified["pairs"]
+            if pair["source_entry_id"] != "discard-outlet-entry"
+        ]
+
+        report = build_relationship_pipeline_smoke_report(modified)
+
+        self.assertEqual(
+            _edge_pairs(report),
+            {
+                (
+                    "treasure-maker-entry",
+                    "treasure-consumer-entry",
                 ),
             },
         )
@@ -169,6 +191,18 @@ class RelationshipPipelineFixtureSmokeTests(unittest.TestCase):
         report = build_card_relationship_report(edges)
 
         self.assertEqual(report.relationship_count, 2)
+
+
+def _edge_pairs(report: dict[str, object]) -> set[tuple[str, str]]:
+    edges = report["machine_evidence"]["edges"]  # type: ignore[index]
+
+    return {
+        (
+            edge["source_entry_id"],
+            edge["target_entry_id"],
+        )
+        for edge in edges
+    }
 
 
 if __name__ == "__main__":

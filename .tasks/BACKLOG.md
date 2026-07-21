@@ -1,12 +1,29 @@
 # Backlog
 
-## Current Runway
+## Active Catchup Repair Queue
 
-- Typed Card Relationship Primitive Models v0.
-- Card Behavioral Profile Model v0.
-- Bounded Behavior Atom Extraction v0.
-- Relationship Edge Derivation v0.
-- Card Relationship Report v0.
+1. Step 5: Scryfall Index Portability and Atomicity Patch.
+   - Make moved-repo local-path resolution robust for Scryfall manifests.
+   - Harden index rebuild atomicity so database and manifest cannot desynchronize after partial failure.
+2. Step 6: Visual Compare Direction Decision.
+   - Decide how a future `Inspect interaction` UI action chooses source and target direction.
+   - Keep automatic reverse-direction analysis out unless explicitly approved.
+
+## Completed Catchup Repairs
+
+- Step 1: Current docs/status/handoff repair.
+- Step 2: Relationship Smoke Repair v0.
+  - Removed hidden relationship injection from the smoke helper.
+  - Moved the discard observer behavior into explicit fixture-level profile atoms and a declared source-target pair.
+  - Added a regression test proving undeclared event pairs are not invented.
+- Step 3: Relationship Contract Hardening Patch.
+  - Tightened confidence-band validation so bools and floats are rejected.
+  - Added missing negative tests for empty relationship evidence, invalid edge evidence objects, invalid atom objects, and non-string Oracle IDs.
+  - Updated bounded atom extraction docs to include the current Treasure-sacrifice rule.
+- Step 4: Workspace/Card Lookup Integrity Patch.
+  - Rejected invalid supplied workspace entry IDs before entry creation.
+  - Aligned no-Oracle card fact identity with `CardCatalog` by using normalized canonical card names before printing IDs.
+  - Added independent expected-output assertions for inspection source unification.
 
 ## Near Term
 

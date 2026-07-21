@@ -348,7 +348,7 @@ def _matched_names(record: dict[str, Any], explicit_name: str | None) -> tuple[s
 def _dedupe_candidates(candidates: list[CardFactCandidate]) -> list[CardFactCandidate]:
     deduped: list[CardFactCandidate] = []
     seen: set[str] = set()
-    for candidate in candidates:
+    for candidate in sorted(candidates, key=_candidate_sort_key):
         identity = _candidate_identity(candidate)
         if identity not in seen:
             deduped.append(candidate)
@@ -359,9 +359,18 @@ def _dedupe_candidates(candidates: list[CardFactCandidate]) -> list[CardFactCand
 def _candidate_identity(candidate: CardFactCandidate) -> str:
     if candidate.oracle_id:
         return f"oracle:{candidate.oracle_id}"
-    if candidate.selected_printing_id:
-        return f"printing:{candidate.selected_printing_id}"
     return f"name:{normalize_lookup_key(candidate.display_name)}"
+
+
+def _candidate_sort_key(
+    candidate: CardFactCandidate,
+) -> tuple[str, str, str, str]:
+    return (
+        _candidate_identity(candidate),
+        normalize_lookup_key(candidate.display_name),
+        candidate.selected_printing_id or "",
+        normalize_lookup_key(candidate.matched_name),
+    )
 
 
 def _display_name(record: Mapping[str, Any]) -> str:

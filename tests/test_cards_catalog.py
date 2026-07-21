@@ -161,6 +161,37 @@ class CardCatalogTests(unittest.TestCase):
         )
         self.assertEqual(len(catalog.find_all("Sol Ring")), 2)
 
+    def test_catalog_multiple_no_oracle_printings_of_one_name_are_not_ambiguous(
+        self,
+    ) -> None:
+        from mtg_workbench.cards.catalog import CardCatalog, CardRecord
+
+        alternate_printing = CardRecord.from_dict(
+            {
+                "name": "Mystery Card",
+                "representative_scryfall_id": "printing-z",
+            }
+        )
+        default_printing = CardRecord.from_dict(
+            {
+                "name": "Mystery Card",
+                "representative_scryfall_id": "printing-a",
+            }
+        )
+
+        catalog = CardCatalog([alternate_printing, default_printing])
+
+        found = catalog.find("Mystery Card")
+
+        self.assertIsNotNone(found)
+        self.assertIsNone(found.oracle_id)
+        self.assertEqual(found.name, "Mystery Card")
+        self.assertEqual(
+            found.representative_scryfall_id,
+            "printing-a",
+        )
+        self.assertEqual(len(catalog.find_all("Mystery Card")), 2)
+
 
 if __name__ == "__main__":
     unittest.main()

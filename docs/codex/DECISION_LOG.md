@@ -297,3 +297,29 @@
   - Alternatives considered: package detection first, role-count-driven relationships, all-pairs card comparison, or recommendation-oriented synergy scoring.
   - Risk: The primitive vocabulary may need refinement once typed models and behavior extraction reveal real edge cases.
   - Status: Accepted for Card Relationship Primitives v0 planning.
+
+## 2026-07-20
+
+- Decision: Repair post-July-12 foundation drift before starting new feature work.
+  - Reason: The multi-agent catchup audit found stale status docs, moved-repository path drift, a relationship smoke contradiction, validation gaps, lookup parity concerns, and Scryfall index portability risks even though the full suite currently passes.
+  - Alternatives considered: proceeding directly into the next deckbuilder or relationship feature slice, or treating passing tests as proof that the foundation is pristine.
+  - Risk: Cleanup delays new visible features, but it reduces later backtracking and keeps the deterministic foundation honest.
+  - Status: Accepted for the current catchup repair queue.
+
+- Decision: Relationship smoke fixtures may use explicit fixture-level profile atoms, but edges must come only from declared source-target pairs.
+  - Reason: The smoke fixture needs to demonstrate unsupported behavior such as discard-event observation without hiding pair injection in Python code or pretending the bounded extractor supports more than it does.
+  - Alternatives considered: keeping hardcoded event edges in the smoke helper, expanding the bounded extractor to support discard listeners immediately, or removing the trigger relationship from the smoke fixture.
+  - Risk: Fixture-level atoms are a smoke-test convenience, not a general card modeling feature; future production behavior still needs explicit extraction or profile sources.
+  - Status: Accepted for Relationship Smoke Repair v0.
+
+- Decision: Treat relationship confidence bands as exact integer contract values.
+  - Reason: Python equality lets `False` match `0` and `25.0` match `25`, but relationship evidence should preserve explicit deterministic band values rather than accepting lookalikes.
+  - Alternatives considered: relying on membership checks only, coercing numeric values to integers, or accepting any numeric value that compares equal to a supported band.
+  - Risk: Callers that pass malformed confidence bands now receive domain-specific validation errors instead of permissive acceptance.
+  - Status: Accepted for Relationship Contract Hardening Patch.
+
+- Decision: Use normalized canonical card name as the no-Oracle logical identity for local card fact lookup.
+  - Reason: `CardCatalog` already treats no-Oracle records with the same normalized name as one logical card identity, so deckbuilder lookup should not turn different printings of that same name into ambiguity.
+  - Alternatives considered: using selected printing identity first, treating all no-Oracle duplicates as ambiguous, or requiring Oracle IDs before lookup can resolve a card.
+  - Risk: Distinct real cards without Oracle IDs but sharing the same name cannot be separated until richer identity data is supplied; aliases across different no-Oracle names still remain ambiguous.
+  - Status: Accepted for Workspace/Card Lookup Integrity Patch.

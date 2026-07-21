@@ -64,5 +64,9 @@ Added source-parity tests for:
 
 - iterable records versus mapping records
 - CardCatalog versus mapping records
+- exact expected card fact coverage
+- exact expected skeleton lookup status
+- exact expected duplicate nonbasic warning evidence
+- exact expected structural warning identifiers
 
-The full test suite passes.
+Run the current full unit suite from the repository root after changing this contract.

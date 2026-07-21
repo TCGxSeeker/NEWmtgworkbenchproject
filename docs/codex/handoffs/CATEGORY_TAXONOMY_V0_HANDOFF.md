@@ -1,5 +1,7 @@
 ﻿# Category Taxonomy v0 Handoff
 
+> Historical handoff. This slice has been completed; do not treat this file's current-state wording as authoritative. Current baseline and next repairs live in `docs/codex/NEXT_SESSION_HANDOFF.md`.
+
 ## Current project state
 
 Completed deckbuilder foundation slices:

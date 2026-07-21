@@ -134,6 +134,63 @@ class RelationshipPrimitiveInputHardeningTests(unittest.TestCase):
                 derivation_rule="test_rule",
             )
 
+    def test_bool_confidence_band_is_rejected(self) -> None:
+        with self.assertRaisesRegex(
+            RelationshipPrimitiveError,
+            "confidence_band must be an integer confidence band",
+        ):
+            RelationshipEvidence(
+                source_behavior="outputs:treasure",
+                target_behavior="costs:treasure",
+                oracle_evidence=("Evidence.",),
+                conditions=(),
+                zones=(),
+                confidence_band=False,
+                derivation_rule="test_rule",
+            )
+
+    def test_float_confidence_band_is_rejected(self) -> None:
+        with self.assertRaisesRegex(
+            RelationshipPrimitiveError,
+            "confidence_band must be an integer confidence band",
+        ):
+            RelationshipEvidence(
+                source_behavior="outputs:treasure",
+                target_behavior="costs:treasure",
+                oracle_evidence=("Evidence.",),
+                conditions=(),
+                zones=(),
+                confidence_band=25.0,
+                derivation_rule="test_rule",
+            )
+
+    def test_empty_relationship_evidence_is_rejected(self) -> None:
+        with self.assertRaisesRegex(
+            RelationshipPrimitiveError,
+            "oracle_evidence must contain at least one value",
+        ):
+            RelationshipEvidence(
+                source_behavior="outputs:treasure",
+                target_behavior="costs:treasure",
+                oracle_evidence=(),
+                conditions=(),
+                zones=(),
+                confidence_band=100,
+                derivation_rule="test_rule",
+            )
+
+    def test_invalid_edge_evidence_object_is_rejected(self) -> None:
+        with self.assertRaisesRegex(
+            RelationshipPrimitiveError,
+            "evidence must be a RelationshipEvidence instance",
+        ):
+            RelationshipEdge(
+                source_entry_id="source-entry",
+                target_entry_id="target-entry",
+                relationship_type="supplies",
+                evidence={"not": "relationship evidence"},
+            )
+
 
 class BehavioralProfileInputHardeningTests(unittest.TestCase):
     def test_string_atom_evidence_is_rejected_as_collection(self) -> None:
@@ -169,6 +226,27 @@ class BehavioralProfileInputHardeningTests(unittest.TestCase):
                 card_name="Fixture Card",
                 oracle_id=None,
                 outputs=None,
+            )
+
+    def test_invalid_profile_atom_object_is_rejected(self) -> None:
+        with self.assertRaisesRegex(
+            CardBehavioralProfileError,
+            "outputs must contain only BehaviorAtom values",
+        ):
+            CardBehavioralProfile(
+                card_name="Fixture Card",
+                oracle_id=None,
+                outputs=(object(),),
+            )
+
+    def test_non_string_oracle_id_is_rejected(self) -> None:
+        with self.assertRaisesRegex(
+            CardBehavioralProfileError,
+            "oracle_id must be a string or None",
+        ):
+            CardBehavioralProfile(
+                card_name="Fixture Card",
+                oracle_id=123,
             )
 
     def test_valid_values_remain_sorted_and_deduplicated(self) -> None:

@@ -25,8 +25,22 @@ Collection fields now:
 - reject bytes and byte arrays
 - reject `None`
 - reject non-iterable values
+- reject invalid object types inside typed collections
+- reject empty required Oracle-evidence collections
 - raise domain-specific validation errors
 - preserve deterministic sorting and deduplication for valid inputs
+
+Confidence bands now:
+
+- accept only exact integer values
+- reject bool values even though Python treats bool as an int subclass
+- reject floats even when they compare equal to a supported band
+- still require one of `0`, `25`, `50`, `75`, or `100`
+
+Optional Oracle IDs now:
+
+- accept strings or `None`
+- reject non-string values
 
 ## Affected contracts
 
@@ -80,18 +94,24 @@ This slice does not add:
 
 ## Verification
 
-Added eleven focused tests covering:
+Focused tests cover:
 
 - None entry-id rejection
 - integer entry-id rejection
 - non-string behavior rejection
+- bool confidence-band rejection
+- float confidence-band rejection
 - string-as-evidence rejection
+- empty relationship-evidence rejection
 - string-as-conditions rejection
 - None zones rejection
+- invalid edge evidence objects
 - bytes-as-conditions rejection
 - None behavioral-atom collections
+- invalid behavioral-atom objects
+- non-string Oracle IDs
 - valid sorting and deduplication
 - shared edge identity stability
 - existing relationship behavior compatibility
 
-The full test suite passes with 260 tests.
+Run the current full unit suite from the repository root after changing these contracts.

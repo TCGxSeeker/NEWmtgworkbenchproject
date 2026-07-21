@@ -57,16 +57,20 @@ Logical identity is determined by:
 
 Multiple printings sharing one `oracle_id` are one logical card identity and are not ambiguous.
 
+When Oracle identity is unavailable, multiple printings with the same normalized canonical card name are also treated as one logical identity. Distinct no-Oracle card names that share an alias remain ambiguous.
+
 ## Card Fact Lookup Bridge
 
 The catalog resolver now consumes all catalog candidates through `find_all()`.
 
-Candidate identity is deduplicated at Oracle-card level.
+Candidate identity is deduplicated at Oracle-card level when `oracle_id` is available, then by normalized canonical card name when it is not.
 
 Therefore:
 
 - multiple printings of one Oracle card produce `FOUND`,
+- multiple no-Oracle printings of one canonical name produce `FOUND`,
 - aliases spanning different Oracle cards produce `AMBIGUOUS`,
+- aliases spanning different no-Oracle canonical names produce `AMBIGUOUS`,
 - missing names produce `MISSING`,
 - stable Oracle identity is preserved in lookup evidence,
 - representative printing identity becomes default selected-printing evidence.
@@ -101,12 +105,10 @@ Regression coverage includes:
 - ambiguity across different Oracle IDs,
 - deterministic candidate ordering,
 - multiple printings under one Oracle ID remaining non-ambiguous,
+- multiple no-Oracle printings under one canonical name remaining non-ambiguous,
+- no-Oracle alias collisions across different names remaining ambiguous,
 - catalog lookup preserving Oracle identity,
 - representative printing flowing into lookup evidence,
 - existing name, alias, punctuation, missing, and record-source behavior.
 
-Full verification after implementation:
-
-- 199 tests passed
-- Python source compilation passed
-- Git diff hygiene passed
+Run the current full unit suite from the repository root after changing this contract.

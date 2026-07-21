@@ -1,5 +1,7 @@
 # Completed Tasks Export
 
+> Historical export snapshot. Do not treat test counts, latest-next-step wording, or current-status claims below as authoritative. Current baseline and next repairs live in `docs/codex/NEXT_SESSION_HANDOFF.md`, `.tasks/NEXT_PROJECT.md`, and `README.md`.
+
 ## Project Operating Structure
 
 - Created the project-local Codex structure: `AGENTS.md`, `docs/codex/`, `.tasks/`, and `.agents/skills/`.
@@ -86,7 +88,7 @@
 ## Verification
 
 - Ran the unit test suite repeatedly as features were added.
-  - What this means: The current suite passes normally. The latest suite state is 25 tests with 0 expected failures.
+  - What this means: At this historical snapshot, the suite passed normally with 25 tests and 0 expected failures. The current suite count is tracked in `docs/codex/NEXT_SESSION_HANDOFF.md`.
 
 - Ran real local smoke checks against the generated Scryfall SQLite index.
   - What this means: The local search command works against the full local snapshot index, not only tiny fixtures. Generated large files remain ignored by Git.

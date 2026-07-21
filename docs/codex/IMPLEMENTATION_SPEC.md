@@ -31,7 +31,9 @@ The MVP should prove:
 
 Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PROJECT_MASTER_SEED.md` as the highest-priority product sources. If repo files conflict with them, prefer these sources and record the conflict in `docs/codex/DECISION_LOG.md`.
 
-Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, and a free frontend tooling scaffold. The deterministic analyzer, recommender, finished UI, scoring rubric, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
+Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
+
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 296 tests in the current working tree at `5c45b2c Define visual card pair comparison`. See `docs/codex/NEXT_SESSION_HANDOFF.md` for the active catchup repair queue after the post-July-12 audit.
 
 ## Key Decisions Before Building
 
@@ -433,6 +435,30 @@ Define the smallest deterministic vocabulary for factual relationships between d
 
 Card Relationship Primitives v0 must not implement relationship derivation, all-pairs comparison, package detection, synergy scoring, recommendations, candidate search, add/cut scoring, commander analysis, deck-level role totals, card-quality judgments, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, or AI/LLM calls.
 
+### Phase Relationship-1: Typed Relationship Primitives v0
+
+Status: implemented and verified.
+
+Load and validate the relationship vocabulary fixture as typed local objects. Definition of done: the loader validates schema version, unique vocabulary values, supported relationship types, evidence fields, confidence bands, deferred types, and explicit non-goals without deriving edges or making strategic judgments.
+
+Typed Relationship Primitives v0 must not implement relationship derivation, package detection, synergy scoring, all-pairs comparison, deck-level role totals, recommendations, candidate search, add/cut scoring, UI, live APIs, telemetry, hosted services, or AI/LLM calls.
+
+### Phase Relationship-1A: Factual Card Behavioral Profile v0
+
+Status: implemented and verified.
+
+Define a factual card behavioral profile shape for explicit outputs, costs, requirements, emitted events, observed events, permissions, modifiers, zone constraints, timing constraints, and source evidence. Definition of done: profiles preserve card and entry identity, reject malformed values, serialize deterministically, and avoid strategic role or quality claims.
+
+Factual Card Behavioral Profile v0 must not extract behavior from Oracle text, derive relationships, classify deck roles, score synergy, recommend cards, or inspect live services.
+
+### Phase Relationship-1B: Bounded Behavioral Atom Extraction v0
+
+Status: implemented and verified.
+
+Extract only a tiny, explicit, low-risk set of factual behavior atoms from local card records and Oracle text. Definition of done: supported phrase patterns produce traceable atoms, unsupported wording remains unextracted, source records are not mutated, and output remains deterministic.
+
+Bounded Behavioral Atom Extraction v0 must not try to understand every Magic card, infer strategy, assign quality, select primary roles, derive deck-level counts, make recommendations, or broaden extraction beyond documented tested rules.
+
 ### Phase Tooling-1: Free Frontend Tooling Scaffold
 
 Install or document free tooling required for later UI work, isolated under `apps/deckbuilder-ui/`. Definition of done: Node/npm are available, a Vite React TypeScript scaffold exists, dependencies are project-local, build verification passes, and no product features are implemented.
@@ -631,7 +657,7 @@ Verification:
 
 ### Phase Relationship-5: Relationship Input Contract Hardening v0
 
-Status: implementation in progress.
+Status: implemented and verified.
 
 Goal:
 
@@ -889,6 +915,22 @@ Verification:
 - a dedicated bounded interaction contract records its state and non-goals
 - no application or frontend code is changed
 - the full offline Python unit-test suite remains green
+
+## Current Catchup Repair Queue
+
+Before starting new feature work, continue repairing the audit findings captured after the July 12 implementation burst.
+
+Completed:
+
+- Step 1: Current docs/status/handoff repair.
+- Step 2: Relationship Smoke Repair v0.
+- Step 3: Relationship Contract Hardening Patch.
+- Step 4: Workspace/Card Lookup Integrity Patch.
+
+Remaining:
+
+1. Scryfall Index Portability and Atomicity Patch: make moved-repo path resolution robust and protect database/manifest consistency on failed rebuilds.
+2. Visual Compare Direction Decision: document how a future `Inspect interaction` action chooses source and target direction.
 
 ## Verification Plan
 

@@ -263,6 +263,85 @@ class CardFactLookupBridgeTests(unittest.TestCase):
             "printing-a",
         )
 
+    def test_supplied_records_collapse_multiple_no_oracle_printings_by_name(
+        self,
+    ) -> None:
+        result = lookup_deck_entry_card_fact(
+            _entry("mystery", "Mystery Card"),
+            card_records=[
+                {
+                    "name": "Mystery Card",
+                    "scryfall_id": "printing-z",
+                },
+                {
+                    "name": "Mystery Card",
+                    "scryfall_id": "printing-a",
+                },
+            ],
+        )
+
+        self.assertEqual(result.status, FOUND)
+        self.assertEqual(len(result.candidates), 1)
+        self.assertIsNone(result.candidates[0].oracle_id)
+        self.assertEqual(
+            result.candidates[0].selected_printing_id,
+            "printing-a",
+        )
+
+    def test_catalog_source_collapses_multiple_no_oracle_printings_by_name(
+        self,
+    ) -> None:
+        from mtg_workbench.cards.catalog import CardRecord
+
+        alternate_printing = CardRecord.from_dict(
+            {
+                "name": "Mystery Card",
+                "representative_scryfall_id": "printing-z",
+            }
+        )
+        default_printing = CardRecord.from_dict(
+            {
+                "name": "Mystery Card",
+                "representative_scryfall_id": "printing-a",
+            }
+        )
+
+        result = lookup_deck_entry_card_fact(
+            _entry("mystery", "Mystery Card"),
+            catalog=CardCatalog([alternate_printing, default_printing]),
+        )
+
+        self.assertEqual(result.status, FOUND)
+        self.assertEqual(len(result.candidates), 1)
+        self.assertIsNone(result.candidates[0].oracle_id)
+        self.assertEqual(
+            result.candidates[0].selected_printing_id,
+            "printing-a",
+        )
+
+    def test_no_oracle_alias_collision_across_names_is_ambiguous(self) -> None:
+        result = lookup_deck_entry_card_fact(
+            _entry("shared", "Shared Alias"),
+            card_records=[
+                {
+                    "name": "First Mystery",
+                    "aliases": ["Shared Alias"],
+                    "scryfall_id": "printing-first",
+                },
+                {
+                    "name": "Second Mystery",
+                    "aliases": ["Shared Alias"],
+                    "scryfall_id": "printing-second",
+                },
+            ],
+        )
+
+        self.assertEqual(result.status, AMBIGUOUS)
+        self.assertEqual(
+            [candidate.display_name for candidate in result.candidates],
+            ["First Mystery", "Second Mystery"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

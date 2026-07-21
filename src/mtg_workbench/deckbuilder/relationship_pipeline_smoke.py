@@ -19,13 +19,24 @@ from mtg_workbench.deckbuilder.relationship_edge_derivation import (
 from mtg_workbench.deckbuilder.relationship_primitives import RelationshipEdge
 
 
+ATOM_COLLECTION_FIELDS = (
+    "outputs",
+    "costs",
+    "requirements",
+    "emitted_events",
+    "observed_events",
+    "permissions",
+    "modifiers",
+)
+
+
 def build_relationship_pipeline_smoke_report(
     fixture: Mapping[str, Any],
 ) -> dict[str, Any]:
-    records_by_entry_id = _records_by_entry_id(fixture)
+    entries_by_entry_id = _entries_by_entry_id(fixture)
     profiles_by_entry_id = {
-        entry_id: extract_card_behavioral_profile(record)
-        for entry_id, record in records_by_entry_id.items()
+        entry_id: _profile_for_entry(entry_id, entry)
+        for entry_id, entry in entries_by_entry_id.items()
     }
 
     edges: list[RelationshipEdge] = []
@@ -43,9 +54,6 @@ def build_relationship_pipeline_smoke_report(
         source_profile = profiles_by_entry_id[source_entry_id]
         target_profile = profiles_by_entry_id[target_entry_id]
 
-        if target_entry_id == "treasure-consumer-entry":
-            target_profile = _explicit_treasure_consumer_profile()
-
         edges.extend(
             derive_relationship_edges(
                 source_entry_id=source_entry_id,
@@ -55,15 +63,13 @@ def build_relationship_pipeline_smoke_report(
             )
         )
 
-    edges.extend(_explicit_event_edges())
-
     return build_card_relationship_report(tuple(edges)).to_dict()
 
 
-def _records_by_entry_id(
+def _entries_by_entry_id(
     fixture: Mapping[str, Any],
 ) -> dict[str, Mapping[str, Any]]:
-    records: dict[str, Mapping[str, Any]] = {}
+    entries: dict[str, Mapping[str, Any]] = {}
 
     for entry in fixture.get("entries", ()):
         entry_id = _required_text(
@@ -77,62 +83,114 @@ def _records_by_entry_id(
                 f"record for {entry_id!r} must be a mapping."
             )
 
-        records[entry_id] = dict(record)
+        entries[entry_id] = dict(entry)
 
-    return records
+    return entries
 
 
-def _explicit_treasure_consumer_profile() -> CardBehavioralProfile:
+def _profile_for_entry(
+    entry_id: str,
+    entry: Mapping[str, Any],
+) -> CardBehavioralProfile:
+    record = entry["record"]
+    profile = extract_card_behavioral_profile(record)
+    profile_atoms = entry.get("profile_atoms")
+
+    if profile_atoms is None:
+        return profile
+
+    if not isinstance(profile_atoms, Mapping):
+        raise ValueError(
+            f"profile_atoms for {entry_id!r} must be a mapping."
+        )
+
+    explicit_atoms = {
+        field_name: _profile_atoms(
+            profile_atoms.get(field_name, []),
+            field_name,
+        )
+        for field_name in ATOM_COLLECTION_FIELDS
+    }
+
     return CardBehavioralProfile(
-        card_name="Fixture Treasure Consumer",
-        oracle_id="fixture-treasure-consumer",
-        costs=(
-            BehaviorAtom(
-                kind="treasure",
-                oracle_evidence=(
-                    "Sacrifice a Treasure: Draw a card.",
-                ),
-                conditions=(),
-                zones=(),
-            ),
+        card_name=profile.card_name,
+        oracle_id=profile.oracle_id,
+        outputs=profile.outputs + explicit_atoms["outputs"],
+        costs=profile.costs + explicit_atoms["costs"],
+        requirements=(
+            profile.requirements
+            + explicit_atoms["requirements"]
         ),
-    )
-
-
-def _explicit_event_edges() -> tuple[RelationshipEdge, ...]:
-    source_profile = CardBehavioralProfile(
-        card_name="Fixture Discard Outlet",
-        oracle_id="fixture-discard-outlet",
         emitted_events=(
-            BehaviorAtom(
-                kind="card_discarded",
-                oracle_evidence=("Discard a card:",),
-                conditions=(),
-                zones=("battlefield",),
-            ),
+            profile.emitted_events
+            + explicit_atoms["emitted_events"]
         ),
-    )
-
-    target_profile = CardBehavioralProfile(
-        card_name="Fixture Discard Listener",
-        oracle_id="fixture-discard-listener",
         observed_events=(
-            BehaviorAtom(
-                kind="card_discarded",
-                oracle_evidence=(
-                    "Whenever you discard a card, draw a card.",
-                ),
-                conditions=(),
-                zones=("battlefield",),
-            ),
+            profile.observed_events
+            + explicit_atoms["observed_events"]
         ),
+        permissions=profile.permissions + explicit_atoms["permissions"],
+        modifiers=profile.modifiers + explicit_atoms["modifiers"],
+        zone_constraints=profile.zone_constraints,
+        timing_constraints=profile.timing_constraints,
     )
 
-    return derive_relationship_edges(
-        source_entry_id="discard-outlet-entry",
-        source_profile=source_profile,
-        target_entry_id="discard-listener-entry",
-        target_profile=target_profile,
+
+def _profile_atoms(
+    value: Any,
+    field_name: str,
+) -> tuple[BehaviorAtom, ...]:
+    if not isinstance(value, list):
+        raise ValueError(
+            f"profile_atoms.{field_name} must be a list."
+        )
+
+    atoms: list[BehaviorAtom] = []
+
+    for index, atom in enumerate(value):
+        if not isinstance(atom, Mapping):
+            raise ValueError(
+                f"profile_atoms.{field_name}[{index}] "
+                "must be a mapping."
+            )
+
+        atoms.append(
+            BehaviorAtom(
+                kind=_required_text(
+                    atom.get("kind"),
+                    f"profile_atoms.{field_name}[{index}].kind",
+                ),
+                oracle_evidence=_text_tuple(
+                    atom.get("oracle_evidence", []),
+                    (
+                        "profile_atoms."
+                        f"{field_name}[{index}].oracle_evidence"
+                    ),
+                ),
+                conditions=_text_tuple(
+                    atom.get("conditions", []),
+                    f"profile_atoms.{field_name}[{index}].conditions",
+                ),
+                zones=_text_tuple(
+                    atom.get("zones", []),
+                    f"profile_atoms.{field_name}[{index}].zones",
+                ),
+            )
+        )
+
+    return tuple(atoms)
+
+
+def _text_tuple(
+    value: Any,
+    field_name: str,
+) -> tuple[str, ...]:
+    if not isinstance(value, list):
+        raise ValueError(f"{field_name} must be a list.")
+
+    return tuple(
+        _required_text(item, field_name)
+        for item in value
     )
 
 

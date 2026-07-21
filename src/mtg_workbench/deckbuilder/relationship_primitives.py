@@ -89,6 +89,11 @@ class RelationshipEvidence:
             _normalized_text_tuple(self.zones, "zones"),
         )
 
+        if type(self.confidence_band) is not int:
+            raise RelationshipPrimitiveError(
+                "confidence_band must be an integer confidence band."
+            )
+
         if self.confidence_band not in CONFIDENCE_BANDS:
             raise RelationshipPrimitiveError(
                 f"Unsupported confidence band: {self.confidence_band!r}."

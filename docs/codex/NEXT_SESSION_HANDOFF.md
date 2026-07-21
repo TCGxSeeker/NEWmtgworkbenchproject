@@ -2,13 +2,21 @@
 
 ## Current Baseline
 
-- Repository root: `C:/Users/StDeL/Documents/New MTG project`
+- Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current head: `578144b Plan Card Relationship Primitives v0`
+- Current head: `5c45b2c Define visual card pair comparison`
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
-- Working tree at refresh time: clean
-- Current verification: `python -m unittest discover -s tests` passed with 183 tests
-- `git diff --check` passed
+- Working tree before Step 1 repairs: clean
+- Step 1 docs/status repairs: applied in the working tree unless already committed
+- Step 2 relationship smoke repairs: applied in the working tree unless already committed
+- Step 3 relationship contract repairs: applied in the working tree unless already committed
+- Step 4 workspace/card lookup repairs: applied in the working tree unless already committed
+- Current verification: `python -m unittest discover -s tests` passed with 296 tests
+- Current focused workspace/card lookup verification: `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report` passed with 85 tests
+- Current focused contract verification: `python -m unittest tests.test_relationship_input_contract_hardening tests.test_relationship_primitives tests.test_card_behavioral_profile tests.test_behavioral_atom_extraction` passed with 42 tests
+- Current focused smoke verification: `python -m unittest tests.test_relationship_pipeline_fixture_smoke` passed with 7 tests
+- Current whitespace check: `git diff --check` passed
+- Frontend scaffold verification before Step 1 repairs: `npm run build` and `npm run lint` passed in `apps/deckbuilder-ui`
 
 ## Current Completed Milestones
 
@@ -33,12 +41,68 @@
 - Deck Inspection Report Envelope v0
 - Deck Inspection Fixture Smoke v0
 - Card Relationship Primitives Plan v0
+- Workspace Entry Identity Integrity v0
+- Card Catalog Identity Bridge v0
+- Deck Inspection Source Unification v0
+- Atomic Local Persistence v0
+- Typed Relationship Primitives v0
+- Factual Card Behavioral Profile v0
+- Bounded Behavioral Atom Extraction v0
+- Deterministic Relationship Edge Derivation v0
+- Card Relationship Report v0
+- Relationship Pipeline Fixture Smoke v0
+- Relationship Input Contract Hardening v0
+- Explicit Relationship Pair Inspection v0
+- Explicit Card Record Pair Inspection v0
+- Visual Card Pair Compare v0 Planning
 
-## Most Recent Changes
+## Audit Status
 
-Deck Inspection Fixture Smoke v0 added a stable end-to-end fixture for `build_deck_inspection_report`. It verifies deterministic output, no network use, no workspace mutation, card fact coverage, optional found-card-only role evidence, and no strategic/reporting fields that imply recommendations or deck quality.
+The repository is functional but not pristine. The full unit suite, compile checks, CLI smoke checks, local search smoke checks, frontend build, frontend lint, and current whitespace check passed before Step 1 repairs. The multi-agent catchup audit still found contract drift, stale documentation, and a few fragile behaviors that should be repaired before new feature work.
 
-Card Relationship Primitives Plan v0 added `docs/codex/CARD_RELATIONSHIP_PRIMITIVES_V0.md`, a tiny JSON vocabulary fixture, and tests that lock the planning contract. It is a vocabulary and doctrine contract only, not a relationship engine.
+Step 1 is a documentation/status repair pass only. It should align current docs, handoffs, task pointers, and verification notes with the moved `G:` repository and the completed post-July-12 work.
+
+## Completed Catchup Repairs
+
+### Step 1: Current Docs/Status Repair
+
+Updated current repository path, current head, current test baseline, stale historical handoff markers, and the active repair queue.
+
+### Step 2: Relationship Smoke Repair v0
+
+Removed hidden relationship injection from the smoke helper. The discard listener behavior now lives in explicit fixture-level `profile_atoms`, and the discard relationship is produced only when the fixture declares the source-target pair. A regression test proves undeclared event pairs are not invented.
+
+### Step 3: Relationship Contract Hardening Patch
+
+Tightened confidence-band validation so only exact integer band values are accepted, added missing negative tests for malformed relationship/profile inputs, and updated bounded atom extraction docs for the Treasure-sacrifice rule.
+
+### Step 4: Workspace/Card Lookup Integrity Patch
+
+Rejected invalid supplied workspace entry IDs before entry creation, aligned no-Oracle lookup identity with `CardCatalog`, and added independent expected-output assertions for inspection source unification.
+
+## Active Catchup Repair Queue
+
+### Step 5: Scryfall Index Portability and Atomicity Patch
+
+Harden local Scryfall index behavior after the repo move. Current audit concerns include cwd-dependent `local_path` resolution and a possible database/manifest desynchronization if manifest writing fails after database replacement.
+
+Known files:
+
+- `src/mtg_workbench/scryfall/indexer.py`
+- `tests/test_scryfall_indexer.py`
+- `docs/codex/ATOMIC_LOCAL_PERSISTENCE_V0.md`
+
+### Step 6: Visual Compare Direction Decision
+
+Clarify how a future `Inspect interaction` UI action chooses source and target direction. Current code inspects source-to-target only, and tests correctly lock that reverse direction is not automatic.
+
+Known files:
+
+- `docs/product/deckbuilder/VISUAL_CARD_PAIR_COMPARE_V0.md`
+- `src/mtg_workbench/deckbuilder/relationship_pair_inspection.py`
+- `src/mtg_workbench/deckbuilder/card_record_pair_inspection.py`
+- `tests/test_relationship_pair_inspection.py`
+- `tests/test_card_record_pair_inspection.py`
 
 ## Core Constraints
 
@@ -53,10 +117,9 @@ Card Relationship Primitives Plan v0 added `docs/codex/CARD_RELATIONSHIP_PRIMITI
 - Deck-specific role is the truth.
 - User/imported labels must be preserved.
 - Missing, unknown, or ambiguous facts must stay visible instead of being guessed.
+- Not all internal algorithm data should become visible UI text.
 
 ## UI Visibility Doctrine
-
-Not all internal algorithm data should become visible UI text.
 
 Future UI should use progressive disclosure:
 
@@ -65,53 +128,6 @@ Future UI should use progressive disclosure:
 3. Advanced/debug UI: raw rule evidence, confidence scores, matched phrases, and internal data.
 
 Future output schemas should separate machine-readable evidence, concise user-facing summaries, optional explanation text, and debug/internal details.
-
-## Established Report Defaults
-
-- `build_deck_skeleton_report` inventories deck metadata, zones, quantities, commander names, active categories, unresolved entries, missing local facts, and known non-basic duplicates.
-- `build_structural_warnings_report` consumes skeleton facts and emits mechanical warnings only.
-- `build_deck_inspection_report` composes skeleton facts, structural warnings, card fact lookup coverage, and optional found-card-only role evidence.
-- Deck inspection smoke fixtures are stable expected-output fixtures, not product UI.
-- Role evidence remains card-level advisory metadata.
-- Deck-level role counting is not implemented.
-- Full deck classification is not implemented.
-
-## Relationship Primitive Defaults
-
-- Facts describe cards.
-- Interfaces describe behavior.
-- Edges describe relationships.
-- Subgraphs may later describe packages.
-- Context may later describe relevance.
-- Judgment comes last.
-
-Current relationship primitives are planning vocabulary only:
-
-- `supplies`
-- `triggers`
-- `enables`
-- `amplifies`
-- `protects`
-- `recurs`
-- `conflicts_with`
-
-Deferred relationship concepts remain out of v0:
-
-- `redundant_with`
-- `competes_with`
-- `converts`
-- `closes_with`
-
-## Parsed Next Steps
-
-Recommended next implementation order:
-
-1. Typed Card Relationship Primitive Models v0: load and validate the existing JSON vocabulary fixture as typed local objects. Do not derive edges yet.
-2. Card Behavioral Profile Model v0: define a factual profile shape for outputs, costs, requirements, events, permissions, modifiers, zone constraints, and timing constraints. Do not extract behavior yet.
-3. Bounded Behavior Atom Extraction v0: extract only explicit low-risk atoms from local card facts and Oracle text. Do not infer strategy or quality.
-4. Relationship Edge Derivation v0: derive edges only between compatible behavior groups with traceable evidence. Do not compare every card against every other card.
-5. Card Relationship Report v0: expose relationship evidence with summary, machine evidence, optional explanations, and debug details.
-6. Deck Role Summary v0: start only after explicit human approval for deck-level role counting.
 
 ## Do Not Start Yet
 
@@ -129,3 +145,4 @@ Recommended next implementation order:
 - Online services or live API calls.
 - Full Scryfall auto-categorization.
 - Primary-role enforcement.
+- Strategic quality judgments.

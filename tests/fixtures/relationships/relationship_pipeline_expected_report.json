@@ -38,7 +38,7 @@
           "source_behavior": "emitted_events:card_discarded",
           "target_behavior": "observed_events:card_discarded",
           "oracle_evidence": [
-            "Discard a card:",
+            "Discard a card: Draw a card.",
             "Whenever you discard a card, draw a card."
           ],
           "conditions": [],

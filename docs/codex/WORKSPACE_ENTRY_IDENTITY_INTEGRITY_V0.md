@@ -25,6 +25,9 @@ Every stored `entry_id` is therefore treated as a globally unique workspace iden
 
 ### Mutation behavior
 
+- `None` means a new unique `entry_id` should be generated.
+- Any caller-supplied `entry_id` must be a nonempty string after trimming.
+- Non-string, blank, or whitespace-only supplied IDs are rejected before creating an entry.
 - A caller-supplied `entry_id` may not reuse an ID owned by another stored entry.
 - A materially different entry with an existing ID is rejected.
 - An incoming ID already owned by another entry may not be silently discarded during a merge.
@@ -70,6 +73,9 @@ Regression coverage includes:
 - ambiguous in-memory lookup rejection,
 - ambiguous in-memory removal rejection,
 - native workspace round-trip behavior.
+- non-string supplied entry IDs,
+- blank supplied entry IDs,
+- trimming supplied entry IDs.
 
 ## Architectural Consequence
 

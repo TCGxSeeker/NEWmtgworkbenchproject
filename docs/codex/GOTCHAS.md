@@ -2,7 +2,9 @@
 
 ## Repository Gotchas
 
-- The repository now has Python source/tests and an isolated frontend scaffold, but no production app build, finished UI, or Git remote.
+- The active repository root is `G:\Documents\New MTG project`; older `C:\Users\StDeL\Documents\New MTG project` references are stale unless explicitly discussing history.
+- The repository now has Python source/tests and an isolated frontend scaffold, but no production app build or finished UI.
+- The repository has a configured Git remote. Verify `git remote -v` before changing remote configuration, pushing to a new destination, or assuming GitHub state.
 - Hidden directories such as `.tasks/` and `.agents/` may not appear in simple file listings. Use `rg --files --hidden -g '!.git/**'`.
 - Do not assume conventions from nearby projects apply here.
 - Do not intentionally cut corners in project workflow. If a required step does not apply or cannot be run, explain why and choose the safest smaller alternative instead of silently skipping it.

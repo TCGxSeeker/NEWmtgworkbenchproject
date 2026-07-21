@@ -250,6 +250,8 @@ class DeckInspectionReportEnvelopeTests(unittest.TestCase):
             card_records_by_name=[record],
         )
 
+        self._assert_source_unification_expected(mapping_report)
+        self._assert_source_unification_expected(iterable_report)
         self.assertEqual(
             iterable_report.card_fact_coverage.to_dict(),
             mapping_report.card_fact_coverage.to_dict(),
@@ -304,6 +306,8 @@ class DeckInspectionReportEnvelopeTests(unittest.TestCase):
             card_catalog=CardCatalog([catalog_record]),
         )
 
+        self._assert_source_unification_expected(mapping_report)
+        self._assert_source_unification_expected(catalog_report)
         self.assertEqual(
             catalog_report.card_fact_coverage.to_dict(),
             mapping_report.card_fact_coverage.to_dict(),
@@ -323,6 +327,58 @@ class DeckInspectionReportEnvelopeTests(unittest.TestCase):
         self.assertEqual(
             catalog_report.structural_warnings_report.to_dict(),
             mapping_report.structural_warnings_report.to_dict(),
+        )
+
+    def _assert_source_unification_expected(self, report) -> None:
+        self.assertEqual(
+            report.card_fact_coverage.to_dict(),
+            {
+                "source_available": True,
+                "lookup_attempted": True,
+                "total_entries_considered": 1,
+                "found_count": 1,
+                "missing_count": 0,
+                "ambiguous_count": 0,
+                "found_entry_ids": ["tower"],
+                "missing_entry_ids": [],
+                "ambiguous_entry_ids": [],
+                "has_complete_coverage": True,
+            },
+        )
+        self.assertEqual(
+            report.skeleton_report.card_fact_lookup_status,
+            "checked",
+        )
+        self.assertEqual(
+            report.skeleton_report.missing_card_fact_entries,
+            (),
+        )
+        self.assertEqual(
+            [
+                warning.to_dict()
+                for warning
+                in report.skeleton_report.duplicate_nonbasic_warnings
+            ],
+            [
+                {
+                    "identity": "command tower",
+                    "display_name": "Command Tower",
+                    "quantity": 2,
+                    "entry_ids": ["tower"],
+                }
+            ],
+        )
+        self.assertEqual(
+            [
+                warning.warning_id
+                for warning
+                in report.structural_warnings_report.warnings
+            ],
+            [
+                "missing_commander",
+                "commander_active_quantity_mismatch",
+                "duplicate_known_nonbasic",
+            ],
         )
 
 

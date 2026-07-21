@@ -13,7 +13,7 @@ The smoke path demonstrates:
 
 - local fixture records
 - bounded behavioral-profile extraction
-- explicit profile construction for unsupported fixture-only behaviors
+- explicit fixture-level profile atoms for unsupported fixture-only behaviors
 - explicit source-target pair derivation
 - factual relationship reporting
 - exact expected-output comparison
@@ -39,11 +39,10 @@ It does not perform all-pairs comparison or candidate discovery.
 The smoke fixture uses the bounded extractor where current support exists.
 
 Behaviors outside the extractor's current vocabulary are represented through
-explicit factual behavioral profiles rather than guessed or silently inferred.
+explicit fixture-level profile atoms rather than guessed or silently inferred.
 
 This includes:
 
-- Treasure consumption
 - discard-event observation
 
 ## Deterministic behavior
@@ -57,6 +56,7 @@ The smoke pipeline verifies:
 - stable relationship-type counts
 - source fixture immutability
 - unsupported Oracle text producing no behavioral atoms
+- undeclared source-target pairs producing no hidden relationship edges
 
 ## Non-goals
 
@@ -76,13 +76,14 @@ This slice does not add:
 
 ## Verification
 
-Added six focused tests covering:
+Focused tests cover:
 
 - exact expected-output comparison
 - repeat-run determinism
 - source-fixture immutability
 - unsupported-record behavior
 - declared-pair boundaries
+- no hidden undeclared event pair
 - agreement between direct pipeline components
 
-The full test suite passes with 249 tests.
+Run the current full unit suite from the repository root after changing this smoke.

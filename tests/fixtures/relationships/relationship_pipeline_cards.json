@@ -30,7 +30,21 @@
                                        "name":  "Fixture Discard Listener",
                                        "oracle_id":  "fixture-discard-listener",
                                        "oracle_text":  "Whenever you discard a card, draw a card."
-                                   }
+                                   },
+                        "profile_atoms":  {
+                                              "observed_events":  [
+                                                                      {
+                                                                          "kind":  "card_discarded",
+                                                                          "oracle_evidence":  [
+                                                                                                  "Whenever you discard a card, draw a card."
+                                                                                              ],
+                                                                          "conditions":  [],
+                                                                          "zones":  [
+                                                                                        "battlefield"
+                                                                                    ]
+                                                                      }
+                                                                  ]
+                                          }
                     },
                     {
                         "entry_id":  "unsupported-entry",
@@ -49,6 +63,10 @@
                   {
                       "source_entry_id":  "unsupported-entry",
                       "target_entry_id":  "treasure-consumer-entry"
+                  },
+                  {
+                      "source_entry_id":  "discard-outlet-entry",
+                      "target_entry_id":  "discard-listener-entry"
                   }
               ]
 }

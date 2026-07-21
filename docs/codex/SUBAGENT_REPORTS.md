@@ -1,5 +1,7 @@
 # Subagent Reports
 
+> Historical subagent report snapshot. Do not treat old test counts or resolved-status notes below as current. Current baseline and active catchup repairs live in `docs/codex/NEXT_SESSION_HANDOFF.md`.
+
 ## 2026-07-10 Planning Scaffold Readiness Rerun
 
 ### Task Delegated
@@ -34,7 +36,7 @@ Four read-only subagents reviewed whether the repository is organized well enoug
 - Parser, normalizer, catalog, CLI, Scryfall indexing/search, and tests are cleanly separated.
 - Search is properly scoped as infrastructure, with Deckbuilder Foundation v0 queued as the next product-centered planning milestone.
 - Ignored artifact hygiene is strong for `node_modules`, `dist`, large Scryfall payloads, generated SQLite, and Python caches.
-- Python tests are offline and deterministic; current suite is 25 passing tests with no expected failures.
+- Python tests were offline and deterministic at that snapshot; the suite then had 25 passing tests with no expected failures.
 
 ### Issues And Risks
 
