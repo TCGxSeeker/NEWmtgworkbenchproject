@@ -4,16 +4,19 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: Native Workspace Import/Export CLI v0
+- Current implemented checkpoint: CLI completion bundle
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
 - Step 6 visual compare direction docs are complete
-- Current verification: `python -m unittest discover -s tests` passed with 308 tests
+- Current verification: `python -m unittest discover -s tests` passed with 317 tests
+- Current focused Deck Workspace Mutation CLI verification: `python -m unittest tests.test_cli_workspace_mutations` passed with 6 tests
+- Current Deck Workspace Mutation CLI smoke: `workspace-add-card` added `Alias Helper` to a temporary native workspace with local card catalog resolution
 - Current focused Native Workspace Import/Export CLI verification: `python -m unittest tests.test_cli_workspace_import_export` passed with 5 tests
 - Current Native Workspace Import/Export CLI smoke: `workspace-import` and `workspace-export` round-tripped `tests/fixtures/deckbuilder/commander_import.txt` through a temporary `.mtgwdeck.json` file
-- Current focused Deck Inspection CLI verification: `python -m unittest tests.test_cli_inspect_deck` passed with 5 tests
+- Current focused Deck Inspection CLI verification: `python -m unittest tests.test_cli_inspect_deck` passed with 8 tests
 - Current Deck Inspection CLI smoke: `python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json` passed
+- Current Deck Inspection CLI summary smoke: `python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json --summary-only` passed
 - Current focused pair-inspection verification: `python -m unittest tests.test_relationship_pair_inspection tests.test_card_record_pair_inspection` passed with 21 tests
 - Current focused Scryfall index verification: `python -m unittest tests.test_scryfall_indexer` passed with 5 tests
 - Current focused workspace/card lookup verification: `python -m unittest tests.test_deckbuilder_mutations tests.test_cards_catalog tests.test_deckbuilder_card_fact_lookup tests.test_deckbuilder_deck_inspection_report` passed with 85 tests
@@ -61,6 +64,9 @@
 - Visual Card Pair Compare v0 Planning
 - Deck Inspection CLI v0
 - Native Workspace Import/Export CLI v0
+- Deck Workspace Mutation CLI v0
+- Deckbuilder Acceptance Checklist Cleanup
+- Deck Inspection CLI Polish v0
 
 ## Audit Status
 
@@ -111,6 +117,20 @@ Known files:
   `python -m mtg_workbench.cli inspect-deck`.
 - Native Workspace Import/Export CLI v0 exposes plain text to
   `.mtgwdeck.json` movement through `workspace-import` and `workspace-export`.
+- Deck Workspace Mutation CLI v0 exposes safe copy-out commands for add,
+  remove, quantity, zone move, and set commander.
+- Deck Inspection CLI Polish v0 adds `--summary-only` and clear missing-file
+  errors.
+
+## Next Refresh Notes
+
+- Safe stopping point: CLI completion bundle is implemented and verified.
+- Next low-risk mechanical slice: Category Metadata Mutation CLI v0, if CLI
+  editing should cover imported/normalized category metadata.
+- Deck Role Summary v0 still requires explicit approval because it starts
+  deck-level role counting.
+- Do not start recommendations, scoring, commander analysis, package detection,
+  app UI, or deck-level strategic judgment without a fresh handoff.
 
 ## Core Constraints
 

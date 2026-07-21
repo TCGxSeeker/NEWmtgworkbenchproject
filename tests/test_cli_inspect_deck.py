@@ -117,6 +117,61 @@ class CliInspectDeckTests(unittest.TestCase):
         self.assertIn("debug_details", payload)
         self.assertIn("card_lookup_results", payload["debug_details"])
 
+    def test_inspect_deck_summary_only_outputs_compact_payload(self) -> None:
+        output = io.StringIO()
+        with redirect_stdout(output):
+            exit_code = main(
+                [
+                    "inspect-deck",
+                    str(WORKSPACE_FIXTURE),
+                    "--card-records",
+                    str(CARD_RECORDS_FIXTURE),
+                    "--summary-only",
+                ]
+            )
+
+        self.assertEqual(exit_code, 0)
+        payload = json.loads(output.getvalue())
+        self.assertEqual(payload["schema_version"], "deck_inspection_report.v0")
+        self.assertEqual(payload["deck_id"], "deck-inspection-smoke-v0")
+        self.assertEqual(payload["active_quantity_total"], 7)
+        self.assertEqual(payload["structural_warning_count"], 3)
+        self.assertEqual(payload["card_fact_coverage"]["found_count"], 6)
+        self.assertEqual(payload["card_role_report_count"], 0)
+        self.assertIn("user_summary", payload)
+        self.assertNotIn("skeleton_report", payload)
+        self.assertNotIn("structural_warnings_report", payload)
+        self.assertNotIn("debug_details", payload)
+
+    def test_inspect_deck_reports_missing_workspace_without_traceback(self) -> None:
+        output = io.StringIO()
+        errors = io.StringIO()
+
+        with redirect_stdout(output), redirect_stderr(errors):
+            exit_code = main(["inspect-deck", "missing.mtgwdeck.json"])
+
+        self.assertEqual(exit_code, 2)
+        self.assertEqual(output.getvalue(), "")
+        self.assertIn("workspace_path does not exist or is not a file", errors.getvalue())
+
+    def test_inspect_deck_rejects_summary_only_with_debug(self) -> None:
+        output = io.StringIO()
+        errors = io.StringIO()
+
+        with redirect_stdout(output), redirect_stderr(errors):
+            exit_code = main(
+                [
+                    "inspect-deck",
+                    str(WORKSPACE_FIXTURE),
+                    "--summary-only",
+                    "--debug",
+                ]
+            )
+
+        self.assertEqual(exit_code, 2)
+        self.assertEqual(output.getvalue(), "")
+        self.assertIn("--summary-only cannot be combined with --debug", errors.getvalue())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -347,3 +347,15 @@
   - Alternatives considered: adding app UI import/export, expanding to external deckbuilder formats, or leaving import/export helpers internal only.
   - Risk: The commands intentionally do not preserve every original comment/header from source text, so richer format preservation remains a future explicit slice.
   - Status: Accepted for Native Workspace Import/Export CLI v0.
+
+- Decision: Require explicit output paths for workspace mutation CLI commands.
+  - Reason: Mutation commands edit saved deck workspaces, so copy-out behavior is safer than silently overwriting the input file.
+  - Alternatives considered: in-place mutation by default, a single broad mutation command, or deferring mutation CLI until app UI exists.
+  - Risk: Users must pass an extra path, but the workflow remains reviewable and can still overwrite intentionally by using the same path.
+  - Status: Accepted for Deck Workspace Mutation CLI v0.
+
+- Decision: Add compact factual summaries to `inspect-deck` through `--summary-only`.
+  - Reason: The full inspection envelope is useful for machines and debugging, but quick CLI review needs a smaller payload that still avoids strategic claims.
+  - Alternatives considered: changing the default inspect output, adding prose output, or exposing debug fields by default.
+  - Risk: Summary-only output may need additional fields later, but it keeps raw report details behind an explicit full-output path.
+  - Status: Accepted for Deck Inspection CLI Polish v0.

@@ -14,16 +14,19 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline after Native Workspace Import/Export CLI v0:
+Latest repository-wide baseline after the CLI completion bundle:
 
 - Repository root: `G:/Documents/New MTG project`
-- `python -m unittest discover -s tests`: passed after Native Workspace Import/Export CLI v0, 308 tests
+- `python -m unittest discover -s tests`: passed after Deck Workspace Mutation CLI v0, checklist cleanup, and Deck Inspection CLI polish, 317 tests
+- `python -m unittest tests.test_cli_workspace_mutations`: passed, 6 tests
+- `python -m mtg_workbench.cli workspace-add-card <temp>/mutation-input.mtgwdeck.json "Alias Helper" --cards tests/fixtures/cards/tiny_cards.json --entry-id smoke-add --quantity 2 --output <temp>/mutation-output.mtgwdeck.json`: passed
 - `python -m unittest tests.test_cli_workspace_import_export`: passed, 5 tests
 - `python -m py_compile src/mtg_workbench/cli/main.py`: passed
 - `python -m mtg_workbench.cli workspace-import tests/fixtures/deckbuilder/commander_import.txt --cards tests/fixtures/cards/tiny_cards.json --output <temp>/cli-import.mtgwdeck.json`: passed
 - `python -m mtg_workbench.cli workspace-export <temp>/cli-import.mtgwdeck.json --output <temp>/cli-export.txt`: passed
-- `python -m unittest tests.test_cli_inspect_deck`: passed, 5 tests
+- `python -m unittest tests.test_cli_inspect_deck`: passed, 8 tests
 - `python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json`: passed
+- `python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json --summary-only`: passed
 - `python -m unittest tests.test_relationship_pair_inspection tests.test_card_record_pair_inspection`: passed, 21 tests
 - `python -m unittest tests.test_scryfall_indexer`: passed, 5 tests
 - `python -m py_compile src/mtg_workbench/scryfall/indexer.py`: passed
@@ -93,6 +96,7 @@ Focused deck inspection CLI checks:
 ```powershell
 python -m unittest tests.test_cli_inspect_deck
 python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json
+python -m mtg_workbench.cli inspect-deck tests/fixtures/deckbuilder/inspection_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/inspection_smoke_card_records.json --summary-only
 ```
 
 Focused native workspace import/export CLI checks:
@@ -101,6 +105,13 @@ Focused native workspace import/export CLI checks:
 python -m unittest tests.test_cli_workspace_import_export
 python -m mtg_workbench.cli workspace-import tests/fixtures/deckbuilder/commander_import.txt --cards tests/fixtures/cards/tiny_cards.json --output <temp>/cli-import.mtgwdeck.json
 python -m mtg_workbench.cli workspace-export <temp>/cli-import.mtgwdeck.json --output <temp>/cli-export.txt
+```
+
+Focused workspace mutation CLI checks:
+
+```powershell
+python -m unittest tests.test_cli_workspace_mutations
+python -m mtg_workbench.cli workspace-add-card <temp>/mutation-input.mtgwdeck.json "Alias Helper" --cards tests/fixtures/cards/tiny_cards.json --entry-id smoke-add --quantity 2 --output <temp>/mutation-output.mtgwdeck.json
 ```
 
 Known remaining audit repair queue:

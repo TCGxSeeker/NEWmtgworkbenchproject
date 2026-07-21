@@ -2,25 +2,25 @@
 
 ## Planning Readiness
 
-- [ ] Stale phase language is removed from core docs.
-- [ ] `README.md` exists at the repository root.
-- [ ] `.gitattributes` exists at the repository root.
-- [ ] Deckbuilder Foundation v0 docs exist.
-- [ ] The main deckbuilder workspace is clearly the product center.
-- [ ] Search, stats, import/export, and reports are described as supporting surfaces.
-- [ ] Implementation boundaries are explicit.
-- [ ] No application UI code has been added for this planning pass.
-- [ ] No new frontend dependencies have been installed for this planning pass.
-- [ ] Open questions are listed before implementation starts.
+- [x] Stale phase language is removed from current core docs.
+- [x] `README.md` exists at the repository root.
+- [x] `.gitattributes` exists at the repository root.
+- [x] Deckbuilder Foundation v0 docs exist.
+- [x] The main deckbuilder workspace is clearly the product center.
+- [x] Search, stats, import/export, and reports are described as supporting surfaces.
+- [x] Implementation boundaries are explicit.
+- [x] No finished deckbuilder app UI has been implemented.
+- [x] No new frontend dependencies have been installed for current backend CLI slices.
+- [x] Open questions are listed before implementation starts.
 
 ## Required V0 Docs
 
-- [ ] `DECKBUILDER_FOUNDATION_V0.md`
-- [ ] `MAIN_SCREEN_V0.md`
-- [ ] `DECK_WORKSPACE_MODEL_V0.md`
-- [ ] `DECKBUILDER_INTERACTIONS_V0.md`
-- [ ] `DECKBUILDER_ACCEPTANCE_CHECKLIST.md`
-- [ ] `OPEN_QUESTIONS.md`
+- [x] `DECKBUILDER_FOUNDATION_V0.md`
+- [x] `MAIN_SCREEN_V0.md`
+- [x] `DECK_WORKSPACE_MODEL_V0.md`
+- [x] `DECKBUILDER_INTERACTIONS_V0.md`
+- [x] `DECKBUILDER_ACCEPTANCE_CHECKLIST.md`
+- [x] `OPEN_QUESTIONS.md`
 
 ## Before Implementation
 
@@ -50,12 +50,19 @@
 - [x] Mutations mark `saved_state.is_dirty` true.
 - [x] Commander moves set quantity to `1`.
 - [x] Native workspace round trip still works after mutations.
+- [x] `workspace-add-card` CLI wraps add-entry behavior for native workspace files.
+- [x] `workspace-remove-entry` CLI wraps remove-entry behavior.
+- [x] `workspace-increase-quantity` and `workspace-decrease-quantity` CLI commands wrap quantity helpers.
+- [x] `workspace-move-zone` and `workspace-set-commander` CLI commands wrap zone helpers.
+- [x] Mutation CLI commands require explicit `--output` paths.
 - [x] No UI code or frontend dependency changes were added for this slice.
 
 Deferred beyond this slice:
 
 - Full Commander legality validation.
-- Deck Workspace Mutations CLI commands.
+- Broader category metadata mutation CLI commands.
+- Bulk edit and multi-select mutation commands.
+- UI mutation controls.
 
 ## Deck Workspace Import/Export V0
 

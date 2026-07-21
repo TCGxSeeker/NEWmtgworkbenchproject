@@ -5,6 +5,9 @@
 - No active numbered catchup repair remains after Step 6.
 - Readiness checkpoint passed before Deck Inspection CLI v0.
 - Native Workspace Import/Export CLI v0 is implemented and verified.
+- Deck Workspace Mutation CLI v0 is implemented and verified.
+- Deck Inspection CLI Polish v0 is implemented and verified.
+- Deckbuilder Acceptance Checklist cleanup is complete.
 
 ## Completed Catchup Repairs
 
@@ -32,7 +35,7 @@
 
 ## Near Term
 
-- Deck Workspace Mutation CLI v0.
+- Category Metadata Mutation CLI v0.
 - Keep deck inspection reports factual and deterministic.
 - Keep unsupported Scryfall syntax explicit instead of guessed.
 - Decide when Deck Role Summary v0 is safe to start, because it introduces deck-level role counting.

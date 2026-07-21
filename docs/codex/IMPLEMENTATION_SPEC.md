@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 308 tests after Native Workspace Import/Export CLI v0.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 317 tests after Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, and Deck Inspection CLI polish.
 
 ## Key Decisions Before Building
 
@@ -289,6 +289,14 @@ Implement focused in-memory mutation helpers for `DeckWorkspace` objects without
 
 The v0 mutation style should mutate the passed `DeckWorkspace` in place and return it for simple caller chaining. Save/load should remain clean unless a mutation has been applied after loading.
 
+### Phase Product-4A: Deck Workspace Mutation CLI v0
+
+Status: implemented and verified.
+
+Expose a small safe subset of existing workspace mutation helpers through local file-based CLI commands. Definition of done: commands can add a card, remove an entry, increase quantity, decrease quantity, move an entry between commander/mainboard/maybeboard, and set commander for native `.mtgwdeck.json` files; each command requires an explicit `--output`, writes a native workspace, emits a stable JSON summary, and has focused tests against tiny temporary workspaces.
+
+Deck Workspace Mutation CLI v0 must not add UI, frontend dependencies, deck analysis, deck-level role totals, strategic validation, recommendations, scoring, live APIs, telemetry, hosted services, AI/LLM calls, external deckbuilder formats, or new dependencies.
+
 ### Phase Product-5: Deck Workspace Import/Export v0
 
 Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.
@@ -442,6 +450,14 @@ Status: implemented and verified.
 Expose the existing factual deck inspection report envelope through the local Python CLI. Definition of done: `python -m mtg_workbench.cli inspect-deck <workspace.mtgwdeck.json>` loads a native deck workspace, emits stable JSON, optionally consumes a tiny local card-record fixture or local card catalog, optionally includes card-level role evidence only when local role rules are supplied, and keeps summary, machine evidence, and debug output separated.
 
 Deck Inspection CLI v0 must not mutate workspaces, implement deck-level role totals, select primary roles, make shell-quality or strategic judgments, create low-ramp/draw warnings, implement recommendations, candidate search, add/cut scoring, commander profiles, package analysis, UI, frontend dependencies, online dependencies, live APIs, telemetry, hosted services, AI/LLM calls, price optimization, or combo solving.
+
+### Phase Algorithm-12B: Deck Inspection CLI Polish v0
+
+Status: implemented and verified.
+
+Add small ergonomics to the factual inspection CLI without changing report semantics. Definition of done: `inspect-deck --summary-only` emits a compact factual summary, missing workspace/card source files return clear user-facing errors, debug output remains explicit, and tests prove summary-only output does not include nested report/debug payloads.
+
+Deck Inspection CLI Polish v0 must not add deck-level role totals, strategic judgments, recommendations, scoring, UI, frontend dependencies, live APIs, telemetry, hosted services, AI/LLM calls, or new report semantics.
 
 ### Phase Algorithm-13: Card Relationship Primitives v0
 
