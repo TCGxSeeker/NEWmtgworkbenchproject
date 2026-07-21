@@ -377,3 +377,9 @@
   - Alternatives considered: leaving projection internal-only until UI work or adding a saved projection output file.
   - Risk: CLI JSON is a developer-facing preview of view data, not a committed UI contract.
   - Status: Accepted for Workspace View CLI v0.
+
+- Decision: Add type and mana-value projection through explicit local card fact lookup results.
+  - Reason: The main deckbuilder needs factual grouping and sorting beyond saved categories, but missing and ambiguous card data must stay visible instead of being guessed.
+  - Alternatives considered: parsing type/mana value directly from workspace labels, requiring all entries to resolve before projection, or waiting until UI implementation.
+  - Risk: Projection behavior now depends on local card source coverage; future UI must clearly surface missing/ambiguous fact buckets.
+  - Status: Accepted for Card-Fact-Backed Workspace Projection v0.

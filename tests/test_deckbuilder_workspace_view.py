@@ -2,13 +2,18 @@ import json
 import unittest
 
 from mtg_workbench.deckbuilder.models import DeckEntry, DeckWorkspace
+from mtg_workbench.deckbuilder.card_fact_lookup import lookup_workspace_card_facts
 from mtg_workbench.deckbuilder.workspace_view import (
     GROUP_CATEGORY,
     GROUP_FULL_DECK,
+    GROUP_MANA_VALUE,
+    GROUP_TYPE,
     GROUP_ZONE,
     SORT_ALPHABET,
     SORT_CATEGORY,
+    SORT_MANA_VALUE,
     SORT_QUANTITY,
+    SORT_TYPE,
     SORT_ZONE,
     WorkspaceViewError,
     build_workspace_view_projection,
@@ -184,13 +189,105 @@ class DeckWorkspaceViewProjectionTests(unittest.TestCase):
             build_workspace_view_projection(_workspace(), group_by="price")
 
         with self.assertRaisesRegex(WorkspaceViewError, "Unsupported sort_by"):
-            build_workspace_view_projection(_workspace(), sort_by="mana_value")
+            build_workspace_view_projection(_workspace(), sort_by="price")
 
         with self.assertRaisesRegex(WorkspaceViewError, "Invalid zone"):
             build_workspace_view_projection(_workspace(), zones=("sideboard",))
 
         with self.assertRaisesRegex(WorkspaceViewError, "zones must be an iterable"):
             build_workspace_view_projection(_workspace(), zones="mainboard")
+
+    def test_type_projection_requires_explicit_card_fact_lookup_report(self) -> None:
+        with self.assertRaisesRegex(WorkspaceViewError, "require an explicit card_fact_lookup_report"):
+            build_workspace_view_projection(_workspace(), group_by=GROUP_TYPE)
+
+        with self.assertRaisesRegex(WorkspaceViewError, "require an explicit card_fact_lookup_report"):
+            build_workspace_view_projection(_workspace(), sort_by=SORT_MANA_VALUE)
+
+    def test_type_grouping_uses_found_local_card_facts_and_status_buckets(self) -> None:
+        workspace = _workspace()
+        lookup_report = lookup_workspace_card_facts(
+            workspace,
+            card_records=[
+                {"name": "Zed Commander", "type_line": "Legendary Creature \u2014 Human Wizard", "mana_value": 3},
+                {"name": "Arcane Helper", "type_line": "Artifact Creature \u2014 Construct", "mana_value": 2},
+                {"name": "Brainstorm Tutor", "type_line": "Sorcery", "mana_value": 1},
+            ],
+        )
+
+        projection = build_workspace_view_projection(
+            workspace,
+            group_by=GROUP_TYPE,
+            sort_by=SORT_TYPE,
+            card_fact_lookup_report=lookup_report,
+        )
+        groups = {group.label: [entry.entry_id for entry in group.entries] for group in projection.groups}
+
+        self.assertEqual(projection.card_fact_lookup["status"], "checked")
+        self.assertEqual(projection.card_fact_lookup["found_count"], 3)
+        self.assertEqual(projection.card_fact_lookup["missing_count"], 2)
+        self.assertEqual(list(groups), ["Creature", "Artifact", "Sorcery", "Missing Card Facts"])
+        self.assertEqual(groups["Creature"], ["ramp", "commander"])
+        self.assertEqual(groups["Artifact"], ["ramp"])
+        self.assertEqual(groups["Sorcery"], ["draw"])
+        self.assertEqual(groups["Missing Card Facts"], ["maybe", "plain"])
+        self.assertEqual(projection.visible_entry_count, 5)
+        self.assertEqual(projection.grouped_entry_count, 6)
+        ramp_entry = groups["Artifact"][0]
+        self.assertEqual(ramp_entry, "ramp")
+
+    def test_mana_value_grouping_and_sorting_use_found_local_card_facts(self) -> None:
+        workspace = _workspace()
+        lookup_report = lookup_workspace_card_facts(
+            workspace,
+            card_records=[
+                {"name": "Zed Commander", "type_line": "Creature", "mana_value": 3},
+                {"name": "Arcane Helper", "type_line": "Artifact", "mana_value": 2},
+                {"name": "Brainstorm Tutor", "type_line": "Sorcery", "mana_value": 1},
+                {"name": "Plain Card", "type_line": "Instant"},
+                {"name": "Maybe Mystery", "type_line": "Creature", "mana_value": 2.5},
+            ],
+        )
+
+        projection = build_workspace_view_projection(
+            workspace,
+            group_by=GROUP_MANA_VALUE,
+            sort_by=SORT_MANA_VALUE,
+            card_fact_lookup_report=lookup_report,
+        )
+        groups = {group.label: [entry.entry_id for entry in group.entries] for group in projection.groups}
+
+        self.assertEqual(
+            list(groups),
+            ["Mana Value 1", "Mana Value 2", "Mana Value 2.5", "Mana Value 3", "Unknown Mana Value"],
+        )
+        self.assertEqual(groups["Mana Value 1"], ["draw"])
+        self.assertEqual(groups["Mana Value 2"], ["ramp"])
+        self.assertEqual(groups["Mana Value 2.5"], ["maybe"])
+        self.assertEqual(groups["Mana Value 3"], ["commander"])
+        self.assertEqual(groups["Unknown Mana Value"], ["plain"])
+
+    def test_ambiguous_card_facts_remain_visible_without_guessing(self) -> None:
+        workspace = DeckWorkspace.create_empty(name="Ambiguous View", deck_id="ambiguous-view")
+        workspace.mainboard.append(_entry("shared", "Shared Alias"))
+        lookup_report = lookup_workspace_card_facts(
+            workspace,
+            card_records=[
+                {"name": "First Card", "aliases": ["Shared Alias"], "type_line": "Artifact"},
+                {"name": "Second Card", "aliases": ["Shared Alias"], "type_line": "Creature"},
+            ],
+        )
+
+        projection = build_workspace_view_projection(
+            workspace,
+            group_by=GROUP_TYPE,
+            card_fact_lookup_report=lookup_report,
+        )
+
+        self.assertEqual(projection.card_fact_lookup["ambiguous_count"], 1)
+        self.assertEqual(projection.groups[0].label, "Ambiguous Card Facts")
+        self.assertEqual(projection.groups[0].entries[0].card_fact_status, "ambiguous")
+        self.assertEqual(projection.groups[0].entries[0].type_labels, ())
 
 
 if __name__ == "__main__":

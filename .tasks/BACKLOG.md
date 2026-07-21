@@ -12,6 +12,7 @@
 - Entry Annotation CLI v0 is implemented and verified.
 - Deck Workspace View Projection v0 is implemented and verified.
 - Workspace View CLI v0 is implemented and verified.
+- Card-Fact-Backed Workspace Projection v0 is implemented and verified.
 
 ## Completed Catchup Repairs
 
@@ -39,7 +40,7 @@
 
 ## Near Term
 
-- Card-Fact-Backed Workspace Projection v0.
+- Color Identity Workspace Projection v0.
 - Keep deck inspection reports factual and deterministic.
 - Keep unsupported Scryfall syntax explicit instead of guessed.
 - Decide when Deck Role Summary v0 is safe to start, because it introduces deck-level role counting.

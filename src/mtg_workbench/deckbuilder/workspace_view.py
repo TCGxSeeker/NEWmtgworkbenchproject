@@ -3,21 +3,60 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Iterable
 
+from mtg_workbench.deckbuilder.card_fact_lookup import (
+    AMBIGUOUS,
+    FOUND,
+    MISSING,
+    CardFactLookupReport,
+    CardFactLookupResult,
+)
+from mtg_workbench.deckbuilder.card_facts import CardFactsError, card_record_to_role_facts
 from mtg_workbench.deckbuilder.models import DeckEntry, DeckWorkspace, VALID_ZONES
 
 
 GROUP_FULL_DECK = "full_deck"
 GROUP_ZONE = "zone"
 GROUP_CATEGORY = "category"
+GROUP_TYPE = "type"
+GROUP_MANA_VALUE = "mana_value"
 SORT_ALPHABET = "alphabet"
 SORT_QUANTITY = "quantity"
 SORT_CATEGORY = "category"
 SORT_ZONE = "zone"
+SORT_TYPE = "type"
+SORT_MANA_VALUE = "mana_value"
 UNCATEGORIZED = "Uncategorized"
+MISSING_CARD_FACTS = "Missing Card Facts"
+AMBIGUOUS_CARD_FACTS = "Ambiguous Card Facts"
+UNKNOWN_TYPE = "Unknown Type"
+UNKNOWN_MANA_VALUE = "Unknown Mana Value"
+NOT_REQUESTED = "not_requested"
+CHECKED = "checked"
 
-SUPPORTED_GROUP_MODES = frozenset({GROUP_FULL_DECK, GROUP_ZONE, GROUP_CATEGORY})
-SUPPORTED_SORT_MODES = frozenset({SORT_ALPHABET, SORT_QUANTITY, SORT_CATEGORY, SORT_ZONE})
+SUPPORTED_GROUP_MODES = frozenset(
+    {GROUP_FULL_DECK, GROUP_ZONE, GROUP_CATEGORY, GROUP_TYPE, GROUP_MANA_VALUE}
+)
+SUPPORTED_SORT_MODES = frozenset(
+    {SORT_ALPHABET, SORT_QUANTITY, SORT_CATEGORY, SORT_ZONE, SORT_TYPE, SORT_MANA_VALUE}
+)
 ZONE_ORDER = {"commander": 0, "mainboard": 1, "maybeboard": 2}
+TYPE_ORDER = {
+    "Land": 0,
+    "Creature": 1,
+    "Artifact": 2,
+    "Enchantment": 3,
+    "Planeswalker": 4,
+    "Battle": 5,
+    "Instant": 6,
+    "Sorcery": 7,
+    "Kindred": 8,
+}
+FACT_STATUS_ORDER = {
+    UNKNOWN_TYPE: 50,
+    UNKNOWN_MANA_VALUE: 50,
+    MISSING_CARD_FACTS: 60,
+    AMBIGUOUS_CARD_FACTS: 70,
+}
 
 
 class WorkspaceViewError(ValueError):
@@ -39,9 +78,18 @@ class WorkspaceViewEntry:
     normalized_category: str | None
     generic_category_hint: str | None
     is_unresolved: bool
+    card_fact_status: str
+    type_line: str | None
+    type_labels: tuple[str, ...]
+    mana_value: int | float | None
 
     @classmethod
-    def from_entry(cls, entry: DeckEntry) -> "WorkspaceViewEntry":
+    def from_entry(
+        cls,
+        entry: DeckEntry,
+        lookup_result: CardFactLookupResult | None = None,
+    ) -> "WorkspaceViewEntry":
+        fact_status, type_line, type_labels, mana_value = _facts_from_lookup_result(lookup_result)
         return cls(
             entry_id=entry.entry_id,
             zone=entry.zone,
@@ -56,6 +104,10 @@ class WorkspaceViewEntry:
             normalized_category=entry.normalized_category,
             generic_category_hint=entry.generic_category_hint,
             is_unresolved=entry.is_unresolved,
+            card_fact_status=fact_status,
+            type_line=type_line,
+            type_labels=type_labels,
+            mana_value=mana_value,
         )
 
     @property
@@ -77,6 +129,10 @@ class WorkspaceViewEntry:
             "normalized_category": self.normalized_category,
             "generic_category_hint": self.generic_category_hint,
             "is_unresolved": self.is_unresolved,
+            "card_fact_status": self.card_fact_status,
+            "type_line": self.type_line,
+            "type_labels": list(self.type_labels),
+            "mana_value": self.mana_value,
         }
 
 
@@ -110,6 +166,7 @@ class WorkspaceViewProjection:
     visible_quantity_total: int
     grouped_entry_count: int
     grouped_quantity_total: int
+    card_fact_lookup: dict[str, Any]
     groups: tuple[WorkspaceViewGroup, ...]
 
     def to_dict(self) -> dict[str, Any]:
@@ -124,6 +181,7 @@ class WorkspaceViewProjection:
             "visible_quantity_total": self.visible_quantity_total,
             "grouped_entry_count": self.grouped_entry_count,
             "grouped_quantity_total": self.grouped_quantity_total,
+            "card_fact_lookup": dict(self.card_fact_lookup),
             "groups": [group.to_dict() for group in self.groups],
         }
 
@@ -135,14 +193,17 @@ def build_workspace_view_projection(
     sort_by: str = SORT_ALPHABET,
     filter_text: str | None = None,
     zones: Iterable[str] | None = None,
+    card_fact_lookup_report: CardFactLookupReport | None = None,
 ) -> WorkspaceViewProjection:
     group_mode = _require_group_mode(group_by)
     sort_mode = _require_sort_mode(sort_by)
+    _require_card_facts_if_needed(group_mode, sort_mode, card_fact_lookup_report)
     selected_zones = _require_zones(zones)
     clean_filter_text = _clean_filter_text(filter_text)
+    lookup_results_by_entry_id = _lookup_results_by_entry_id(card_fact_lookup_report)
 
     entries = tuple(
-        WorkspaceViewEntry.from_entry(entry)
+        WorkspaceViewEntry.from_entry(entry, lookup_results_by_entry_id.get(entry.entry_id))
         for entry in workspace.all_entries()
         if entry.zone in selected_zones
     )
@@ -163,6 +224,7 @@ def build_workspace_view_projection(
         visible_quantity_total=sum(entry.quantity for entry in sorted_entries),
         grouped_entry_count=sum(group.entry_count for group in groups),
         grouped_quantity_total=sum(group.quantity_total for group in groups),
+        card_fact_lookup=_card_fact_lookup_summary(card_fact_lookup_report),
         groups=groups,
     )
 
@@ -186,6 +248,26 @@ def _build_groups(
                 _group_id(label),
                 label,
                 tuple(entry for entry in entries if label in entry.category_labels),
+            )
+            for label in labels
+        )
+    if group_mode == GROUP_TYPE:
+        labels = _type_group_labels(entries)
+        return tuple(
+            _make_group(
+                _group_id(label),
+                label,
+                tuple(entry for entry in entries if label in _entry_type_group_labels(entry)),
+            )
+            for label in labels
+        )
+    if group_mode == GROUP_MANA_VALUE:
+        labels = _mana_value_group_labels(entries)
+        return tuple(
+            _make_group(
+                _group_id(label),
+                label,
+                tuple(entry for entry in entries if label == _entry_mana_value_group_label(entry)),
             )
             for label in labels
         )
@@ -215,6 +297,20 @@ def _category_labels(entries: tuple[WorkspaceViewEntry, ...]) -> tuple[str, ...]
     return tuple(sorted(labels, key=lambda label: (_is_uncategorized(label), _normalize_text(label))))
 
 
+def _type_group_labels(entries: tuple[WorkspaceViewEntry, ...]) -> tuple[str, ...]:
+    labels = {
+        label
+        for entry in entries
+        for label in _entry_type_group_labels(entry)
+    }
+    return tuple(sorted(labels, key=_type_label_sort_key))
+
+
+def _mana_value_group_labels(entries: tuple[WorkspaceViewEntry, ...]) -> tuple[str, ...]:
+    labels = {_entry_mana_value_group_label(entry) for entry in entries}
+    return tuple(sorted(labels, key=_mana_value_label_sort_key))
+
+
 def _sort_key(entry: WorkspaceViewEntry, sort_mode: str) -> tuple[Any, ...]:
     alphabet_key = (_normalize_text(entry.card_name), entry.entry_id)
     if sort_mode == SORT_ALPHABET:
@@ -226,6 +322,12 @@ def _sort_key(entry: WorkspaceViewEntry, sort_mode: str) -> tuple[Any, ...]:
         return (_is_uncategorized(first_category), _normalize_text(first_category), *alphabet_key)
     if sort_mode == SORT_ZONE:
         return (ZONE_ORDER[entry.zone], *alphabet_key)
+    if sort_mode == SORT_TYPE:
+        label = _entry_type_group_labels(entry)[0]
+        return (*_type_label_sort_key(label), *alphabet_key)
+    if sort_mode == SORT_MANA_VALUE:
+        label = _entry_mana_value_group_label(entry)
+        return (*_mana_value_label_sort_key(label), *alphabet_key)
     raise WorkspaceViewError(f"Unsupported sort mode: {sort_mode}.")
 
 
@@ -263,6 +365,21 @@ def _require_sort_mode(value: str) -> str:
             f"Unsupported sort_by: {value}. Expected one of {sorted(SUPPORTED_SORT_MODES)}."
         )
     return sort_mode
+
+
+def _require_card_facts_if_needed(
+    group_mode: str,
+    sort_mode: str,
+    card_fact_lookup_report: CardFactLookupReport | None,
+) -> None:
+    needs_card_facts = group_mode in {GROUP_TYPE, GROUP_MANA_VALUE} or sort_mode in {
+        SORT_TYPE,
+        SORT_MANA_VALUE,
+    }
+    if needs_card_facts and card_fact_lookup_report is None:
+        raise WorkspaceViewError(
+            "type and mana_value projections require an explicit card_fact_lookup_report."
+        )
 
 
 def _require_zones(zones: Iterable[str] | None) -> tuple[str, ...]:
@@ -311,3 +428,117 @@ def _zone_label(zone: str) -> str:
         "mainboard": "Mainboard",
         "maybeboard": "Maybeboard",
     }[zone]
+
+
+def _lookup_results_by_entry_id(
+    card_fact_lookup_report: CardFactLookupReport | None,
+) -> dict[str, CardFactLookupResult]:
+    if card_fact_lookup_report is None:
+        return {}
+    return {result.entry_id: result for result in card_fact_lookup_report.results}
+
+
+def _card_fact_lookup_summary(
+    card_fact_lookup_report: CardFactLookupReport | None,
+) -> dict[str, Any]:
+    if card_fact_lookup_report is None:
+        return {
+            "status": NOT_REQUESTED,
+            "found_count": 0,
+            "missing_count": 0,
+            "ambiguous_count": 0,
+        }
+    return {
+        "status": CHECKED,
+        "found_count": card_fact_lookup_report.found_count,
+        "missing_count": card_fact_lookup_report.missing_count,
+        "ambiguous_count": card_fact_lookup_report.ambiguous_count,
+    }
+
+
+def _facts_from_lookup_result(
+    lookup_result: CardFactLookupResult | None,
+) -> tuple[str, str | None, tuple[str, ...], int | float | None]:
+    if lookup_result is None:
+        return NOT_REQUESTED, None, (), None
+    if not lookup_result.is_found:
+        return lookup_result.status, None, (), None
+
+    record = lookup_result.record
+    if record is None:
+        return lookup_result.status, None, (), None
+
+    try:
+        facts = card_record_to_role_facts(record)
+    except CardFactsError:
+        return lookup_result.status, None, (), None
+
+    return (
+        lookup_result.status,
+        facts.type_line or None,
+        _type_labels_from_type_line(facts.type_line),
+        facts.mana_value,
+    )
+
+
+def _entry_type_group_labels(entry: WorkspaceViewEntry) -> tuple[str, ...]:
+    if entry.card_fact_status == MISSING:
+        return (MISSING_CARD_FACTS,)
+    if entry.card_fact_status == AMBIGUOUS:
+        return (AMBIGUOUS_CARD_FACTS,)
+    if entry.card_fact_status == FOUND:
+        return entry.type_labels or (UNKNOWN_TYPE,)
+    return (UNKNOWN_TYPE,)
+
+
+def _entry_mana_value_group_label(entry: WorkspaceViewEntry) -> str:
+    if entry.card_fact_status == MISSING:
+        return MISSING_CARD_FACTS
+    if entry.card_fact_status == AMBIGUOUS:
+        return AMBIGUOUS_CARD_FACTS
+    if entry.card_fact_status == FOUND and entry.mana_value is not None:
+        return f"Mana Value {_format_mana_value(entry.mana_value)}"
+    return UNKNOWN_MANA_VALUE
+
+
+def _type_labels_from_type_line(type_line: str) -> tuple[str, ...]:
+    labels: list[str] = []
+    for segment in type_line.split(" // "):
+        type_text = _type_text(segment)
+        words = {word.strip() for word in type_text.split() if word.strip()}
+        for label in sorted(TYPE_ORDER, key=TYPE_ORDER.__getitem__):
+            if label in words and label not in labels:
+                labels.append(label)
+    return tuple(labels)
+
+
+def _type_text(type_line: str) -> str:
+    for separator in ("\u2014", "\u2013", " - "):
+        if separator in type_line:
+            return type_line.split(separator, 1)[0].strip()
+    return type_line.strip()
+
+
+def _type_label_sort_key(label: str) -> tuple[int, str]:
+    return (
+        TYPE_ORDER.get(label, FACT_STATUS_ORDER.get(label, 100)),
+        _normalize_text(label),
+    )
+
+
+def _mana_value_label_sort_key(label: str) -> tuple[int, float, str]:
+    prefix = "Mana Value "
+    if label.startswith(prefix):
+        try:
+            return (0, float(label[len(prefix):]), label)
+        except ValueError:
+            return (1, 0.0, label)
+    return (FACT_STATUS_ORDER.get(label, 100), 0.0, _normalize_text(label))
+
+
+def _format_mana_value(value: int | float) -> str:
+    if isinstance(value, int):
+        return str(value)
+    if value.is_integer():
+        return str(int(value))
+    return str(value)

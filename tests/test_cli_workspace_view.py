@@ -107,6 +107,81 @@ class CliWorkspaceViewTests(unittest.TestCase):
         self.assertEqual(payload["visible_entry_count"], 1)
         self.assertEqual(payload["groups"][0]["entries"][0]["entry_id"], "ramp")
 
+    def test_workspace_view_uses_local_card_records_for_type_and_mana_value(self) -> None:
+        with TemporaryDirectory() as temp_dir:
+            workspace_path = Path(temp_dir) / "deck.mtgwdeck.json"
+            records_path = Path(temp_dir) / "records.json"
+            save_workspace(_workspace(), workspace_path)
+            records_path.write_text(
+                json.dumps(
+                    {
+                        "Example Commander": {
+                            "name": "Example Commander",
+                            "type_line": "Legendary Creature \u2014 Human",
+                            "mana_value": 3,
+                        },
+                        "Arcane Helper": {
+                            "name": "Arcane Helper",
+                            "type_line": "Artifact",
+                            "mana_value": 2,
+                        },
+                        "Brainstorm Tutor": {
+                            "name": "Brainstorm Tutor",
+                            "type_line": "Sorcery",
+                            "mana_value": 1,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                exit_code = main(
+                    [
+                        "workspace-view",
+                        str(workspace_path),
+                        "--card-records",
+                        str(records_path),
+                        "--group-by",
+                        "type",
+                        "--sort-by",
+                        "mana-value",
+                    ]
+                )
+
+            payload = json.loads(output.getvalue())
+            groups = {group["label"]: [entry["entry_id"] for entry in group["entries"]] for group in payload["groups"]}
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["group_by"], "type")
+        self.assertEqual(payload["sort_by"], "mana_value")
+        self.assertEqual(payload["card_fact_lookup"]["found_count"], 3)
+        self.assertEqual(payload["card_fact_lookup"]["missing_count"], 1)
+        self.assertEqual(groups["Creature"], ["commander"])
+        self.assertEqual(groups["Artifact"], ["ramp"])
+        self.assertEqual(groups["Sorcery"], ["draw"])
+        self.assertEqual(groups["Missing Card Facts"], ["maybe"])
+
+    def test_workspace_view_rejects_fact_backed_modes_without_local_card_source(self) -> None:
+        with TemporaryDirectory() as temp_dir:
+            workspace_path = Path(temp_dir) / "deck.mtgwdeck.json"
+            save_workspace(_workspace(), workspace_path)
+            errors = io.StringIO()
+
+            with redirect_stdout(io.StringIO()), redirect_stderr(errors):
+                exit_code = main(
+                    [
+                        "workspace-view",
+                        str(workspace_path),
+                        "--group-by",
+                        "mana value",
+                    ]
+                )
+
+        self.assertEqual(exit_code, 2)
+        self.assertIn("require an explicit card_fact_lookup_report", errors.getvalue())
+
     def test_workspace_view_reports_invalid_projection_mode(self) -> None:
         with TemporaryDirectory() as temp_dir:
             workspace_path = Path(temp_dir) / "deck.mtgwdeck.json"

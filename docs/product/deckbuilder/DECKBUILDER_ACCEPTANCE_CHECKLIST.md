@@ -240,3 +240,23 @@ Deferred beyond this slice:
 - Workspace projection output formats besides JSON.
 - Syntax-backed filtering.
 - UI controls for group, sort, and filter state.
+
+## Card-Fact-Backed Workspace Projection V0
+
+- [x] `type` grouping is supported when explicit local card facts are supplied.
+- [x] `mana_value` grouping is supported when explicit local card facts are supplied.
+- [x] `type` sorting is supported when explicit local card facts are supplied.
+- [x] `mana_value` sorting is supported when explicit local card facts are supplied.
+- [x] Missing card facts stay visible as `Missing Card Facts`.
+- [x] Ambiguous card facts stay visible as `Ambiguous Card Facts`.
+- [x] Projection output exposes found, missing, and ambiguous lookup counts.
+- [x] `workspace-view` accepts `--cards` or `--card-records` for local fact-backed projections.
+- [x] Fact-backed modes fail clearly when no local card source is supplied.
+- [x] No UI code, frontend dependency changes, deck analysis, role counting, recommendations, live APIs, or large datasets were added.
+
+Deferred beyond this slice:
+
+- Color and color identity projection modes.
+- Price, rarity, edition, and printing projection modes.
+- Syntax-backed current-deck filtering.
+- Deck-level role totals or strategic reports.

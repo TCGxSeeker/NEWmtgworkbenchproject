@@ -51,10 +51,16 @@ Future:
 
 ## Implementation Notes
 
-Deck Workspace View Projection v0 implements the first read-only projection over existing workspace fields only:
+Deck Workspace View Projection v0 implements the first read-only projection over existing workspace fields:
 
 - Grouping: `full_deck`, `zone`, and `category`.
 - Sorting: `alphabet`, `quantity`, `category`, and `zone`.
 - Filtering: simple current-deck text filtering over saved entry text fields.
 
-Type, mana value, color, color identity, price, rarity, printing, and syntax-backed filtering require local card facts or the syntax engine and are deferred.
+Card-Fact-Backed Workspace Projection v0 adds factual projection modes when explicit local card facts are supplied:
+
+- Grouping: `type` and `mana_value`.
+- Sorting: `type` and `mana_value`.
+- Missing and ambiguous facts remain visible as explicit status buckets.
+
+Color, color identity, price, rarity, printing, and syntax-backed filtering require later local data adapters or the syntax engine and are deferred.

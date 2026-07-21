@@ -128,3 +128,5 @@ Plain text exports are intentionally clean and minimal. They do not attempt to r
 Deck Workspace View Projection v0 prepares existing workspace entries for future deckbuilder screens without changing saved state. It supports `full_deck`, `zone`, and `category` grouping; `alphabet`, `quantity`, `category`, and `zone` sorting; current-deck text filtering over existing entry text fields; unresolved entries; and explicit grouped totals.
 
 Projection output is a view model, not deck analysis. It does not look up card facts, count deck roles, make recommendations, score cards, or mutate `.mtgwdeck.json` data.
+
+Card-Fact-Backed Workspace Projection v0 can add factual `type` and `mana_value` grouping/sorting when a caller supplies an explicit local `CardFactLookupReport`. Missing and ambiguous fact lookups remain visible as status buckets. Projection still does not infer missing facts, analyze deck quality, count roles, or mutate saved workspace data.

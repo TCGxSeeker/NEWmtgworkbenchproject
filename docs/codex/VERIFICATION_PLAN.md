@@ -14,13 +14,13 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline after Workspace View CLI v0:
+Latest repository-wide baseline after Card-Fact-Backed Workspace Projection v0:
 
 - Repository root: `G:/Documents/New MTG project`
-- `python -m unittest discover -s tests`: passed after Workspace View CLI v0, 334 tests
-- `python -m unittest tests.test_cli_workspace_view`: passed, 4 tests
-- `python -m mtg_workbench.cli workspace-view <temp>/deck.mtgwdeck.json --group-by category --sort-by quantity`: passed in focused tests and CLI smoke
-- `python -m unittest tests.test_deckbuilder_workspace_view`: passed, 8 tests
+- `python -m unittest discover -s tests`: passed after Card-Fact-Backed Workspace Projection v0, 340 tests
+- `python -m unittest tests.test_cli_workspace_view`: passed, 6 tests
+- `python -m mtg_workbench.cli workspace-view <temp>/deck.mtgwdeck.json --card-records <temp>/records.json --group-by type --sort-by mana-value`: passed in focused tests and CLI smoke
+- `python -m unittest tests.test_deckbuilder_workspace_view`: passed, 12 tests
 - `python -m py_compile src/mtg_workbench/deckbuilder/workspace_view.py src/mtg_workbench/deckbuilder/__init__.py`: passed
 - `python -m unittest tests.test_cli_workspace_category_metadata`: passed, 5 tests
 - `python -m mtg_workbench.cli workspace-set-normalized-category <temp>/input.mtgwdeck.json <entry-id> --value Draw --category-taxonomy data/fixtures/categories/category_taxonomy.example.yaml --output <temp>/output.mtgwdeck.json`: passed in focused tests and CLI smoke
@@ -142,6 +142,7 @@ Focused workspace view CLI checks:
 python -m py_compile src/mtg_workbench/cli/main.py
 python -m unittest tests.test_cli_workspace_view
 python -m mtg_workbench.cli workspace-view <temp>/deck.mtgwdeck.json --group-by category --sort-by quantity
+python -m mtg_workbench.cli workspace-view <temp>/deck.mtgwdeck.json --card-records <temp>/records.json --group-by type --sort-by mana-value
 ```
 
 Known remaining audit repair queue:

@@ -13,6 +13,7 @@ from mtg_workbench.deckbuilder.import_export import (
     export_plain_text_decklist,
     import_plain_text_decklist,
 )
+from mtg_workbench.deckbuilder.card_fact_lookup import lookup_workspace_card_facts
 from mtg_workbench.deckbuilder.mutations import (
     WorkspaceMutationError,
     add_entry,
@@ -145,6 +146,13 @@ def main(argv: list[str] | None = None) -> int:
     workspace_view_parser.add_argument("--group-by", default="category")
     workspace_view_parser.add_argument("--sort-by", default="alphabet")
     workspace_view_parser.add_argument("--filter", default=None, help="Current-deck text filter.")
+    workspace_view_card_source_group = workspace_view_parser.add_mutually_exclusive_group()
+    workspace_view_card_source_group.add_argument("--cards", type=Path, help="Local card catalog JSON.")
+    workspace_view_card_source_group.add_argument(
+        "--card-records",
+        type=Path,
+        help="Local card-record JSON mapping or list.",
+    )
     workspace_view_parser.add_argument(
         "--zone",
         action="append",
@@ -350,6 +358,8 @@ def main(argv: list[str] | None = None) -> int:
             sort_by=args.sort_by,
             filter_text=args.filter,
             zones=args.zone,
+            cards_path=args.cards,
+            card_records_path=args.card_records,
         )
     if args.command == "workspace-add-card":
         return _workspace_add_card_command(
@@ -628,13 +638,30 @@ def _workspace_view_command(
     sort_by: str,
     filter_text: str | None,
     zones: list[str] | None,
+    cards_path: Path | None,
+    card_records_path: Path | None,
 ) -> int:
     if not _require_native_workspace_path(workspace_path, "workspace_path"):
         return 2
     if not _require_existing_file(workspace_path, "workspace_path"):
         return 2
+    for label, path in (
+        ("--cards", cards_path),
+        ("--card-records", card_records_path),
+    ):
+        if path is not None and not _require_existing_file(path, label):
+            return 2
 
     workspace = load_workspace(workspace_path)
+    card_catalog = CardCatalog.from_json_file(cards_path) if cards_path is not None else None
+    card_records = _load_json(card_records_path) if card_records_path is not None else None
+    card_fact_lookup_report = None
+    if card_catalog is not None or card_records is not None:
+        card_fact_lookup_report = lookup_workspace_card_facts(
+            workspace,
+            card_records=card_records,
+            catalog=card_catalog,
+        )
     try:
         projection = build_workspace_view_projection(
             workspace,
@@ -642,6 +669,7 @@ def _workspace_view_command(
             sort_by=sort_by,
             filter_text=filter_text,
             zones=zones,
+            card_fact_lookup_report=card_fact_lookup_report,
         )
     except WorkspaceViewError as error:
         return _print_error(str(error))
