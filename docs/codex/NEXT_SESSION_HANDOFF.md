@@ -163,6 +163,11 @@ Known files:
   the add-card workflow works well as its own collapsible window/panel. Visual
   style is not approved as final; treat it as rough test-flight styling that
   should be modernized later.
+- Visual reference note captured from a side-project screenshot: keep the
+  transferable cues around polished dark panels, smooth glowing buttons, calm
+  success/status banners, tab-like mode controls, and separated side panels.
+  Do not import the side project's non-MTG domain, card/deck names, file paths,
+  APIs, or service behavior.
 
 ## Current Readiness Snapshot
 
@@ -183,6 +188,8 @@ Known files:
 - Safe stopping point: Find And Add Cards v0 is implemented and verified.
 - Human validation note: preserve the collapsible add-card panel concept, but
   do not preserve the current rough visual treatment as final direction.
+- Visual reference note: `docs/product/deckbuilder/reference/VISUAL_REFERENCE_NOTES.md`
+  captures approved style cues only; it is not a clone target or domain source.
 - Next recommended slice: Card Details Surface v0.
 - Suggested scope: define the implementation spec, then add the smallest
   selected-card details surface using only factual fields already present in

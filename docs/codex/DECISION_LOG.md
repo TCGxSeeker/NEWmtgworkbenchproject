@@ -425,3 +425,9 @@
   - Alternatives considered: treating the current screen as visually approved, or removing the collapsible add surface entirely.
   - Risk: Future UI work may need a deliberate visual design pass before adding too many more visible workflows.
   - Status: Accepted as human validation feedback after Find And Add Cards v0.
+
+- Decision: Capture side-project screenshot cues as visual inspiration only.
+  - Reason: The user identified satisfying visual qualities such as polished buttons, responsive feel, clear panels, and calm dark styling, while explicitly excluding the side project's non-MTG domain content.
+  - Alternatives considered: ignoring the screenshot, copying the design directly, or storing unrelated side-project product details in MTG Workbench docs.
+  - Risk: Future visual work could overfit to a utility layout unless references remain capability/style cues rather than clone targets.
+  - Status: Accepted as visual-reference guidance.
