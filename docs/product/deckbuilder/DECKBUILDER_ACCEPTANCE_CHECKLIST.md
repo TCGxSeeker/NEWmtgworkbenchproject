@@ -461,3 +461,21 @@ Deferred beyond this slice:
 - Live in-browser human validation.
 - Implementing the suggested visual consolidation.
 - Adding automated screenshot capture to reviewer workflow.
+
+## Current Deckbuilder UI Human Browser Pass V0
+
+- [x] Human browser-pass notes are captured in the current UI review report.
+- [x] Accepted function direction is recorded.
+- [x] Organization and underexpressed layout concerns are recorded.
+- [x] Mechanical-check corrections are recorded.
+- [x] Card-details field correction is recorded.
+- [x] Maybeboard collapsed-by-default preference is recorded.
+- [x] Full-cardpool search trigger concern is recorded.
+- [x] Next polish direction is updated toward deck-context consolidation.
+
+Deferred beyond this slice:
+
+- Implementing the visual polish changes.
+- Adding visible remove-card controls.
+- Adding card-level duplicate warning presentation.
+- Implementing duplicate exception logic from local card rules/evidence.

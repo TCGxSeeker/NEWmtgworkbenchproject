@@ -67,3 +67,47 @@ Clutter risk: Medium
 ## Human Validation Needed
 
 Yes. Final UI taste approval remains with the user.
+
+## Human Browser Pass Addendum
+
+Date: 2026-07-24
+
+Reviewer: user
+
+### Ratings And Notes
+
+1. Overall feel: functions feel generally right, but organization is strange and underexpressed. Some of this may resolve naturally as completion grows, but it should not be ignored.
+2. Clarity: the top header communicates deck name, card count, format, maybeboard quantity, and save state. Deck snapshot is self-explanatory but contributes to organization issues.
+3. Visual calm: the UI is calm in broad direction, but the current visual quality is not acceptable as final and needs a dedicated polish pass.
+4. Deckbuilder usefulness: visible deck review and add-card behavior are present and useful, but remove-card behavior is not visible yet.
+5. Supporting area: deck snapshot should move lower than the primary deck view, closer to Archidekt-style stats placement, to leave more room for card image stacks and grouped card presentation.
+
+### Specific Corrections
+
+- The `Groups` field in Deck Snapshot is unclear and should not be exposed without a clearer basis.
+- `Names resolved` should not appear as a default mechanical check.
+- Singleton status should not be a normal visible checklist item. Duplicate non-basic cards should produce targeted visual warnings on the affected cards instead.
+- Duplicate exceptions exist, such as cards that allow multiple copies; future duplicate validation must account for local card rules/evidence before warning.
+- Card details do not need to show `Zone` in the basic details panel.
+- Maybeboard should be optionally visible and collapsed by default.
+- Group/Table switching works, but later visual options could use a more satisfying sliding segmented control or a dropdown when more modes exist.
+- Add-card behavior works and count updates immediately.
+- Full-cardpool search should not perform noisy instant 1-character broad lookup. Single-letter input such as `r` should not explode into broad result lists across the full database.
+
+### Revised Reviewer Outcome
+
+Overall rating: 5/10
+
+Clarity rating: 6/10
+
+Visual calm rating: 4/10
+
+Deckbuilder usefulness: 7/10
+
+Hierarchy rating: 5/10
+
+Clutter risk: Medium
+
+### Revised Next Visual Change
+
+Prioritize a small deck-context consolidation and polish pass before larger visible workflow work. Move snapshot/stats-style information out of the cramped right-side deck area, collapse maybeboard by default, remove default `Names resolved` and singleton checklist display, and reserve duplicate warnings for targeted card-level alerts.

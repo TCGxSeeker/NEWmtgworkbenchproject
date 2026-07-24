@@ -6,6 +6,8 @@
 
 Searches the local Scryfall index to find cards to add. This supports card lookup, card browsing, and future recommendation candidate pools.
 
+Global search should avoid noisy full-cardpool result bursts for single-character free-text input. Use a minimum useful query length, explicit syntax clauses, debounced/manual search, or another deliberate trigger before searching the full local card database.
+
 ### Current-Deck Filter
 
 Filters cards already in the open deck. This should be fast, visible, and safe to clear.
@@ -64,6 +66,7 @@ When editing a mono-color or multi-color deck, search should make deck color ide
   current deck remains contextually visible.
 - Keep advanced search, filter, and sort controls collapsed by default.
 - Show result count quietly after search.
+- Do not show broad result lists for accidental one-letter input.
 - Provide clear add/increase, decrease, and more/details actions per result
   when the result surface can support them.
 - When a card has been added from search, show immediate quantity feedback such

@@ -16,6 +16,9 @@
 - Do not add ad slots, sponsored panels, or external recommendation tabs as default product surfaces.
 - Do not add optimizer-style controls before local deterministic rules and human validation zones are defined.
 - Do not show live price, legality, rank, salt-score, printing, or external-link claims in card details without verified local data or a separate approved external-link policy.
+- Do not treat deck snapshot, mechanical checks, or card details as equal-weight panels competing with the main card workspace.
+- Do not show successful background checks such as resolved names or no duplicate issues as default UI checklist rows.
+- Do not show broad full-cardpool results for single-character free-text input.
 
 ## Preferred Direction
 
@@ -34,5 +37,8 @@
 - Search/add can use focused overlays or expanded panels, but it should remain a supporting workflow around the deck workspace.
 - Stats and probability tools may live below the deck or in a tab, but they should support deck understanding instead of becoming the main dashboard.
 - Card details should help the user understand the selected card without turning into a marketplace, legality oracle, recommendation panel, or debug report.
+- Snapshot/stats-style information should generally sit below the main deck view, in a tab, or in a calmer progressive-disclosure context area so card stacks and grouped deck presentation have room.
+- Mechanical warnings should appear only when actionable. Duplicate non-basic warnings should target the affected card entries rather than living as a permanent checklist item.
+- Maybeboard should be optionally visible and collapsed by default.
 
 The user should feel guided through deck understanding, not buried under widgets.

@@ -24,10 +24,11 @@ V0 details may show:
 - oracle text if locally available
 - mana value
 - color identity
-- current zone
 - quantity
 - categories
 - tags and notes
+
+Current zone does not need to appear in the basic details panel when the selected card's deck location is already visually clear. Show zone only for workflows where it helps, such as moving cards, comparing board sections, or reviewing search results that are not yet in the deck.
 
 V0 details must not show live price, legality claims, EDHREC rank, salt score,
 printing marketplace data, external links, recommendations, role judgment, or

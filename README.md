@@ -8,7 +8,7 @@ The project has operating docs, source fixtures, parser/normalizer code, local S
 
 No finished deckbuilder UI, recommendation engine, scoring rubric, structural audit engine, or full deck report exists yet. The current frontend is a fixture-backed deck screen with local UI-state search/add, factual card-details, and compact mechanical validation behavior, not generic deckbuilder parity.
 
-Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 344 tests after Mechanical Deck Validation Surface v0.
+Current verified baseline: from `G:\Documents\New MTG project`, `python -m unittest discover -s tests` passes with 344 tests after Current Deckbuilder UI Human Browser Pass v0.
 
 Framing: this repository has a strong deckbuilder backend foundation with
 CLI-verifiable contracts. It does not yet have generic deckbuilder parity as a

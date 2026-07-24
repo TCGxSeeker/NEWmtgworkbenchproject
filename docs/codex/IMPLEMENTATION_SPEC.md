@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 344 tests after Workspace Projection Contract Docs v0.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 344 tests after Current Deckbuilder UI Human Browser Pass v0.
 
 ## Key Decisions Before Building
 
@@ -498,6 +498,21 @@ This slice is documentation/review only. It must not implement app UI, change
 product behavior, add frontend dependencies, automate screenshots, replace human
 validation, add live services, add AI/LLM product behavior, score deck quality,
 or make strategic MTG recommendations.
+
+### Phase Product-4R: Current Deckbuilder UI Human Browser Pass v0
+
+Status: implemented and verified.
+
+Capture the user's in-browser review of the current fixture-backed deckbuilder
+UI. Definition of done: durable notes record accepted functions, organization
+issues, visual-quality concerns, mechanical-check corrections, card-detail
+field corrections, maybeboard display preference, search-trigger concerns, and
+the next recommended polish direction.
+
+This slice is documentation/review only. It must not implement app UI, change
+product behavior, add frontend dependencies, replace human validation, add live
+services, add AI/LLM product behavior, score deck quality, or make strategic MTG
+recommendations.
 
 ### Phase Product-5: Deck Workspace Import/Export v0
 

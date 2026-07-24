@@ -91,6 +91,13 @@
 - When using Archidekt screenshots as reference, extract deckbuilder pathing and interaction cues only. Do not copy hosted visibility states, account/social features, ads, external recommendation tabs, price-source behavior, or exact layout density.
 - Deck stats and probability tools are expected endpoint features, but they should live below the main deck workspace, in a tab, or in an optional pinned panel. Do not let stats become the default top-level dashboard or add optimizer controls before local rules and human validation zones exist.
 - Card details may eventually include images, oracle text, oracle tags, printing choice, legality, and pricing-style fields, but v0 should show only factual local fields already available. Do not show live price, legality, rank, salt score, printing marketplace data, or external card links without verified local data or an explicit policy.
+- Do not keep Deck Snapshot cramped beside the primary deck workspace as the default long-term layout. Snapshot/stats-style information should move lower, into a tab, or into a progressively disclosed context area so card stacks/groupings have room.
+- Do not expose unclear implementation-derived summary fields such as `Groups` unless the user-facing meaning is obvious.
+- Do not show `Names resolved` as a default mechanical checklist item. Name resolution should be background validation unless there is an unresolved-card warning to act on.
+- Do not show singleton legality as a permanent checklist item. Duplicate non-basic issues should appear as targeted warnings on affected cards, and future duplicate validation must account for local card text/rules exceptions such as cards that allow multiple copies.
+- Do not show `Zone` in basic card details unless it solves a specific user task. Zone is usually visible from the deck area itself.
+- Maybeboard should be optionally visible and collapsed by default in future deck views.
+- Do not let full-cardpool search trigger noisy broad results from a single-character query. Require a minimum useful query length, explicit syntax, or another deliberate search trigger before searching the full local database.
 
 ## Capture Format
 

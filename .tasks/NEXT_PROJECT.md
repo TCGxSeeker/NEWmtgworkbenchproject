@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Branch: `master`
-- Current implemented checkpoint: Current Deckbuilder UI User Review v0
+- Current implemented checkpoint: Current Deckbuilder UI Human Browser Pass v0
 - Current full-suite baseline: `python -m unittest discover -s tests` passes with 344 tests
 - Current product center remains the deckbuilder foundation. Canonical framing:
   this is a strong backend foundation with CLI-verifiable contracts, not generic
@@ -12,23 +12,23 @@
 
 ## Current Catchup
 
-Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, Workspace View CLI v0, Card-Fact-Backed Workspace Projection v0, Color Identity Workspace Projection v0, Workspace View Fixture Smoke v0, Workspace Projection Contract Docs v0, See The Deck v0, See The Deck v0 Visual Review Checkpoint, Find And Add Cards v0, Card Details Surface v0, Mechanical Deck Validation Surface v0, Deckbuilder UI Logic Extraction v0, User Reviewer Skill v0, and Current Deckbuilder UI User Review v0 are implemented and verified.
+Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export CLI v0, Deck Workspace Mutation CLI v0, deckbuilder checklist cleanup, Deck Inspection CLI polish, Category Metadata Mutation CLI v0, Entry Annotation CLI v0, Deck Workspace View Projection v0, Workspace View CLI v0, Card-Fact-Backed Workspace Projection v0, Color Identity Workspace Projection v0, Workspace View Fixture Smoke v0, Workspace Projection Contract Docs v0, See The Deck v0, See The Deck v0 Visual Review Checkpoint, Find And Add Cards v0, Card Details Surface v0, Mechanical Deck Validation Surface v0, Deckbuilder UI Logic Extraction v0, User Reviewer Skill v0, Current Deckbuilder UI User Review v0, and Current Deckbuilder UI Human Browser Pass v0 are implemented and verified.
 
 ## Next Recommended Slice
 
-Mechanical Deckbuilder UI Human Review Checkpoint, or Deck Context Consolidation v0 if the user wants Codex to act on the reviewer report first.
+Deck Context Consolidation v0.
 
-Goal: visually review the current fixture-backed deckbuilder UI, then either make a small polish pass on the support/context area or move toward durable save/load behavior.
+Goal: make a small polish pass on organization without changing the working feature scope.
 
-Context: the user-reviewer report rated the current UI as functional with medium clutter risk and no blockers. Its main suggested visual change is consolidating snapshot, validation, and selected-card details into a calmer progressively disclosed deck context region.
+Context: the human browser pass accepted the function direction but rejected the current visual quality as final. The next polish should reduce side-area competition, move snapshot/stats-style information lower or out of the cramped deck area, collapse maybeboard by default, remove non-actionable checks from default UI, and prevent future full-cardpool search from firing on noisy one-character input.
 
 Expected scope:
 
-1. Review the current UI in-browser with the user.
-2. If polishing before larger work, keep the patch limited to the support/context area.
+1. Keep the patch limited to organization and default visibility.
+2. Preserve current working add/search/details/count-update behavior.
 3. Preserve the deck as the primary workspace and keep add-card collapsible.
-4. If visual pass is accepted, choose Save/Load Workspace UI v0 or backend-to-UI validation wiring as the next implementation slice.
-5. Keep validation factual/mechanical and avoid recommendations, scoring, power-level claims, and strategic judgments.
+4. Hide successful background checks such as names resolved and no-duplicate singleton status.
+5. Do not implement save/load, backend report wiring, recommendations, scoring, power-level claims, or strategic judgments in this polish slice.
 
 ## Boundaries
 

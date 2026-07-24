@@ -24,6 +24,7 @@
 - Deckbuilder UI Logic Extraction v0 is implemented and verified.
 - User Reviewer Skill v0 is implemented and verified.
 - Current Deckbuilder UI User Review v0 is implemented and verified.
+- Current Deckbuilder UI Human Browser Pass v0 is implemented and verified.
 
 ## Completed Catchup Repairs
 
@@ -51,9 +52,8 @@
 
 ## Near Term
 
-- Mechanical Deckbuilder UI human review checkpoint.
-- Deck Context Consolidation v0 if the user wants a small polish pass before larger workflow work.
-- Save/Load Workspace UI v0 or backend-to-UI validation wiring after the current UI receives a visual pass.
+- Deck Context Consolidation v0 as the next small polish pass before larger workflow work.
+- Save/Load Workspace UI v0 or backend-to-UI validation wiring after deck-context organization is calmer.
 - Keep deck inspection reports factual and deterministic.
 - Keep unsupported Scryfall syntax explicit instead of guessed.
 - Decide when Deck Role Summary v0 is safe to start, because it introduces deck-level role counting.

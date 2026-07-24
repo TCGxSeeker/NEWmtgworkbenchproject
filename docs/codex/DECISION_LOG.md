@@ -473,3 +473,11 @@
   - Alternatives considered: relying only on ad hoc chat review, making the reviewer final authority, or building reviewer behavior into the app.
   - Risk: Ratings are structured review signals, not objective truth or approval to skip user review.
   - Status: Accepted for User Reviewer Skill v0.
+
+## 2026-07-24
+
+- Decision: Prioritize Deck Context Consolidation v0 before larger visible deckbuilder workflow work.
+  - Reason: The human browser pass accepted the current functional direction while identifying organization, default visibility, and visual hierarchy issues that should be corrected before adding more visible surfaces.
+  - Alternatives considered: moving directly to save/load, richer card details, stats, or broader search UI.
+  - Risk: This polish slice should remain small and must not become a full visual redesign or introduce unfinished controls.
+  - Status: Accepted as next-slice guidance.

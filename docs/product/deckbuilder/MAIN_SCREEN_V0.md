@@ -14,7 +14,7 @@ deckbuilder product.
 2. Deck status strip below the header.
 3. Workspace controls above the card area.
 4. Grouped deck workspace as the largest area.
-5. Stats/details panel on the right or in a drawer.
+5. Optional context/details area that does not crowd the primary card workspace.
 
 ## Deck Header
 
@@ -88,7 +88,13 @@ Closing it returns the user to the same deckbuilder context.
 
 ## Stats And Details Area
 
-Stats/details should live in a right-side panel or drawer-style surface. It should support deck facts, selected-card details, and future report summaries without making the main card workspace feel crowded.
+Stats/details may live below the main deck workspace, in a tab, or in a drawer-style surface. A right-side panel is acceptable only when it stays secondary and does not cramp card stacks, grouped deck presentation, or card images.
+
+Deck snapshot information should not compete with the deck view as a permanent equal-weight sidebar. Mechanical checks should surface actionable warnings only; successful background checks such as resolved names or no duplicate issues should stay hidden unless the user opens a deeper validation view.
+
+Selected-card details should avoid repeating context already visible in the deck area. For example, `Zone` is not needed in basic details unless the user is comparing or moving cards between zones.
+
+Maybeboard should be optionally visible and collapsed by default.
 
 ## Flow
 
