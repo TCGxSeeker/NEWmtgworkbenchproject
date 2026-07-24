@@ -469,6 +469,21 @@ recommendations, scoring, power-level claims, commander philosophy checks, role
 counts, package detection, price logic, legality claims, card-quality judgments,
 or generated build output.
 
+### Phase Product-4P: User Reviewer Skill v0
+
+Status: implemented and verified.
+
+Create a project-local user-reviewer skill and deckbuilder review rubric for
+completed UI or visualization checkpoints. Definition of done: the skill can be
+invoked to review a completed section, produce ratings, identify clutter and
+clarity risks, distinguish blocking issues from polish, and preserve the rule
+that human review remains the final taste authority.
+
+This slice must not implement app UI, change product behavior, add frontend
+dependencies, create automated screenshots, replace human validation, add live
+services, add AI/LLM product behavior, score deck quality, or make strategic MTG
+recommendations.
+
 ### Phase Product-5: Deck Workspace Import/Export v0
 
 Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.

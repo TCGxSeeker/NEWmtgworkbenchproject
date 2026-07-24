@@ -433,3 +433,17 @@ Deferred beyond this slice:
 - Dedicated frontend unit tests for helper functions.
 - Splitting React components into smaller files.
 - Wiring helpers to persisted native workspace files or backend report payloads.
+
+## User Reviewer Skill V0
+
+- [x] Project-local `user-reviewer` skill exists.
+- [x] Deckbuilder user review rubric exists.
+- [x] Reviewer output includes ratings, clutter risk, pass items, polish items, blockers, and a suggested next visual change.
+- [x] Skill preserves human validation as the final taste authority.
+- [x] Skill avoids deck strategy, recommendation, scoring, legality, pricing, and power-level judgment.
+
+Deferred beyond this slice:
+
+- Running a user-review pass against the current browser UI.
+- Automating screenshot capture for reviewer input.
+- Turning reviewer feedback into implementation without human checkpoint.

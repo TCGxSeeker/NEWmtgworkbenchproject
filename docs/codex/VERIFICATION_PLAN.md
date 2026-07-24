@@ -829,7 +829,13 @@ Validate local skill files when they change:
 python C:/Users/StDeL/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-launch-spec
 python C:/Users/StDeL/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/verification-gate
 python C:/Users/StDeL/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/gotcha-capture
+python C:/Users/StDeL/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/user-reviewer
 ```
+
+Expected User Reviewer Skill v0 behavior: the skill has valid frontmatter,
+describes when to use and when not to use it, provides a rating-oriented report
+format, preserves human validation, and avoids deck strategy, recommendation,
+scoring, legality, pricing, and power-level judgment.
 
 ## Deckbuilder UI Checks
 

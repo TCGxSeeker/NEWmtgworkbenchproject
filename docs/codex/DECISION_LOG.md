@@ -467,3 +467,9 @@
   - Alternatives considered: leaving the helpers inline until UI behavior grows further, or introducing a broader frontend architecture split.
   - Risk: This is a structural cleanup only; future behavior still needs its own explicit implementation slices and verification.
   - Status: Accepted for Deckbuilder UI Logic Extraction v0.
+
+- Decision: Add a project-local `user-reviewer` skill for completed visual checkpoints.
+  - Reason: The project benefits from a repeatable user-perspective review before expanding UI surfaces, especially because visual taste remains a human validation zone.
+  - Alternatives considered: relying only on ad hoc chat review, making the reviewer final authority, or building reviewer behavior into the app.
+  - Risk: Ratings are structured review signals, not objective truth or approval to skip user review.
+  - Status: Accepted for User Reviewer Skill v0.
