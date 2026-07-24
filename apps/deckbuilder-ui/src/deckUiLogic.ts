@@ -12,7 +12,6 @@ export type CardDetails = {
   type_line: string
   mana_value: number | null
   color_identity: string[]
-  zone: DeckZone | null
   quantity: number | null
   categories: string[]
   tags: string[]
@@ -28,6 +27,7 @@ export type ValidationItem = {
 
 export const ACTIVE_ZONES = new Set<DeckZone>(['commander', 'mainboard'])
 export const ADD_ZONES: AddZone[] = ['mainboard', 'maybeboard']
+export const MIN_FREE_TEXT_SEARCH_LENGTH = 2
 
 const MAX_SEARCH_RESULTS = 6
 const COMMANDER_ACTIVE_CARD_TARGET = 100
@@ -143,7 +143,7 @@ export function entryMatchesFilter(entry: WorkspaceViewEntry, filterText: string
 
 export function searchLocalCards(query: string, candidates: CardSearchCandidate[]) {
   const normalizedQuery = normalizeText(query)
-  if (!normalizedQuery) {
+  if (!isCardSearchReady(query)) {
     return []
   }
 
@@ -170,61 +170,59 @@ export function buildMechanicalValidationItems(
   const commanderEntries = entries.filter((entry) => entry.zone === 'commander')
   const unresolvedEntries = entries.filter((entry) => entry.is_unresolved)
   const duplicateNonBasics = duplicateNonBasicNames(activeEntries)
+  const items: ValidationItem[] = []
 
-  return [
-    commanderEntries.length > 0
-      ? {
-          id: 'commander-present',
-          status: 'pass',
-          label: 'Commander set',
-          detail: commanderEntries.map((entry) => entry.card_name).join(', '),
-        }
-      : {
-          id: 'commander-present',
-          status: 'warning',
-          label: 'Commander missing',
-          detail: 'Set one commander before final deck review.',
-        },
-    activeQuantity === COMMANDER_ACTIVE_CARD_TARGET
-      ? {
-          id: 'active-count',
-          status: 'pass',
-          label: 'Commander size',
-          detail: `${activeQuantity} active cards.`,
-        }
-      : {
-          id: 'active-count',
-          status: 'warning',
-          label: 'Commander size',
-          detail: `${activeQuantity} active cards; target is ${COMMANDER_ACTIVE_CARD_TARGET}.`,
-        },
-    unresolvedEntries.length === 0
-      ? {
-          id: 'unresolved-cards',
-          status: 'pass',
-          label: 'Names resolved',
-          detail: 'No unresolved card entries in this workspace.',
-        }
-      : {
-          id: 'unresolved-cards',
-          status: 'warning',
-          label: 'Unresolved cards',
-          detail: `${unresolvedEntries.length} entry${unresolvedEntries.length === 1 ? '' : 'ies'} need name review.`,
-        },
-    duplicateNonBasics.length === 0
-      ? {
-          id: 'duplicate-non-basics',
-          status: 'pass',
-          label: 'Singleton check',
-          detail: 'No duplicate non-basic active cards.',
-        }
-      : {
-          id: 'duplicate-non-basics',
-          status: 'warning',
-          label: 'Duplicate non-basics',
-          detail: duplicateNonBasics.join(', '),
-        },
-  ]
+  if (commanderEntries.length === 0) {
+    items.push({
+      id: 'commander-present',
+      status: 'warning',
+      label: 'Commander missing',
+      detail: 'Set one commander before final deck review.',
+    })
+  }
+
+  if (activeQuantity !== COMMANDER_ACTIVE_CARD_TARGET) {
+    items.push({
+      id: 'active-count',
+      status: 'warning',
+      label: 'Commander size',
+      detail: `${activeQuantity} active cards; target is ${COMMANDER_ACTIVE_CARD_TARGET}.`,
+    })
+  }
+
+  if (unresolvedEntries.length > 0) {
+    items.push({
+      id: 'unresolved-cards',
+      status: 'warning',
+      label: 'Unresolved cards',
+      detail: `${unresolvedEntries.length} entry${unresolvedEntries.length === 1 ? '' : 'ies'} need name review.`,
+    })
+  }
+
+  if (duplicateNonBasics.length > 0) {
+    items.push({
+      id: 'duplicate-non-basics',
+      status: 'warning',
+      label: 'Duplicate non-basics',
+      detail: duplicateNonBasics.join(', '),
+    })
+  }
+
+  return items
+}
+
+export function duplicateNonBasicNameSet(entries: WorkspaceViewEntry[]) {
+  const duplicateNames = duplicateNonBasicNames(entries.filter((entry) => ACTIVE_ZONES.has(entry.zone)))
+  return new Set(
+    duplicateNames.map((label) => normalizeText(label.replace(/\sx\d+$/, ''))),
+  )
+}
+
+export function isDuplicateNonBasicEntry(
+  entry: WorkspaceViewEntry,
+  duplicateNames: Set<string>,
+) {
+  return ACTIVE_ZONES.has(entry.zone) && duplicateNames.has(normalizeText(entry.card_name))
 }
 
 export function entryToDetails(entry: WorkspaceViewEntry): CardDetails {
@@ -234,11 +232,10 @@ export function entryToDetails(entry: WorkspaceViewEntry): CardDetails {
     type_line: entry.type_line ?? 'Card',
     mana_value: entry.mana_value,
     color_identity: entry.color_identity ?? [],
-    zone: entry.zone,
     quantity: entry.quantity,
     categories: entry.categories,
     tags: [...entry.tags, ...entry.secondary_tags],
-    notes: null,
+    notes: entry.notes ?? null,
   }
 }
 
@@ -252,7 +249,6 @@ export function candidateToDetails(
     type_line: candidate.type_line,
     mana_value: candidate.mana_value,
     color_identity: candidate.color_identity,
-    zone: null,
     quantity: quantityInDeck > 0 ? quantityInDeck : null,
     categories: candidate.categories,
     tags: candidate.tags,
@@ -262,6 +258,10 @@ export function candidateToDetails(
 
 export function normalizeText(value: string) {
   return value.trim().toLocaleLowerCase().replace(/\s+/g, ' ')
+}
+
+export function isCardSearchReady(query: string) {
+  return normalizeText(query).length >= MIN_FREE_TEXT_SEARCH_LENGTH
 }
 
 export function formatManaValue(value: number | null) {

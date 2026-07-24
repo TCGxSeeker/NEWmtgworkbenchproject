@@ -487,3 +487,9 @@
   - Alternatives considered: opening directly into the current deck workspace or making import/search the first screen.
   - Risk: The library should stay calm and functional, not become a cluttered dashboard or clone unrelated reference-app behavior.
   - Status: Accepted for deckbuilder product planning.
+
+- Decision: Implement browser-local native workspace open/save using file picker and download.
+  - Reason: The Vite app can honestly open a user-selected `.mtgwdeck.json` and download the current native workspace without adding a backend, desktop shell, live service, or unsafe filesystem assumption.
+  - Alternatives considered: scanning a local folder from the browser, overwriting the original file path, adding a backend file server now, or deferring all visible save/open behavior.
+  - Risk: Browser V0 does not persist the deck library across reloads and cannot overwrite the source file directly.
+  - Status: Accepted for Deck Library, Context Consolidation, and Save/Open UI v0.

@@ -46,4 +46,4 @@ Screenshots from Archidekt/Deckcheck-style tools are product inspiration only. E
 
 ## Immediate Product Priority
 
-After Search-2 filters, complete Deckbuilder Foundation v0 planning and Deck Skeleton Report v0 planning before implementation. Search remains a substrate for adding and finding cards; the app path should move from deck library into the focused deckbuilder workspace.
+After Deck Library, Context Consolidation, and Save/Open UI v0, run a human browser pass before adding more visible controls. Search remains a substrate for adding and finding cards; the app path should move from deck library into the focused deckbuilder workspace.

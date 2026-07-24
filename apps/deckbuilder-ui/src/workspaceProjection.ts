@@ -5,12 +5,20 @@ export type WorkspaceViewEntry = {
   card_name: string
   input_name: string
   display_name: string | null
+  oracle_id?: string | null
+  selected_printing_id?: string | null
   categories: string[]
   tags: string[]
   secondary_tags: string[]
   imported_category: string | null
   normalized_category: string | null
   generic_category_hint: string | null
+  deck_specific_primary_role?: string | null
+  category_origin?: string | null
+  notes?: string | null
+  pinned?: boolean
+  foil?: boolean
+  date_added?: string | null
   is_unresolved: boolean
   card_fact_status: 'found' | 'missing' | 'ambiguous' | 'not_requested'
   type_line: string | null

@@ -494,3 +494,30 @@ Deferred beyond this slice:
 - Wiring deck library to saved `.mtgwdeck.json` files.
 - Designing final visuals for the deck library.
 - Implementing safe deck deletion or remove-from-library behavior.
+
+## Deck Library, Context Consolidation, And Save/Open UI V0
+
+- [x] App opens to a deck library/home screen before the deck workspace.
+- [x] Library lists available in-browser local deck workspaces.
+- [x] Create-deck flow opens a new editable local deck workspace.
+- [x] Open-file action accepts native `.mtgwdeck.json` workspace files through the browser file picker.
+- [x] Save action downloads the current deck as native `.mtgwdeck.json`.
+- [x] Malformed workspace files show clear local errors.
+- [x] Current add-card, search, details, and count-update behavior is preserved.
+- [x] Deck snapshot/context has moved below the main card workspace.
+- [x] Maybeboard groups are collapsed by default when a deck is opened.
+- [x] Successful background checks such as resolved names and no duplicate issues are not listed as default validation items.
+- [x] Duplicate non-basic warnings are targeted to affected entries when present.
+- [x] Card details no longer show `Zone` by default.
+- [x] Local card search requires at least two free-text characters before showing results.
+- [x] No new frontend dependencies, live APIs, cloud sync, recommendations, scoring, or strategic judgments were added.
+
+Deferred beyond this slice:
+
+- Persistent deck library storage across browser reloads.
+- Scanning a local deck folder.
+- Overwriting the original opened file path.
+- Backend-to-frontend report wiring.
+- Full local Scryfall search wiring in the frontend.
+- Visible remove-card and quantity-edit controls.
+- Final visual polish approval.

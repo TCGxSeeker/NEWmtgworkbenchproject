@@ -25,6 +25,7 @@
 - User Reviewer Skill v0 is implemented and verified.
 - Current Deckbuilder UI User Review v0 is implemented and verified.
 - Current Deckbuilder UI Human Browser Pass v0 is implemented and verified.
+- Deck Library, Context Consolidation, and Save/Open UI v0 is implemented and verified.
 
 ## Completed Catchup Repairs
 
@@ -52,9 +53,9 @@
 
 ## Near Term
 
-- Deck Library Entry Planning v0 before treating the open-deck screen as the whole app shell.
-- Deck Context Consolidation v0 as the next small open-deck polish pass before larger workflow work.
-- Save/Load Workspace UI v0 or backend-to-UI validation wiring after deck-context organization is calmer.
+- Deck Library and Save/Open Human Browser Pass v0 before more visible UI work.
+- Visible remove-card and quantity-edit controls after the human browser pass.
+- Backend-to-UI validation/report wiring after deck-context organization is approved.
 - Keep deck inspection reports factual and deterministic.
 - Keep unsupported Scryfall syntax explicit instead of guessed.
 - Decide when Deck Role Summary v0 is safe to start, because it introduces deck-level role counting.

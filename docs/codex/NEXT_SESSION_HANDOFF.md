@@ -4,12 +4,14 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: Current Deckbuilder UI Human Browser Pass v0
+- Current implemented checkpoint: Deck Library, Context Consolidation, and Save/Open UI v0
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
 - Step 6 visual compare direction docs are complete
 - Current verification: `python -m unittest discover -s tests` passed with 344 tests
+- Current frontend verification: `npm run build` and `npm run lint` passed in
+  `apps/deckbuilder-ui`
 - Current focused deck workspace view projection verification: `python -m unittest tests.test_deckbuilder_workspace_view` passed with 14 tests
 - Current focused workspace view CLI verification: `python -m unittest tests.test_cli_workspace_view` passed with 7 tests
 - Current focused workspace category/annotation CLI verification: `python -m unittest tests.test_cli_workspace_category_metadata` passed with 5 tests
@@ -86,6 +88,7 @@
 - User Reviewer Skill v0
 - Current Deckbuilder UI User Review v0
 - Current Deckbuilder UI Human Browser Pass v0
+- Deck Library, Context Consolidation, and Save/Open UI v0
 
 ## Audit Status
 
@@ -228,7 +231,7 @@ Known files:
 ## Current Readiness Snapshot
 
 - Deckbuilder acceptance checklist checkboxes: all current items complete after
-  Current Deckbuilder UI Human Browser Pass v0.
+  Deck Library, Context Consolidation, and Save/Open UI v0.
 - Native workspace model, editing, import/export, category metadata, annotation,
   and view-projection backend are the most complete deckbuilder areas.
 - Finished app UI, recommendation logic, scoring, commander analysis, and
@@ -241,7 +244,7 @@ Known files:
 
 ## Next Refresh Notes
 
-- Safe stopping point: Current Deckbuilder UI Human Browser Pass v0 is implemented and verified.
+- Safe stopping point: Deck Library, Context Consolidation, and Save/Open UI v0 is implemented and verified.
 - Human validation note: preserve the collapsible add-card panel concept, but
   do not preserve the current rough visual treatment as final direction.
 - Human validation note: Card Details Surface v0 is a functional factual panel,
@@ -255,14 +258,12 @@ Known files:
 - Archidekt pathing reference:
   `docs/product/deckbuilder/reference/ARCHIDEKT_NEW_DECK_SEARCH_REFERENCE.md`
   captures capability and interaction cues only.
-- Next recommended slice: Deck Library Entry Planning v0, then Deck Context
-  Consolidation v0 polish.
-- Suggested scope: preserve current working functions, keep add-card collapsible,
-  move deck snapshot/stats-style data out of the cramped side area, make
-  maybeboard collapsed by default, hide successful background checks, reserve
-  duplicate warnings for affected card entries, remove `Zone` from basic card
-  details, and add a safer full-cardpool search trigger rule before wiring real
-  local search.
+- Next recommended slice: Deck Library and Save/Open Human Browser Pass v0.
+- Suggested scope: review the library first impression, create-deck flow,
+  open-file flow, save/download flow, add-card responsiveness, deck-context
+  organization, maybeboard collapsed-by-default behavior, hidden non-actionable
+  validation checks, card details without `Zone`, and two-character search
+  trigger.
 - Product north-star sequence: see the deck, find and add cards, understand a
   card, validate the deck, edit safely in bulk, inspect useful statistics, manage
   printings, and recover earlier versions.

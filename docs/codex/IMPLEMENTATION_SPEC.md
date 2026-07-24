@@ -33,7 +33,7 @@ Use the user interview answers, supplemental hand-off, and `docs/sources/MTG_PRO
 
 Current repository inspection found project operating files, source seed docs, tiny raw fixtures, Python parser/search source, tests, local Scryfall indexing support, a free frontend tooling scaffold, native workspace support, factual deck inspection reports, role evidence plumbing, and relationship primitive/report/pair-inspection foundations. The recommender, scoring rubric, strategic deck analysis, finished UI, and full curated project data are still future work. Missing facts should become TODOs or fixtures, not invented details.
 
-Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 344 tests after Current Deckbuilder UI Human Browser Pass v0.
+Current baseline: from `G:\Documents\New MTG project`, the full Python suite passes with 344 tests after Deck Library, Context Consolidation, and Save/Open UI v0.
 
 ## Key Decisions Before Building
 
@@ -531,6 +531,52 @@ Reference and requirements:
 This slice is documentation only. It must not implement the deck library UI,
 add account behavior, cloud sync, hosted visibility, live services,
 recommendations, scoring, or a stats dashboard.
+
+### Phase Product-4T: Deck Library, Context Consolidation, and Save/Open UI v0
+
+Status: implemented and verified.
+
+Implement the first browser-local app flow across the three next deckbuilder
+workflow items:
+
+1. Deck library entry: show a calm local home screen before the open-deck
+   workspace, with create-deck and open existing workspace entry points.
+2. Deck context consolidation: keep the deck card workspace primary, move
+   snapshot/validation context below or out of the cramped side area, collapse
+   maybeboard by default, hide successful background checks, and remove `Zone`
+   from basic card details.
+3. Save/open workspace UI: support opening a user-selected `.mtgwdeck.json`
+   file and downloading the current workspace as native `.mtgwdeck.json`.
+
+Implementation assumptions:
+
+- Browser V0 cannot scan folders or overwrite arbitrary local files directly.
+  Use a file input for open and a browser download for save/export.
+- Preserve the current fixture-backed add/search/details/count-update behavior.
+- Keep full-cardpool search safe by avoiding broad one-character free-text
+  result bursts.
+- Do not add frontend dependencies, backend server behavior, live APIs,
+  recommendations, scoring, strategic judgments, account behavior, cloud sync,
+  or hosted visibility states.
+
+Verification:
+
+- `npm run build` and `npm run lint` in `apps/deckbuilder-ui`.
+- `python -m unittest discover -s tests`.
+- `git diff --check`.
+- Manual browser pass for the new library/open-deck flow.
+
+Implemented scope:
+
+- App opens to a browser-local deck library/home screen.
+- Users can create a new in-browser local deck.
+- Users can open a selected native `.mtgwdeck.json` file.
+- Users can download the current deck as native `.mtgwdeck.json`.
+- The open-deck screen keeps cards as the primary workspace and moves deck
+  snapshot/mechanical warnings below the main card area.
+- Maybeboard groups collapse by default when a deck is opened.
+- Card details hide `Zone` by default.
+- Search waits for at least two free-text characters before returning results.
 
 ### Phase Product-5: Deck Workspace Import/Export v0
 

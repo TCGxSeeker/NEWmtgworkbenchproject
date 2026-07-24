@@ -14,14 +14,14 @@ Expected root: `G:/Documents/New MTG project`.
 
 ## Current Verified Baseline
 
-Latest repository-wide baseline after Current Deckbuilder UI Human Browser Pass v0:
+Latest repository-wide baseline after Deck Library, Context Consolidation, and Save/Open UI v0:
 
 - Repository root: `G:/Documents/New MTG project`
-- `python -m unittest discover -s tests`: passed after Current Deckbuilder UI Human Browser Pass v0, 344 tests
-- `apps/deckbuilder-ui`: `& 'C:\Program Files\nodejs\npm.cmd' run build` passed after Deckbuilder UI Logic Extraction v0; no app code changed in the later human browser-pass documentation update
-- `apps/deckbuilder-ui`: `& 'C:\Program Files\nodejs\npm.cmd' run lint` passed after Deckbuilder UI Logic Extraction v0; no app code changed in the later human browser-pass documentation update
+- `python -m unittest discover -s tests`: passed after Deck Library, Context Consolidation, and Save/Open UI v0, 344 tests
+- `apps/deckbuilder-ui`: `& 'C:\Program Files\nodejs\npm.cmd' run build` passed after Deck Library, Context Consolidation, and Save/Open UI v0
+- `apps/deckbuilder-ui`: `& 'C:\Program Files\nodejs\npm.cmd' run lint` passed after Deck Library, Context Consolidation, and Save/Open UI v0
 - Desktop and narrow Chrome headless screenshots were reviewed after Find And Add Cards v0; the Add Card entry point remains visible without making the deck screen search-first.
-- `git diff --check`: passed after Current Deckbuilder UI Human Browser Pass v0
+- `git diff --check`: passed after Deck Library, Context Consolidation, and Save/Open UI v0
 - Desktop and narrow Chrome headless screenshots were reviewed after See The Deck v0 Visual Review Checkpoint; narrow layout no longer visibly clips the deck title/status and keeps the card workspace ahead of the secondary snapshot panel.
 - `python -m unittest tests.test_deckbuilder_workspace_view_smoke`: passed, 1 test
 - `python -m mtg_workbench.cli workspace-view tests/fixtures/deckbuilder/workspace_view_smoke_workspace.mtgwdeck.json --card-records tests/fixtures/deckbuilder/workspace_view_smoke_card_records.json --group-by color-identity --sort-by mana-value`: passed through exact expected-output fixture coverage
