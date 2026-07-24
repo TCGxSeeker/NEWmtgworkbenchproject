@@ -56,3 +56,10 @@ For future visual passes, use this reference as support for:
 
 The MTG Workbench final UI should still feel like a modern deckbuilder
 workbench, not a proxy utility clone.
+
+## Deck Library Direction
+
+The calm but expressive local utility feel is especially relevant to the future
+deck library/home screen. The app should open to a polished local deck library
+before entering an individual deck screen, similar to the Archidekt path of
+starting from a deck list/create flow and then opening the deckbuilder.

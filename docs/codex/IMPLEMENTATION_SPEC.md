@@ -514,6 +514,24 @@ product behavior, add frontend dependencies, replace human validation, add live
 services, add AI/LLM product behavior, score deck quality, or make strategic MTG
 recommendations.
 
+### Phase Product-4S: Deck Library Direction Capture v0
+
+Status: documented.
+
+Record that MTG Workbench should open to a local deck library/home screen before
+an individual deck workspace. The open-deck screen remains the primary editing
+surface after selection, but the app shell should support a calm, expressive
+library flow for creating and opening saved local decks.
+
+Reference and requirements:
+
+- `docs/product/deckbuilder/DECK_LIBRARY_REQUIREMENTS.md`
+- `docs/product/deckbuilder/reference/VISUAL_REFERENCE_NOTES.md`
+
+This slice is documentation only. It must not implement the deck library UI,
+add account behavior, cloud sync, hosted visibility, live services,
+recommendations, scoring, or a stats dashboard.
+
 ### Phase Product-5: Deck Workspace Import/Export v0
 
 Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.

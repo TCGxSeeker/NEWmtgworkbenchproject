@@ -52,7 +52,8 @@
 
 ## Near Term
 
-- Deck Context Consolidation v0 as the next small polish pass before larger workflow work.
+- Deck Library Entry Planning v0 before treating the open-deck screen as the whole app shell.
+- Deck Context Consolidation v0 as the next small open-deck polish pass before larger workflow work.
 - Save/Load Workspace UI v0 or backend-to-UI validation wiring after deck-context organization is calmer.
 - Keep deck inspection reports factual and deterministic.
 - Keep unsupported Scryfall syntax explicit instead of guessed.

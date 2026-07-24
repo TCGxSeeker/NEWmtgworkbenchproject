@@ -481,3 +481,9 @@
   - Alternatives considered: moving directly to save/load, richer card details, stats, or broader search UI.
   - Risk: This polish slice should remain small and must not become a full visual redesign or introduce unfinished controls.
   - Status: Accepted as next-slice guidance.
+
+- Decision: Add a deck library/home screen before the individual deck workspace in the product flow.
+  - Reason: The user wants a full local deck library as the main app entry point, with the open-deck screen reached after creating or selecting a deck.
+  - Alternatives considered: opening directly into the current deck workspace or making import/search the first screen.
+  - Risk: The library should stay calm and functional, not become a cluttered dashboard or clone unrelated reference-app behavior.
+  - Status: Accepted for deckbuilder product planning.

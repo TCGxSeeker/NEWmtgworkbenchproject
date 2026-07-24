@@ -16,19 +16,20 @@ Steps 1-6 are complete. Deck Inspection CLI v0, Native Workspace Import/Export C
 
 ## Next Recommended Slice
 
-Deck Context Consolidation v0.
+Deck Library Entry Planning v0, then Deck Context Consolidation v0.
 
-Goal: make a small polish pass on organization without changing the working feature scope.
+Goal: first capture the deck library as the app home surface, then make a small polish pass on open-deck organization without changing the working feature scope.
 
-Context: the human browser pass accepted the function direction but rejected the current visual quality as final. The next polish should reduce side-area competition, move snapshot/stats-style information lower or out of the cramped deck area, collapse maybeboard by default, remove non-actionable checks from default UI, and prevent future full-cardpool search from firing on noisy one-character input.
+Context: the human browser pass accepted the function direction but rejected the current visual quality as final. The user also clarified that MTG Workbench should have a full deck library/home screen before the individual deck screen, using the local proxy utility as a calm but expressive style-feel reference only. After that planning is captured, the deck polish should reduce side-area competition, move snapshot/stats-style information lower or out of the cramped deck area, collapse maybeboard by default, remove non-actionable checks from default UI, and prevent future full-cardpool search from firing on noisy one-character input.
 
 Expected scope:
 
-1. Keep the patch limited to organization and default visibility.
-2. Preserve current working add/search/details/count-update behavior.
-3. Preserve the deck as the primary workspace and keep add-card collapsible.
-4. Hide successful background checks such as names resolved and no-duplicate singleton status.
-5. Do not implement save/load, backend report wiring, recommendations, scoring, power-level claims, or strategic judgments in this polish slice.
+1. Keep the deck library work to planning or a separately approved small entry-surface slice.
+2. Keep open-deck polish limited to organization and default visibility.
+3. Preserve current working add/search/details/count-update behavior.
+4. Preserve the open deck as the primary editing workspace and keep add-card collapsible.
+5. Hide successful background checks such as names resolved and no-duplicate singleton status.
+6. Do not implement save/load, backend report wiring, recommendations, scoring, power-level claims, or strategic judgments in this polish slice.
 
 ## Boundaries
 

@@ -98,6 +98,7 @@
 - Do not show `Zone` in basic card details unless it solves a specific user task. Zone is usually visible from the deck area itself.
 - Maybeboard should be optionally visible and collapsed by default in future deck views.
 - Do not let full-cardpool search trigger noisy broad results from a single-character query. Require a minimum useful query length, explicit syntax, or another deliberate search trigger before searching the full local database.
+- Do not treat the open-deck workspace as the whole app shell. MTG Workbench should open to a calm local deck library/home screen before entering an individual deck, while the deck screen remains the primary editing workspace after selection.
 
 ## Capture Format
 

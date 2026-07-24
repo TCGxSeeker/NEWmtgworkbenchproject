@@ -249,10 +249,14 @@ Known files:
   images, printings, oracle text, or tabs.
 - Visual reference note: `docs/product/deckbuilder/reference/VISUAL_REFERENCE_NOTES.md`
   captures approved style cues only; it is not a clone target or domain source.
+- Deck library note: `docs/product/deckbuilder/DECK_LIBRARY_REQUIREMENTS.md`
+  captures the clarified app path. MTG Workbench should open to a calm local
+  deck library/home screen before entering an individual deck workspace.
 - Archidekt pathing reference:
   `docs/product/deckbuilder/reference/ARCHIDEKT_NEW_DECK_SEARCH_REFERENCE.md`
   captures capability and interaction cues only.
-- Next recommended slice: Deck Context Consolidation v0 polish.
+- Next recommended slice: Deck Library Entry Planning v0, then Deck Context
+  Consolidation v0 polish.
 - Suggested scope: preserve current working functions, keep add-card collapsible,
   move deck snapshot/stats-style data out of the cramped side area, make
   maybeboard collapsed by default, hide successful background checks, reserve

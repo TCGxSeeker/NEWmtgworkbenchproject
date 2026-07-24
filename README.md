@@ -72,6 +72,7 @@ Pop-Location
 - Next-session handoff: `docs/codex/NEXT_SESSION_HANDOFF.md`
 - Deckbuilder product planning: `docs/product/deckbuilder/`
 - Deckbuilder Foundation v0 planning: `docs/product/deckbuilder/DECKBUILDER_FOUNDATION_V0.md`
+- Deck library/home requirements: `docs/product/deckbuilder/DECK_LIBRARY_REQUIREMENTS.md`
 - Native workspace format: `docs/rules/DECK_WORKSPACE_FORMAT.md`
 - Local Codex skills: `.agents/skills/`
 

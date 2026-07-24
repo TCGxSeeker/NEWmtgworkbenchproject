@@ -479,3 +479,18 @@ Deferred beyond this slice:
 - Adding visible remove-card controls.
 - Adding card-level duplicate warning presentation.
 - Implementing duplicate exception logic from local card rules/evidence.
+
+## Deck Library Direction Capture V0
+
+- [x] Deck library/home screen is documented as the app entry surface.
+- [x] Open-deck workspace remains the primary editing screen after a deck is selected.
+- [x] Local proxy utility visual reference is captured as calm/expressive style feel only.
+- [x] Hosted visibility states, account behavior, cloud sync, and live services are excluded from the library requirements.
+- [x] Deck library should support create/open saved local workspaces before the deck screen.
+
+Deferred beyond this slice:
+
+- Implementing a deck library route or UI screen.
+- Wiring deck library to saved `.mtgwdeck.json` files.
+- Designing final visuals for the deck library.
+- Implementing safe deck deletion or remove-from-library behavior.

@@ -2,7 +2,9 @@
 
 ## Goal
 
-Plan the first deckbuilder screen as a calm, readable workspace for one open deck. This is layout and flow planning only, not visual polish or implementation.
+Plan the first open-deck screen as a calm, readable workspace for one deck. This is layout and flow planning only, not visual polish or implementation.
+
+The full app should still have a deck library/home screen before this open-deck workspace. See `docs/product/deckbuilder/DECK_LIBRARY_REQUIREMENTS.md`.
 
 Implementation note: `See The Deck v0` now provides the first narrow visible
 screen using fixture-backed projection data. It is still not the finished main
@@ -100,12 +102,14 @@ Maybeboard should be optionally visible and collapsed by default.
 
 The first user path should be:
 
-1. Open or create a deck.
-2. Import or add cards.
-3. Review grouped deck entries.
-4. Filter, sort, or switch view.
-5. Inspect stats/details when needed.
-6. Export or save when ready.
+1. Open MTG Workbench to the deck library.
+2. Create a new deck or open a saved local deck.
+3. Land in the focused open-deck workspace.
+4. Import or add cards.
+5. Review grouped deck entries.
+6. Filter, sort, or switch view.
+7. Inspect stats/details when needed.
+8. Export or save when ready.
 
 ## New Deck Path
 

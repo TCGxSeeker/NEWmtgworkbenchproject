@@ -2,9 +2,17 @@
 
 ## Goal
 
-The main screen should feel like a focused deck workspace: readable, guided, and centered on the current deck.
+The app should open to a deck library/home screen before entering a specific deck. Once a deck is open, the deck screen should feel like a focused deck workspace: readable, guided, and centered on the current deck.
+
+## App Home / Deck Library
+
+The deck library should be the first full product surface. It should show local saved decks, provide create/open flows, and make it clear which deck is currently being edited once opened.
+
+Deck library planning lives in `docs/product/deckbuilder/DECK_LIBRARY_REQUIREMENTS.md`.
 
 ## Required Screen Areas
+
+For the open-deck workspace:
 
 - Deck header.
 - Deck status line.
