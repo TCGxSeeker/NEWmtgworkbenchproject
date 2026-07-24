@@ -484,6 +484,21 @@ dependencies, create automated screenshots, replace human validation, add live
 services, add AI/LLM product behavior, score deck quality, or make strategic MTG
 recommendations.
 
+### Phase Product-4Q: Current Deckbuilder UI User Review v0
+
+Status: implemented and verified.
+
+Run the project-local user-reviewer workflow against the current fixture-backed
+deckbuilder UI checkpoint. Definition of done: a dated review report records
+the reviewed section, assumed user goal, ratings, clutter risk, pass items,
+polish items, blockers, suggested next visual change, and human validation
+status.
+
+This slice is documentation/review only. It must not implement app UI, change
+product behavior, add frontend dependencies, automate screenshots, replace human
+validation, add live services, add AI/LLM product behavior, score deck quality,
+or make strategic MTG recommendations.
+
 ### Phase Product-5: Deck Workspace Import/Export v0
 
 Status: implemented for plain text import/export; no UI code, frontend dependencies, reports, recommendations, live APIs, telemetry, or full legality validation were added.

@@ -23,6 +23,7 @@
 - Mechanical Deck Validation Surface v0 is implemented and verified.
 - Deckbuilder UI Logic Extraction v0 is implemented and verified.
 - User Reviewer Skill v0 is implemented and verified.
+- Current Deckbuilder UI User Review v0 is implemented and verified.
 
 ## Completed Catchup Repairs
 
@@ -50,8 +51,8 @@
 
 ## Near Term
 
-- Run User Reviewer on the current deckbuilder UI.
 - Mechanical Deckbuilder UI human review checkpoint.
+- Deck Context Consolidation v0 if the user wants a small polish pass before larger workflow work.
 - Save/Load Workspace UI v0 or backend-to-UI validation wiring after the current UI receives a visual pass.
 - Keep deck inspection reports factual and deterministic.
 - Keep unsupported Scryfall syntax explicit instead of guessed.

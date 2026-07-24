@@ -447,3 +447,17 @@ Deferred beyond this slice:
 - Running a user-review pass against the current browser UI.
 - Automating screenshot capture for reviewer input.
 - Turning reviewer feedback into implementation without human checkpoint.
+
+## Current Deckbuilder UI User Review V0
+
+- [x] Dated user-review report exists for the current fixture-backed deckbuilder UI.
+- [x] Report rates overall readiness, clarity, visual calm, deckbuilder usefulness, hierarchy, and clutter risk.
+- [x] Report separates pass items, polish items, blockers, and do-not-change guidance.
+- [x] Report preserves human validation as the final visual/taste authority.
+- [x] Report avoids deck strategy, recommendation, scoring, legality, pricing, and power-level judgment.
+
+Deferred beyond this slice:
+
+- Live in-browser human validation.
+- Implementing the suggested visual consolidation.
+- Adding automated screenshot capture to reviewer workflow.

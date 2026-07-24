@@ -4,7 +4,7 @@
 
 - Repository root: `G:\Documents\New MTG project`
 - Current branch: `master`
-- Current implemented checkpoint: User Reviewer Skill v0
+- Current implemented checkpoint: Current Deckbuilder UI User Review v0
 - Remote: `origin` at `https://github.com/TCGxSeeker/NEWmtgworkbenchproject.git`
 - Steps 1-4 repair batch committed as `df46b33 Repair catchup foundation contracts`
 - Step 5 Scryfall index repairs committed as `7f67e40 Harden Scryfall index persistence`
@@ -84,6 +84,7 @@
 - Mechanical Deck Validation Surface v0
 - Deckbuilder UI Logic Extraction v0
 - User Reviewer Skill v0
+- Current Deckbuilder UI User Review v0
 
 ## Audit Status
 
@@ -183,6 +184,11 @@ Known files:
 - User Reviewer Skill v0 adds `.agents/skills/user-reviewer/SKILL.md` and
   `docs/product/deckbuilder/USER_REVIEW_RUBRIC.md` for structured user-perspective
   ratings of completed UI or visualization checkpoints.
+- Current Deckbuilder UI User Review v0 adds
+  `docs/product/deckbuilder/reviews/CURRENT_UI_USER_REVIEW_2026-07-24.md`.
+  The review found medium clutter risk, no blockers for continuation, and a
+  recommended next visual move: consolidate the right-side supporting area into
+  a calmer progressively disclosed deck context region.
 - Human pass after Find And Add Cards v0: function is highly responsive, and
   the add-card workflow works well as its own collapsible window/panel. Visual
   style is not approved as final; treat it as rough test-flight styling that
@@ -215,7 +221,7 @@ Known files:
 ## Current Readiness Snapshot
 
 - Deckbuilder acceptance checklist checkboxes: all current items complete after
-  User Reviewer Skill v0.
+  Current Deckbuilder UI User Review v0.
 - Native workspace model, editing, import/export, category metadata, annotation,
   and view-projection backend are the most complete deckbuilder areas.
 - Finished app UI, recommendation logic, scoring, commander analysis, and
@@ -228,7 +234,7 @@ Known files:
 
 ## Next Refresh Notes
 
-- Safe stopping point: User Reviewer Skill v0 is implemented and verified.
+- Safe stopping point: Current Deckbuilder UI User Review v0 is implemented and verified.
 - Human validation note: preserve the collapsible add-card panel concept, but
   do not preserve the current rough visual treatment as final direction.
 - Human validation note: Card Details Surface v0 is a functional factual panel,
@@ -239,14 +245,14 @@ Known files:
 - Archidekt pathing reference:
   `docs/product/deckbuilder/reference/ARCHIDEKT_NEW_DECK_SEARCH_REFERENCE.md`
   captures capability and interaction cues only.
-- Next recommended slice: run User Reviewer on the current deckbuilder UI, then
-  Mechanical Deckbuilder UI Human Review Checkpoint,
-  then Save/Load Workspace UI v0 or richer backend-to-UI validation wiring.
-- Suggested scope: use the user-reviewer rubric against the current visible
-  deckbuilder screen, visually review the details and validation surfaces
-  in-browser, make only small taste-reviewable polish if needed, then choose
-  whether the next product step should persist UI edits or consume the backend
-  inspection envelope.
+- Next recommended slice: Mechanical Deckbuilder UI Human Review Checkpoint, or
+  a small Deck Context Consolidation v0 polish slice if the user wants Codex to
+  act on the reviewer report before larger workflow work.
+- Suggested scope: visually review the details and validation surfaces in-browser.
+  If proceeding with polish, consolidate snapshot, validation, and selected-card
+  details into a calmer progressively disclosed supporting region. After visual
+  pass, choose whether the next product step should persist UI edits or consume
+  the backend inspection envelope.
 - Product north-star sequence: see the deck, find and add cards, understand a
   card, validate the deck, edit safely in bulk, inspect useful statistics, manage
   printings, and recover earlier versions.
